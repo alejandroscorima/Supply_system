@@ -1,0 +1,105 @@
+.barra {
+  flex: 0 1 auto;
+  color:white;
+  background-color: rgb(34, 146, 161);
+  height: 60px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+mat-form-field {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right:10px;
+  margin-left:10px;
+  border-radius: 20px;
+}
+
+.column {
+  float: left;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 33%;
+  min-width: 240px;
+  align-content: center;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.card{
+  width: 90%;
+  padding: 0px;
+  min-width: 220px;
+  text-align: left;
+  margin-top:20px;
+  margin-bottom:20px;
+  cursor: pointer;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 0px;
+}
+
+.headerPendiente{
+  background: -webkit-linear-gradient(45deg, #7b1f1f, #b82121);
+  background: -o-linear-gradient(45deg, #7b1f1f, #b82121);
+  background: -moz-linear-gradient(45deg, #7b1f1f, #b82121);
+  background: linear-gradient(45deg, #7b1f1f, #b82121);
+  color: whitesmoke;
+  border-top-right-radius: 15px;
+}
+
+.headerProceso{
+  background: -webkit-linear-gradient(45deg, #907b1c, #af972c);
+  background: -o-linear-gradient(45deg, #907b1c, #af972c);
+  background: -moz-linear-gradient(45deg, #907b1c, #af972c);
+  background: linear-gradient(45deg, #907b1c, #af972c);
+  color: whitesmoke;
+  border-top-right-radius: 15px;
+}
+
+
+.fin{
+  background: -webkit-linear-gradient(45deg, #105b10, #1b9b1b);
+  background: -o-linear-gradient(45deg, #105b10, #1b9b1b);
+  background: -moz-linear-gradient(45deg, #105b10, #1b9b1b);
+  background: linear-gradient(45deg, #105b10, #1b9b1b);
+  color: whitesmoke;
+}
+
+.alta{
+  background: -webkit-linear-gradient(45deg, #154360, #2980B9);
+  background: -o-linear-gradient(45deg, #154360, #2980B9);
+  background: -moz-linear-gradient(45deg, #154360, #2980B9);
+  background: linear-gradient(45deg, #154360, #2980B9);
+  color: whitesmoke;
+}
+
+.media{
+  background: -webkit-linear-gradient(45deg, #2980B9, #47a1de);
+  background: -o-linear-gradient(45deg, #2980B9, #47a1de);
+  background: -moz-linear-gradient(45deg, #2980B9, #47a1de);
+  background: linear-gradient(45deg, #2980B9, #47a1de);
+  color: whitesmoke;
+}
+
+.baja{
+  background: -webkit-linear-gradient(0deg, #A9CCE3, #e2ecf3);
+  background: -o-linear-gradient(0deg, #A9CCE3, #e2ecf3);
+  background: -moz-linear-gradient(0deg, #A9CCE3, #e2ecf3);
+  background: linear-gradient(0deg, #A9CCE3, #e2ecf3);
+}
+
+
+
+
+
+
+

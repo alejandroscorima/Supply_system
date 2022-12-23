@@ -1,0 +1,209 @@
+<mat-toolbar class="barra"  id="barra" style="height:8vh;">
+  <mat-toolbar-row >
+    <button (click)="cajon.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <span>
+      SUPPLY &nbsp;
+    </span>
+    <span class="example-spacer"></span>
+    <button mat-raised-button (click)="logout()">
+      <mat-icon>logout</mat-icon>Cerrar sesión
+    </button>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container class="contenido" style="height:92vh;">
+  <mat-sidenav opened  style="min-width: 150px; max-width: 220px;" id="menubtn" #cajon mode="side">
+    <mat-nav-list style="padding-top:0px;">
+        <p style="margin-top:0px;margin-bottom: 0px; text-align: center;">
+          <img *ngIf="user.gender=='MASCULINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-male.png"  VSPACE="20">
+          <img *ngIf="user.gender=='FEMENINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-female.png"  VSPACE="20">
+        </p>
+      <a>
+        <h3 style="text-align:center; margin: 10px;">{{user.first_name+' '+user.last_name}}</h3>
+        <p style="text-align:center; margin: 10px;">
+          <br/>
+          <a style="font-weight:bold;">AREA: </a>
+          <a style="font-weight:normal;">{{user_area.name}}</a>
+          <br/>
+        </p>
+        <p style="text-align:center; margin: 10px;">
+          <a style="font-weight:bold;">SEDE: </a>
+          <a style="font-weight:normal;">{{user_campus.name}}</a>
+          <br/>
+        </p>
+      </a>
+
+      <a mat-list-item routerLink="/">
+        <mat-icon class="icon1" >dashboard</mat-icon>
+        Dashboard
+      </a>
+      <a mat-list-item routerLink="/new">
+        <mat-icon class="icon4" >add_box</mat-icon>
+        Ingresar requerimiento
+      </a>
+      <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'">
+        <mat-expansion-panel style="background-color:rgba(34, 146, 161, 0.555)">
+          <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+            <mat-panel-title>
+              <mat-icon class="icon4" >settings</mat-icon>
+              Ordenes
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item routerLink="/orden">
+            <mat-icon class="icon4" >verified</mat-icon>
+            Generar orden
+          </a>
+          <a mat-list-item routerLink="/view-orders">
+            <mat-icon class="icon4" >visibility</mat-icon>
+            Ver ordenes
+          </a>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <a mat-list-item *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" routerLink="/fondo">
+        <mat-icon class="icon4" >paid</mat-icon>
+        Rendicion de fondo
+      </a>
+      <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
+        <mat-expansion-panel style="background-color:rgba(34, 146, 161, 0.555)">
+          <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+            <mat-panel-title>
+              <mat-icon class="icon4" >settings</mat-icon>
+              Configuracion
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/users">
+            <mat-icon class="icon4" >manage_accounts</mat-icon>
+            Usuarios
+          </a>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/categories">
+            <mat-icon class="icon4" >category</mat-icon>
+            Categorias
+          </a>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/campus">
+            <mat-icon class="icon4" >casino</mat-icon>
+            Salas
+          </a>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/areas">
+            <mat-icon class="icon4" >group_work</mat-icon>
+            Areas
+          </a>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/providers">
+            <mat-icon class="icon4" >store</mat-icon>
+            Proveedores
+          </a>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <a mat-list-item style="align-content: center;">
+        <a mat-stroked-button color="primary">Oscorp Technology</a>
+      </a>
+
+
+
+
+    </mat-nav-list>
+    <!--<mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Más
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+      </mat-expansion-panel>
+    </mat-accordion> -->
+  </mat-sidenav>
+  <mat-sidenav-content >
+    <div class="container" style="margin:20px; text-align:center; max-height:100%;" >
+
+      <div class="row">
+        <div class="column" style="height: 85vh; overflow: scroll;" *ngIf="user.supply_role!='ASISTENTE'">
+          <h3 style="text-align:left;">
+            PENDIENTES
+          </h3>
+
+          <mat-card *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
+            <mat-card-header class="headerPendiente">
+              {{r.codigo}}-{{r.area}}
+
+            </mat-card-header>
+            <mat-card-content style="padding:5px;">
+              <p>
+                <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
+              </p>
+              <p>
+                <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
+              </p>
+              <p>
+                <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="column" style="height: 88vh; overflow: scroll;">
+          <h3 style="text-align:left;" *ngIf="user.supply_role!='ASISTENTE'">
+            PROCESO
+          </h3>
+          <h3 style="text-align:left;" *ngIf="user.supply_role=='ASISTENTE'">
+            ASIGNADO
+          </h3>
+
+          <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
+            <mat-card-header class="headerProceso">
+              {{r.codigo}}-{{r.area}}
+
+            </mat-card-header>
+            <mat-card-content style="padding:5px;">
+              <p>
+                <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
+              </p>
+              <p>
+                <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
+              </p>
+              <p>
+                <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="column" style="height: 88vh; overflow: scroll;">
+          <h3 style="text-align:left;">
+            FINALIZADO
+          </h3>
+
+          <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card" [ngClass]="{'fin':'a'=='a'}">
+            <mat-card-header >
+              {{r.codigo}}-{{r.area}}
+
+            </mat-card-header>
+            <mat-card-content style="padding:5px;">
+              <p>
+                <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
+              </p>
+              <p>
+                <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
+              </p>
+              <p>
+                <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <br/>
+
+
+
+
+
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+

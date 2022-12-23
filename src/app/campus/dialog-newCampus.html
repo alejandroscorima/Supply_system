@@ -1,0 +1,56 @@
+<div class="formRevalidar" #content>
+
+  <div style="text-align: center;">
+    <h1 mat-dialog-title >Nuevo usuario</h1>
+  </div>
+
+  <div mat-dialog-content>
+
+    <mat-form-field style="width:20%;" class="doc_id" appearance="outline">
+      <mat-label>Nombre:</mat-label>
+      <input matInput [(ngModel)]="data.name" (keyup)="changeDoc()">
+    </mat-form-field>
+
+    <mat-form-field style="width:33%;" class="doc_id" appearance="outline">
+      <mat-label>Direccion:</mat-label>
+      <input matInput [(ngModel)]="data.address">
+    </mat-form-field>
+
+    <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
+      <mat-label>Empresa:</mat-label>
+      <mat-select [(value)]="data.company" (selectionChange)="genderChange()">
+          <mat-option *ngFor="let g of genders" [value]="g">{{g}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field style="width:29%;" class="doc_id" appearance="outline">
+      <mat-label>RUC:</mat-label>
+      <input matInput [(ngModel)]="data.ruc">
+    </mat-form-field>
+
+    <mat-form-field style="width:29%;" class="doc_id" appearance="outline">
+      <mat-label>Serie Orden:</mat-label>
+      <input matInput [(ngModel)]="data.supply_ord_suffix">
+    </mat-form-field>
+
+    <mat-form-field style="width:29%;" class="doc_id" appearance="outline">
+      <mat-label>Serie Req:</mat-label>
+      <input matInput [(ngModel)]="data.supply_req_suffix">
+    </mat-form-field>
+
+
+  </div>
+
+
+  <div mat-dialog-actions style="text-align: left;">
+
+    <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white; text-align: left;" (click)="save()">
+      <mat-icon>
+        save
+      </mat-icon>
+      Guardar
+    </button>
+
+  </div>
+
+</div>

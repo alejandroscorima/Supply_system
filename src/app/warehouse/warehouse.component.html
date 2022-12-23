@@ -1,0 +1,358 @@
+<mat-toolbar class="barra"  id="barra" style="height:8vh;">
+  <mat-toolbar-row >
+    <button (click)="cajon.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <span>
+      SUPPLY&nbsp;
+    </span>
+    <span class="example-spacer"></span>
+    <button mat-raised-button (click)="logout()">
+      <mat-icon>logout</mat-icon>Cerrar sesión
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container class="contenido" style="height:92vh;">
+  <mat-sidenav opened  style="min-width: 150px; max-width: 220px; background-color: #252b2b; color: whitesmoke;" #cajon mode="side">
+    <mat-nav-list style="padding-top:0px;">
+        <p style="margin-top:0px;margin-bottom: 0px; text-align: center;">
+          <img *ngIf="user.gender=='MASCULINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-male.png"  VSPACE="20">
+          <img *ngIf="user.gender=='FEMENINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-female.png"  VSPACE="20">
+        </p>
+        <a>
+          <h3 style="text-align:center; margin: 10px;">{{user.first_name+' '+user.last_name}}</h3>
+          <p style="text-align:center; margin: 10px;">
+            <br/>
+            <a style="font-weight:bold;">AREA: </a>
+            <a style="font-weight:normal;">{{user_area.name}}</a>
+            <br/>
+          </p>
+          <p style="text-align:center; margin: 10px;">
+            <a style="font-weight:bold;">SEDE: </a>
+            <a style="font-weight:normal;">{{user_campus.name}}</a>
+            <br/>
+          </p>
+        </a>
+
+        <a mat-list-item routerLink="/" class="navItem">
+          <mat-icon class="icon1" >dashboard</mat-icon>
+          Dashboard
+        </a>
+        <a mat-list-item routerLink="/new" class="navItem">
+          <mat-icon class="icon4" >category</mat-icon>
+          Ingresar requerimiento
+        </a>
+        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" class="navItem">
+          <mat-expansion-panel style="background-color: #b03a64">
+            <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+              <mat-panel-title>
+                <mat-icon class="icon4" >settings</mat-icon>
+                Ordenes
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLink="/orden" class="navItem">
+              <mat-icon class="icon4" >verified</mat-icon>
+              Generar orden
+            </a>
+            <a mat-list-item routerLink="/warehouse" class="navItem">
+              <mat-icon class="icon4" >warehouse</mat-icon>
+              Almacen
+            </a>
+            <a mat-list-item routerLink="/view-orders" class="navItem">
+              <mat-icon class="icon4" >visibility</mat-icon>
+              Ver ordenes
+            </a>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <a mat-list-item *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" routerLink="/fondo" class="navItem">
+          <mat-icon class="icon4" >paid</mat-icon>
+          Rendicion de fondo
+        </a>
+
+        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" class="navItem">
+          <mat-expansion-panel style="background-color: #b03a64">
+            <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+              <mat-panel-title>
+                <mat-icon class="icon4" >settings</mat-icon>
+                Configuracion
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/users" class="navItem">
+              <mat-icon class="icon4" >manage_accounts</mat-icon>
+              Usuarios
+            </a>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/categories" class="navItem">
+              <mat-icon class="icon4" >category</mat-icon>
+              Categorias
+            </a>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/campus" class="navItem">
+              <mat-icon class="icon4" >casino</mat-icon>
+              Salas
+            </a>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/areas" class="navItem">
+              <mat-icon class="icon4" >group_work</mat-icon>
+              Areas
+            </a>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/providers" class="navItem">
+              <mat-icon class="icon4" >store</mat-icon>
+              Proveedores
+            </a>
+
+
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <a mat-list-item style="align-content: center;">
+          <a mat-stroked-button color="primary">Oscorp Technology</a>
+        </a>
+
+    </mat-nav-list>
+    <!--<mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Más
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+      </mat-expansion-panel>
+    </mat-accordion> -->
+  </mat-sidenav>
+  <mat-sidenav-content style="height:90vh; " class="fondo">
+
+    <div class="container" style="margin:20px; max-height:100%;" >
+
+
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" >
+        <mat-tab label="Subir receta" class="tabWare"> Content 1 </mat-tab>
+        <mat-tab label="Equivalencias/Proveedor" class="tabWare"> Content 2 </mat-tab>
+        <mat-tab label="Generar Orden" class="tabWare"> Content 3 </mat-tab>
+      </mat-tab-group>
+
+
+
+
+
+      <h1>NUEVA ORDEN</h1>
+
+      <mat-card class="mat-elevation-z8 card-orden">
+        <mat-card-title>EMPRESA</mat-card-title>
+        <mat-card-content>
+          <mat-form-field style="width:22%" class="sala" id="sala" appearance="outline" >
+            <mat-label>Tipo:</mat-label>
+            <mat-select [(value)]="ord.tipo" >
+                <mat-option *ngFor="let t of types" [value]="t">{{t}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width:22%;" class="sala" id="sala" appearance="outline" >
+            <mat-label>Destino:</mat-label>
+            <mat-select [(value)]="ord.destino" (selectionChange)="asigChange()">
+                <mat-option *ngFor="let c of campus" [value]="c['name']">{{c['name']}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width:22%;" class="sala" id="sala" appearance="outline" >
+            <mat-label>Moneda:</mat-label>
+            <mat-select [(value)]="ord.moneda" (selectionChange)="asigMoneyChange()">
+                <mat-option *ngFor="let m of monedas" [value]="m">{{m}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width:22%;" appearance="outline">
+            <mat-label>Fecha:</mat-label>
+            <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange()">
+            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+
+      <mat-card class="mat-elevation-z8 card-orden">
+        <mat-card-title>PROVEEDOR</mat-card-title>
+        <mat-card-content>
+          <mat-form-field style="width:32%;" class="doc_id" appearance="outline">
+            <mat-label>RUC:</mat-label>
+            <input matInput (keyup)="changeRuc()" [(ngModel)]="ord.ruc">
+          </mat-form-field>
+
+          <mat-form-field style="width:62%;" class="doc_id" appearance="outline">
+            <mat-label>Razon social:</mat-label>
+            <input matInput (keyup)="changeRazSoc()" [(ngModel)]="ord.razon_social">
+          </mat-form-field>
+
+          <mat-form-field style="width:94%;" class="doc_id" appearance="outline">
+            <mat-label>Direccion:</mat-label>
+            <input matInput [(ngModel)]="ord.direccion">
+          </mat-form-field>
+
+
+        </mat-card-content>
+      </mat-card>
+
+
+      <mat-card class="mat-elevation-z8 card-orden">
+        <mat-card-title>Nuevo item</mat-card-title>
+        <mat-card-content>
+          <mat-form-field style="width:15%;" class="doc_id" appearance="outline">
+            <mat-label>Cantidad:</mat-label>
+            <input type="number" matInput [(ngModel)]="orden_item.cantidad">
+          </mat-form-field>
+
+          <mat-form-field style="width:55%;" appearance="outline">
+            <mat-label>Descripcion:</mat-label>
+            <input matInput [(ngModel)]="orden_item.descripcion">
+          </mat-form-field>
+
+          <mat-form-field style="width:20%;" appearance="outline">
+            <mat-label>Precio Unit:</mat-label>
+            <input matInput [(ngModel)]="orden_item.unit_price">
+            <span matPrefix>{{prefijoMoney}}&nbsp;</span>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-raised-button style="background-color: #b03a64; color:white" (click)="addItem()">
+            <mat-icon>add</mat-icon>AGREGAR ITEM
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+
+      <mat-card class="mat-elevation-z8 card-orden">
+        <mat-card-title>Lista</mat-card-title>
+        <mat-card-content>
+          <mat-form-field appearance="standard" style="display:display-inline">
+            <mat-label>Búsqueda</mat-label>
+            <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
+          </mat-form-field>
+
+
+          <div class="mat-elevation-z8" style="width:100%;">
+              <table mat-table style="width:100%;" [dataSource]="dataSourceOrd" matSort>
+
+                <ng-container matColumnDef="cantidad">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+                  <td mat-cell *matCellDef="let a"> {{a.cantidad}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="descripcion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+                  <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="unit_price">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> PRECIO UNIT </th>
+                  <td mat-cell *matCellDef="let a"> {{a.unit_price}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtotal">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> SUBTOTAL </th>
+                  <td mat-cell *matCellDef="let a"> {{a.subtotal}}</td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="edit">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+                  <td mat-cell *matCellDef="let a; let i=index">
+                    <button class="btnDel" mat-raised-button focusable="false"  (click)="deleteItem(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="empty2">
+                  <td mat-footer-cell *matFooterCellDef colspan="2">
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="empty1">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtotalO_label">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    SUBTOTAL
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="igv_label">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    IGV
+                    <mat-checkbox [(ngModel)]="igvActivated" [disabled]="listaOrd.length==0"
+                      (ngModelChange)="updateIgv()">
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="igv_included">
+                  <td mat-footer-cell *matFooterCellDef colspan="2">
+                    <mat-slide-toggle [checked]="igvSlideChecked" [disabled]="igvSlideDisabled||listaOrd.length==0" (change)="change($event)">
+                      IGV incluido
+                    </mat-slide-toggle>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="total_label">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    TOTAL
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtotalO">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    {{ord.subtotal}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="igv">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    {{ord.igv}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="total">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    {{ord.total}}
+                  </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
+
+                <tr mat-footer-row *matFooterRowDef="['empty2','subtotalO_label','subtotalO','empty1']" style="font-weight: bold;" ></tr>
+                <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty1']" style="font-weight: bold;" ></tr>
+                <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty1']" style="font-weight: bold;" ></tr>
+                <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty1']" style="font-weight: bold;" ></tr>
+
+
+
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
+                </tr>
+              </table>
+
+              <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
+          </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button style="width:76%; height:50px; padding: 0px ;margin:5px; text-align: right; padding-right: 10px;">
+            MONTO INICIAL:{{' '+prefijoMoney}}
+          </button>
+          <mat-form-field style="width:13%; height:50px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
+            <input matInput [(ngModel)]="ord.rebajado">
+          </mat-form-field>
+          <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white; height:60px; width:25%" (click)="generarOrden()" ><mat-icon>check</mat-icon>Generar Orden</button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+

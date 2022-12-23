@@ -1,0 +1,196 @@
+<mat-toolbar class="barra"  id="barra" style="height:8vh;">
+  <mat-toolbar-row >
+    <button (click)="cajon.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <span>
+      SUPPLY&nbsp;
+    </span>
+    <span class="example-spacer"></span>
+    <button mat-raised-button (click)="logout()">
+      <mat-icon>logout</mat-icon>Cerrar sesión
+    </button>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container class="contenido" style="height:92vh;">
+  <mat-sidenav opened  style="min-width: 150px; max-width: 220px;" #cajon mode="side">
+    <mat-nav-list style="padding-top:0px;">
+        <p style="margin-top:0px;margin-bottom: 0px; text-align: center;">
+          <img *ngIf="user.gender=='MASCULINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-male.png"  VSPACE="20">
+          <img *ngIf="user.gender=='FEMENINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-female.png"  VSPACE="20">
+        </p>
+      <a>
+        <h3 style="text-align:center; margin: 10px;">{{user.first_name+' '+user.last_name}}</h3>
+        <p style="text-align:center; margin: 10px;">
+          <br/>
+          <a style="font-weight:bold;">AREA: </a>
+          <a style="font-weight:normal;">{{user_area.name}}</a>
+          <br/>
+        </p>
+        <p style="text-align:center; margin: 10px;">
+          <a style="font-weight:bold;">SEDE: </a>
+          <a style="font-weight:normal;">{{user_campus.name}}</a>
+          <br/>
+        </p>
+      </a>
+
+      <a mat-list-item routerLink="/">
+        <mat-icon class="icon1" >dashboard</mat-icon>
+        Dashboard
+      </a>
+      <a mat-list-item routerLink="/new">
+        <mat-icon class="icon4" >add_box</mat-icon>
+        Ingresar requerimiento
+      </a>
+      <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'">
+        <mat-expansion-panel style="background-color:rgba(34, 146, 161, 0.555)">
+          <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+            <mat-panel-title>
+              <mat-icon class="icon4" >settings</mat-icon>
+              Ordenes
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item routerLink="/orden">
+            <mat-icon class="icon4" >verified</mat-icon>
+            Generar orden
+          </a>
+          <a mat-list-item routerLink="/view-orders">
+            <mat-icon class="icon4" >visibility</mat-icon>
+            Ver ordenes
+          </a>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <a mat-list-item *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" routerLink="/fondo">
+        <mat-icon class="icon4" >paid</mat-icon>
+        Rendicion de fondo
+      </a>
+      <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
+        <mat-expansion-panel style="background-color:rgba(34, 146, 161, 0.555)">
+          <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+            <mat-panel-title>
+              <mat-icon class="icon4" >settings</mat-icon>
+              Configuracion
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/users">
+            <mat-icon class="icon4" >manage_accounts</mat-icon>
+            Usuarios
+          </a>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/categories">
+            <mat-icon class="icon4" >category</mat-icon>
+            Categorias
+          </a>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/campus">
+            <mat-icon class="icon4" >casino</mat-icon>
+            Salas
+          </a>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/areas">
+            <mat-icon class="icon4" >group_work</mat-icon>
+            Areas
+          </a>
+          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/providers">
+            <mat-icon class="icon4" >store</mat-icon>
+            Proveedores
+          </a>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <a mat-list-item style="align-content: center;">
+        <a mat-stroked-button color="primary">Oscorp Technology</a>
+      </a>
+
+
+
+
+    </mat-nav-list>
+    <!--<mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Más
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+      </mat-expansion-panel>
+    </mat-accordion> -->
+  </mat-sidenav>
+  <mat-sidenav-content >
+    <div class="container" style="margin:20px; text-align:center; max-height:100%;" >
+
+      <mat-card style="margin:10px">
+        <mat-card-title>AREAS</mat-card-title>
+        <mat-card-content>
+          <mat-form-field appearance="standard" style="display:display-inline">
+            <mat-label>Búsqueda</mat-label>
+            <input matInput (keyup)="applyFilterU($event)" placeholder="Escribe algo para buscar" #input1>
+          </mat-form-field>
+
+
+          <div class="mat-elevation-z8" style="width:100%; text-align: left;">
+              <table mat-table style="width:100%;" [dataSource]="dataSourceAreas" matSort multiTemplateDataRows>
+
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </th>
+                  <td mat-cell *matCellDef="let a"> {{a.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="chief_id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> ENCARGADO </th>
+                  <td mat-cell *matCellDef="let a"> {{a.chief_id}}</td>
+                </ng-container>
+
+<!--                 <ng-container matColumnDef="last_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> APELLIDOS </th>
+                  <td mat-cell *matCellDef="let a"> {{a.last_name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="username">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> USUARIO </th>
+                  <td mat-cell *matCellDef="let a"> {{a.username}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="supply_role">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> ROL </th>
+                  <td mat-cell *matCellDef="let a"> {{a.supply_role}}</td>
+                </ng-container> -->
+
+
+                <ng-container matColumnDef="edit">
+                  <th mat-header-cell *matHeaderCellDef >
+                    <button mat-raised-button style="background-color: rgb(19, 126, 9); color:white" (click)="new()"> <mat-icon>person_add</mat-icon> </button>
+                  </th>
+                  <td mat-cell *matCellDef="let a; let i=index">
+                    <button mat-raised-button style="background-color: rgb(9, 66, 126); color:white" (click)="edit(a)"> <mat-icon>edit</mat-icon> </button>&nbsp;
+                  </td>
+                </ng-container>
+
+
+
+
+                <tr mat-header-row *matHeaderRowDef="['name','chief_id','edit'];"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['name','chief_id','edit'];"></tr>
+
+
+
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
+                </tr>
+              </table>
+
+              <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
+          </div>
+        </mat-card-content>
+
+      </mat-card>
+
+
+
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+

@@ -1,0 +1,343 @@
+<div class="formRevalidar" #content>
+  <h1 mat-dialog-title>DETALLE DEL REQUERIMIENTO</h1>
+
+  <div mat-dialog-content>
+
+
+    <mat-form-field style="width:28%;"  class="doc_id" appearance="outline">
+      <mat-label>Area:</mat-label>
+      <input matInput disabled [(ngModel)]="req.area">
+    </mat-form-field>
+
+    <mat-form-field style="width:60%;" class="doc_id" appearance="outline">
+      <mat-label>Responsable:</mat-label>
+      <input matInput disabled [(ngModel)]="req.encargado">
+    </mat-form-field>
+
+    <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+      <mat-label>Sala:</mat-label>
+      <input matInput disabled [(ngModel)]="req.sala">
+    </mat-form-field>
+
+    <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+      <mat-label>Fecha:</mat-label>
+      <input matInput disabled [(ngModel)]="req.fecha">
+    </mat-form-field>
+
+    <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+      <mat-label>Prioridad:</mat-label>
+      <input matInput disabled [(ngModel)]="req.prioridad">
+    </mat-form-field>
+
+
+    <mat-form-field style="width:90%;" class="doc_id" appearance="outline">
+      <mat-label>Motivo:</mat-label>
+      <input matInput disabled [(ngModel)]="req.motivo">
+    </mat-form-field>
+
+
+
+    <h3 *ngIf="req.estado=='PENDIENTE'||req.estado=='FINALIZADO'"> Lista </h3>
+
+    <div *ngIf="req.estado=='PENDIENTE'||req.estado=='FINALIZADO'" class="mat-elevation-z8" style="width:100%;">
+        <table mat-table style="width:100%;" [dataSource]="dataSourceReq" matSort multiTemplateDataRows>
+
+          <ng-container matColumnDef="cantidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+            <td mat-cell *matCellDef="let a"> {{a.cantidad}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+            <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="tipo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE ORDEN </th>
+            <td mat-cell *matCellDef="let a"> {{a.tipo}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+            <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="image_url">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IMAGEN </th>
+            <td mat-cell *matCellDef="let a">
+              <button mat-raised-button (click)="viewImage(a.image_url)">
+                <mat-icon>
+                  image
+                </mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+
+
+          <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','image_url'];"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','image_url'];"></tr>
+
+
+
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
+    </div>
+
+    <br>
+
+
+
+    <mat-stepper *ngIf="req.estado!='PENDIENTE'&&req.estado!='FINALIZADO'" linear #stepper>
+      <mat-step [editable]="editableAsig">
+
+
+
+        <h3 *ngIf="req.estado!='PENDIENTE'"> Lista </h3>
+
+        <div *ngIf="req.estado!='PENDIENTE'" class="mat-elevation-z8" style="width:100%;">
+            <table mat-table style="width:100%;" [dataSource]="dataSourceReqAsignado" matSort multiTemplateDataRows>
+
+              <ng-container matColumnDef="cantidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+                <td mat-cell *matCellDef="let a"> {{a.cantidad}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+                <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE ORDEN </th>
+                <td mat-cell *matCellDef="let a"> {{a.tipo}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+                <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name_asignado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ENCARGADO </th>
+                <td mat-cell *matCellDef="let a" style="padding-left:10px;"> {{a.name_asignado}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="image_url">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> IMAGEN </th>
+                <td mat-cell *matCellDef="let a">
+                  <button mat-raised-button (click)="viewImage(a.image_url)">
+                    <mat-icon>
+                      image
+                    </mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+
+
+              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+
+
+
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
+        </div>
+
+        <ng-template matStepLabel>ASIGNADO</ng-template>
+        <form></form>
+
+      </mat-step>
+      <mat-step [editable]="editableAtend">
+
+        <h3 *ngIf="req.estado!='PENDIENTE'"> Lista </h3>
+
+        <div *ngIf="req.estado!='PENDIENTE'" class="mat-elevation-z8" style="width:100%;">
+            <table mat-table style="width:100%;" [dataSource]="dataSourceReqAtendido" matSort multiTemplateDataRows>
+
+              <ng-container matColumnDef="cantidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+                <td mat-cell *matCellDef="let a"> {{a.cantidad}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+                <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE ORDEN </th>
+                <td mat-cell *matCellDef="let a"> {{a.tipo}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+                <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name_asignado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ENCARGADO </th>
+                <td mat-cell *matCellDef="let a" style="padding-left:10px;"> {{a.name_asignado}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="image_url">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> IMAGEN </th>
+                <td mat-cell *matCellDef="let a">
+                  <button mat-raised-button (click)="viewImage(a.image_url)">
+                    <mat-icon>
+                      image
+                    </mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+
+
+              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+
+
+
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
+        </div>
+
+        <ng-template matStepLabel>ATENDIDO</ng-template>
+        <form></form>
+      </mat-step>
+      <mat-step [editable]="editableComp">
+
+        <h3 *ngIf="req.estado!='PENDIENTE'"> Lista </h3>
+
+        <div *ngIf="req.estado!='PENDIENTE'" class="mat-elevation-z8" style="width:100%;">
+            <table mat-table style="width:100%;" [dataSource]="dataSourceReqComprado" matSort multiTemplateDataRows>
+
+              <ng-container matColumnDef="cantidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+                <td mat-cell *matCellDef="let a"> {{a.cantidad}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+                <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE ORDEN </th>
+                <td mat-cell *matCellDef="let a"> {{a.tipo}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+                <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name_asignado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ENCARGADO </th>
+                <td mat-cell *matCellDef="let a" style="padding-left:10px;"> {{a.name_asignado}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="image_url">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> IMAGEN </th>
+                <td mat-cell *matCellDef="let a">
+                  <button mat-raised-button (click)="viewImage(a.image_url)">
+                    <mat-icon>
+                      image
+                    </mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+
+
+              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+
+
+
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
+        </div>
+
+        <ng-template matStepLabel>COMPRADO</ng-template>
+        <form></form>
+
+      </mat-step>
+      <mat-step [editable]="editableEntrega">
+
+        <h3 *ngIf="req.estado!='PENDIENTE'"> Lista </h3>
+
+        <div *ngIf="req.estado!='PENDIENTE'" class="mat-elevation-z8" style="width:100%;">
+            <table mat-table style="width:100%;" [dataSource]="dataSourceReqEntregado" matSort multiTemplateDataRows>
+
+              <ng-container matColumnDef="cantidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+                <td mat-cell *matCellDef="let a"> {{a.cantidad}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+                <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE ORDEN </th>
+                <td mat-cell *matCellDef="let a"> {{a.tipo}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+                <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name_asignado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ENCARGADO </th>
+                <td mat-cell *matCellDef="let a" style="padding-left:10px;"> {{a.name_asignado}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="image_url">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> IMAGEN </th>
+                <td mat-cell *matCellDef="let a">
+                  <button mat-raised-button (click)="viewImage(a.image_url)">
+                    <mat-icon>
+                      image
+                    </mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+
+
+              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+
+
+
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
+        </div>
+
+        <button [disabled]="!completed"  mat-raised-button style="background-color:rgb(36, 151, 57); color: white;" (click)="btnConfirmar()" ><mat-icon>check</mat-icon>CONFIRMAR</button>
+
+        <ng-template matStepLabel>ENTREGADO</ng-template>
+        <form></form>
+
+      </mat-step>
+    </mat-stepper>
+
+
+
+
+    <br/>
+
+
+  </div>
+
+
+</div>
