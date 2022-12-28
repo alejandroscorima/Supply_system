@@ -123,9 +123,9 @@
       <div class="row">
         <div class="column" style="height: 85vh; overflow: scroll;" *ngIf="user.supply_role!='ASISTENTE'">
           <h3 style="text-align:left;">
-            PENDIENTES
+            PENDIENTES: {{cont_pend}} 
           </h3>
-
+          
           <mat-card *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
             <mat-card-header class="headerPendiente">
               {{r.codigo}}-{{r.area}}
@@ -146,10 +146,10 @@
         </div>
         <div class="column" style="height: 88vh; overflow: scroll;">
           <h3 style="text-align:left;" *ngIf="user.supply_role!='ASISTENTE'">
-            PROCESO
+            PROCESO: {{cont_asig}}
           </h3>
           <h3 style="text-align:left;" *ngIf="user.supply_role=='ASISTENTE'">
-            ASIGNADO
+            ASIGNADO : {{cont_asig}}
           </h3>
 
           <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
@@ -172,7 +172,7 @@
         </div>
         <div class="column" style="height: 88vh; overflow: scroll;">
           <h3 style="text-align:left;">
-            FINALIZADO
+            FINALIZADO: {{cont_fina}}
           </h3>
 
           <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card" [ngClass]="{'fin':'a'=='a'}">

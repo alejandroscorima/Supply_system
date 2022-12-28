@@ -56,6 +56,8 @@ export class OrdenComponent implements OnInit {
 
   types=['COMPRA','SERVICIO'];
 
+  pay_type=['EFECTIVO','TRANSFERENCIA']
+
   destino_dir='';
 
   personal: User[]= [];
@@ -68,7 +70,7 @@ export class OrdenComponent implements OnInit {
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null);
 
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);
 
@@ -180,7 +182,7 @@ export class OrdenComponent implements OnInit {
       this.listaOrd.push(this.orden_item);
       this.ord.subtotal='0.0';
       this.listaOrd.forEach((oi:OrdenItem)=>{
-        this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
+       this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
@@ -208,6 +210,26 @@ export class OrdenComponent implements OnInit {
       this.dataSourceOrd.sort = this.sort.toArray()[0];
   }
 
+  editItem(a:OrdenItem,i){
+
+    console.log(a);
+    this.orden_item.cantidad=a.cantidad;
+    this.orden_item.descripcion=a.descripcion;
+    this.orden_item.unit_price=a.unit_price;
+    console.log(this.orden_item);
+    this.listaOrd.splice(i,1);
+    this.ord.subtotal='0.0';
+    this.listaOrd.forEach((oi:OrdenItem)=>{
+    this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
+    })
+    this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
+    this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+    this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
+    this.dataSourceOrd.paginator = this.paginator.toArray()[0];
+    this.dataSourceOrd.sort = this.sort.toArray()[0];
+  }
+
+  
   dateChange(){
 
     var anio = this.fecha.getFullYear();
@@ -267,7 +289,7 @@ export class OrdenComponent implements OnInit {
                     this.user_campus=c;
                     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
                       this.campus=cs;
-                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','');
+                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','');
                       this.orden_item=new OrdenItem('',null,'','','','');
                       this.igvActivated=true;
                       this.igvSlideDisabled=false;
@@ -537,7 +559,7 @@ export class OrdenComponent implements OnInit {
 
                   this.ord.fecha=anio+'-'+mes+'-'+dia;
 
-                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','');
+                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','');
                   this.orden_item=new OrdenItem('',null,'','','','');
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
@@ -606,12 +628,12 @@ export class OrdenComponent implements OnInit {
     this.doc.line(10, 96, 200, 96, 'S');
     this.doc.setFont("helvetica","bold");
     this.doc.text('CONDICIONES DE PAGO',40,94,{align:'center'});
-    this.doc.text('LUGAR DESTINO',105,94,{align:'center'});
+    this.doc.text('CCI',105,94,{align:'center'});
     this.doc.text('FECHA COMPRA',165,94,{align:'center'});
     this.doc.setFont("helvetica","normal");
 
-    this.doc.text('CONTADO',40,101,{align:'center'});
-    this.doc.text(this.ord.destino,105,101,{align:'center'});
+    this.doc.text(this.ord.tipo_pago,40,101,{align:'center'});
+    this.doc.text(this.ord.num_cuenta,105,101,{align:'center'});
     this.doc.text(this.ord.fecha,165,101,{align:'center'});
 
     this.doc.line(10, 113, 200, 113, 'S');
