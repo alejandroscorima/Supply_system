@@ -20,6 +20,8 @@ export class Orden {
     public moneda: string,
     public area: string,
     public destino_dir: string,
+    public tipo_pago:string,
+    public num_cuenta:string,
     public id?: number,
   ) { }
 }

@@ -60,6 +60,10 @@ export class InicioComponent implements OnInit {
   doc = new jsPDF();
   img = new Image();
 
+  cont_pend;
+  cont_asig;
+  cont_fina;
+
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
 
@@ -170,10 +174,17 @@ export class InicioComponent implements OnInit {
 
             this.logisticaService.getReqsPendientes(this.user.supply_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
               this.reqPendientes=res;
+              this.cont_pend =this.reqPendientes.length;
+              /* res.forEach(res => {
+                console.log(res+"req pendiente"+conta)
+                conta = conta + 1
+              });
+              console.log(res+'fin'+conta); */ //Se observa cómo se obtiene cada req
             })
 
             this.logisticaService.getReqsProceso(this.user.supply_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
               this.reqProceso=res;
+              this.cont_asig =this.reqProceso.length;
               if(this.user.supply_role=='ASISTENTE'){
                 this.reqProceso.forEach((rp:Requerimiento,ind)=>{
                   this.logisticaService.getReqDetailsAprobByCode(rp.codigo,String(this.user.user_id)).subscribe((rpt:Item[])=>{
@@ -196,6 +207,7 @@ export class InicioComponent implements OnInit {
 
             this.logisticaService.getReqsFin(this.user.supply_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
               this.reqFin=res;
+              this.cont_fina =this.reqFin.length;
             })
 
           });
@@ -402,7 +414,7 @@ export class DialogDetalleReqAsist implements OnInit {
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
 
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);
@@ -1050,7 +1062,7 @@ export class DialogCreateOrden implements OnInit {
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);
@@ -1364,11 +1376,11 @@ export class DialogCreateOrden implements OnInit {
     this.doc.roundedRect(10, 89, 190, 14, 4, 4, 'S');
     this.doc.line(10, 96, 200, 96, 'S');
     this.doc.text('CONDICIONES DE PAGO',40,94,{align:'center'});
-    this.doc.text('LUGAR DESTINO',105,94,{align:'center'});
+    this.doc.text('CCI',105,94,{align:'center'});
     this.doc.text('FECHA COMPRA',165,94,{align:'center'});
 
-    this.doc.text('CONTADO',40,101,{align:'center'});
-    this.doc.text(this.ord.destino,105,101,{align:'center'});
+    this.doc.text(this.ord.tipo_pago,40,101,{align:'center'});
+    this.doc.text(this.ord.num_cuenta,105,101,{align:'center'});
     this.doc.text(this.ord.fecha,165,101,{align:'center'});
     //this.doc.rect(10, 113, 190, (this.ord.ordItems.length+1)*7);
     this.doc.line(10, 113, 200, 113, 'S');

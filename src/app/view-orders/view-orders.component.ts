@@ -60,7 +60,7 @@ export class ViewOrdersComponent implements OnInit {
   user_campus: Campus = new Campus('','','','','','');
 
   req: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null);
 
   item: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','');
 
@@ -194,12 +194,12 @@ export class ViewOrdersComponent implements OnInit {
     this.doc.line(10, 96, 200, 96, 'S');
     this.doc.setFont("helvetica","bold");
     this.doc.text('CONDICIONES DE PAGO',40,94,{align:'center'});
-    this.doc.text('LUGAR DESTINO',105,94,{align:'center'});
+    this.doc.text('CCI',105,94,{align:'center'});
     this.doc.text('FECHA COMPRA',165,94,{align:'center'});
     this.doc.setFont("helvetica","normal");
 
-    this.doc.text('CONTADO',40,101,{align:'center'});
-    this.doc.text(this.ord.destino,105,101,{align:'center'});
+    this.doc.text(this.ord.tipo_pago,40,101,{align:'center'});
+    this.doc.text(this.ord.num_cuenta,105,101,{align:'center'});
     this.doc.text(this.ord.fecha,165,101,{align:'center'});
 
     this.doc.line(10, 113, 200, 113, 'S');

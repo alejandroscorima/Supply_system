@@ -702,7 +702,7 @@ export class DialogNewItemFondo implements OnInit {
   docs: string[] = ['FACTURA','BOLETA','RECIBO'];
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);

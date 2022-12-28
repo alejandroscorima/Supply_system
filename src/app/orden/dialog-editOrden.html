@@ -1,0 +1,72 @@
+<div class="formRevalidar" #content>
+
+    <div style="text-align: center;">
+      <h1 mat-dialog-title >Editar</h1>
+    </div>
+  
+    <div mat-dialog-content>
+  
+      <mat-form-field style="width:20%;" class="doc_id" appearance="outline">
+        <mat-label>Documento:</mat-label>
+        <input matInput [(ngModel)]="data.doc_number">
+      </mat-form-field>
+  
+      <mat-form-field style="width:33%;" class="doc_id" appearance="outline">
+        <mat-label>Apellidos:</mat-label>
+        <input matInput [(ngModel)]="data.last_name">
+      </mat-form-field>
+  
+      <mat-form-field style="width:33%;" class="doc_id" appearance="outline">
+        <mat-label>Nombres:</mat-label>
+        <input matInput [(ngModel)]="data.first_name">
+      </mat-form-field>
+  
+      <mat-form-field style="width:29%;" class="doc_id" appearance="outline">
+        <mat-label>Usuario:</mat-label>
+        <input matInput [(ngModel)]="data.username">
+      </mat-form-field>
+  
+      <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
+        <mat-label>Genero:</mat-label>
+        <mat-select [(value)]="data.gender" >
+            <mat-option *ngFor="let g of genders" [value]="g">{{g}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
+        <mat-label>Rol:</mat-label>
+        <mat-select [(value)]="data.supply_role">
+            <mat-option *ngFor="let r of roles" [value]="r">{{r}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
+        <mat-label>Area:</mat-label>
+        <mat-select [(value)]="data.area_id">
+            <mat-option *ngFor="let ar of areas" [value]="ar['area_id']">{{ar['name']}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
+        <mat-label>Sede:</mat-label>
+        <mat-select [(value)]="data.campus_id" >
+            <mat-option *ngFor="let c of campus" [value]="c['campus_id']">{{c['name']}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
+        <mat-label>Cargo:</mat-label>
+        <mat-select [(value)]="data.position">
+            <mat-option *ngFor="let p of positions" [value]="p">{{p}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+    </div>
+  
+    <div mat-dialog-actions>
+  
+      <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white;" (click)="save()" ><mat-icon>save</mat-icon>Guardar</button>
+  
+    </div>
+  
+  </div>  
