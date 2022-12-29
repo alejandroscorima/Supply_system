@@ -26,6 +26,8 @@ import { OrdenItem } from '../orden_item';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Proveedor } from '../proveedor';
 
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-warehouse',
@@ -92,6 +94,12 @@ export class WarehouseComponent implements OnInit {
   igvSlideChecked: boolean;
   igvSlideDisabled: boolean;
 
+  docname;
+
+  dataSourceRechazadas: MatTableDataSource<any>;
+
+  ranking: any[] = [];
+
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
@@ -143,6 +151,58 @@ export class WarehouseComponent implements OnInit {
       this.ord.igv=(0.0).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
     }
+  }
+
+
+  onFileChange(event: any) {
+    /* wire up file reader */
+    const target: DataTransfer = <DataTransfer>(event.target);
+    if (target.files.length !== 1) {
+      throw new Error('Cannot use multiple files');
+    }
+    const reader: FileReader = new FileReader();
+    reader.readAsBinaryString(target.files[0]);
+    reader.onload = (e: any) => {
+      /* create workbook */
+      const binarystr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
+
+
+
+      /* selected the first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+
+
+
+
+
+
+
+
+
+
+      /* save data */
+      const data = XLSX.utils.sheet_to_json(ws); // to get 2d array pass 2nd parameter as object {header: 1}
+      this.ranking=data;
+/*       this.ranking.forEach((player,ind)=>{
+        var aux: String[] = [];
+        var dni_hidden='';
+        aux = String(player['documento']).split(' ');
+        dni_hidden=aux[1].substring(0,5)+'XXX';
+        player['documento']=dni_hidden;
+
+
+        aux = String(player['apellidos']).split(' ');
+        dni_hidden=aux[0].substring(0,1)+'.';
+        player['apellidos']=dni_hidden;
+
+      }) */
+      this.dataSourceRechazadas = new MatTableDataSource(this.ranking);
+      console.log(data); // Data will be logged in array format containing objects
+      console.log(this.ranking);
+    };
   }
 
   change(e){
@@ -268,7 +328,7 @@ export class WarehouseComponent implements OnInit {
                     this.user_campus=c;
                     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
                       this.campus=cs;
-                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','',);
+                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','');
                       this.orden_item=new OrdenItem('',null,'','','','');
                       this.igvActivated=true;
                       this.igvSlideDisabled=false;
@@ -538,7 +598,7 @@ export class WarehouseComponent implements OnInit {
 
                   this.ord.fecha=anio+'-'+mes+'-'+dia;
 
-                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','',);
+                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','');
                   this.orden_item=new OrdenItem('',null,'','','','');
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
