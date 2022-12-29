@@ -125,7 +125,21 @@
 
 
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" >
-        <mat-tab label="Subir receta" class="tabWare"> Content 1 </mat-tab>
+        <mat-tab label="Subir receta" class="tabWare">
+          <div class="container" style="margin: 20px;" >
+            <div style="width:100%;display:display-inline;text-align: center;">
+                {{docname}}
+                <p style="align-content: center;text-align: center;">
+                    <input (change)="onFileChange($event)" #npt class="form-control" type="file" id="formFile" style="display: none;">
+                    <button (click)="npt.click()" mat-raised-button style="background-color: rgb(23, 71, 113); color:white;">
+                        <mat-icon>cloud_upload</mat-icon>
+                        CLICK AQUÍ
+                    </button>
+                </p>
+                RECUERDE nombre del archivo: "Sistema consulta de Ludopatía.pdf"
+            </div>
+        </div>
+        </mat-tab>
         <mat-tab label="Equivalencias/Proveedor" class="tabWare"> Content 2 </mat-tab>
         <mat-tab label="Generar Orden" class="tabWare"> Content 3 </mat-tab>
       </mat-tab-group>
