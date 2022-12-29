@@ -50,7 +50,7 @@ import { LoginComponent } from './login/login.component';
 
 import {MatStepperModule} from '@angular/material/stepper';
 
-import { FondoComponent, DialogNewItemFondo } from './fondo/fondo.component';
+import { FondoComponent, DialogNewItemFondo, DialogConfirmFondo, DialogEditItemFondo } from './fondo/fondo.component';
 import { OrdenComponent } from './orden/orden.component';
 import { ViewOrdersComponent } from './view-orders/view-orders.component';
 import { UsersComponent, DialogNewUser, DialogEditUser } from './users/users.component';
@@ -105,6 +105,8 @@ import {MatTabsModule} from '@angular/material/tabs';
         ProvidersComponent,
         DialogNewProvider,
         DialogEditProvider,
+        DialogConfirmFondo,
+        DialogEditItemFondo,
 
     ],
     imports: [
