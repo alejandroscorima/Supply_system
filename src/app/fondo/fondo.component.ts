@@ -123,7 +123,15 @@ export class FondoComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(res => {
         if(res){
-  
+          console.log(it.id);
+          this.logisticaService.deleteFondoItem(it.id).subscribe(resi=>{
+            this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:FondoItem[])=>{
+              this.fondoItems=res2;
+              this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+              this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
+              this.dataSourceFondoItem.sort = this.sort.toArray()[0];
+            })
+          })
         }
       })
     }
@@ -928,13 +936,13 @@ export class DialogEditItemFondo implements OnInit {
   }
 
   changeRuc(){
-    if(this.data['item'].ruc.length==11){
-      this.logisticaService.getConsultaRUC(this.data['item'].ruc).subscribe(res=>{
+    if(this.data.ruc.length==11){
+      this.logisticaService.getConsultaRUC(this.data.ruc).subscribe(res=>{
         if(res){
-          this.data['item'].raz_social=res['data']['nombre_o_razon_social'];
+          this.data.raz_social=res['data']['nombre_o_razon_social'];
         }
         else{
-          this.data['item'].raz_social='';
+          this.data.raz_social='';
         }
       })
     }
@@ -955,10 +963,10 @@ export class DialogEditItemFondo implements OnInit {
   }
 
   save(){
-    this.data['item'].monto=parseFloat(this.data['item'].monto).toFixed(2);
-    this.logisticaService.addFondoItem(this.data['item']).subscribe(res=>{
+    this.data.monto=parseFloat(this.data.monto).toFixed(2);
+    this.logisticaService.updateFondoItem(this.data).subscribe(res=>{
       if(res){
-        this.dialogRef.close(this.data['item']);
+        this.dialogRef.close(true);
       }
     })
   }

@@ -169,6 +169,10 @@ export class LogisticaService {
     return this.http.put(`${this.baseUrl}/updateFondoItem.php`, item);
   }
 
+  deleteFondoItem(item_id) {
+    return this.http.delete(`${this.baseUrl}/deleteFondoItem.php?item_id=${item_id}`);
+  }
+
 
 
   getClientFromReniec(doc_number: string) {
