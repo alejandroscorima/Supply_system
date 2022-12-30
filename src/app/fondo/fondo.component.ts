@@ -153,7 +153,8 @@ export class FondoComponent implements OnInit {
                 it.estado='PENDIENTE';
                 it.liquidacion_id=0;
                 this.logisticaService.addFondoItem(it).subscribe(m=>{
-                  if(indi==length-1){
+
+                  if(indi==resi.length-1){
                     this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:FondoItem[])=>{
                       this.fondoItems=res2;
                       this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
@@ -272,6 +273,7 @@ export class FondoComponent implements OnInit {
   
   
     addFondoLiquidacion(){
+      console.log(this.fechaStr);
       this.fondoLiquidacion.fecha=this.fechaStr;
       this.fondoLiquidacion.campus=this.sala;
       this.fondoLiquidacion.campus_dir=this.user_campus.address;
@@ -310,6 +312,8 @@ export class FondoComponent implements OnInit {
         this.selection.selected.forEach((i,ind)=>{
           this.fondoLiquidacion.importe=(parseFloat(this.fondoLiquidacion.importe)+parseFloat(i.monto)).toFixed(2);
         })
+
+        console.log(this.fondoLiquidacion);
 
         this.logisticaService.addFondoLiquidacion(this.fondoLiquidacion).subscribe(resss=>{
           console.log(resss);
