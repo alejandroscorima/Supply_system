@@ -96,9 +96,9 @@ export class WarehouseComponent implements OnInit {
 
   docname;
 
-  dataSourceRechazadas: MatTableDataSource<any>;
+  dataSourceWarehouse: MatTableDataSource<any>;
 
-  ranking: any[] = [];
+  items_ord_wh: any[] = [];
 
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
@@ -185,23 +185,33 @@ export class WarehouseComponent implements OnInit {
 
       /* save data */
       const data = XLSX.utils.sheet_to_json(ws); // to get 2d array pass 2nd parameter as object {header: 1}
-      this.ranking=data;
-/*       this.ranking.forEach((player,ind)=>{
-        var aux: String[] = [];
-        var dni_hidden='';
-        aux = String(player['documento']).split(' ');
-        dni_hidden=aux[1].substring(0,5)+'XXX';
-        player['documento']=dni_hidden;
 
-
-        aux = String(player['apellidos']).split(' ');
-        dni_hidden=aux[0].substring(0,1)+'.';
-        player['apellidos']=dni_hidden;
-
-      }) */
-      this.dataSourceRechazadas = new MatTableDataSource(this.ranking);
       console.log(data); // Data will be logged in array format containing objects
-      console.log(this.ranking);
+
+      data.splice(0,7);
+      data.splice(data.length-1,1);
+
+      var row_aux = [];
+      var arr_aux = [];
+
+      data.forEach(d=>{
+        row_aux=[];
+        row_aux.push(Object.values(d)[0]);
+        row_aux.push(Object.values(d)[1]);
+        row_aux.push(Object.values(d)[2]);
+        row_aux.push(Object.values(d)[3]);
+        arr_aux.push(row_aux);
+        console.log(arr_aux);
+      })
+
+      console.log(arr_aux);
+
+
+      this.items_ord_wh=arr_aux;
+
+      this.dataSourceWarehouse = new MatTableDataSource(this.items_ord_wh);
+
+      console.log(this.items_ord_wh);
     };
   }
 
