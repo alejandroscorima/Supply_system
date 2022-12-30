@@ -1,0 +1,23 @@
+<div class="formRevalidar" #content>
+  <h1 mat-dialog-title>CONFIRMACION</h1>
+
+  <div mat-dialog-content>
+
+    <p>
+      {{data}}
+    </p>
+
+
+
+
+  </div>
+
+  <div mat-dialog-actions>
+
+    <button mat-raised-button color="primary" (click)="confirm()"  ><mat-icon>check</mat-icon>SI</button>
+    <button mat-raised-button color="warn" (click)="cancel()"  ><mat-icon> cancel </mat-icon>NO</button>
+ <!--    <button mat-raised-button style="background-color:rgb(125, 29, 29); color: white;" (click)="btnRechazar()"><mat-icon>cancel</mat-icon>Rechazar</button> -->
+
+  </div>
+
+</div>

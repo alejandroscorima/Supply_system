@@ -17,12 +17,20 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
 
 
 $jsonFondoLiquidacion = json_decode(file_get_contents("php://input"));
-if (!$jsonFondoLiquidacion) {
-    exit("No hay datos");
+
+
+
+
+
+try {
+    $link = mysqli_connect('localhost', 'root', 'Oscorpsvr', 'oscorp_supply');
+    mysqli_query($link, "INSERT INTO fondoliquidaciones (fecha,campus,campus_dir,numero,importe,personal, empresa, user_id, estado) 
+    VALUES ('".$jsonFondoLiquidacion->fecha."','".$jsonFondoLiquidacion->campus."','".$jsonFondoLiquidacion->campus_dir."','".$jsonFondoLiquidacion->numero."','".$jsonFondoLiquidacion->importe."','".$jsonFondoLiquidacion->personal."','".$jsonFondoLiquidacion->empresa."','".$jsonFondoLiquidacion->user_id."','".$jsonFondoLiquidacion->estado."')");
+    $id = mysqli_insert_id($link);
+    echo json_encode([
+        "liq_id" => $id,
+    ]);
+} catch (Exception $e) {
+    echo $e->getMessage();
 }
-$bd = include_once "bdLogistica.php";
-$sentencia = $bd->prepare("insert into fondoliquidaciones(fecha,campus,campus_dir,numero,importe,personal, empresa, user_id) values (?,?,?,?,?,?,?,?)");
-$resultado = $sentencia->execute([$jsonFondoLiquidacion->fecha, $jsonFondoLiquidacion->campus, $jsonFondoLiquidacion->campus_dir, $jsonFondoLiquidacion->numero, $jsonFondoLiquidacion->importe, $jsonFondoLiquidacion->personal, $jsonFondoLiquidacion->empresa, $jsonFondoLiquidacion->user_id]);
-echo json_encode([
-    "resultado" => $resultado,
-]);
+
