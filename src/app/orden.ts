@@ -22,6 +22,7 @@ export class Orden {
     public destino_dir: string,
     public tipo_pago:string,
     public num_cuenta:string,
+    public retencion: string,
     public id?: number,
   ) { }
 }
