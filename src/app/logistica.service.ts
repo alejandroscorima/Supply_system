@@ -169,6 +169,10 @@ export class LogisticaService {
     return this.http.put(`${this.baseUrl}/updateFondoItem.php`, item);
   }
 
+  updateFondoLiquidacion(liq: FondoLiquidacion) {
+    return this.http.put(`${this.baseUrl}/updateFondoLiquidacion.php`, liq);
+  } 
+
   deleteFondoItem(item_id) {
     return this.http.delete(`${this.baseUrl}/deleteFondoItem.php?item_id=${item_id}`);
   }

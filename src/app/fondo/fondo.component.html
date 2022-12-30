@@ -302,6 +302,11 @@
             <td mat-cell *matCellDef="let a"> {{a.personal}}</td>
           </ng-container>
 
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+            <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
+          </ng-container>
+
           <ng-container matColumnDef="pdf">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> PDF </th>
             <td mat-cell *matCellDef="let a">
@@ -315,13 +320,13 @@
           <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ANULAR </th>
             <td mat-cell *matCellDef="let a; let i=index">
-              <button mat-icon-button color="primary" (click)="anular(a)"> <mat-icon> cancel </mat-icon> </button>&nbsp;
+              <button *ngIf="a.estado!='ANULADO'" mat-icon-button color="primary" (click)="anular(a)"> <mat-icon> cancel </mat-icon> </button>&nbsp;
             </td>
           </ng-container>
 
 
-          <tr mat-header-row *matHeaderRowDef="['fecha','campus','numero','importe','personal','pdf','edit'];"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['fecha','campus','numero','importe','personal','pdf','edit'];"></tr>
+          <tr mat-header-row *matHeaderRowDef="['fecha','campus','numero','importe','personal','estado','pdf','edit'];"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['fecha','campus','numero','importe','personal','estado','pdf','edit'];"></tr>
 
 
 

@@ -9,6 +9,7 @@ export class FondoLiquidacion {
     public personal: string,
     public empresa: string,
     public user_id: number,
+    public estado: string,
     public id?: number,
   ) { }
 }

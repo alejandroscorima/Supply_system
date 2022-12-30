@@ -62,7 +62,7 @@ export class FondoComponent implements OnInit {
 
   fondoItem;
 
-  fondoLiquidacionId;
+
 
   total_amount=0;
 
@@ -144,7 +144,28 @@ export class FondoComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(res => {
         if(res){
-  
+          this.logisticaService.getFondoItemsByLiquidacionId(String(fond.id)).subscribe((resi:FondoItem[])=>{
+            fond.estado='ANULADO';
+            this.logisticaService.updateFondoLiquidacion(fond).subscribe();
+            resi.forEach((it,indi)=>{
+              it.estado='ANULADO';
+              this.logisticaService.updateFondoItem(it).subscribe(a=>{
+                it.estado='PENDIENTE';
+                it.liquidacion_id=0;
+                this.logisticaService.addFondoItem(it).subscribe(m=>{
+                  if(indi==length-1){
+                    this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:FondoItem[])=>{
+                      this.fondoItems=res2;
+                      this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+                      this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
+                      this.dataSourceFondoItem.sort = this.sort.toArray()[0];
+                    })
+                  }
+                });
+              });
+
+            })
+          })
         }
       })
     }
@@ -251,7 +272,6 @@ export class FondoComponent implements OnInit {
   
   
     addFondoLiquidacion(){
-      this.fondoLiquidacionId=0;
       this.fondoLiquidacion.fecha=this.fechaStr;
       this.fondoLiquidacion.campus=this.sala;
       this.fondoLiquidacion.campus_dir=this.user_campus.address;
@@ -260,103 +280,105 @@ export class FondoComponent implements OnInit {
       this.fondoLiquidacion.numero=this.user_campus.supply_ord_suffix;
       this.fondoLiquidacion.personal=this.user.first_name+' '+this.user.last_name;
       this.fondoLiquidacion.user_id=this.user.user_id;
-      this.logisticaService.getLastFondoLiquidacionId().subscribe(respt=>{
-        if(respt){
-          this.fondoLiquidacionId=parseInt(String(respt['id']))+1;
+      this.fondoLiquidacion.estado='REGISTRADO';
+
+  
+      this.logisticaService.getLastFondoLiquidacionNum(this.fondoLiquidacion.numero,this.fondoLiquidacion.campus,this.fondoLiquidacion.empresa).subscribe(resp=>{
+        if(resp['numero']){
+          var numStr='';
+          var numArray = String(resp['numero']).split('-');
+          if(parseInt(numArray[1])+1<10){
+            numStr='000'+(parseInt(numArray[1])+1);
+          }
+          else if(parseInt(numArray[1])+1<100){
+            numStr='00'+(parseInt(numArray[1])+1);
+          }
+          else if(parseInt(numArray[1])+1<1000){
+            numStr='0'+(parseInt(numArray[1])+1);
+          }
+          else {
+            numStr=String(parseInt(numArray[1])+1);
+          }
+          this.fondoLiquidacion.numero+='-';
+          this.fondoLiquidacion.numero+=numStr;
         }
         else{
-          this.fondoLiquidacionId=1;
+          this.fondoLiquidacion.numero+='-0001';
         }
-  
-        this.logisticaService.getLastFondoLiquidacionNum(this.fondoLiquidacion.numero,this.fondoLiquidacion.campus,this.fondoLiquidacion.empresa).subscribe(resp=>{
-          if(resp['numero']){
-            var numStr='';
-            var numArray = String(resp['numero']).split('-');
-            if(parseInt(numArray[1])+1<10){
-              numStr='000'+(parseInt(numArray[1])+1);
-            }
-            else if(parseInt(numArray[1])+1<100){
-              numStr='00'+(parseInt(numArray[1])+1);
-            }
-            else if(parseInt(numArray[1])+1<1000){
-              numStr='0'+(parseInt(numArray[1])+1);
-            }
-            else {
-              numStr=String(parseInt(numArray[1])+1);
-            }
-            this.fondoLiquidacion.numero+='-';
-            this.fondoLiquidacion.numero+=numStr;
-          }
-          else{
-            this.fondoLiquidacion.numero+='-0001';
-          }
-          this.selection.selected.forEach((i,ind)=>{
-            this.fondoLiquidacion.importe=(parseFloat(this.fondoLiquidacion.importe)+parseFloat(i.monto)).toFixed(2);
-            i.liquidacion_id=this.fondoLiquidacionId;
-            i.estado='REGISTRADO';
-            this.logisticaService.updateFondoItem(i).subscribe(resr=>{
-              if(ind==this.selection.selected.length-1&&resr){
-                this.logisticaService.addFondoLiquidacion(this.fondoLiquidacion).subscribe(resss=>{
-                  if(resss){
-  
-                    this.generatePDF(this.fondoLiquidacion);
-  
-                    if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){
-                      this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
-                        if(resi){
-                          this.campus=resi;
-                          this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
-                            this.fondoLiquidaciones=liqs;
-                            this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
-                            this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
-                            this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
-  
-  
-                            this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
-                              this.fondoItems=res;
-                              this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-                              this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-                              this.dataSourceFondoItem.sort = this.sort.toArray()[0];
-                              this.selection.clear();
-  
-                             })
-  
-                          })
-                        }
-                      })
-                    }
-  
-                    if(this.user.position=='ADMINISTRADOR'){
-  
-  
-                      this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
-                        this.fondoLiquidaciones=liqs;
-                        this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
-                        this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
-                        this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
-  
-                        this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
-                          this.fondoItems=res;
-                          this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-                          this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-                          this.dataSourceFondoItem.sort = this.sort.toArray()[0];
-                          this.selection.clear();
-  
-                        })
-  
-  
-                      })
-  
-  
-                    }
-                  }
-                })
-  
-              }
-            });
-          })
+
+
+        this.selection.selected.forEach((i,ind)=>{
+          this.fondoLiquidacion.importe=(parseFloat(this.fondoLiquidacion.importe)+parseFloat(i.monto)).toFixed(2);
         })
-  
+
+        this.logisticaService.addFondoLiquidacion(this.fondoLiquidacion).subscribe(resss=>{
+          console.log(resss);
+          console.log(resss['liq_id']);
+          if(resss['liq_id']){
+            this.selection.selected.forEach((i,ind)=>{
+              i.liquidacion_id=resss['liq_id'];
+              i.estado='REGISTRADO';
+              this.logisticaService.updateFondoItem(i).subscribe(resr=>{
+                if(ind==this.selection.selected.length-1&&resr){
+                  console.log(this.fondoLiquidacion);
+
+
+                      this.generatePDF(this.fondoLiquidacion);
+
+                      if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){
+                        this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
+                          if(resi){
+                            this.campus=resi;
+                            this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
+                              this.fondoLiquidaciones=liqs;
+                              this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
+                              this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
+                              this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
+
+
+                              this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
+                                this.fondoItems=res;
+                                this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+                                this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
+                                this.dataSourceFondoItem.sort = this.sort.toArray()[0];
+                                this.selection.clear();
+
+                                })
+
+                            })
+                          }
+                        })
+                      }
+
+                      if(this.user.position=='ADMINISTRADOR'){
+
+
+                        this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
+                          this.fondoLiquidaciones=liqs;
+                          this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
+                          this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
+                          this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
+
+                          this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
+                            this.fondoItems=res;
+                            this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+                            this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
+                            this.dataSourceFondoItem.sort = this.sort.toArray()[0];
+                            this.selection.clear();
+
+                          })
+
+
+                        })
+
+
+                      }
+                    
+                }
+              });
+            })
+          }
+        })
       })
   
     }
@@ -650,8 +672,10 @@ export class FondoComponent implements OnInit {
         day='0'+day;
       }
       this.fechaStr=year+'-'+month+'-'+day;
+
+      console.log(this.fechaStr);
   
-      this.fondoLiquidacion=new FondoLiquidacion('','','','','','','',this.user.user_id);
+      this.fondoLiquidacion=new FondoLiquidacion('','','','','','','',this.user.user_id,'');
   
   
       if(this.cookiesService.checkToken('session_id')){
@@ -972,17 +996,16 @@ export class DialogEditItemFondo implements OnInit {
   }
 
   dateChange(value){
-    var year= this.data['date'].getFullYear();
-    var month = this.data['date'].getMonth()+1;
+    var year= this.date.getFullYear();
+    var month = this.date.getMonth()+1;
     if(month<10){
       month='0'+month;
     }
-    var day = this.data['date'].getDate();
+    var day = this.date.getDate();
     if(day<10){
       day='0'+day;
     }
-    this.data['item'].fecha=year+'-'+month+'-'+day;
-    console.log(this.data['item']);
+    this.data.fecha=year+'-'+month+'-'+day;
   }
 
 
