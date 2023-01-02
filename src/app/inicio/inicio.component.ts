@@ -417,7 +417,7 @@ export class DialogDetalleReqAsist implements OnInit {
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
 
   dataSourceReq: MatTableDataSource<Item>;
   selection = new SelectionModel<Item>(true, []);
@@ -508,7 +508,7 @@ export class DialogDetalleReqAsist implements OnInit {
       this.ord.destino=this.req.sala;
       this.ord.area=this.req.area;
       this.selection.selected.forEach(j=>{
-        this.orden_item = new OrdenItem(null,null,null,null,null,null);
+        this.orden_item = new OrdenItem(null,null,null,null,null,null,null);
 
         this.orden_item.cantidad=j.cantidad;
         this.orden_item.descripcion=j.descripcion;
@@ -534,7 +534,7 @@ export class DialogDetalleReqAsist implements OnInit {
           if(res){
 
             this.selection.selected.forEach((j,inde)=>{
-              this.orden_item = new OrdenItem(null,null,null,null,null,null);
+              this.orden_item = new OrdenItem(null,null,null,null,null,null,null);
               this.req.items.forEach((k,ind)=>{
                 if(j.id==k.id){
                   j.estado='ATENDIDO';
@@ -1065,7 +1065,7 @@ export class DialogCreateOrden implements OnInit {
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
 
   listaReq: Item[]= [];
 

@@ -7,6 +7,7 @@ export class OrdenItem {
     public unit_price: string,
     public unit_price_aux: string,
     public subtotal: string,
+    public percepcion: string,
     public id?: number,
   ) { }
 }
