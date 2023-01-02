@@ -15,6 +15,7 @@ import { CampusComponent } from './campus/campus.component';
 import { AreasComponent } from './areas/areas.component';
 import { ProvidersComponent } from './providers/providers.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
+import { MobilityComponent } from './mobility/mobility.component';
 
 const routes: Routes = [
   { path: "", component: InicioComponent },
@@ -31,6 +32,8 @@ const routes: Routes = [
   { path: "providers", component: ProvidersComponent  },
   { path: "history", component: HistoryComponent },
   { path: "hb", component: BirthdayComponent },
+  { path: "mobility", component: MobilityComponent},
+
   //{ path: "", redirectTo: "/clientes", pathMatch: "full" },// Cuando es la raíz
   //{ path: "**", redirectTo: "/clientes" }
 ];

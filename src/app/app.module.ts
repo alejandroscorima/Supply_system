@@ -62,7 +62,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import {MatTabsModule} from '@angular/material/tabs';
-
+import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, DialogEditItemMobility} from './mobility/mobility.component';
 
 
 
@@ -107,6 +107,10 @@ import {MatTabsModule} from '@angular/material/tabs';
         DialogEditProvider,
         DialogConfirmFondo,
         DialogEditItemFondo,
+        MobilityComponent,
+        DialogNewItemMobility,
+        DialogEditItemMobility,
+        DialogConfirmMobility,
 
     ],
     imports: [

@@ -66,6 +66,12 @@
         <mat-icon class="icon4" >paid</mat-icon>
         Rendicion de fondo
       </a>
+      
+      <a mat-list-item *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" routerLink="/mobility">
+        <mat-icon class="icon4" >paid</mat-icon>
+        Movilidad
+      </a>
+      
       <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
         <mat-expansion-panel style="background-color:rgba(34, 146, 161, 0.555)">
           <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
