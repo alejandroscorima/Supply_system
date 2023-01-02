@@ -414,7 +414,7 @@ export class DialogDetalleReqAsist implements OnInit {
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
 
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);
@@ -1062,7 +1062,7 @@ export class DialogCreateOrden implements OnInit {
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);

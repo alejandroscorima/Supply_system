@@ -89,6 +89,7 @@ export class OrdenComponent implements OnInit {
   posTituloSala;
 
   igvActivated;
+  retencionActivated;
 
   igvSlideChecked: boolean;
   igvSlideDisabled: boolean;
@@ -144,6 +145,43 @@ export class OrdenComponent implements OnInit {
       this.ord.igv=(0.0).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
     }
+  }
+
+  updateRetencion(){
+/*     if(this.igvActivated){
+      this.igvSlideDisabled=false;
+      if(this.igvSlideChecked){
+        this.ord.subtotal=(0.0).toFixed(2);
+        this.ord.igv=(0.0).toFixed(2);
+        this.ord.total=(0.0).toFixed(2);
+        this.listaOrd.forEach((oi:OrdenItem)=>{
+          oi.unit_price_aux=oi.unit_price;
+          oi.unit_price=((100*parseFloat(oi.unit_price))/118).toFixed(2);
+          oi.subtotal=(oi.cantidad*parseFloat(oi.unit_price)).toFixed(2);
+          this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
+          this.ord.igv=(parseFloat(this.ord.igv)+(oi.cantidad*(parseFloat(oi.unit_price_aux)-parseFloat(oi.unit_price)))).toFixed(2);
+        })
+        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+      }
+      else{
+        this.ord.subtotal=(0.0).toFixed(2);
+        this.ord.igv=(0.0).toFixed(2);
+        this.ord.total=(0.0).toFixed(2);
+        this.listaOrd.forEach((oi:OrdenItem)=>{
+          oi.unit_price=oi.unit_price_aux;
+          oi.subtotal=(oi.cantidad*parseFloat(oi.unit_price)).toFixed(2);
+          this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
+        })
+        this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(2);
+        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+      }
+    }
+    else{
+      this.igvSlideChecked=false;
+      this.igvSlideDisabled=true;
+      this.ord.igv=(0.0).toFixed(2);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+    } */
   }
 
   change(e){

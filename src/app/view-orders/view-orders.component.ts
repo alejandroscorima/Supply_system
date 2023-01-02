@@ -60,7 +60,7 @@ export class ViewOrdersComponent implements OnInit {
   user_campus: Campus = new Campus('','','','','','');
 
   req: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null);
 
   item: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','');
 

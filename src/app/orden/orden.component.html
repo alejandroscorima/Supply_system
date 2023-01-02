@@ -281,10 +281,23 @@
 
                 <ng-container matColumnDef="igv_label">
                   <td mat-footer-cell *matFooterCellDef colspan="1">
-                    IGV
                     <mat-checkbox [(ngModel)]="igvActivated" [disabled]="listaOrd.length==0"
                       (ngModelChange)="updateIgv()">
                     </mat-checkbox>
+                    IGV
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="retencion_label">
+                  <td stye='text-align:right; align-content:right;' mat-footer-cell *matFooterCellDef colspan="1">
+                    <mat-checkbox [(ngModel)]="retencionActivated" [disabled]="listaOrd.length==0"
+                      (ngModelChange)="updateRetencion()">
+                    </mat-checkbox>
+                    Retención
+                    <mat-form-field style="width: 100px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
+                      <input matInput [(ngModel)]="ord.rebajado">
+                    </mat-form-field>
+                    %
                   </td>
                 </ng-container>
 
@@ -308,6 +321,12 @@
                   </td>
                 </ng-container>
 
+                <ng-container matColumnDef="retencion">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    {{ord.retencion}}
+                  </td>
+                </ng-container>
+
                 <ng-container matColumnDef="igv">
                   <td mat-footer-cell *matFooterCellDef colspan="1">
                     {{ord.igv}}
@@ -327,6 +346,7 @@
                 <tr mat-footer-row *matFooterRowDef="['empty2','subtotalO_label','subtotalO','empty1']" style="font-weight: bold;" ></tr>
                 <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty1']" style="font-weight: bold;" ></tr>
                 <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty1']" style="font-weight: bold;" ></tr>
+                <tr mat-footer-row *matFooterRowDef="['empty2','retencion_label','retencion','empty1']" style="font-weight: bold;" ></tr>
                 <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty1']" style="font-weight: bold;" ></tr>
 
 
