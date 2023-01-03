@@ -71,7 +71,7 @@ export class WarehouseComponent implements OnInit {
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','');
 
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
 
@@ -255,7 +255,7 @@ export class WarehouseComponent implements OnInit {
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-      this.orden_item = new OrdenItem('',null,'','','','','');
+      this.orden_item = new OrdenItem('',null,'','','','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
       this.dataSourceOrd.sort = this.sort.toArray()[0];
@@ -273,7 +273,7 @@ export class WarehouseComponent implements OnInit {
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-      this.orden_item = new OrdenItem('',null,'','','','','');
+      this.orden_item = new OrdenItem('',null,'','','','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
       this.dataSourceOrd.sort = this.sort.toArray()[0];
@@ -338,8 +338,8 @@ export class WarehouseComponent implements OnInit {
                     this.user_campus=c;
                     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
                       this.campus=cs;
-                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','');
-                      this.orden_item=new OrdenItem('',null,'','','','','');
+                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','');
+                      this.orden_item=new OrdenItem('',null,'','','','');
                       this.igvActivated=true;
                       this.igvSlideDisabled=false;
                       this.prefijoMoney='';
@@ -608,8 +608,8 @@ export class WarehouseComponent implements OnInit {
 
                   this.ord.fecha=anio+'-'+mes+'-'+dia;
 
-                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','');
-                  this.orden_item=new OrdenItem('',null,'','','','','');
+                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','');
+                  this.orden_item=new OrdenItem('',null,'','','','');
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
                   this.dataSourceOrd.paginator = this.paginator.toArray()[0];

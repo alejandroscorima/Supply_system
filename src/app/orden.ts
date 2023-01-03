@@ -23,6 +23,8 @@ export class Orden {
     public tipo_pago:string,
     public num_cuenta:string,
     public retencion: string,
+    public retencion_percent: string,
+    public percepcion: string,
     public id?: number,
   ) { }
 }

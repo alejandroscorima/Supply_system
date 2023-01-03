@@ -57,6 +57,10 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getAllCampus.php`);
   }
 
+  getAllProviders() {
+    return this.http.get(`${this.baseUrl}/getAllProviders.php`);
+  }
+
   getAllOrders() {
     return this.http.get(`${this.baseUrl}/getAllOrders.php`);
   }

@@ -60,7 +60,7 @@ export class ViewOrdersComponent implements OnInit {
   user_campus: Campus = new Campus('','','','','','');
 
   req: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null);
 
   item: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','');
 
@@ -261,16 +261,19 @@ export class ViewOrdersComponent implements OnInit {
     this.doc.setFontSize(8);
     this.doc.setTextColor(0,0,0);
     this.doc.roundedRect(140, pos_line, 60, 21, 2, 2, 'S');
-    this.doc.text('SUBTOTAL',142,pos_line+5);
-    this.doc.text('IGV',142,pos_line+12);
-    this.doc.text('MONTO INICIAL: '+this.prefijoMoney+' '+this.ord.rebajado,20,pos_line+19);
-    this.doc.text('TOTAL',142,pos_line+19);
-    this.doc.text(this.prefijoMoney,166,pos_line+5);
-    this.doc.text(this.prefijoMoney,166,pos_line+12);
-    this.doc.text(this.prefijoMoney,166,pos_line+19);
-    this.doc.text(this.ord.subtotal,197,pos_line+5,{align:'right'});
-    this.doc.text(this.ord.igv,197,pos_line+12,{align:'right'});
-    this.doc.text(this.ord.total,197,pos_line+19,{align:'right'});
+    pos_line+=5;
+    this.doc.text('SUBTOTAL',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.subtotal,197,pos_line,{align:'right'});
+    pos_line+=7;
+    this.doc.text('IGV',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.igv,197,pos_line,{align:'right'});
+    pos_line+=7;
+    this.doc.text('MONTO INICIAL: '+this.prefijoMoney+' '+this.ord.rebajado,20,pos_line);
+    this.doc.text('TOTAL',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.total,197,pos_line,{align:'right'});
     //console.log(this.doc.internal.getFontSize());
 
 /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */

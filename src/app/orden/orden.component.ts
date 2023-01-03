@@ -70,7 +70,7 @@ export class OrdenComponent implements OnInit {
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','');
 
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
 
@@ -90,9 +90,12 @@ export class OrdenComponent implements OnInit {
 
   igvActivated;
   retencionActivated;
+  percepcionActivated;
 
   igvSlideChecked: boolean;
   igvSlideDisabled: boolean;
+
+  percepInput;
 
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
@@ -124,7 +127,7 @@ export class OrdenComponent implements OnInit {
           this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
           this.ord.igv=(parseFloat(this.ord.igv)+(oi.cantidad*(parseFloat(oi.unit_price_aux)-parseFloat(oi.unit_price)))).toFixed(2);
         })
-        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
       }
       else{
         this.ord.subtotal=(0.0).toFixed(2);
@@ -136,60 +139,58 @@ export class OrdenComponent implements OnInit {
           this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
         })
         this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(2);
-        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
       }
     }
     else{
       this.igvSlideChecked=false;
       this.igvSlideDisabled=true;
       this.ord.igv=(0.0).toFixed(2);
-      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     }
   }
 
   updateRetencion(){
-/*     if(this.igvActivated){
-      this.igvSlideDisabled=false;
-      if(this.igvSlideChecked){
-        this.ord.subtotal=(0.0).toFixed(2);
-        this.ord.igv=(0.0).toFixed(2);
-        this.ord.total=(0.0).toFixed(2);
-        this.listaOrd.forEach((oi:OrdenItem)=>{
-          oi.unit_price_aux=oi.unit_price;
-          oi.unit_price=((100*parseFloat(oi.unit_price))/118).toFixed(2);
-          oi.subtotal=(oi.cantidad*parseFloat(oi.unit_price)).toFixed(2);
-          this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
-          this.ord.igv=(parseFloat(this.ord.igv)+(oi.cantidad*(parseFloat(oi.unit_price_aux)-parseFloat(oi.unit_price)))).toFixed(2);
-        })
-        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+    if(this.retencionActivated){
+      if(this.ord.retencion_percent==null||this.ord.retencion_percent==''){
+        this.ord.retencion=(0.0).toFixed(2);
       }
       else{
-        this.ord.subtotal=(0.0).toFixed(2);
-        this.ord.igv=(0.0).toFixed(2);
-        this.ord.total=(0.0).toFixed(2);
-        this.listaOrd.forEach((oi:OrdenItem)=>{
-          oi.unit_price=oi.unit_price_aux;
-          oi.subtotal=(oi.cantidad*parseFloat(oi.unit_price)).toFixed(2);
-          this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
-        })
-        this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(2);
-        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+        this.ord.retencion=((parseFloat(this.ord.retencion_percent)*parseFloat(this.ord.subtotal))/100).toFixed(2);
       }
+
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     }
     else{
-      this.igvSlideChecked=false;
-      this.igvSlideDisabled=true;
-      this.ord.igv=(0.0).toFixed(2);
-      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-    } */
+      this.ord.retencion=(0.0).toFixed(2);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+    } 
+  }
+
+  updatePercepcion(){
+    if(this.percepcionActivated){
+      if(this.percepInput==null||this.percepInput==''){
+        this.ord.percepcion=(0.0).toFixed(2);
+      }
+      else{
+        this.ord.percepcion=(parseFloat(this.percepInput)).toFixed(2);
+      }
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+    }
+    else{
+      this.ord.percepcion=(0.0).toFixed(2);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+    } 
   }
 
   changeRet(){
-    if(parseInt(this.ord.retencion)!=0&&this.ord.retencion!=''&&this.ord.retencion!=null){
-      this.updateRetencion();
-    }
+    this.updateRetencion();
+  }
 
-
+  changePercep(){
+    this.updatePercepcion();
+/*     this.ord.percepcion=(parseFloat(this.percepInput)).toFixed(2);
+    this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2); */
   }
 
   change(e){
@@ -232,7 +233,7 @@ export class OrdenComponent implements OnInit {
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-      this.orden_item = new OrdenItem('',null,'','','','','');
+      this.orden_item = new OrdenItem('',null,'','','','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
       this.dataSourceOrd.sort = this.sort.toArray()[0];
@@ -250,7 +251,7 @@ export class OrdenComponent implements OnInit {
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-      this.orden_item = new OrdenItem('',null,'','','','','');
+      this.orden_item = new OrdenItem('',null,'','','','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
       this.dataSourceOrd.sort = this.sort.toArray()[0];
@@ -335,8 +336,8 @@ export class OrdenComponent implements OnInit {
                     this.user_campus=c;
                     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
                       this.campus=cs;
-                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','');
-                      this.orden_item=new OrdenItem('',null,'','','','','');
+                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','');
+                      this.orden_item=new OrdenItem('',null,'','','','');
                       this.igvActivated=true;
                       this.igvSlideDisabled=false;
                       this.prefijoMoney='';
@@ -344,6 +345,8 @@ export class OrdenComponent implements OnInit {
                       this.prefijoMoney='S/.';
                       this.ord.subtotal=parseInt('0').toFixed(2);
                       this.ord.igv=parseInt('0').toFixed(2);
+                      this.ord.retencion=parseInt('0').toFixed(2);
+                      this.ord.percepcion=parseInt('0').toFixed(2);
                       this.ord.total=parseInt('0').toFixed(2);
                       this.ord.rebajado='';
                       this.posTituloSala = 74;
@@ -605,8 +608,8 @@ export class OrdenComponent implements OnInit {
 
                   this.ord.fecha=anio+'-'+mes+'-'+dia;
 
-                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','');
-                  this.orden_item=new OrdenItem('',null,'','','','','');
+                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','');
+                  this.orden_item=new OrdenItem('',null,'','','','');
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
                   this.dataSourceOrd.paginator = this.paginator.toArray()[0];
@@ -617,6 +620,8 @@ export class OrdenComponent implements OnInit {
                   this.prefijoMoney='S/.';
                   this.ord.subtotal=parseInt('0').toFixed(2);
                   this.ord.igv=parseInt('0').toFixed(2);
+                  this.ord.retencion=parseInt('0').toFixed(2);
+                  this.ord.percepcion=parseInt('0').toFixed(2);
                   this.ord.total=parseInt('0').toFixed(2);
                   this.ord.rebajado='';
                   this.posTituloSala = 74;
@@ -740,16 +745,19 @@ export class OrdenComponent implements OnInit {
     this.doc.setFontSize(8);
     this.doc.setTextColor(0,0,0);
     this.doc.roundedRect(140, pos_line, 60, 21, 2, 2, 'S');
-    this.doc.text('SUBTOTAL',142,pos_line+5);
-    this.doc.text('IGV',142,pos_line+12);
+    pos_line+=5;
+    this.doc.text('SUBTOTAL',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.subtotal,197,pos_line,{align:'right'});
+    pos_line+=7;
+    this.doc.text('IGV',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.igv,197,pos_line,{align:'right'});
+    pos_line+=7;
     this.doc.text('MONTO INICIAL: '+this.prefijoMoney+' '+this.ord.rebajado,20,pos_line+19);
-    this.doc.text('TOTAL',142,pos_line+19);
-    this.doc.text(this.prefijoMoney,166,pos_line+5);
-    this.doc.text(this.prefijoMoney,166,pos_line+12);
-    this.doc.text(this.prefijoMoney,166,pos_line+19);
-    this.doc.text(this.ord.subtotal,197,pos_line+5,{align:'right'});
-    this.doc.text(this.ord.igv,197,pos_line+12,{align:'right'});
-    this.doc.text(this.ord.total,197,pos_line+19,{align:'right'});
+    this.doc.text('TOTAL',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.total,197,pos_line,{align:'right'});
     //console.log(this.doc.internal.getFontSize());
 
 /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */
@@ -758,98 +766,6 @@ export class OrdenComponent implements OnInit {
     window.open(URL.createObjectURL(this.doc.output("blob")));
 
 
-/*     if(true){
-
-        this.doc = new jsPDF();
-
-
-        //this.doc.clear
-
-        this.img.src = 'assets/logoVision.png'
-        this.doc.addImage(this.img, 'png', 10, 10, 60, 25);
-        this.doc.setFont("times","bold");
-        this.doc.setFontSize(22);
-        this.doc.text(this.tituloSala,this.posTituloSala,40);
-        this.doc.setFont("helvetica");
-        this.doc.setFontSize(16);
-        this.doc.text('CASINO',91,48);
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(12);
-        this.doc.text(this.direccionSala,105-((this.direccionSala.length/2)*2),56);
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(18);
-        this.doc.text('ACTA DE ENTREGA DE PREMIO',55,70);
-        this.doc.setFont("helvetica","bold");
-
-        this.doc.setFontSize(11);
-        this.doc.text('Señor(a)',20,90);
-        this.doc.text('D.N.I.',20,100);
-        this.doc.text('Dirección',20,110);
-        this.doc.text('Fecha',20,130);
-        this.doc.text('Hora de sorteo',20,140);
-        this.doc.text('Premio sorteado',20,150);
-        this.doc.text('Nombre de sorteo',20,160);
-        this.doc.text('Número de cupón',20,170);
-
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(10);
-        this.doc.text(':  '+this.nombreSorteo,53,90);
-        this.doc.text(':  '+this.doc_number,53,100);
-        this.doc.setFontSize(8);
-        this.doc.setCharSpace(10);
-        this.doc.text(':  '+this.direccionSorteo,53,110);
-        this.doc.text('   '+this.direccionSorteo2,53,120);
-        this.doc.setFontSize(10);
-        this.doc.text(':  '+this.fechaLongSorteo,53,130);
-        this.doc.text(':  '+this.horaLongSorteo,53,140);
-        this.doc.text(':  '+this.premioLongSorteo + ' CON 00/100 SOLES    |   S/'+this.premioSorteo,53,150);
-        this.doc.text(':  '+this.nombreDeSorteo,53,160);
-        this.doc.text(':  '+this.cupon_number,53,170);
-
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(15);
-        this.doc.text('_________________________',25,200);
-        this.doc.text('_________________________',110,200);
-        this.doc.text('_________________________',50,250);
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(9);
-        this.doc.text(this.nombreSorteo,85-1.9*(this.nombreSorteo.length/2),258);
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(12);
-        this.doc.text(this.doc_number,85-2.5*(this.doc_number.length/2),263);
-        this.doc.text('Cliente',77,269);
-
-        this.doc.rect(130,240,28,35);
-
-
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(9);
-        this.doc.text(this.admin_nombre,60-1.9*(this.admin_nombre.length/2),208);
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(12);
-        this.doc.text(this.admin_doc,60-2.5*(this.admin_doc.length/2),213);
-        this.doc.text('Administrador(a)',42,219);
-
-
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(9);
-        this.doc.text(this.adj_nombre,146-1.9*(this.adj_nombre.length/2),208);
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(12);
-        this.doc.text(this.adj_doc,146-2.5*(this.adj_doc.length/2),213);
-        this.doc.text('Adjunto(a)',135,219);
-
-        this.toastr.success('Acta generada correctamente!','',{progressBar:true});
-
-        window.open(URL.createObjectURL(this.doc.output("blob")));
-
-        this.router.navigate(['']);
-
-    }
-
-    else{
-      this.toastr.warning('Por favor, verifique que todos los campos estén completados');
-    } */
   }
 
   onNoClick(): void {

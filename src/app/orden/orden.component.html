@@ -199,7 +199,7 @@
             <input type="number" matInput [(ngModel)]="orden_item.cantidad">
           </mat-form-field>
 
-          <mat-form-field style="width:45%;" appearance="outline">
+          <mat-form-field style="width:50%;" appearance="outline">
             <mat-label>Descripcion:</mat-label>
             <input matInput [(ngModel)]="orden_item.descripcion">
           </mat-form-field>
@@ -210,11 +210,6 @@
             <span matPrefix>{{prefijoMoney}}&nbsp;</span>
           </mat-form-field>
 
-          <mat-form-field style="width:15%;" appearance="outline">
-            <mat-label>Percepción:</mat-label>
-            <input matInput [(ngModel)]="orden_item.percepcion">
-            <span matPrefix>{{prefijoMoney}}&nbsp;</span>
-          </mat-form-field>
 
         </mat-card-content>
         <mat-card-actions align="end">
@@ -302,9 +297,21 @@
                     </mat-checkbox>
                     Retención
                     <mat-form-field style="width: 100px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
-                      <input (keyup)="changeRet()" [disabled]="!retencionActivated" matInput [(ngModel)]="ord.rebajado">
+                      <input (keyup)="changeRet()" [disabled]="!retencionActivated" matInput [(ngModel)]="ord.retencion_percent">
                     </mat-form-field>
                     %
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="percepcion_label">
+                  <td stye='text-align:right; align-content:right;' mat-footer-cell *matFooterCellDef colspan="1">
+                    <mat-checkbox [(ngModel)]="percepcionActivated" [disabled]="listaOrd.length==0"
+                      (ngModelChange)="updatePercepcion()">
+                    </mat-checkbox>
+                    Percepción
+                    <mat-form-field style="width: 100px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
+                      <input (keyup)="changePercep()" [disabled]="!percepcionActivated" matInput [(ngModel)]="percepInput">
+                    </mat-form-field>
                   </td>
                 </ng-container>
 
@@ -334,6 +341,12 @@
                   </td>
                 </ng-container>
 
+                <ng-container matColumnDef="percepcion">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    {{ord.percepcion}}
+                  </td>
+                </ng-container>
+
                 <ng-container matColumnDef="igv">
                   <td mat-footer-cell *matFooterCellDef colspan="1">
                     {{ord.igv}}
@@ -354,6 +367,7 @@
                 <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty1']" style="font-weight: bold;" ></tr>
                 <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty1']" style="font-weight: bold;" ></tr>
                 <tr mat-footer-row *matFooterRowDef="['empty2','retencion_label','retencion','empty1']" style="font-weight: bold;" ></tr>
+                <tr mat-footer-row *matFooterRowDef="['empty2','percepcion_label','percepcion','empty1']" style="font-weight: bold;" ></tr>
                 <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty1']" style="font-weight: bold;" ></tr>
 
 

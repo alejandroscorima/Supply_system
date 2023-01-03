@@ -12,6 +12,8 @@ import { Campus } from '../campus';
 import { ClientesService } from '../clientes.service';
 import { CookiesService } from '../cookies.service';
 import { LogisticaService } from '../logistica.service';
+import { Product } from '../product';
+import { Proveedor } from '../proveedor';
 import { User } from '../user';
 import { UsersService } from '../users.service';
 import { UserSession } from '../user_session';
@@ -27,8 +29,16 @@ export class ProvidersComponent implements OnInit {
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
 
-  listaUsers: User[]= [];
-  dataSourceUsers: MatTableDataSource<User>;
+  p: Product = new Product('','','','','','');
+  prov: Proveedor = new Proveedor('','','');
+  provActive: Proveedor = new Proveedor('','','');
+
+  listaProviders: Proveedor[]= [];
+  listaProvidersActive: Proveedor[]= [];
+  listaProducts: Product[]= [];
+
+  dataSourceProviders: MatTableDataSource<Proveedor>;
+  dataSourceProducts: MatTableDataSource<Product>;
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
@@ -42,6 +52,25 @@ export class ProvidersComponent implements OnInit {
     private toastr: ToastrService,
   ) { }
 
+
+  applyFilterProv(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceProviders.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceProviders.paginator) {
+      this.dataSourceProviders.paginator.firstPage();
+    }
+  }
+
+  applyFilterProd(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceProducts.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceProducts.paginator) {
+      this.dataSourceProducts.paginator.firstPage();
+    }
+  }
+
   logout(){
     var session_id=this.cookiesService.getToken('session_id');
     this.usersService.deleteSession(session_id).subscribe(resDel=>{
@@ -52,13 +81,8 @@ export class ProvidersComponent implements OnInit {
     })
   }
 
-  applyFilterU(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourceUsers.filter = filterValue.trim().toLowerCase();
+  provChange(){
 
-    if (this.dataSourceUsers.paginator) {
-      this.dataSourceUsers.paginator.firstPage();
-    }
   }
 
   new(){
@@ -103,11 +127,12 @@ export class ProvidersComponent implements OnInit {
                 this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
                   if(c){
                     this.user_campus=c;
+
                     this.usersService.getAllUsers().subscribe((us:User[])=>{
-                      this.listaUsers=us;
+/*                       this.listaUsers=us;
                       this.dataSourceUsers = new MatTableDataSource(this.listaUsers);
                       this.dataSourceUsers.paginator = this.paginator.toArray()[0];
-                      this.dataSourceUsers.sort = this.sort.toArray()[0];
+                      this.dataSourceUsers.sort = this.sort.toArray()[0]; */
                     })
                   }
                 })
@@ -117,6 +142,12 @@ export class ProvidersComponent implements OnInit {
 
           });
         }
+        this.logisticaService.getAllProviders().subscribe((provl:Proveedor[])=>{
+          this.listaProviders=provl;
+          this.dataSourceProviders = new MatTableDataSource(this.listaProviders);
+          this.dataSourceProviders.paginator = this.paginator.toArray()[0];
+          this.dataSourceProviders.sort = this.sort.toArray()[0];
+        })
       })
 
     }

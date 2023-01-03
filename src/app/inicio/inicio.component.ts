@@ -414,7 +414,7 @@ export class DialogDetalleReqAsist implements OnInit {
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
 
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
@@ -1062,10 +1062,10 @@ export class DialogCreateOrden implements OnInit {
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);
 
   listaReq: Item[]= [];
 
@@ -1444,16 +1444,19 @@ export class DialogCreateOrden implements OnInit {
     this.doc.setFontSize(9);
     this.doc.setTextColor(0,0,0);
     this.doc.roundedRect(140, pos_line, 60, 21, 2, 2, 'S');
-    this.doc.text('SUBTOTAL',142,pos_line+5);
-    this.doc.text('IGV',142,pos_line+12);
-    this.doc.text('MONTO INICIAL: '+this.prefijoMoney+' '+this.ord.rebajado,20,pos_line+19);
-    this.doc.text('TOTAL',142,pos_line+19);
-    this.doc.text(this.prefijoMoney,166,pos_line+5);
-    this.doc.text(this.prefijoMoney,166,pos_line+12);
-    this.doc.text(this.prefijoMoney,166,pos_line+19);
-    this.doc.text(this.ord.subtotal,197,pos_line+5,{align:'right'});
-    this.doc.text(this.ord.igv,197,pos_line+12,{align:'right'});
-    this.doc.text(this.ord.total,197,pos_line+19,{align:'right'});
+    pos_line+=5;
+    this.doc.text('SUBTOTAL',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.subtotal,197,pos_line,{align:'right'});
+    pos_line+=7;
+    this.doc.text('IGV',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.igv,197,pos_line,{align:'right'});
+    pos_line+=7;
+    this.doc.text('MONTO INICIAL: '+this.prefijoMoney+' '+this.ord.rebajado,20,pos_line);
+    this.doc.text('TOTAL',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.total,197,pos_line,{align:'right'});
     //console.log(this.doc.internal.getFontSize());
 
 /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */
