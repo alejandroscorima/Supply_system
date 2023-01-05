@@ -10,10 +10,10 @@ $ruc=$_GET['ruc'];
 $bd = include_once "bdLogistica.php";
 
 if($ruc=='TODOS'){
-    $sentencia = $bd->prepare("SELECT id, codigo, descripcion, val_sis, um_sis, val_prov, um_prov, provider FROM products");
+    $sentencia = $bd->prepare("SELECT id, codigo, descripcion, val_sis, um_sis, val_prov, um_prov, provider, unit_price FROM products");
 }
 else{
-    $sentencia = $bd->prepare("SELECT id, codigo, descripcion, val_sis, um_sis, val_prov, um_prov, provider FROM products WHERE provider='".$ruc."'");
+    $sentencia = $bd->prepare("SELECT id, codigo, descripcion, val_sis, um_sis, val_prov, um_prov, provider, unit_price FROM products WHERE provider='".$ruc."'");
 }
 
 

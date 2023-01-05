@@ -8,6 +8,7 @@ export class Product {
     public val_prov: string,
     public um_prov: string,
     public provider: string,
+    public unit_price: string,
     public id?: number,
   ) { }
 

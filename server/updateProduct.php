@@ -12,6 +12,6 @@ if (!$jsonItem) {
     exit("No hay datos");
 }
 $bd = include_once "bdLogistica.php";
-$sentencia = $bd->prepare("UPDATE products SET codigo = ?, descripcion = ?, val_sis = ?, um_sis = ?, val_prov = ?, um_prov = ?, provider = ? WHERE id = ?");
-$resultado = $sentencia->execute([$jsonItem->codigo, $jsonItem->descripcion, $jsonItem->val_sis, $jsonItem->um_sis, $jsonItem->val_prov, $jsonItem->um_prov, $jsonItem->provider, $jsonItem->id]);
+$sentencia = $bd->prepare("UPDATE products SET codigo = ?, descripcion = ?, val_sis = ?, um_sis = ?, val_prov = ?, um_prov = ?, provider = ?, unit_price = ? WHERE id = ?");
+$resultado = $sentencia->execute([$jsonItem->codigo, $jsonItem->descripcion, $jsonItem->val_sis, $jsonItem->um_sis, $jsonItem->val_prov, $jsonItem->um_prov, $jsonItem->provider, $jsonItem->unit_price, $jsonItem->id]);
 echo json_encode($resultado);

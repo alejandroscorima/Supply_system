@@ -29,7 +29,7 @@ export class ProvidersComponent implements OnInit {
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
 
-  p: Product = new Product('','','','','','','');
+  p: Product = new Product('','','','','','','','');
   prov: Proveedor = new Proveedor('','','','','','');
   provActive;
 
@@ -156,7 +156,7 @@ export class ProvidersComponent implements OnInit {
   newProduct(){
     var dialogRef;
 
-    var newProd: Product = new Product('','','','','','','');
+    var newProd: Product = new Product('','','','','','','','');
 
     dialogRef=this.dialog.open(DialogNewProduct,{
       data:newProd,

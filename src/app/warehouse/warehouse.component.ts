@@ -101,7 +101,7 @@ export class WarehouseComponent implements OnInit {
 
   items_ord_wh: any[] = [];
 
-  p: Product = new Product('','','','','','','');
+  p: Product = new Product('','','','','','','','');
   prov: Proveedor = new Proveedor('','','','','','');
   provActive;
 
@@ -135,8 +135,15 @@ export class WarehouseComponent implements OnInit {
     else{
       this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
         this.listaProducts=prodl;
-        this.listaProducts.forEach((a,ind)=>{
-          
+        this.items_ord_wh.forEach(a=>{
+          this.listaProducts.forEach((b)=>{
+            if(a['0']==b.codigo){
+              this.orden_item = new OrdenItem(null,null,null,null,null,null,null);
+              this.orden_item.cantidad = parseFloat(((parseFloat(a['3'])/parseFloat(b.val_sis))*parseFloat(b.val_prov)).toFixed(2));
+              this.orden_item.descripcion = b.um_prov + ' ' + b.descripcion;
+              this.orden_item.unit_price = b.unit_price;
+            }
+          })
         })
         this.dataSourceWareOrd = new MatTableDataSource(this.listaProducts);
         this.dataSourceWareOrd.paginator = this.paginator.toArray()[1];
