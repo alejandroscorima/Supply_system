@@ -29,9 +29,9 @@ export class ProvidersComponent implements OnInit {
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
 
-  p: Product = new Product('','','','','','');
-  prov: Proveedor = new Proveedor('','','');
-  provActive: Proveedor = new Proveedor('','','');
+  p: Product = new Product('','','','','','','');
+  prov: Proveedor = new Proveedor('','','','','','');
+  provActive;
 
   listaProviders: Proveedor[]= [];
   listaProvidersActive: Proveedor[]= [];
@@ -82,7 +82,12 @@ export class ProvidersComponent implements OnInit {
   }
 
   provChange(){
-
+    this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
+      this.listaProducts=prodl;
+      this.dataSourceProducts = new MatTableDataSource(this.listaProducts);
+      this.dataSourceProducts.paginator = this.paginator.toArray()[1];
+      this.dataSourceProducts.sort = this.sort.toArray()[1];
+    })
   }
 
   new(){
@@ -96,12 +101,28 @@ export class ProvidersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if(res){
-        this.toastr.success('Agregado!')
+        this.toastr.success('Agregado!');
+        this.logisticaService.getAllProviders().subscribe((provl:Proveedor[])=>{
+          this.listaProviders=provl;
+          this.dataSourceProviders = new MatTableDataSource(this.listaProviders);
+          this.dataSourceProviders.paginator = this.paginator.toArray()[0];
+          this.dataSourceProviders.sort = this.sort.toArray()[0];
+        })
+        this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
+          this.listaProducts=prodl;
+          this.dataSourceProducts = new MatTableDataSource(this.listaProducts);
+          this.dataSourceProducts.paginator = this.paginator.toArray()[1];
+          this.dataSourceProducts.sort = this.sort.toArray()[1];
+        })
+        this.logisticaService.getActiveProviders().subscribe((provl:Proveedor[])=>{
+          this.listaProvidersActive=provl;
+          this.listaProvidersActive.unshift(new Proveedor('TODOS','TODOS','','','ACTIVO','TODOS'));
+        })
       }
     })
   }
 
-  edit(u:User){
+  edit(u:Proveedor){
     var dialogRef;
 
     dialogRef=this.dialog.open(DialogEditProvider,{
@@ -110,7 +131,68 @@ export class ProvidersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if(res){
-        this.toastr.success('Editado!')
+        this.toastr.success('Editado!');
+        this.logisticaService.getAllProviders().subscribe((provl:Proveedor[])=>{
+          this.listaProviders=provl;
+          this.dataSourceProviders = new MatTableDataSource(this.listaProviders);
+          this.dataSourceProviders.paginator = this.paginator.toArray()[0];
+          this.dataSourceProviders.sort = this.sort.toArray()[0];
+        })
+        this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
+          this.listaProducts=prodl;
+          this.dataSourceProducts = new MatTableDataSource(this.listaProducts);
+          this.dataSourceProducts.paginator = this.paginator.toArray()[1];
+          this.dataSourceProducts.sort = this.sort.toArray()[1];
+        })
+        this.logisticaService.getActiveProviders().subscribe((provl:Proveedor[])=>{
+          this.listaProvidersActive=provl;
+          this.listaProvidersActive.unshift(new Proveedor('TODOS','TODOS','','','ACTIVO','TODOS'));
+        })
+      }
+    })
+  }
+
+
+  newProduct(){
+    var dialogRef;
+
+    var newProd: Product = new Product('','','','','','','');
+
+    dialogRef=this.dialog.open(DialogNewProduct,{
+      data:newProd,
+    })
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(res){
+        this.toastr.success('Agregado!');
+
+        this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
+          this.listaProducts=prodl;
+          this.dataSourceProducts = new MatTableDataSource(this.listaProducts);
+          this.dataSourceProducts.paginator = this.paginator.toArray()[1];
+          this.dataSourceProducts.sort = this.sort.toArray()[1];
+        })
+      }
+    })
+  }
+
+  editProduct(p:Product){
+    var dialogRef;
+
+    dialogRef=this.dialog.open(DialogEditProduct,{
+      data:p,
+    })
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(res){
+        this.toastr.success('Editado!');
+
+        this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
+          this.listaProducts=prodl;
+          this.dataSourceProducts = new MatTableDataSource(this.listaProducts);
+          this.dataSourceProducts.paginator = this.paginator.toArray()[1];
+          this.dataSourceProducts.sort = this.sort.toArray()[1];
+        })
       }
     })
   }
@@ -142,11 +224,22 @@ export class ProvidersComponent implements OnInit {
 
           });
         }
+        this.provActive='TODOS';
         this.logisticaService.getAllProviders().subscribe((provl:Proveedor[])=>{
           this.listaProviders=provl;
           this.dataSourceProviders = new MatTableDataSource(this.listaProviders);
           this.dataSourceProviders.paginator = this.paginator.toArray()[0];
           this.dataSourceProviders.sort = this.sort.toArray()[0];
+        })
+        this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
+          this.listaProducts=prodl;
+          this.dataSourceProducts = new MatTableDataSource(this.listaProducts);
+          this.dataSourceProducts.paginator = this.paginator.toArray()[1];
+          this.dataSourceProducts.sort = this.sort.toArray()[1];
+        })
+        this.logisticaService.getActiveProviders().subscribe((provl:Proveedor[])=>{
+          this.listaProvidersActive=provl;
+          this.listaProvidersActive.unshift(new Proveedor('TODOS','TODOS','','','ACTIVO','TODOS'));
         })
       })
 
@@ -176,7 +269,7 @@ export class DialogNewProvider implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogNewProvider>,
-    @Inject(MAT_DIALOG_DATA) public data:User,
+    @Inject(MAT_DIALOG_DATA) public data:Proveedor,
     private fb: FormBuilder,
     private usersService: UsersService,
     private logisticaService: LogisticaService,
@@ -185,32 +278,27 @@ export class DialogNewProvider implements OnInit {
 
 
   save(){
-    this.data.password=this.data.doc_number;
-    this.usersService.getUser(this.data.username,this.data.password).subscribe(resU=>{
-      if(resU){
-        this.toastr.warning('USUARIO YA REGISTRADO');
-      }
-      else{
-        this.usersService.addUser(this.data).subscribe(res=>{
-          if(res){
-            this.dialogRef.close('true');
-          }
-        })
+
+    this.logisticaService.addProvider(this.data).subscribe(res=>{
+      if(res){
+        this.dialogRef.close('true');
       }
     })
 
   }
 
   changeDoc(){
-    if(this.data.doc_number.length>=8){
-      this.logisticaService.getClientFromReniec(this.data.doc_number).subscribe(res=>{
+    if(this.data.ruc.length>=11){
+      this.logisticaService.getConsultaRUC(this.data.ruc).subscribe(res=>{
         if(res){
-          this.data.last_name=res['data']['apellido_paterno']+' '+res['data']['apellido_materno'];
-          this.data.first_name=res['data']['nombres'];
+          this.toastr.success('Datos obtenidos correctamente');
+          this.data.razon_social=res['data']['nombre_o_razon_social'];
+          this.data.direccion=res['data']['direccion_completa'];
         }
         else{
-          this.data.last_name='';
-          this.data.first_name='';
+          this.toastr.warning('No se obtuvieron datos');
+          this.data.razon_social='';
+          this.data.direccion='';
         }
       })
     }
@@ -221,6 +309,7 @@ export class DialogNewProvider implements OnInit {
   }
 
   ngOnInit(): void {
+    this.data.estado='ACTIVO'
     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
       this.campus=cs;
       this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
@@ -247,9 +336,11 @@ export class DialogEditProvider implements OnInit {
   areas: Area[]=[];
   campus: Campus[]=[];
 
+  estados;
+
   constructor(
     public dialogRef: MatDialogRef<DialogEditProvider>,
-    @Inject(MAT_DIALOG_DATA) public data:User,
+    @Inject(MAT_DIALOG_DATA) public data:Proveedor,
     private fb: FormBuilder,
     private usersService: UsersService,
     private logisticaService: LogisticaService,
@@ -257,7 +348,7 @@ export class DialogEditProvider implements OnInit {
   ) {}
 
   save(){
-    this.usersService.updateUser(this.data).subscribe(res=>{
+    this.logisticaService.updateProvider(this.data).subscribe(res=>{
       if(res){
         this.dialogRef.close('true');
       }
@@ -269,14 +360,109 @@ export class DialogEditProvider implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.data);
+    this.estados=['ACTIVO','INACTIVO']
+  }
 
-    this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
-      console.log(cs);
-      this.campus=cs;
-      this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
-        this.areas=as;
-      })
+
+}
+
+
+
+
+
+
+@Component({
+  selector: 'dialog-newProduct',
+  templateUrl: 'dialog-newProduct.html',
+  styleUrls: ['./providers.component.css']
+})
+export class DialogNewProduct implements OnInit {
+
+  genders=['MASCULINO','FEMENINO'];
+  roles=['ADMINISTRADOR','USUARIO','ASISTENTE'];
+  positions=['JEFE','ASISTENTE','ADMINISTRADOR'];
+  areas: Area[]=[];
+  campus: Campus[]=[];
+
+  providers: Proveedor[]= [];
+
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogNewProduct>,
+    @Inject(MAT_DIALOG_DATA) public data:Product,
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private logisticaService: LogisticaService,
+    private toastr: ToastrService,
+  ) {}
+
+
+  save(){
+
+    this.logisticaService.addProduct(this.data).subscribe(res=>{
+      console.log('suscrito')
+      console.log(res)
+      if(res){
+        this.dialogRef.close('true');
+      }
+    })
+
+  }
+
+
+
+  ngOnInit(): void {
+    this.logisticaService.getAllProviders().subscribe((ps:Proveedor[])=>{
+      this.providers=ps;
+    })
+  }
+
+
+}
+
+
+
+@Component({
+  selector: 'dialog-editProduct',
+  templateUrl: 'dialog-editProduct.html',
+  styleUrls: ['./providers.component.css']
+})
+export class DialogEditProduct implements OnInit {
+
+  genders=['MASCULINO','FEMENINO'];
+  roles=['ADMINISTRADOR','USUARIO','ASISTENTE'];
+  positions=['JEFE','ASISTENTE','ADMINISTRADOR'];
+  areas: Area[]=[];
+  campus: Campus[]=[];
+
+  providers: Proveedor[]= [];
+
+  estados;
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogEditProduct>,
+    @Inject(MAT_DIALOG_DATA) public data:Product,
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private logisticaService: LogisticaService,
+    private toastr: ToastrService,
+  ) {}
+
+  save(){
+    this.logisticaService.updateProduct(this.data).subscribe(res=>{
+      if(res){
+        this.dialogRef.close('true');
+      }
+    })
+
+  }
+
+
+
+  ngOnInit(): void {
+    console.log(this.data);
+    this.logisticaService.getAllProviders().subscribe((ps:Proveedor[])=>{
+      this.providers=ps;
     })
   }
 

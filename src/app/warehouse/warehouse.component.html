@@ -126,7 +126,7 @@
 
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" >
         <mat-tab label="Subir Excel" class="tabWare">
-          <div class="container" style="margin: 20px;" >
+          <div class="container" style="margin: 20px; text-align:center;" >
             <div style="width:100%;display:display-inline;text-align: center;">
                 {{docname}}
                 <p style="align-content: center;text-align: center;">
@@ -139,7 +139,7 @@
             </div>
 
             <mat-card class="mat-elevation-z8 card-orden">
-              <mat-card-title>Lista</mat-card-title>
+              <mat-card-title></mat-card-title>
               <mat-card-content>
                 <mat-form-field appearance="standard" style="display:display-inline">
                   <mat-label>Búsqueda</mat-label>
@@ -150,8 +150,8 @@
                 <div class="mat-elevation-z8" style="width:100%;">
                     <table mat-table style="width:100%;" [dataSource]="dataSourceWarehouse" matSort>
       
-                      <ng-container matColumnDef="cantidad">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+                      <ng-container matColumnDef="codigo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO </th>
                         <td mat-cell *matCellDef="let a"> {{a['0']}}</td>
                       </ng-container>
       
@@ -160,13 +160,13 @@
                         <td mat-cell *matCellDef="let a"> {{a['1']}}</td>
                       </ng-container>
       
-                      <ng-container matColumnDef="unit_price">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> PRECIO UNIT </th>
+                      <ng-container matColumnDef="und">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> UND </th>
                         <td mat-cell *matCellDef="let a"> {{a['2']}}</td>
                       </ng-container>
       
-                      <ng-container matColumnDef="subtotal">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> SUBTOTAL </th>
+                      <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
                         <td mat-cell *matCellDef="let a"> {{a['3']}}</td>
                       </ng-container>
       
@@ -238,13 +238,9 @@
                       </ng-container>
       
       
-                      <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
-                      <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
-      
-                      <tr mat-footer-row *matFooterRowDef="['empty2','subtotalO_label','subtotalO','empty1']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty1']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty1']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty1']" style="font-weight: bold;" ></tr>
+                      <tr mat-header-row *matHeaderRowDef="['codigo','descripcion','und','cantidad'];"></tr>
+                      <tr mat-row *matRowDef="let row; columns: ['codigo','descripcion','und','cantidad'];"></tr>
+    
       
       
       
@@ -257,19 +253,93 @@
                 </div>
               </mat-card-content>
               <mat-card-actions align="end">
-                <button mat-button style="width:76%; height:50px; padding: 0px ;margin:5px; text-align: right; padding-right: 10px;">
-                  MONTO INICIAL:{{' '+prefijoMoney}}
-                </button>
-                <mat-form-field style="width:13%; height:50px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
-                  <input matInput [(ngModel)]="ord.rebajado">
-                </mat-form-field>
-                <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white; height:60px; width:25%" (click)="generarOrden()" ><mat-icon>check</mat-icon>Generar Orden</button>
+
               </mat-card-actions>
             </mat-card>
           </div>
 
         </mat-tab>
-        <mat-tab label="Generar Orden" class="tabWare"> Content 3 </mat-tab>
+        <mat-tab label="Generar Orden" class="tabWare"> 
+          <div class="container" style="margin: 20px; text-align:center;" >
+
+            <mat-form-field style="width:45%;" class="sala" id="sala" appearance="outline" >
+              <mat-label>Proveedor:</mat-label>
+              <mat-select [(value)]="provActive" (selectionChange)="provChange()">
+                  <mat-option *ngFor="let pr of listaProvidersActive" [value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
+              <mat-card-content>
+                <mat-form-field appearance="standard" style="display:display-inline">
+                  <mat-label>Búsqueda</mat-label>
+                  <input matInput (keyup)="applyFilterWareOrd($event)" placeholder="Escribe algo para buscar" #input2>
+                </mat-form-field>
+      
+      
+                <div class="mat-elevation-z8" style="width:100%; text-align: left;">
+                    <table mat-table style="width:100%;" [dataSource]="dataSourceWareOrd" matSort multiTemplateDataRows>
+      
+                      <ng-container matColumnDef="codigo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO </th>
+                        <td mat-cell *matCellDef="let a"> {{a.codigo}}</td>
+                      </ng-container>
+      
+                      <ng-container matColumnDef="descripcion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+                        <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+                      </ng-container>
+      
+                      <ng-container matColumnDef="val_sis">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> VALOR </th>
+                        <td mat-cell *matCellDef="let a"> {{a.val_sis}}</td>
+                      </ng-container>
+      
+                      <ng-container matColumnDef="um_sis">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> UND. SISTEMA </th>
+                        <td mat-cell *matCellDef="let a"> {{a.um_sis}}</td>
+                      </ng-container>
+      
+                      <ng-container matColumnDef="val_prov">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> VALOR </th>
+                        <td mat-cell *matCellDef="let a"> {{a.val_prov}}</td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="um_prov">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> UND. PROVEEDOR </th>
+                        <td mat-cell *matCellDef="let a"> {{a.um_prov}}</td>
+                      </ng-container>
+      
+      
+                      <ng-container matColumnDef="edit">
+                        <th mat-header-cell *matHeaderCellDef >
+                          EDITAR
+                        </th>
+                        <td mat-cell *matCellDef="let a; let i=index">
+                          <button mat-raised-button style="background-color: rgb(9, 66, 126); color:white" > <mat-icon>edit</mat-icon> </button>&nbsp;
+                        </td>
+                      </ng-container>
+      
+      
+      
+      
+                      <tr mat-header-row *matHeaderRowDef="['codigo','descripcion','val_sis','um_sis','val_prov','um_prov','edit'];"></tr>
+                      <tr mat-row *matRowDef="let row; columns: ['codigo','descripcion','val_sis','um_sis','val_prov','um_prov','edit'];"></tr>
+      
+      
+      
+                      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="6">No se encontró "{{input2.value}}"</td>
+                      </tr>
+                    </table>
+      
+                     <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> 
+                </div>
+              </mat-card-content>
+      
+            </mat-card>
+          </div>
+        </mat-tab>
       </mat-tab-group>
 
 

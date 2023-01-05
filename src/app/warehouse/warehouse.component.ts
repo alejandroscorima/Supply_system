@@ -27,6 +27,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Proveedor } from '../proveedor';
 
 import * as XLSX from 'xlsx';
+import { Product } from '../product';
 
 
 @Component({
@@ -100,6 +101,16 @@ export class WarehouseComponent implements OnInit {
 
   items_ord_wh: any[] = [];
 
+  p: Product = new Product('','','','','','','');
+  prov: Proveedor = new Proveedor('','','','','','');
+  provActive;
+
+  listaProviders: Proveedor[]= [];
+  listaProvidersActive: Proveedor[]= [];
+  listaProducts: Product[]= [];
+
+  dataSourceWareOrd: MatTableDataSource<Product>;
+
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
@@ -115,6 +126,34 @@ export class WarehouseComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
   ) { }
+
+  provChange(){
+
+    if(this.items_ord_wh.length==0){
+      this.toastr.warning('No se ha subido ningun archivo');
+    }
+    else{
+      this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
+        this.listaProducts=prodl;
+        this.listaProducts.forEach((a,ind)=>{
+          
+        })
+        this.dataSourceWareOrd = new MatTableDataSource(this.listaProducts);
+        this.dataSourceWareOrd.paginator = this.paginator.toArray()[1];
+        this.dataSourceWareOrd.sort = this.sort.toArray()[1];
+      })
+    }
+
+  }
+
+  applyFilterWareOrd(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceWareOrd.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceWareOrd.paginator) {
+      this.dataSourceWareOrd.paginator.firstPage();
+    }
+  }
 
   updateIgv(){
     if(this.igvActivated){
@@ -364,6 +403,9 @@ export class WarehouseComponent implements OnInit {
 
                       this.ord.fecha=anio+'-'+mes+'-'+dia;
                       console.log(this.ord.empresa);
+                    })
+                    this.logisticaService.getActiveProviders().subscribe((provl:Proveedor[])=>{
+                      this.listaProvidersActive=provl;
                     })
                   }
                 })

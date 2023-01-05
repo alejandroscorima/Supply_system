@@ -57,7 +57,7 @@ import { UsersComponent, DialogNewUser, DialogEditUser } from './users/users.com
 import { CategoriesComponent, DialogNewCategory, DialogEditCategory } from './categories/categories.component';
 import { CampusComponent, DialogNewCampus, DialogEditCampus } from './campus/campus.component';
 import { AreasComponent, DialogNewArea, DialogEditArea } from './areas/areas.component';
-import { ProvidersComponent, DialogNewProvider, DialogEditProvider } from './providers/providers.component';
+import { ProvidersComponent, DialogNewProvider, DialogEditProvider, DialogNewProduct, DialogEditProduct } from './providers/providers.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { WarehouseComponent } from './warehouse/warehouse.component';
@@ -105,6 +105,8 @@ import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, Dialog
         ProvidersComponent,
         DialogNewProvider,
         DialogEditProvider,
+        DialogNewProduct,
+        DialogEditProduct,
         DialogConfirmFondo,
         DialogEditItemFondo,
         MobilityComponent,

@@ -7,7 +7,7 @@ header("Access-Control-Allow-Origin: *");
 
 $bd = include_once "bdLogistica.php";
 
-$sentencia = $bd->prepare("SELECT id, ruc, razon_social, direccion, cci, estado, categoria FROM proveedores");
+$sentencia = $bd->prepare("SELECT id, ruc, razon_social, direccion, cci, estado, categoria FROM proveedores WHERE estado='ACTIVO'");
 
 
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");

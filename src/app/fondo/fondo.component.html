@@ -145,7 +145,7 @@
             <mat-icon>add</mat-icon>AGREGAR
           </button>
           &nbsp;
-          <button *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'" mat-raised-button style="background-color: green; color:white" (click)="addFondoLiquidacion()">
+          <button disabled="selection.selected.length==0" *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'" mat-raised-button style="background-color: green; color:white" (click)="addFondoLiquidacion()">
             <mat-icon>check</mat-icon>REGISTRAR
           </button>
         </div>

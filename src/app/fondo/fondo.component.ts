@@ -279,6 +279,7 @@ export class FondoComponent implements OnInit {
       this.fondoLiquidacion.campus_dir=this.user_campus.address;
       this.fondoLiquidacion.empresa=this.user_campus.company;
       this.fondoLiquidacion.importe='0.0';
+      var ord_suffix: string=this.user_campus.supply_ord_suffix;
       this.fondoLiquidacion.numero=this.user_campus.supply_ord_suffix;
       this.fondoLiquidacion.personal=this.user.first_name+' '+this.user.last_name;
       this.fondoLiquidacion.user_id=this.user.user_id;
@@ -301,11 +302,11 @@ export class FondoComponent implements OnInit {
           else {
             numStr=String(parseInt(numArray[1])+1);
           }
-          this.fondoLiquidacion.numero+='-';
-          this.fondoLiquidacion.numero+=numStr;
+          ord_suffix=ord_suffix+'-';
+          this.fondoLiquidacion.numero=ord_suffix+numStr;
         }
         else{
-          this.fondoLiquidacion.numero+='-0001';
+          this.fondoLiquidacion.numero=ord_suffix+'-0001';
         }
 
 

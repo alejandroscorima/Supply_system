@@ -1,0 +1,54 @@
+<div class="formRevalidar" #content>
+
+  <div style="text-align: center;">
+    <h1 mat-dialog-title >Editar</h1>
+  </div>
+
+  <div mat-dialog-content>
+
+    <mat-form-field style="width:25%;" class="doc_id" appearance="outline">
+      <mat-label>Codigo:</mat-label>
+      <input matInput [(ngModel)]="data.codigo" >
+    </mat-form-field>
+
+    <mat-form-field style="width:65%;" class="doc_id" appearance="outline">
+      <mat-label>Descripcion:</mat-label>
+      <input matInput [(ngModel)]="data.descripcion">
+    </mat-form-field>
+
+    <mat-form-field style="width:45%;" class="doc_id" appearance="outline">
+      <mat-label>Valor sistema:</mat-label>
+      <input matInput [(ngModel)]="data.val_sis">
+    </mat-form-field>
+
+    <mat-form-field style="width:45%;" class="doc_id" appearance="outline">
+      <mat-label>Und. sistema:</mat-label>
+      <input matInput [(ngModel)]="data.um_sis">
+    </mat-form-field>
+
+    <mat-form-field style="width:45%;" class="doc_id" appearance="outline">
+      <mat-label>Valor proveedor:</mat-label>
+      <input disabled matInput [(ngModel)]="data.val_prov">
+    </mat-form-field>
+    
+    <mat-form-field style="width:45%;" class="doc_id" appearance="outline">
+      <mat-label>Und. proveedor:</mat-label>
+      <input disabled matInput [(ngModel)]="data.um_prov">
+    </mat-form-field>
+
+    <mat-form-field style="width:70%;" class="sala" id="sala" appearance="outline" >
+      <mat-label>Proveedor:</mat-label>
+      <mat-select [(value)]="data.provider" >
+          <mat-option *ngFor="let p of providers" [value]="p['ruc']">{{p['categoria']}} - {{p['razon_social']}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <div mat-dialog-actions>
+
+    <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white;" (click)="save()" ><mat-icon>save</mat-icon>Guardar</button>
+
+  </div>
+
+</div>

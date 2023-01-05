@@ -5,9 +5,16 @@ header("Access-Control-Allow-Origin: *");
 //header("Access-Control-Allow-Origin: http://192.168.4.250");
 
 
+$ruc=$_GET['ruc'];
+
 $bd = include_once "bdLogistica.php";
 
-$sentencia = $bd->prepare("SELECT id, ruc, razon_social, direccion, cci, estado, categoria FROM proveedores");
+if($ruc=='TODOS'){
+    $sentencia = $bd->prepare("SELECT id, codigo, descripcion, val_sis, um_sis, val_prov, um_prov, provider FROM products");
+}
+else{
+    $sentencia = $bd->prepare("SELECT id, codigo, descripcion, val_sis, um_sis, val_prov, um_prov, provider FROM products WHERE provider='".$ruc."'");
+}
 
 
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");

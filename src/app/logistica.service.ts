@@ -10,6 +10,8 @@ import { Orden } from './orden';
 import { OrdenItem } from './orden_item';
 import { FondoItem } from './fondo_item';
 import { FondoLiquidacion } from './fondo_liquidacion';
+import { Proveedor } from './proveedor';
+import { Product } from './product';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,14 @@ export class LogisticaService {
 
   addReq(req: Requerimiento) {
     return this.http.post(`${this.baseUrl}/postRequerimiento.php`, req);
+  }
+
+  addProvider(prov: Proveedor) {
+    return this.http.post(`${this.baseUrl}/postProvider.php`, prov);
+  }
+
+  addProduct(prod: Product) {
+    return this.http.post(`${this.baseUrl}/postProduct.php`, prod);
   }
 
   addOrd(ord: Orden) {
@@ -57,8 +67,16 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getAllCampus.php`);
   }
 
+  getActiveProviders() {
+    return this.http.get(`${this.baseUrl}/getActiveProviders.php`);
+  }
+
   getAllProviders() {
     return this.http.get(`${this.baseUrl}/getAllProviders.php`);
+  }
+
+  getAllProducts(ruc) {
+    return this.http.get(`${this.baseUrl}/getAllProducts.php?ruc=${ruc}`);
   }
 
   getAllOrders() {
@@ -167,6 +185,14 @@ export class LogisticaService {
 
   getFondoLiquidacionesByCampus(campus: string) {
     return this.http.get(`${this.baseUrl}/getFondoLiquidacionesByCampus.php?campus=${campus}`);
+  }
+
+  updateProvider(prov: Proveedor) {
+    return this.http.put(`${this.baseUrl}/updateProvider.php`, prov);
+  }
+
+  updateProduct(prod: Product) {
+    return this.http.put(`${this.baseUrl}/updateProduct.php`, prod);
   }
 
   updateFondoItem(item: FondoItem) {
