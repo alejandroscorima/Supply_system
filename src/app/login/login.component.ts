@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
 
   listaReq: Item[]= [];
 

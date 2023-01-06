@@ -42,7 +42,7 @@
         </a>
         <a mat-list-item routerLink="/new">
           <mat-icon class="icon4" >category</mat-icon>
-          Ingresar requerimiento testing git
+          Ingresar requerimiento
         </a>
         <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'">
           <mat-expansion-panel style="background-color:rgba(34, 146, 161, 0.555)">
@@ -137,7 +137,7 @@
 
 
       <h3 style="text-align:left;">
-        RENDICION DE FONDO
+        RENDICION DE MOVILIDAD
       </h3>
 
       <div *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'">
@@ -212,10 +212,10 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> EDITAR </th>
                 <td mat-cell *matCellDef="let a; let i=index">
                   <button mat-icon-button color="primary" (click)="editItem(a)">
-                    <mat-icon >edit</mat-icon>
+                    <mat-icon> edit</mat-icon>
                   </button>
                   <button mat-icon-button color="warn" (click)="delItem(a)">
-                    <mat-icon >delete</mat-icon>
+                    <mat-icon> delete</mat-icon>
                   </button>
                   <!-- <button mat-raised-button style="background-color: rgb(9, 66, 126); color:white" (click)="edit(a.doc_number)"> <mat-icon>edit</mat-icon> </button>&nbsp; -->
                 </td>
@@ -326,7 +326,7 @@
           <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ANULAR </th>
             <td mat-cell *matCellDef="let a; let i=index">
-              <button *ngIf="a.estado!='ANULADO'" mat-icon-button color="primary" (click)="anular(a)"> <<mat-icon> cancel </mat-icon> </button>&nbsp;
+              <button *ngIf="a.estado!='ANULADO'" mat-icon-button color="primary" (click)="anular(a)"> <mat-icon> cancel </mat-icon> </button>&nbsp;
             </td>
           </ng-container>
 
