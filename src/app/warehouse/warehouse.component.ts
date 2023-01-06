@@ -109,7 +109,7 @@ export class WarehouseComponent implements OnInit {
   listaProvidersActive: Proveedor[]= [];
   listaProducts: Product[]= [];
 
-  dataSourceWareOrd: MatTableDataSource<Product>;
+  dataSourceWareOrd: MatTableDataSource<OrdenItem>;
 
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
@@ -129,25 +129,50 @@ export class WarehouseComponent implements OnInit {
 
   provChange(){
 
+    this.igvActivated=false;
+
     if(this.items_ord_wh.length==0){
       this.toastr.warning('No se ha subido ningun archivo');
     }
     else{
+      this.listaOrd=[];
       this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
         this.listaProducts=prodl;
         this.items_ord_wh.forEach(a=>{
           this.listaProducts.forEach((b)=>{
             if(a['0']==b.codigo){
+
               this.orden_item = new OrdenItem(null,null,null,null,null,null,null);
-              this.orden_item.cantidad = parseFloat(((parseFloat(a['3'])/parseFloat(b.val_sis))*parseFloat(b.val_prov)).toFixed(2));
-              this.orden_item.descripcion = b.um_prov + ' ' + b.descripcion;
+
+              if(b.val_prov!=''){
+                this.orden_item.cantidad = parseFloat(((parseFloat(a['3'])/parseFloat(b.val_sis))*parseFloat(b.val_prov)).toFixed(2));
+                this.orden_item.descripcion = b.um_prov + ' ' + b.descripcion;
+              }
+              else{
+                this.orden_item.cantidad = parseFloat(parseFloat(a['3']).toFixed(2));
+                this.orden_item.descripcion = a['2'] + ' ' + a['1'];
+              }
+
               this.orden_item.unit_price = b.unit_price;
+              this.orden_item.subtotal = (this.orden_item.cantidad*parseFloat(this.orden_item.unit_price)).toFixed(2);
+
+              this.listaOrd.push(this.orden_item);
+
             }
           })
         })
-        this.dataSourceWareOrd = new MatTableDataSource(this.listaProducts);
-        this.dataSourceWareOrd.paginator = this.paginator.toArray()[1];
+        this.dataSourceWareOrd = new MatTableDataSource(this.listaOrd);
+/*         this.dataSourceWareOrd.paginator = this.paginator.toArray()[1]; */
         this.dataSourceWareOrd.sort = this.sort.toArray()[1];
+
+        this.ord.subtotal=(0.0).toFixed(2);
+
+        this.listaOrd.forEach(c=>{
+          c.unit_price_aux=c.unit_price;
+          this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(c.subtotal)).toFixed(2);
+        })
+
+        this.updateIgv();
       })
     }
 
@@ -190,6 +215,7 @@ export class WarehouseComponent implements OnInit {
         this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(2);
         this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
       }
+
     }
     else{
       this.igvSlideChecked=false;
@@ -257,6 +283,10 @@ export class WarehouseComponent implements OnInit {
 
       this.dataSourceWarehouse = new MatTableDataSource(this.items_ord_wh);
 
+      this.dataSourceWarehouse.sort = this.sort.toArray()[0];
+
+
+
       console.log(this.items_ord_wh);
     };
   }
@@ -288,7 +318,7 @@ export class WarehouseComponent implements OnInit {
     // upload code goes here
   }
 
-  addItem(){
+/*   addItem(){
     if(this.orden_item.cantidad!=null&&this.orden_item.descripcion!=''&&this.orden_item.unit_price!=''){
       this.orden_item.descripcion=this.orden_item.descripcion.toUpperCase();
       this.orden_item.unit_price=parseFloat(this.orden_item.unit_price).toFixed(2);
@@ -309,7 +339,7 @@ export class WarehouseComponent implements OnInit {
     else{
       this.toastr.warning('Completa correctamente el item!');
     }
-  }
+  } */
 
   deleteItem(indice){
       this.listaOrd.splice(indice,1);
@@ -322,7 +352,7 @@ export class WarehouseComponent implements OnInit {
       this.orden_item = new OrdenItem('',null,'','','','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
-      this.dataSourceOrd.sort = this.sort.toArray()[0];
+
   }
 
   dateChange(){
@@ -349,10 +379,10 @@ export class WarehouseComponent implements OnInit {
 
   applyFilterD(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourceOrd.filter = filterValue.trim().toLowerCase();
+    this.dataSourceWarehouse.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSourceOrd.paginator) {
-      this.dataSourceOrd.paginator.firstPage();
+    if (this.dataSourceWarehouse.paginator) {
+      this.dataSourceWarehouse.paginator.firstPage();
     }
   }
 
