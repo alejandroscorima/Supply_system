@@ -54,7 +54,7 @@ export class NuevoComponent implements OnInit {
 
   req: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
 
-  item: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','');
+  item: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
 
   listaReq: Item[]= [];
 
@@ -69,6 +69,9 @@ export class NuevoComponent implements OnInit {
   file: File = null; // Variable to store file
 
   preview: any='';
+  f_inicio;
+  h_inicio;
+
 
   constructor(    private clientesService: ClientesService,
     private logisticaService: LogisticaService,
@@ -130,7 +133,7 @@ export class NuevoComponent implements OnInit {
       this.item.req_codigo=this.req.codigo;
       this.item.descripcion=this.item.descripcion.toUpperCase();
       this.listaReq.push(this.item);
-      this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','');
+      this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
       this.dataSourceReq = new MatTableDataSource(this.listaReq);
       this.dataSourceReq.paginator = this.paginator.toArray()[0];
       this.dataSourceReq.sort = this.sort.toArray()[0];
@@ -142,7 +145,7 @@ export class NuevoComponent implements OnInit {
 
   deleteItem(indice){
     this.listaReq.splice(indice,1);
-    this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','');
+    this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
     this.dataSourceReq = new MatTableDataSource(this.listaReq);
     this.dataSourceReq.paginator = this.paginator.toArray()[0];
     this.dataSourceReq.sort = this.sort.toArray()[0];
@@ -177,6 +180,10 @@ export class NuevoComponent implements OnInit {
   }
 
   saveReq(){
+  //get Date
+    this.f_inicio=this.req.fecha;
+    this.h_inicio='';
+    console.log(this.f_inicio);
 
     this.req.items=this.listaReq
     this.req.id_asignado='0';

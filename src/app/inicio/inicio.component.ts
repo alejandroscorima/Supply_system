@@ -252,7 +252,7 @@ export class DialogDetalleReqAdm implements OnInit {
 
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
 
   dataSourceReq: MatTableDataSource<Item>;
   dataSourceReqDetAll: MatTableDataSource<Item>;
@@ -416,7 +416,7 @@ export class DialogDetalleReqAsist implements OnInit {
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null);
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
 
   dataSourceReq: MatTableDataSource<Item>;
@@ -654,7 +654,7 @@ export class DialogDetalleReqUsr implements OnInit {
 
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
 
   listaReq: Item[]= [];
 
@@ -1064,7 +1064,7 @@ export class DialogCreateOrden implements OnInit {
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null);
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','');
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);
 
   listaReq: Item[]= [];
