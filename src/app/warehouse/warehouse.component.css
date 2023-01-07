@@ -144,6 +144,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   background: linear-gradient(45deg, #4a5b5a, #8daeb0); */
   background-color: #6a7e7f;
   color: whitesmoke;
+  height: 100%;
 }
 
 .tabWare{

@@ -135,6 +135,9 @@ export class WarehouseComponent implements OnInit {
       this.toastr.warning('No se ha subido ningun archivo');
     }
     else{
+      this.ord.ruc=this.provActive;
+      this.ord.razon_social='HOLA';
+      this.ord.direccion='AV ABC 123';
       this.listaOrd=[];
       this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
         this.listaProducts=prodl;
@@ -616,6 +619,7 @@ export class WarehouseComponent implements OnInit {
   }
 
   generarOrden(){
+    console.log(this.ord);
     this.ord.area=this.user_area.name;
     if(this.ord.rebajado==''){
       this.ord.rebajado=(0.0).toFixed(2);
@@ -626,8 +630,8 @@ export class WarehouseComponent implements OnInit {
 
     this.ord.razon_social=this.ord.razon_social.toUpperCase();
     this.ord.direccion=this.ord.direccion.toUpperCase();
-    this.logisticaService.getLastOrdCode(this.ord.numero,this.ord.destino,this.ord.empresa).subscribe(resi=>{
-      if(resi){
+    //this.logisticaService.getLastOrdCode(this.ord.numero,this.ord.destino,this.ord.empresa).subscribe(resi=>{
+/*       if(resi){
 
         var codeArray=String(resi['numero']).split('-');
         var numeracion = parseInt(codeArray[1])+1;
@@ -648,29 +652,28 @@ export class WarehouseComponent implements OnInit {
       }
       else{
         this.ord.numero+='-0001';
-      }
+      } */
+
+      this.ord.numero='0001-0001';
 
 
 
-      if(this.ord.moneda!=''&&this.ord.empresa!=''&&this.ord.ruc!=''&&this.ord.razon_social!=''&&this.ord.direccion!=''&&this.ord.destino!=''&&this.ord.rebajado!=''&&this.ord.fecha!=''){
+      if(this.ord.moneda!=''&&this.ord.empresa!=''&&this.ord.ruc!=''&&this.ord.razon_social!=''&&this.ord.direccion!=''&&this.ord.destino!=''&&this.ord.fecha!=''){
 
 
         this.moneyText=this.numToText9Cifras(parseInt(this.ord.total))+' CON '+String(Math.ceil((parseFloat(this.ord.total)*100.0)%100))+'/100 ' + this.ord.moneda;
 
 
 
-  /*       this.logisticaService.getLastOrdCode(this.ord.destino).subscribe(resp=>{
 
-        }) */
-
-        this.logisticaService.addOrd(this.ord).subscribe(resAddOrd=>{
-          console.log(resAddOrd);
-          if(resAddOrd['session_id']){
+        //this.logisticaService.addOrd(this.ord).subscribe(resAddOrd=>{
+          //console.log(resAddOrd);
+          //if(resAddOrd['session_id']){
 
             this.listaOrd.forEach((p:OrdenItem,ind)=>{
-              p.ord_codigo=resAddOrd['session_id'];
+              //p.ord_codigo=resAddOrd['session_id'];
 
-              this.logisticaService.addOrdDet(p).subscribe(resAddOrdDet=>{
+              //this.logisticaService.addOrdDet(p).subscribe(resAddOrdDet=>{
                 if(ind==this.listaOrd.length-1){
                   this.generatePDF();
 
@@ -685,9 +688,8 @@ export class WarehouseComponent implements OnInit {
                     dia='0'+dia;
                   }
 
-                  this.ord.fecha=anio+'-'+mes+'-'+dia;
-
                   this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','');
+                  this.ord.fecha=anio+'-'+mes+'-'+dia;
                   this.orden_item=new OrdenItem('',null,'','','','');
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
@@ -699,21 +701,23 @@ export class WarehouseComponent implements OnInit {
                   this.prefijoMoney='S/.';
                   this.ord.subtotal=parseInt('0').toFixed(2);
                   this.ord.igv=parseInt('0').toFixed(2);
+                  this.ord.retencion=parseInt('0').toFixed(2);
+                  this.ord.percepcion=parseInt('0').toFixed(2);
                   this.ord.total=parseInt('0').toFixed(2);
                   this.ord.rebajado='';
                   this.posTituloSala = 74;
 
                 }
-              });
+              //});
             })
-          }
-          else{}
-        })
+          //}
+          //else{}
+        //})
       }
       else{
         this.toastr.warning('Rellena todos los campos');
       }
-    })
+    //})
 
 
   }
@@ -756,12 +760,12 @@ export class WarehouseComponent implements OnInit {
     this.doc.line(10, 96, 200, 96, 'S');
     this.doc.setFont("helvetica","bold");
     this.doc.text('CONDICIONES DE PAGO',40,94,{align:'center'});
-    this.doc.text('LUGAR DESTINO',105,94,{align:'center'});
+    this.doc.text('CCI',105,94,{align:'center'});
     this.doc.text('FECHA COMPRA',165,94,{align:'center'});
     this.doc.setFont("helvetica","normal");
 
-    this.doc.text('CONTADO',40,101,{align:'center'});
-    this.doc.text(this.ord.destino,105,101,{align:'center'});
+    this.doc.text(this.ord.tipo_pago,40,101,{align:'center'});
+    this.doc.text(this.ord.num_cuenta,105,101,{align:'center'});
     this.doc.text(this.ord.fecha,165,101,{align:'center'});
 
     this.doc.line(10, 113, 200, 113, 'S');
@@ -822,16 +826,19 @@ export class WarehouseComponent implements OnInit {
     this.doc.setFontSize(8);
     this.doc.setTextColor(0,0,0);
     this.doc.roundedRect(140, pos_line, 60, 21, 2, 2, 'S');
-    this.doc.text('SUBTOTAL',142,pos_line+5);
-    this.doc.text('IGV',142,pos_line+12);
+    pos_line+=5;
+    this.doc.text('SUBTOTAL',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.subtotal,197,pos_line,{align:'right'});
+    pos_line+=7;
+    this.doc.text('IGV',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.igv,197,pos_line,{align:'right'});
+    pos_line+=7;
     this.doc.text('MONTO INICIAL: '+this.prefijoMoney+' '+this.ord.rebajado,20,pos_line+19);
-    this.doc.text('TOTAL',142,pos_line+19);
-    this.doc.text(this.prefijoMoney,166,pos_line+5);
-    this.doc.text(this.prefijoMoney,166,pos_line+12);
-    this.doc.text(this.prefijoMoney,166,pos_line+19);
-    this.doc.text(this.ord.subtotal,197,pos_line+5,{align:'right'});
-    this.doc.text(this.ord.igv,197,pos_line+12,{align:'right'});
-    this.doc.text(this.ord.total,197,pos_line+19,{align:'right'});
+    this.doc.text('TOTAL',142,pos_line);
+    this.doc.text(this.prefijoMoney,166,pos_line);
+    this.doc.text(this.ord.total,197,pos_line,{align:'right'});
     //console.log(this.doc.internal.getFontSize());
 
 /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */
@@ -840,98 +847,6 @@ export class WarehouseComponent implements OnInit {
     window.open(URL.createObjectURL(this.doc.output("blob")));
 
 
-/*     if(true){
-
-        this.doc = new jsPDF();
-
-
-        //this.doc.clear
-
-        this.img.src = 'assets/logoVision.png'
-        this.doc.addImage(this.img, 'png', 10, 10, 60, 25);
-        this.doc.setFont("times","bold");
-        this.doc.setFontSize(22);
-        this.doc.text(this.tituloSala,this.posTituloSala,40);
-        this.doc.setFont("helvetica");
-        this.doc.setFontSize(16);
-        this.doc.text('CASINO',91,48);
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(12);
-        this.doc.text(this.direccionSala,105-((this.direccionSala.length/2)*2),56);
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(18);
-        this.doc.text('ACTA DE ENTREGA DE PREMIO',55,70);
-        this.doc.setFont("helvetica","bold");
-
-        this.doc.setFontSize(11);
-        this.doc.text('Señor(a)',20,90);
-        this.doc.text('D.N.I.',20,100);
-        this.doc.text('Dirección',20,110);
-        this.doc.text('Fecha',20,130);
-        this.doc.text('Hora de sorteo',20,140);
-        this.doc.text('Premio sorteado',20,150);
-        this.doc.text('Nombre de sorteo',20,160);
-        this.doc.text('Número de cupón',20,170);
-
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(10);
-        this.doc.text(':  '+this.nombreSorteo,53,90);
-        this.doc.text(':  '+this.doc_number,53,100);
-        this.doc.setFontSize(8);
-        this.doc.setCharSpace(10);
-        this.doc.text(':  '+this.direccionSorteo,53,110);
-        this.doc.text('   '+this.direccionSorteo2,53,120);
-        this.doc.setFontSize(10);
-        this.doc.text(':  '+this.fechaLongSorteo,53,130);
-        this.doc.text(':  '+this.horaLongSorteo,53,140);
-        this.doc.text(':  '+this.premioLongSorteo + ' CON 00/100 SOLES    |   S/'+this.premioSorteo,53,150);
-        this.doc.text(':  '+this.nombreDeSorteo,53,160);
-        this.doc.text(':  '+this.cupon_number,53,170);
-
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(15);
-        this.doc.text('_________________________',25,200);
-        this.doc.text('_________________________',110,200);
-        this.doc.text('_________________________',50,250);
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(9);
-        this.doc.text(this.nombreSorteo,85-1.9*(this.nombreSorteo.length/2),258);
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(12);
-        this.doc.text(this.doc_number,85-2.5*(this.doc_number.length/2),263);
-        this.doc.text('Cliente',77,269);
-
-        this.doc.rect(130,240,28,35);
-
-
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(9);
-        this.doc.text(this.admin_nombre,60-1.9*(this.admin_nombre.length/2),208);
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(12);
-        this.doc.text(this.admin_doc,60-2.5*(this.admin_doc.length/2),213);
-        this.doc.text('Administrador(a)',42,219);
-
-
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(9);
-        this.doc.text(this.adj_nombre,146-1.9*(this.adj_nombre.length/2),208);
-        this.doc.setFont("helvetica","bold");
-        this.doc.setFontSize(12);
-        this.doc.text(this.adj_doc,146-2.5*(this.adj_doc.length/2),213);
-        this.doc.text('Adjunto(a)',135,219);
-
-        this.toastr.success('Acta generada correctamente!','',{progressBar:true});
-
-        window.open(URL.createObjectURL(this.doc.output("blob")));
-
-        this.router.navigate(['']);
-
-    }
-
-    else{
-      this.toastr.warning('Por favor, verifique que todos los campos estén completados');
-    } */
   }
 
   onNoClick(): void {
