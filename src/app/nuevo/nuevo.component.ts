@@ -71,6 +71,11 @@ export class NuevoComponent implements OnInit {
   preview: any='';
   f_inicio;
   h_inicio;
+  hora;
+  hora_string;
+  hour;
+  minutes;
+  seconds;
 
 
   constructor(    private clientesService: ClientesService,
@@ -181,9 +186,25 @@ export class NuevoComponent implements OnInit {
 
   saveReq(){
   //get Date
+    this.hora=new Date();
+    this.hour = this.hora.getHours();
+    this.minutes = this.hora.getMinutes();
+    this.seconds = this.hora.getSeconds();
+    if(this.hour<10){
+      this.hour='0'+this.hour;
+    }
+    if(this.minutes<10){
+      this.minutes='0'+this.minutes;
+    }
+    if(this.seconds<10){
+      this.seconds='0'+this.seconds;
+    }
+    this.hora_string=this.hour+':'+this.minutes+':'+this.seconds;
+    //
+    this.h_inicio=this.hora_string;
     this.f_inicio=this.req.fecha;
-    this.h_inicio='';
     console.log(this.f_inicio);
+    console.log(this.h_inicio);
 
     this.req.items=this.listaReq
     this.req.id_asignado='0';
@@ -248,6 +269,11 @@ export class NuevoComponent implements OnInit {
               var reqItems: Item[]=this.req.items;
               reqItems.forEach(i=>{
                 i.req_codigo=this.req.codigo;
+                i.f_inicio=this.f_inicio;
+                i.h_inicio=this.h_inicio;
+                console.log(i.req_codigo);
+                console.log(i.f_inicio);
+                console.log(i.h_inicio);
                 if(i.image){
                   this.fileUploadService.upload(i.image).subscribe(res => {
                     if (res) {

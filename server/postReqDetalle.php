@@ -21,8 +21,8 @@ if (!$jsonReqDet) {
     exit("No hay datos");
 }
 $bd = include_once "bdLogistica.php";
-$sentencia = $bd->prepare("insert into req_detalles(req_codigo, cantidad, descripcion, tipo, estado, image_url, id_asignado) values (?,?,?,?,?,?,?)");
-$resultado = $sentencia->execute([$jsonReqDet->req_codigo, $jsonReqDet->cantidad, $jsonReqDet->descripcion, $jsonReqDet->tipo, $jsonReqDet->estado, $jsonReqDet->image_url, $jsonReqDet->id_asignado]);
+$sentencia = $bd->prepare("insert into req_detalles(req_codigo, cantidad, descripcion, tipo, estado, image_url, id_asignado, obs, f_inicio, h_inicio) values (?,?,?,?,?,?,?,?,?,?)");
+$resultado = $sentencia->execute([$jsonReqDet->req_codigo, $jsonReqDet->cantidad, $jsonReqDet->descripcion, $jsonReqDet->tipo, $jsonReqDet->estado, $jsonReqDet->image_url, $jsonReqDet->id_asignado, $jsonReqDet->obs, $jsonReqDet->f_inicio, $jsonReqDet->h_inicio]);
 echo json_encode([
     "resultado" => $resultado,
 ]);
