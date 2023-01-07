@@ -9,7 +9,7 @@ $ruc=$_GET['ruc'];
 
 $bd = include_once "bdLogistica.php";
 
-$sentencia = $bd->prepare("SELECT id, ruc, razon_social, direccion FROM proveedores WHERE ruc='".$ruc."'");
+$sentencia = $bd->prepare("SELECT id, ruc, razon_social, direccion, cci, estado, categoria FROM proveedores WHERE ruc='".$ruc."'");
 
 $sentencia->execute();
 //$cliente = $sentencia->fetchObject();

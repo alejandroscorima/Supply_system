@@ -159,99 +159,110 @@
           <input matInput [(ngModel)]="req.motivo">
         </mat-form-field>
 
-        <h3> Nuevo item </h3>
+        <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
 
-        <mat-form-field style="width:30%;" class="doc_id" appearance="outline">
-          <mat-label>Cantidad:</mat-label>
-          <input type="number" matInput [(ngModel)]="item.cantidad">
-        </mat-form-field>
+          <mat-card-title> Nuevo item </mat-card-title>
 
-        &nbsp;<label >Tipo de orden:</label>
+          <mat-card-content>
 
-        <mat-radio-group [(ngModel)]="item.tipo">
-          &nbsp;<mat-radio-button value="COMPRA">Compra</mat-radio-button>
-          &nbsp;<mat-radio-button value="SERVICIO">Servicio</mat-radio-button>
-        </mat-radio-group>
+            <mat-form-field style="width:30%;" class="doc_id" appearance="outline">
+              <mat-label>Cantidad:</mat-label>
+              <input type="number" matInput [(ngModel)]="item.cantidad">
+            </mat-form-field>
 
-        <mat-form-field style="width:60%;" appearance="outline">
-          <mat-label>Descripcion:</mat-label>
-          <input matInput [(ngModel)]="item.descripcion">
-        </mat-form-field>
+            &nbsp;<label >Tipo de orden:</label>
 
-        <div style="width:30%;" >
-          <mat-label>Imagen:</mat-label>
-          <input style="display:none" type="file" (change)="onFileChanged($event)" #fileInput>
-          <button mat-raised-button (click)="fileInput.click()"><mat-icon>add_a_photo</mat-icon></button>
-          <!-- <button mat-raised-button (click)="onUpload()">Upload!</button> -->
-        </div>
+            <mat-radio-group [(ngModel)]="item.tipo">
+              &nbsp;<mat-radio-button value="COMPRA">Compra</mat-radio-button>
+              &nbsp;<mat-radio-button value="SERVICIO">Servicio</mat-radio-button>
+            </mat-radio-group>
 
-        <div *ngIf="file">
-          <img style="width:300px; height:300px" [src]="preview" class="preview">
-        </div>
+            <mat-form-field style="width:60%;" appearance="outline">
+              <mat-label>Descripcion:</mat-label>
+              <input matInput [(ngModel)]="item.descripcion">
+            </mat-form-field>
 
-        &nbsp;
+            <div style="width:30%;" >
+              <mat-label>Imagen:</mat-label>
+              <input style="display:none" type="file" (change)="onFileChanged($event)" #fileInput>
+              <button mat-raised-button (click)="fileInput.click()"><mat-icon>add_a_photo</mat-icon></button>
+              <!-- <button mat-raised-button (click)="onUpload()">Upload!</button> -->
+            </div>
 
-        <div>
-          <button mat-raised-button style="background-color: rgb(169, 152, 27); color:white" (click)="addItem()">
-            <mat-icon>add</mat-icon>AGREGAR ITEM
-          </button>
-        </div>
+            <div *ngIf="file">
+              <img style="width:300px; height:300px" [src]="preview" class="preview">
+            </div>
 
+            &nbsp;
 
-        <h3> Lista </h3>
+            <div>
+              <button mat-raised-button style="background-color: rgb(169, 152, 27); color:white" (click)="addItem()">
+                <mat-icon>add</mat-icon>AGREGAR ITEM
+              </button>
+            </div>
 
+          </mat-card-content>
 
-        <mat-form-field appearance="standard" style="display:display-inline">
-            <mat-label>Búsqueda</mat-label>
-            <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
-        </mat-form-field>
+        </mat-card>
 
-        <div appearance="standard" style="display:display-inline; float:right">
-          <button mat-raised-button style="background-color: green; color:white" (click)="saveReq()">
-            <mat-icon>check</mat-icon>REGISTRAR
-          </button>
-        </div>
+        <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
 
+          <mat-card-title> Lista </mat-card-title>
 
-        <div class="mat-elevation-z8" style="width:100%;">
-            <table mat-table style="width:100%;" [dataSource]="dataSourceReq" matSort>
+          <mat-card-content>
+            <mat-form-field appearance="standard" style="display:display-inline">
+                <mat-label>Búsqueda</mat-label>
+                <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
+            </mat-form-field>
 
-              <ng-container matColumnDef="quantity">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
-                <td mat-cell *matCellDef="let a; let i=index"> {{a.cantidad}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="description">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
-                <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="ordertype">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE ORDEN </th>
-                <td mat-cell *matCellDef="let a"> {{a.tipo}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="edit">
-                <th mat-header-cell *matHeaderCellDef> </th>
-                <td mat-cell *matCellDef="let a; let i=index">
-                  <button class="btnDel" mat-raised-button focusable="false"  (click)="deleteItem(i)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="['quantity','description','ordertype','edit'];"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['quantity','description','ordertype','edit'];"></tr>
+            <div appearance="standard" style="display:display-inline; float:right">
+              <button mat-raised-button style="background-color: green; color:white" (click)="saveReq()">
+                <mat-icon>check</mat-icon>REGISTRAR
+              </button>
+            </div>
 
 
+            <div class="mat-elevation-z8" style="width:100%;">
+                <table mat-table style="width:100%;" [dataSource]="dataSourceReq" matSort>
 
-              <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
-              </tr>
-            </table>
+                  <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+                    <td mat-cell *matCellDef="let a; let i=index"> {{a.cantidad}}</td>
+                  </ng-container>
 
-            <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
-        </div>
+                  <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+                    <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="ordertype">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE ORDEN </th>
+                    <td mat-cell *matCellDef="let a"> {{a.tipo}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let a; let i=index">
+                      <button class="btnDel" mat-raised-button focusable="false"  (click)="deleteItem(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="['quantity','description','ordertype','edit'];"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['quantity','description','ordertype','edit'];"></tr>
+
+
+
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
+                  </tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
 
 

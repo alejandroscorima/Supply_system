@@ -49,6 +49,8 @@ export class WarehouseComponent implements OnInit {
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
 
+  pay_type=['EFECTIVO','TRANSFERENCIA']
+
   campus = [];
   areas = [];
   prioridades = [];
@@ -129,15 +131,28 @@ export class WarehouseComponent implements OnInit {
 
   provChange(){
 
+    var provSelected = this.listaProvidersActive.find(s=>
+      s.ruc==this.provActive
+    );
+    console.log(provSelected);
+    this.ord.ruc=provSelected.ruc;
+    this.ord.razon_social=provSelected.razon_social;
+    this.ord.direccion=provSelected.direccion;
+    if(provSelected.cci==null){
+      this.ord.num_cuenta='';
+    }
+    else{
+      this.ord.num_cuenta=provSelected.cci;
+    }
+
+    console.log(this.ord);
+
     this.igvActivated=false;
 
     if(this.items_ord_wh.length==0){
       this.toastr.warning('No se ha subido ningun archivo');
     }
     else{
-      this.ord.ruc=this.provActive;
-      this.ord.razon_social='HOLA';
-      this.ord.direccion='AV ABC 123';
       this.listaOrd=[];
       this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
         this.listaProducts=prodl;

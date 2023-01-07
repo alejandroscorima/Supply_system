@@ -286,17 +286,29 @@
                   <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
                   <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                 </mat-form-field>
+
+                <mat-form-field style="width:22%;" class="sala" id="sala" appearance="outline" >
+                  <mat-label>Condiciones Pago:</mat-label>
+                  <mat-select [(value)]="ord.tipo_pago">
+                      <mat-option *ngFor="let p of pay_type" [value]="p">{{p}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
               </mat-card-content>
             </mat-card>
 
             <mat-card class="mat-elevation-z8 card-orden">
               <mat-card-title>PROVEEDOR</mat-card-title>
               <mat-card-content>
-                <mat-form-field style="width:60%;" class="sala" id="sala" appearance="outline" >
+                <mat-form-field style="width:55%;" class="sala" id="sala" appearance="outline" >
                   <mat-label>Proveedor:</mat-label>
                   <mat-select [(value)]="provActive" (selectionChange)="provChange()">
                       <mat-option *ngFor="let pr of listaProvidersActive" [value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</mat-option>
                   </mat-select>
+                </mat-form-field>
+
+                <mat-form-field style="width:35%;" class="doc_id" appearance="outline">
+                  <mat-label>Número de Cuenta Bancaria:</mat-label>
+                  <input matInput [(ngModel)]="ord.num_cuenta">
                 </mat-form-field>
               </mat-card-content>
             </mat-card>

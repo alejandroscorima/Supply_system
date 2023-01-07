@@ -246,6 +246,10 @@ export class DialogDetalleReqAdm implements OnInit {
   mes;
   dia;
 
+  hour;
+  minutes;
+  seconds;
+
   id_selected='';
 
   personal: User[]= [];
@@ -332,11 +336,39 @@ export class DialogDetalleReqAdm implements OnInit {
   }
 
   btnAsignar(){
+    this.fecha=new Date();
+    this.anio=this.fecha.getFullYear();
+    this.mes=this.fecha.getMonth()+1;
+    this.dia=this.fecha.getDate();
+
+    if(this.mes<10){
+      this.mes='0'+this.mes;
+    }
+    if(this.dia<10){
+      this.dia='0'+this.dia;
+    }
+
+    this.hour = this.fecha.getHours();
+    this.minutes = this.fecha.getMinutes();
+    this.seconds = this.fecha.getSeconds();
+    if(this.hour<10){
+      this.hour='0'+this.hour;
+    }
+    if(this.minutes<10){
+      this.minutes='0'+this.minutes;
+    }
+    if(this.seconds<10){
+      this.seconds='0'+this.seconds;
+    }
+
+
     if(this.req.id_asignado!='0'){
       this.selection.selected.forEach((a,indi)=>{
         this.req.items.forEach(b=>{
           if(a.id==b.id){
             b.estado='ASIGNADO';
+            b.f_atencion=this.anio+'-'+this.mes+'-'+this.dia;
+            b.h_atencion=this.hour+':'+this.minutes+':'+this.seconds;
             b.id_asignado=String(this.id_selected);
             console.log(b);
             this.logisticaService.updateReqDet(b).subscribe(resq=>{
@@ -407,6 +439,10 @@ export class DialogDetalleReqAsist implements OnInit {
   mes;
   dia;
 
+  hour;
+  minutes;
+  seconds;
+
   personal: User[]= [];
 
   types=['COMPRA','SERVICIO'];
@@ -457,13 +493,67 @@ export class DialogDetalleReqAsist implements OnInit {
     dialogRef.afterClosed().subscribe()
   }
 
-  btnComprado(it){
+  btnComprado(it: Item){
+    this.fecha=new Date();
+    this.anio=this.fecha.getFullYear();
+    this.mes=this.fecha.getMonth()+1;
+    this.dia=this.fecha.getDate();
+
+    if(this.mes<10){
+      this.mes='0'+this.mes;
+    }
+    if(this.dia<10){
+      this.dia='0'+this.dia;
+    }
+
+    this.hour = this.fecha.getHours();
+    this.minutes = this.fecha.getMinutes();
+    this.seconds = this.fecha.getSeconds();
+    if(this.hour<10){
+      this.hour='0'+this.hour;
+    }
+    if(this.minutes<10){
+      this.minutes='0'+this.minutes;
+    }
+    if(this.seconds<10){
+      this.seconds='0'+this.seconds;
+    }
+
     it.estado='COMPRADO';
+    it.f_compra=this.anio+'-'+this.mes+'-'+this.dia;
+    it.h_compra=this.hour+':'+this.minutes+':'+this.seconds;
     this.logisticaService.updateReqDet(it).subscribe(a=>{})
   }
 
-  btnEntregado(it){
+  btnEntregado(it:Item){
+    this.fecha=new Date();
+    this.anio=this.fecha.getFullYear();
+    this.mes=this.fecha.getMonth()+1;
+    this.dia=this.fecha.getDate();
+
+    if(this.mes<10){
+      this.mes='0'+this.mes;
+    }
+    if(this.dia<10){
+      this.dia='0'+this.dia;
+    }
+
+    this.hour = this.fecha.getHours();
+    this.minutes = this.fecha.getMinutes();
+    this.seconds = this.fecha.getSeconds();
+    if(this.hour<10){
+      this.hour='0'+this.hour;
+    }
+    if(this.minutes<10){
+      this.minutes='0'+this.minutes;
+    }
+    if(this.seconds<10){
+      this.seconds='0'+this.seconds;
+    }
+
     it.estado='ENTREGADO';
+    it.f_final=this.anio+'-'+this.mes+'-'+this.dia;
+    it.h_final=this.hour+':'+this.minutes+':'+this.seconds;
     this.logisticaService.updateReqDet(it).subscribe(a=>{})
   }
 
