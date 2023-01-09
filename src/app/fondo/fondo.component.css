@@ -23,5 +23,9 @@ button[disabled=disabled], button:disabled{
   color: #666666;
 }
 
+.navItem{
+  color: whitesmoke;
+}
+
 
 

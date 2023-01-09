@@ -159,3 +159,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   font-size: medium;
 }
 
+.navItem{
+  color: whitesmoke;
+}
+

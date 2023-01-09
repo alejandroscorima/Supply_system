@@ -15,95 +15,98 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container class="contenido" style="height:92vh;">
-  <mat-sidenav opened  style="min-width: 150px; max-width: 220px;" #cajon mode="side">
+  <mat-sidenav opened  style="min-width: 150px; max-width: 220px; background-color: #252b2b; color: whitesmoke;" #cajon mode="side">
     <mat-nav-list style="padding-top:0px;">
         <p style="margin-top:0px;margin-bottom: 0px; text-align: center;">
           <img *ngIf="user.gender=='MASCULINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-male.png"  VSPACE="20">
           <img *ngIf="user.gender=='FEMENINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-female.png"  VSPACE="20">
         </p>
-      <a>
-        <h3 style="text-align:center; margin: 10px;">{{user.first_name+' '+user.last_name}}</h3>
-        <p style="text-align:center; margin: 10px;">
-          <br/>
-          <a style="font-weight:bold;">AREA: </a>
-          <a style="font-weight:normal;">{{user_area.name}}</a>
-          <br/>
-        </p>
-        <p style="text-align:center; margin: 10px;">
-          <a style="font-weight:bold;">SEDE: </a>
-          <a style="font-weight:normal;">{{user_campus.name}}</a>
-          <br/>
-        </p>
-      </a>
+        <a>
+          <h3 style="text-align:center; margin: 10px;">{{user.first_name+' '+user.last_name}}</h3>
+          <p style="text-align:center; margin: 10px;">
+            <br/>
+            <a style="font-weight:bold;">AREA: </a>
+            <a style="font-weight:normal;">{{user_area.name}}</a>
+            <br/>
+          </p>
+          <p style="text-align:center; margin: 10px;">
+            <a style="font-weight:bold;">SEDE: </a>
+            <a style="font-weight:normal;">{{user_campus.name}}</a>
+            <br/>
+          </p>
+        </a>
 
-      <a mat-list-item routerLink="/">
-        <mat-icon class="icon1" >dashboard</mat-icon>
-        Dashboard
-      </a>
-      <a mat-list-item routerLink="/new">
-        <mat-icon class="icon4" >add_box</mat-icon>
-        Ingresar requerimiento
-      </a>
-      <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'">
-        <mat-expansion-panel style="background-color:rgba(34, 146, 161, 0.555)">
-          <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
-            <mat-panel-title>
-              <mat-icon class="icon4" >settings</mat-icon>
-              Ordenes
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <a mat-list-item routerLink="/orden">
-            <mat-icon class="icon4" >verified</mat-icon>
-            Generar orden
-          </a>
-          <a mat-list-item routerLink="/view-orders">
-            <mat-icon class="icon4" >visibility</mat-icon>
-            Ver ordenes
-          </a>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <a mat-list-item *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" routerLink="/fondo">
-        <mat-icon class="icon4" >paid</mat-icon>
-        Rendicion de fondo
-      </a>
-      <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
-        <mat-expansion-panel style="background-color:rgba(34, 146, 161, 0.555)">
-          <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
-            <mat-panel-title>
-              <mat-icon class="icon4" >settings</mat-icon>
-              Configuracion
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/users">
-            <mat-icon class="icon4" >manage_accounts</mat-icon>
-            Usuarios
-          </a>
-          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/categories">
-            <mat-icon class="icon4" >category</mat-icon>
-            Categorias
-          </a>
-          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/campus">
-            <mat-icon class="icon4" >casino</mat-icon>
-            Salas
-          </a>
-          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/areas">
-            <mat-icon class="icon4" >group_work</mat-icon>
-            Areas
-          </a>
-          <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/providers">
-            <mat-icon class="icon4" >store</mat-icon>
-            Proveedores
-          </a>
+        <a mat-list-item routerLink="/" class="navItem">
+          <mat-icon class="icon1" >dashboard</mat-icon>
+          Dashboard
+        </a>
+        <a mat-list-item routerLink="/new" class="navItem">
+          <mat-icon class="icon4" >category</mat-icon>
+          Ingresar requerimiento
+        </a>
+        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" class="navItem">
+          <mat-expansion-panel style="background-color: #b03a64">
+            <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+              <mat-panel-title>
+                <mat-icon class="icon4" >settings</mat-icon>
+                Ordenes
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLink="/orden" class="navItem">
+              <mat-icon class="icon4" >verified</mat-icon>
+              Generar orden
+            </a>
+            <a mat-list-item routerLink="/warehouse" class="navItem">
+              <mat-icon class="icon4" >warehouse</mat-icon>
+              Almacen
+            </a>
+            <a mat-list-item routerLink="/view-orders" class="navItem">
+              <mat-icon class="icon4" >visibility</mat-icon>
+              Ver ordenes
+            </a>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <a mat-list-item *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" routerLink="/fondo" class="navItem">
+          <mat-icon class="icon4" >paid</mat-icon>
+          Rendicion de fondo
+        </a>
 
-        </mat-expansion-panel>
-      </mat-accordion>
-
-      <a mat-list-item style="align-content: center;">
-        <a mat-stroked-button color="primary">Oscorp Technology</a>
-      </a>
+        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" class="navItem">
+          <mat-expansion-panel style="background-color: #b03a64">
+            <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+              <mat-panel-title>
+                <mat-icon class="icon4" >settings</mat-icon>
+                Configuracion
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/users" class="navItem">
+              <mat-icon class="icon4" >manage_accounts</mat-icon>
+              Usuarios
+            </a>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/categories" class="navItem">
+              <mat-icon class="icon4" >category</mat-icon>
+              Categorias
+            </a>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/campus" class="navItem">
+              <mat-icon class="icon4" >casino</mat-icon>
+              Salas
+            </a>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/areas" class="navItem">
+              <mat-icon class="icon4" >group_work</mat-icon>
+              Areas
+            </a>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/providers" class="navItem">
+              <mat-icon class="icon4" >store</mat-icon>
+              Proveedores
+            </a>
 
 
+          </mat-expansion-panel>
+        </mat-accordion>
 
+        <a mat-list-item style="align-content: center;">
+          <a mat-stroked-button color="primary">Oscorp Technology</a>
+        </a>
 
     </mat-nav-list>
     <!--<mat-accordion>

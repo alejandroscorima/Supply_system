@@ -111,3 +111,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-spacer {
   flex: 1 1 auto;
 }
+
+.navItem{
+  color: whitesmoke;
+}
