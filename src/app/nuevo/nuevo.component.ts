@@ -203,8 +203,8 @@ export class NuevoComponent implements OnInit {
     //
     this.h_inicio=this.hora_string;
     this.f_inicio=this.req.fecha;
-    console.log(this.f_inicio);
-    console.log(this.h_inicio);
+    console.log(' fecha de inicio: '+this.f_inicio);
+    console.log(' hora de inicio '+this.h_inicio);
 
     this.req.items=this.listaReq
     this.req.id_asignado='0';

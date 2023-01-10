@@ -361,6 +361,8 @@ export class DialogDetalleReqAdm implements OnInit {
       this.seconds='0'+this.seconds;
     }
 
+    console.log(' fecha de asignación: '+this.anio+'-'+this.mes+'-'+this.dia);
+    console.log(' hora de asignación: '+this.hour+':'+this.minutes+':'+this.seconds);
 
     if(this.req.id_asignado!='0'){
       this.selection.selected.forEach((a,indi)=>{
