@@ -25,6 +25,7 @@ import { Orden } from '../orden';
 import { OrdenItem } from '../orden_item';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Proveedor } from '../proveedor';
+import { FileUploadService } from '../file-upload.service';
 
 
 @Component({
@@ -97,6 +98,43 @@ export class OrdenComponent implements OnInit {
 
   percepInput;
 
+  //View orders----------------------------------
+
+  campusView: Campus[] = [];
+  areasView: Area[] = [];
+  prioridadesView = [];
+
+  fechaView;
+  anioView;
+  mesView;
+  diaView;
+
+  imgView = new Image();
+
+  areaView;
+  salaView;
+
+  userView: User = new User('','','','','','',null,null,'','');
+  area_chiefView='';
+  user_areaView: Area = new Area('',null);
+  user_campusView: Campus = new Campus('','','','','','');
+
+  reqView: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
+  ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null);
+
+  itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
+
+  listaOrdersView: Orden[]= [];
+
+  listaOrdView: OrdenItem[]= [];
+
+  dataSourceOrdersView: MatTableDataSource<Orden>;
+
+  docView = new jsPDF();
+
+  previewView: any='';
+  moneyTextView='';
+  prefijoMoneyView='';
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
@@ -111,6 +149,7 @@ export class OrdenComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private toastr: ToastrService,
+    private fileUploadService: FileUploadService,
   ) { }
 
   updateIgv(){
@@ -321,8 +360,6 @@ export class OrdenComponent implements OnInit {
   ngOnInit() {
     this.fecha= new Date();
 
-
-
     if(this.cookiesService.checkToken('session_id')){
       this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
         if(s){
@@ -365,6 +402,37 @@ export class OrdenComponent implements OnInit {
                       this.ord.fecha=anio+'-'+mes+'-'+dia;
                       console.log(this.ord.empresa);
                     })
+
+                    //vieworders
+                    this.fechaView=new Date();
+                    this.anioView=this.fechaView.getFullYear();
+                    this.mesView=this.fechaView.getMonth()+1;
+                    this.diaView=this.fechaView.getDate();
+
+                    if(this.mesView<10){
+                      this.mesView='0'+this.mesView;
+                    }
+                    if(this.diaView<10){
+                      this.diaView='0'+this.diaView;
+                    }
+
+                    this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
+                      if(as){
+                        this.areasView=as;
+                      }
+                      this.logisticaService.getAllCampus().subscribe((ac:Campus[])=>{
+                        if(ac){
+                          this.campusView=ac;
+                        }
+                        this.logisticaService.getAllOrders().subscribe((resOrds:Orden[])=>{
+                          this.listaOrdersView=resOrds;
+                          this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
+                          this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];
+                          this.dataSourceOrdersView.sort = this.sort.toArray()[0];
+                        })
+                      })
+                    })
+
                   }
                 })
 
@@ -779,6 +847,7 @@ export class OrdenComponent implements OnInit {
   onNoClick(): void {
   }
 
+//--------------------------------------------
 
 
 
