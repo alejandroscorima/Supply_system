@@ -64,6 +64,8 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, DialogEditItemMobility} from './mobility/mobility.component';
 
+import { AnalyticsComponent } from './analytics/analytics.component';
+
 
 
 @NgModule({
@@ -113,6 +115,7 @@ import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, Dialog
         DialogNewItemMobility,
         DialogEditItemMobility,
         DialogConfirmMobility,
+        AnalyticsComponent,
 
     ],
     imports: [

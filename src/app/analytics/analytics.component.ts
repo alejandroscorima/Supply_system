@@ -31,9 +31,9 @@ import { Product } from '../product';
 
 
 @Component({
-  selector: 'app-warehouse',
-  templateUrl: './warehouse.component.html',
-  styleUrls: ['./warehouse.component.css'],
+  selector: 'app-analytics',
+  templateUrl: './analytics.component.html',
+  styleUrls: ['./analytics.component.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0', display:'none'})),
@@ -43,7 +43,7 @@ import { Product } from '../product';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class WarehouseComponent implements OnInit {
+export class AnalyticsComponent implements OnInit {
 
   user: User = new User('','','','','','',null,null,'','');
   user_area: Area = new Area('',null);

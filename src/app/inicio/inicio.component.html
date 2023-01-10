@@ -36,6 +36,10 @@
           </p>
         </a>
 
+        <a mat-list-item routerLink="/analytics" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
+          <mat-icon class="icon1">analytics</mat-icon>
+          Reportes
+        </a>
         <a mat-list-item routerLink="/" class="navItem">
           <mat-icon class="icon1" >dashboard</mat-icon>
           Dashboard
