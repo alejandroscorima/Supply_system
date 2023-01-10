@@ -101,6 +101,10 @@ mat-form-field {
   color: whitesmoke;
 }
 
+.mat-cell{
+  padding: 5px 5px 5px 5px;
+}
+
 
 
 

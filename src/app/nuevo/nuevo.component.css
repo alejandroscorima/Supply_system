@@ -115,3 +115,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .navItem{
   color: whitesmoke;
 }
+
+.mat-cell{
+  padding: 5px 5px 5px 5px;
+}

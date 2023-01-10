@@ -27,5 +27,9 @@ button[disabled=disabled], button:disabled{
   color: whitesmoke;
 }
 
+.mat-cell{
+  padding: 5px 5px 5px 5px;
+}
+
 
 
