@@ -143,6 +143,10 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getLastFondoLiquidacionId.php?`);
   }
 
+  getReqDetailsResumeByUser() {
+    return this.http.get(`${this.baseUrl}/getReqDetailsResumeByUser.php`);
+  }
+
   getReqDetailsPendByCode(codigo: string, id_asignado: string) {
     return this.http.get(`${this.baseUrl}/getReqDetailsPendByCode.php?codigo=${codigo}&id_asignado=${id_asignado}`);
   }
@@ -169,6 +173,10 @@ export class LogisticaService {
 
   getReqDetailsEntregadoByCode(codigo: string) {
     return this.http.get(`${this.baseUrl}/getReqDetailsEntregadoByCode.php?codigo=${codigo}`);
+  }
+
+  getFondoItemsResumeByCategory() {
+    return this.http.get(`${this.baseUrl}/getFondoItemsResumeByCategory.php`);
   }
 
   getFondoItems(sala: string, estado: string, user_id: number) {

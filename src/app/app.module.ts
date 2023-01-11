@@ -65,6 +65,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, DialogEditItemMobility} from './mobility/mobility.component';
 
 import { AnalyticsComponent } from './analytics/analytics.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 
@@ -150,6 +151,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
         MatStepperModule,
         MatSlideToggleModule,
         MatTabsModule,
+        MatProgressBarModule,
         ToastrModule.forRoot(), // ToastrModule added
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },

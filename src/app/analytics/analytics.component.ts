@@ -99,6 +99,31 @@ export class AnalyticsComponent implements OnInit {
 
   docname;
 
+  typeAge="PieChart";
+  optionsAge = {
+    hAxis: {
+       title: 'Clientes'
+    },
+    vAxis:{
+       title: 'Edad'
+    },
+    width: '100%',
+    is3D: true,
+    seriesType: 'bar',
+    series: {2: {type: 'line'}},
+/*     chartArea: {
+      left: "3%",
+      top: "3%",
+      height: "94%",
+      width: "94%"
+    } */
+  };
+  age=[
+  ];
+  columnsAge=[
+  ];
+  titleAge='EDAD';
+
   dataSourceWarehouse: MatTableDataSource<any>;
 
   items_ord_wh: any[] = [];
@@ -112,6 +137,8 @@ export class AnalyticsComponent implements OnInit {
   listaProducts: Product[]= [];
 
   dataSourceWareOrd: MatTableDataSource<OrdenItem>;
+  dataSourceReqDetResume: MatTableDataSource<any>;
+  dataSourceFondoxCat: MatTableDataSource<any>;
 
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
@@ -430,6 +457,37 @@ export class AnalyticsComponent implements OnInit {
                 this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
                   if(c){
                     this.user_campus=c;
+
+
+                    this.logisticaService.getReqDetailsResumeByUser().subscribe((resume:any[])=>{
+                      console.log(resume);
+                      if(resume.length>0){
+                        this.dataSourceReqDetResume = new MatTableDataSource(resume);
+                        this.dataSourceReqDetResume.paginator = this.paginator.toArray()[0];
+                        this.dataSourceReqDetResume.sort = this.sort.toArray()[0];
+                      }
+
+                    })
+
+
+
+                    this.logisticaService.getFondoItemsResumeByCategory().subscribe((resume:any[])=>{
+                      console.log(resume);
+                      this.columnsAge=['Edad','Cantidad',{ role: 'annotation' }];
+                      var categ =[]
+                      this.age=[];
+                      resume.forEach(a1=>{
+                        categ=[];
+                        categ.push(a1['CATEGORIA']);
+                        categ.push(a1['MONTO']);
+                        categ.push(String(a1['MONTO']));
+                        this.age.push(categ);
+                      })
+                    })
+
+
+
+
                     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
                       this.campus=cs;
                       this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','');
