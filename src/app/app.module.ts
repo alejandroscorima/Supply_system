@@ -51,7 +51,7 @@ import { LoginComponent } from './login/login.component';
 import {MatStepperModule} from '@angular/material/stepper';
 
 import { FondoComponent, DialogNewItemFondo, DialogConfirmFondo, DialogEditItemFondo } from './fondo/fondo.component';
-import { OrdenComponent } from './orden/orden.component';
+import { DialogConfirmOrden, OrdenComponent } from './orden/orden.component';
 import { ViewOrdersComponent } from './view-orders/view-orders.component';
 import { UsersComponent, DialogNewUser, DialogEditUser } from './users/users.component';
 import { CategoriesComponent, DialogNewCategory, DialogEditCategory } from './categories/categories.component';
@@ -87,6 +87,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
         DialogDetalleReqAsist,
         DialogDetalleReqUsr,
         DialogCreateOrden,
+        DialogConfirmOrden,
         DialogNewD,
         DialogNewR,
         DialogConfirm,
