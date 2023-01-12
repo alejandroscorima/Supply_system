@@ -26,6 +26,7 @@ import { OrdenItem } from '../orden_item';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Proveedor } from '../proveedor';
 import { FileUploadService } from '../file-upload.service';
+import { runInThisContext } from 'vm';
 
 
 @Component({
@@ -361,6 +362,9 @@ export class OrdenComponent implements OnInit {
 
   ngOnInit() {
     this.fecha= new Date();
+
+    const tabCount=2;
+    this.demo1TabIndex = (this.demo1TabIndex+1) % tabCount;
 
     if(this.cookiesService.checkToken('session_id')){
       this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
@@ -1079,6 +1083,11 @@ export class OrdenComponent implements OnInit {
             this.orden_item.unit_price=element.unit_price;
             this.addItem();
           });
+          this.ord.retencion_percent=this.ordView.retencion_percent;
+          this.updateRetencion();
+          this.ord.percepcion=this.ordView.percepcion;
+          this.updatePercepcion();
+          this.ord.rebajado=this.ordView.rebajado;
           
         })
 
