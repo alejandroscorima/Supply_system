@@ -28,6 +28,7 @@ import { Proveedor } from '../proveedor';
 
 import * as XLSX from 'xlsx';
 import { Product } from '../product';
+import Chart, { ChartItem } from 'chart.js/auto';
 
 
 @Component({
@@ -74,7 +75,7 @@ export class AnalyticsComponent implements OnInit {
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0);
 
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
 
@@ -123,6 +124,10 @@ export class AnalyticsComponent implements OnInit {
   columnsAge=[
   ];
   titleAge='EDAD';
+
+
+
+  //ctx = document.getElementById('myChart') as HTMLCanvasElement;
 
   dataSourceWarehouse: MatTableDataSource<any>;
 
@@ -472,6 +477,32 @@ export class AnalyticsComponent implements OnInit {
 
 
                     this.logisticaService.getFondoItemsResumeByCategory().subscribe((resume:any[])=>{
+
+/*                       this.ctx.getContext("2d");
+
+                      new Chart(this.ctx, {
+                        type: 'bar',
+                        data: {
+                          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                          datasets: [{
+                            label: '# of Votes',
+                            data: [12, 19, 3, 5, 2, 3],
+                            borderWidth: 1
+                          }]
+                        },
+                        options: {
+                          scales: {
+                            y: {
+                              beginAtZero: true
+                            }
+                          }
+                        }
+                      }); */
+
+
+
+
+
                       console.log(resume);
                       this.columnsAge=['Edad','Cantidad',{ role: 'annotation' }];
                       var categ =[]
@@ -490,7 +521,7 @@ export class AnalyticsComponent implements OnInit {
 
                     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
                       this.campus=cs;
-                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','');
+                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0);
                       this.orden_item=new OrdenItem('',null,'','','','');
                       this.igvActivated=true;
                       this.igvSlideDisabled=false;

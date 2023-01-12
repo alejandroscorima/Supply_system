@@ -25,6 +25,9 @@ export class Orden {
     public retencion: string,
     public retencion_percent: string,
     public percepcion: string,
+    public fecha_reg: string,
+    public hora_reg: string,
+    public user_id: number,
     public id?: number,
   ) { }
 }
