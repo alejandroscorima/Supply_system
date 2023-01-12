@@ -127,6 +127,9 @@ export class AnalyticsComponent implements OnInit {
   titleAge='EDAD';
 
 
+  chartOne;
+
+
 
   dataSourceWarehouse: MatTableDataSource<any>;
 
@@ -147,6 +150,10 @@ export class AnalyticsComponent implements OnInit {
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
+
+  @ViewChild('myChart') myChart: ElementRef;
+
+  public context: CanvasRenderingContext2D;
 
 
   constructor(    private clientesService: ClientesService,
@@ -477,12 +484,12 @@ export class AnalyticsComponent implements OnInit {
 
                     this.logisticaService.getFondoItemsResumeByCategory().subscribe((resume:any[])=>{
 
-                      var chart1 = document.getElementById("myChart") as HTMLCanvasElement;
+                      this.context = (<HTMLCanvasElement>this.myChart.nativeElement).getContext('2d');
 
-                      var myChart = new Chart(chart1, {
+                      this.chartOne = new Chart(this.context, {
                         type: 'pie',
                         data: {
-                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orangeeeeeeeee'],
                             datasets: [{
                               label: '# of Votes',
                               data: [12, 19, 3, 5, 2, 3],
@@ -503,7 +510,7 @@ export class AnalyticsComponent implements OnInit {
                                   'rgba(255, 159, 64, 1)'
                               ],
                               borderWidth: 1,
-                              hoverOffset: 1,
+                              hoverOffset: 25
                             }]
                         },
                         options: {
@@ -511,6 +518,12 @@ export class AnalyticsComponent implements OnInit {
                                 y: {
                                     beginAtZero: true
                                 }
+                            },
+                            responsive: true,
+                            plugins:{
+                              legend:{
+                                position: 'right',
+                              }
                             }
                         }
                       });
