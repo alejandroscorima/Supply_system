@@ -1077,6 +1077,7 @@ export class OrdenComponent implements OnInit {
           this.ord.razon_social=this.ordView.razon_social;
           this.ord.direccion=this.ordView.direccion;
           this.ord.num_cuenta=this.ordView.num_cuenta;
+          this.listaOrd=[];
           this.listaOrdView.forEach(element => {
             this.orden_item.cantidad=element.cantidad;
             this.orden_item.descripcion=element.descripcion;
