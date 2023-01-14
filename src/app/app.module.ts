@@ -67,6 +67,8 @@ import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, Dialog
 import { AnalyticsComponent } from './analytics/analytics.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
+import { DailyComponent, DialogConfirmDaily } from './daily/daily.component';
+
 
 
 @NgModule({
@@ -118,6 +120,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
         DialogEditItemMobility,
         DialogConfirmMobility,
         AnalyticsComponent,
+        DailyComponent,
+        DialogConfirmDaily,
 
     ],
     imports: [

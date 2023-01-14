@@ -491,7 +491,7 @@ export class AnalyticsComponent implements OnInit {
                         data: {
                             labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orangeeeeeeeee'],
                             datasets: [{
-                              label: '# of Votes',
+                              label: 'Monto:',
                               data: [12, 19, 3, 5, 2, 3],
                               backgroundColor: [
                                   'rgba(255, 99, 132, 0.2)',
@@ -514,12 +514,13 @@ export class AnalyticsComponent implements OnInit {
                             }]
                         },
                         options: {
-                            scales: {
+/*                             scales: {
                                 y: {
                                     beginAtZero: true
                                 }
-                            },
+                            }, */
                             responsive: true,
+                            //maintainAspectRatio: false,
                             plugins:{
                               legend:{
                                 position: 'right',
