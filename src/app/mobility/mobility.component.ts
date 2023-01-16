@@ -661,8 +661,6 @@ export class MobilityComponent implements OnInit {
   
   
   
-  
-  
     ngOnInit() {
   
       this.fecha=new Date();
@@ -752,11 +750,7 @@ export class MobilityComponent implements OnInit {
   
     }
 
-
-
-
 }
-
 
 
 
@@ -890,8 +884,6 @@ export class DialogNewItemMobility implements OnInit {
 
 
 
-
-
 @Component({
   selector: 'dialog-editItemMobility',
   templateUrl: 'dialog-editItemMobility.html',
@@ -1020,9 +1012,6 @@ export class DialogEditItemMobility implements OnInit {
 
 
 }
-
-
-
 
 
 
