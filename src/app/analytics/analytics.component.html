@@ -266,12 +266,14 @@
               <mat-card-title>
                 MONTOS POR CATEGORIA
               </mat-card-title>
-              <mat-card-content>
+              <mat-card-content style="text-align: center; align-content: center;">
+
 
     
-                <div class="mat-elevation-z8" style="width:100%">
+                <div class="mat-elevation-z8" style="max-width: 400px; max-height: 400px; padding: 10px; display: block; margin-left: auto; margin-right: auto; ">
 
-                  <canvas id="myChart" width="800px" height="600px"></canvas>
+                  <canvas #myChart style=" width: 300px; height: 300px; display: block; margin-left: auto; margin-right: auto; ">{{chartOne}}</canvas>
+
 
                   <google-chart
                   [type]="typeAge"
@@ -279,7 +281,7 @@
                   [options]="optionsAge"
                   [title]="titleAge"
                   [columns]="columnsAge"
-                  style="width: 100%; height: 100%;">
+                  style="min-width: 600px !important; min-height: 400px;">
                   </google-chart>
 
 

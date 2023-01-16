@@ -5,13 +5,12 @@
     </button>
 
     <span>
-      SUPPLY &nbsp;
+      SUPPLY&nbsp;
     </span>
     <span class="example-spacer"></span>
     <button mat-raised-button (click)="logout()">
       <mat-icon>logout</mat-icon>Cerrar sesión
     </button>
-
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container class="contenido" style="height:92vh;">
@@ -48,7 +47,7 @@
           <mat-expansion-panel style="background-color: #b03a64">
             <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
               <mat-panel-title>
-                <mat-icon class="icon4" >verified</mat-icon>
+                <mat-icon class="icon4" >settings</mat-icon>
                 Ordenes
               </mat-panel-title>
             </mat-expansion-panel-header>
@@ -66,34 +65,9 @@
             </a>
           </mat-expansion-panel>
         </mat-accordion>
-
-        <a mat-list-item routerLink="/daily" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
-          <mat-icon class="icon1">today</mat-icon>
-          Actividades diarias
-        </a>
-
-        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" class="navItem">
-          <mat-expansion-panel style="background-color: #b03a64">
-            <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
-              <mat-panel-title>
-                <mat-icon class="icon4" >paid</mat-icon>
-                Rendicion
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <a mat-list-item routerLink="/fondo" class="navItem">
-              <mat-icon class="icon4" >paid</mat-icon>
-              Rendicion de fondo
-            </a>
-            <a mat-list-item routerLink="/mobility" class="navItem">
-              <mat-icon class="icon4" >directions_car</mat-icon>
-              Movilidad
-            </a>
-          </mat-expansion-panel>
-        </mat-accordion>
-
-        <a mat-list-item routerLink="/analytics" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
-          <mat-icon class="icon1">analytics</mat-icon>
-          Reportes
+        <a mat-list-item *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" routerLink="/fondo" class="navItem">
+          <mat-icon class="icon4" >paid</mat-icon>
+          Rendicion de fondo
         </a>
 
         <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" class="navItem">
@@ -145,93 +119,114 @@
       </mat-expansion-panel>
     </mat-accordion> -->
   </mat-sidenav>
-  <mat-sidenav-content >
-    <div class="container" style="margin:20px; text-align:center; max-height:100%;" >
+  <mat-sidenav-content style="height:90vh; " class="fondo">
 
-      <div class="row">
-        <div class="column" style="height: 85vh; overflow: scroll;" *ngIf="user.supply_role!='ASISTENTE'">
-          <h3 style="text-align:left;">
-            PENDIENTES: {{cont_pend}} 
-          </h3>
-          
-          <mat-card *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
-            <mat-card-header class="headerPendiente">
-              {{r.codigo}}-{{r.area}}
+    <div class="container" style="margin:20px; max-height:100%;" >
+      
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" color="accent" [(selectedIndex)]="demo1TabIndex">
+        
+        <mat-tab label="NUEVO REGISTRO" class="tabWare">
+          <div class="container" style="margin: 20px; text-align:center;" >
 
-            </mat-card-header>
-            <mat-card-content style="padding:5px;">
-              <p>
-                <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
-              </p>
-              <p>
-                <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
-              </p>
-              <p>
-                <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
-              </p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-        <div class="column" style="height: 88vh; overflow: scroll;">
-          <h3 style="text-align:left;" *ngIf="user.supply_role!='ASISTENTE'">
-            PROCESO: {{cont_asig}}
-          </h3>
-          <h3 style="text-align:left;" *ngIf="user.supply_role=='ASISTENTE'">
-            ASIGNADO : {{cont_asig}}
-          </h3>
+            <mat-card class="mat-elevation-z8 card-orden">
+              <mat-card-title>ACTIVIDAD</mat-card-title>
+              <mat-card-content>
+                <mat-form-field style="width:22%;" appearance="outline">
+                  <mat-label>Fecha:</mat-label>
+                  <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange()">
+                  <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                  <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                </mat-form-field>
+  
+                <mat-form-field style="width:22%;" appearance="outline">
+                  <mat-label>Hora Inicio:</mat-label>
+                  <input matInput [(ngModel)]="reg.h_inicio" type="time" placeholder="start hour">
+                </mat-form-field>
+  
+                <mat-form-field style="width:22%;" appearance="outline">
+                  <mat-label>Hora Fin:</mat-label>
+                  <input matInput [(ngModel)]="reg.h_fin" type="time" placeholder="end hour">
+                </mat-form-field>
+      
+                <mat-form-field style="width:70%;" appearance="outline">
+                  <mat-label>Descripcion:</mat-label>
+                  <input matInput [(ngModel)]="reg.descripcion">
+                </mat-form-field>
+              </mat-card-content>
+            </mat-card>
+      
+            <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
+              <button mat-raised-button style="background-color: rgb(59, 145, 82); color:white" (click)="regDaily()" > 
+                <mat-icon>add_task</mat-icon>
+                Registrar
+              </button>
+              
+            </mat-card>
 
-          <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
-            <mat-card-header class="headerProceso">
-              {{r.codigo}}-{{r.area}}
+          </div>
 
-            </mat-card-header>
-            <mat-card-content style="padding:5px;">
-              <p>
-                <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
-              </p>
-              <p>
-                <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
-              </p>
-              <p>
-                <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
-              </p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-        <div class="column" style="height: 88vh; overflow: scroll;">
-          <h3 style="text-align:left;">
-            FINALIZADO: {{cont_fina}}
-          </h3>
+        </mat-tab>
+        
+        <mat-tab label="VER REGISTROS" class="tabWare">
 
-          <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card" [ngClass]="{'fin':'a'=='a'}">
-            <mat-card-header >
-              {{r.codigo}}-{{r.area}}
-
-            </mat-card-header>
-            <mat-card-content style="padding:5px;">
-              <p>
-                <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
-              </p>
-              <p>
-                <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
-              </p>
-              <p>
-                <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
-              </p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
-
-      <br/>
-
+          <mat-form-field appearance="standard" style="display:display-inline">
+              <mat-label>Búsqueda</mat-label>
+              <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
+          </mat-form-field>
+  
+          <div class="mat-elevation-z8" style="width:100%;">
+              <table mat-table style="width:100%;" [dataSource]="dataSourceDaily" matSort multiTemplateDataRows>
+  
+                <ng-container matColumnDef="fecha">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
+                  <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
+                </ng-container>
+  
+                <ng-container matColumnDef="h_inicio">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> HORA INICIO </th>
+                  <td mat-cell *matCellDef="let a"> {{a.h_inicio}}</td>
+                </ng-container>
+  
+                <ng-container matColumnDef="h_fin">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> HORA FIN </th>
+                  <td mat-cell *matCellDef="let a"> {{a.h_fin}}</td>
+                </ng-container>
+  
+                <ng-container matColumnDef="descripcion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+                  <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+                </ng-container>
+  
 
 
+                <ng-container matColumnDef="edit">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> ANULAR </th>
+                  <td mat-cell *matCellDef="let a; let i=index">
+                    <button *ngIf="a.estado!='ANULADO'" mat-icon-button color="primary" > <mat-icon> cancel </mat-icon> </button>&nbsp;
+                  </td>
+                </ng-container>
+                
 
+                <tr mat-header-row *matHeaderRowDef="['fecha','h_inicio','h_fin','descripcion','edit'];"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['fecha','h_inicio','h_fin','descripcion','edit'];"></tr>
+  
+  
+  
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
+                </tr>
+              </table>
+  
+              <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
+          </div>
+        </mat-tab>
+      
+      </mat-tab-group>
 
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
 
 
 
