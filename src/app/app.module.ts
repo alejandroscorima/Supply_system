@@ -21,20 +21,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { DialogHistoryDetail, DialogLudops, HistoryComponent } from './history/history.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { GenerarActaComponent } from './generar-acta/generar-acta.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import {MatSelectModule} from '@angular/material/select';
-import {ReactiveFormsModule} from '@angular/forms';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 //import { DialogRevisar } from './lista-activos/lista-activos.component';
-import { DialogDetalleReqAdm} from './inicio/inicio.component';
-import { DialogDetalleReqAsist} from './inicio/inicio.component';
-import { DialogDetalleReqUsr} from './inicio/inicio.component';
-import {MatCardModule} from '@angular/material/card';
+import { DialogDetalleReqAdm } from './inicio/inicio.component';
+import { DialogDetalleReqAsist } from './inicio/inicio.component';
+import { DialogDetalleReqUsr } from './inicio/inicio.component';
+import { MatCardModule } from '@angular/material/card';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -43,12 +43,12 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { DialogNewD, DialogNewR, DialogConfirm, NuevoComponent } from './nuevo/nuevo.component';
 import { BirthdayComponent } from './birthday/birthday.component';
 
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule} from '@angular/material/grid-list';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginComponent } from './login/login.component';
 
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule} from '@angular/material/stepper';
 
 import { FondoComponent, DialogNewItemFondo, DialogConfirmFondo, DialogEditItemFondo } from './fondo/fondo.component';
 import { DialogConfirmOrden, OrdenComponent } from './orden/orden.component';
@@ -58,14 +58,14 @@ import { CategoriesComponent, DialogNewCategory, DialogEditCategory } from './ca
 import { CampusComponent, DialogNewCampus, DialogEditCampus } from './campus/campus.component';
 import { AreasComponent, DialogNewArea, DialogEditArea } from './areas/areas.component';
 import { ProvidersComponent, DialogNewProvider, DialogEditProvider, DialogNewProduct, DialogEditProduct } from './providers/providers.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { WarehouseComponent } from './warehouse/warehouse.component';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule} from '@angular/material/tabs';
 import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, DialogEditItemMobility} from './mobility/mobility.component';
 
 import { AnalyticsComponent } from './analytics/analytics.component';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { DailyComponent, DialogConfirmDaily } from './daily/daily.component';
 

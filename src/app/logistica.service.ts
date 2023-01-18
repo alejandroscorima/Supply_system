@@ -12,6 +12,7 @@ import { FondoItem } from './fondo_item';
 import { FondoLiquidacion } from './fondo_liquidacion';
 import { Proveedor } from './proveedor';
 import { Product } from './product';
+import { Daily } from './daily';
 
 @Injectable({
   providedIn: 'root'
@@ -47,12 +48,20 @@ export class LogisticaService {
     return this.http.post(`${this.baseUrl}/postFondoLiquidacion.php`, liq);
   }
 
+  addDaily(daily: Daily){
+    return this.http.post(`${this.baseUrl}/postDaily.php`, daily);
+  }
+
   updateReq(req: Requerimiento) {
     return this.http.put(`${this.baseUrl}/updateRequerimiento.php`, req);
   }
 
   updateOrd(ord: Orden) {
     return this.http.put(`${this.baseUrl}/updateOrden.php`, ord);
+  }
+
+  getDaily(){
+    return this.http.get(`${this.baseUrl}/getDaily.php`)
   }
 
   getAreaById(area_id: number) {
@@ -223,20 +232,16 @@ export class LogisticaService {
     return this.http.delete(`${this.baseUrl}/deleteFondoItem.php?item_id=${item_id}`);
   }
 
-
-
   getClientFromReniec(doc_number: string) {
 
     this.urlconsulta = 'https://apiperu.dev/api/dni/'+doc_number+'?api_token=e9f647e67d492cdee675bfb2b365c09393611b5141144a60da34cab5429b55e8';
     return this.http.get(this.urlconsulta);
-
   }
 
   getConsultaRUC(ruc: string) {
 
     this.urlconsulta = 'https://apiperu.dev/api/ruc/'+ruc+'?api_token=e9f647e67d492cdee675bfb2b365c09393611b5141144a60da34cab5429b55e8';
     return this.http.get(this.urlconsulta);
-
   }
 
 

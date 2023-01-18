@@ -28,6 +28,7 @@ import { Proveedor } from '../proveedor';
 import { FileUploadService } from '../file-upload.service';
 import { runInThisContext } from 'vm';
 import { Daily } from '../daily';
+import { threadId } from 'worker_threads';
 
 
 @Component({
@@ -119,6 +120,25 @@ export class DailyComponent implements OnInit {
 
   regDaily(){
     console.log(this.reg);
+    this.reg.fecha=this.reg.fecha;
+    this.reg.h_inicio=this.reg.h_inicio;
+    this.reg.h_fin=this.reg.h_fin;
+    this.reg.descripcion=this.reg.descripcion;
+    this.reg.user_id = this.user.user_id;
+    this.logisticaService.addDaily(this.reg).subscribe(res=>{
+      console.log(res);
+    });
+    this.toastr.success('Actividad registrada correctamente');
+    this.reg.h_inicio='';
+    this.reg.h_fin='';
+    this.reg.descripcion='';
+    this.logisticaService.getDaily().subscribe((resd:Daily[])=>{
+      this.regList=resd;
+      console.log(this.regList);
+      this.dataSourceDaily = new MatTableDataSource(this.regList);
+      this.dataSourceDaily.paginator = this.paginator.toArray()[0];
+      this.dataSourceDaily.sort = this.sort.toArray()[0];
+    });
   }
 
 
@@ -167,6 +187,20 @@ export class DailyComponent implements OnInit {
     const tabCount=2;
     this.demo1TabIndex = (this.demo1TabIndex+1) % tabCount;
 
+    this.logisticaService.getDaily().subscribe((resd:Daily[])=>{
+      this.regList=resd;
+      if(resd.length!=0){
+        this.regList=[];
+        this.regList=resd;
+
+        console.log(this.regList);
+        this.dataSourceDaily = new MatTableDataSource(this.regList);
+        this.dataSourceDaily.paginator = this.paginator.toArray()[0];
+        this.dataSourceDaily.sort = this.sort.toArray()[0];
+      }
+    });
+
+    
     if(this.cookiesService.checkToken('session_id')){
       this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
         if(s){

@@ -430,7 +430,9 @@ export class OrdenComponent implements OnInit {
                           this.campusView=ac;
                         }
                         this.logisticaService.getAllOrders().subscribe((resOrds:Orden[])=>{
+                          console.log(this.listaOrdersView);
                           this.listaOrdersView=resOrds;
+                          console.log(this.listaOrdersView);
                           this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
                           this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];
                           this.dataSourceOrdersView.sort = this.sort.toArray()[0];
@@ -1058,9 +1060,7 @@ export class OrdenComponent implements OnInit {
         this.listaOrdView=[];
 
         this.logisticaService.getOrdenItemsByOrdenId(String(this.ordView.id)).subscribe((resp:OrdenItem[])=>{
-          console.log('this.ordView.id=');
           console.log(String(this.ordView.id));
-          console.log('resp');
           console.log(resp);
 
           if(resp.length>0){
