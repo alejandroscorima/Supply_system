@@ -27,7 +27,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Proveedor } from '../proveedor';
 import { FileUploadService } from '../file-upload.service';
 import { runInThisContext } from 'vm';
-
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-nuevo',
@@ -249,7 +249,6 @@ export class OrdenComponent implements OnInit {
 
   }
 
-
   searchItem(){
 
   }
@@ -275,7 +274,7 @@ export class OrdenComponent implements OnInit {
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-      this.orden_item = new OrdenItem('',null,'','','','');
+      this.orden_item = new OrdenItem('',null,'','','','','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
       this.dataSourceOrd.sort = this.sort.toArray()[0];
@@ -293,7 +292,7 @@ export class OrdenComponent implements OnInit {
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-      this.orden_item = new OrdenItem('',null,'','','','');
+      this.orden_item = new OrdenItem('',null,'','','','','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
       this.dataSourceOrd.sort = this.sort.toArray()[0];
@@ -380,7 +379,7 @@ export class OrdenComponent implements OnInit {
                     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
                       this.campus=cs;
                       this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0);
-                      this.orden_item=new OrdenItem('',null,'','','','');
+                      this.orden_item=new OrdenItem('',null,'','','','','');
                       this.igvActivated=true;
                       this.igvSlideDisabled=false;
                       this.prefijoMoney='';
@@ -664,7 +663,7 @@ export class OrdenComponent implements OnInit {
 
             this.listaOrd.forEach((p:OrdenItem,ind)=>{
               p.ord_codigo=resAddOrd['session_id'];
-
+              p.estado='REGISTRADO'
               this.logisticaService.addOrdDet(p).subscribe(resAddOrdDet=>{
                 if(ind==this.listaOrd.length-1){
                   this.generatePDF();
@@ -683,7 +682,7 @@ export class OrdenComponent implements OnInit {
                   this.ord.fecha=anio+'-'+mes+'-'+dia;
 
                   this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0);
-                  this.orden_item=new OrdenItem('',null,'','','','');
+                  this.orden_item=new OrdenItem('',null,'','','','','');
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
                   this.dataSourceOrd.paginator = this.paginator.toArray()[0];
@@ -1051,20 +1050,23 @@ export class OrdenComponent implements OnInit {
     dialogRef=this.dialog.open(DialogConfirmOrden,{
       data:"Segur@ que desea anular la orden?",
     })
-
     dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
       if(res){
-
         this.ordView=orden;
         console.log(this.ordView);
         this.listaOrdView=[];
+
         this.logisticaService.getOrdenItemsByOrdenId(String(this.ordView.id)).subscribe((resp:OrdenItem[])=>{
+          console.log('this.ordView.id=');
+          console.log(String(this.ordView.id));
+          console.log('resp');
+          console.log(resp);
+
           if(resp.length>0){
             this.listaOrdView=resp;
-            
           }
-          console.log(this.listaOrdView);
-
+     
           this.ord.tipo=this.ordView.tipo;
           this.ord.destino=this.ordView.destino;
           this.asigChange();
@@ -1090,6 +1092,16 @@ export class OrdenComponent implements OnInit {
           this.updatePercepcion();
           this.ord.rebajado=this.ordView.rebajado;
           
+          this.ordView.estado='ANULADO';
+          this.logisticaService.updateOrd(this.ordView).subscribe(resOA=>{
+            if(resOA){
+              this.listaOrdView.forEach(c=>{
+                c.estado='ANULADO'
+                this.logisticaService.updateOrdDet(c).subscribe();
+              })
+              this.toastr.warning('Orden anulada');
+            }
+          })
         })
 
         const tabCount=2;

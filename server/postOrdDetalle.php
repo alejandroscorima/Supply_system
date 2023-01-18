@@ -21,8 +21,8 @@ if (!$jsonOrdDet) {
     exit("No hay datos");
 }
 $bd = include_once "bdLogistica.php";
-$sentencia = $bd->prepare("insert into ord_detalles(ord_codigo, cantidad, descripcion, unit_price, subtotal) values (?,?,?,?,?)");
-$resultado = $sentencia->execute([$jsonOrdDet->ord_codigo, $jsonOrdDet->cantidad, $jsonOrdDet->descripcion, $jsonOrdDet->unit_price, $jsonOrdDet->subtotal]);
+$sentencia = $bd->prepare("insert into ord_detalles(ord_codigo, cantidad, descripcion, unit_price, subtotal, estado) values (?,?,?,?,?,?)");
+$resultado = $sentencia->execute([$jsonOrdDet->ord_codigo, $jsonOrdDet->cantidad, $jsonOrdDet->descripcion, $jsonOrdDet->unit_price, $jsonOrdDet->subtotal, $jsonOrdDet->estado]);
 echo json_encode([
     "resultado" => $resultado,
 ]);

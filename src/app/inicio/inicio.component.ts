@@ -1157,7 +1157,7 @@ export class DialogCreateOrden implements OnInit {
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null);
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
 
   listaReq: Item[]= [];
 

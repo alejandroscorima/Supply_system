@@ -51,6 +51,10 @@ export class LogisticaService {
     return this.http.put(`${this.baseUrl}/updateRequerimiento.php`, req);
   }
 
+  updateOrd(ord: Orden) {
+    return this.http.put(`${this.baseUrl}/updateOrden.php`, ord);
+  }
+
   getAreaById(area_id: number) {
     return this.http.get(`${this.baseUrl}/getAreaById.php?area_id=${area_id}`);
   }
@@ -97,6 +101,10 @@ export class LogisticaService {
 
   addOrdDet(ordItem: OrdenItem) {
     return this.http.post(`${this.baseUrl}/postOrdDetalle.php`, ordItem);
+  }
+
+  updateOrdDet(ordItem: OrdenItem) {
+    return this.http.put(`${this.baseUrl}/updateOrdDetalle.php`, ordItem);
   }
 
   updateReqDet(item: Item) {
