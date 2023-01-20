@@ -19,6 +19,8 @@ export class Item {
     public h_compra:string,
     public f_final:string,
     public h_final:string,
+    public pdf_url: string,
+    public pdf: File,
     public id?: number,
   ) { }
 }

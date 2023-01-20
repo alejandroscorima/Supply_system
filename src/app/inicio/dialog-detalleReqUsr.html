@@ -73,10 +73,17 @@
             </td>
           </ng-container>
 
+          <ng-container matColumnDef="pdf_url">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> DOCUMENTO </th>
+            <td mat-cell *matCellDef="let a">
+              <a>{{a.pdf_url}}</a>
+            </td>
+          </ng-container>
 
 
-          <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','image_url'];"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','image_url'];"></tr>
+
+          <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','image_url','pdf_url'];"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','image_url','pdf_url'];"></tr>
 
 
 
@@ -135,10 +142,17 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="pdf_url">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> DOCUMENTO </th>
+                <td mat-cell *matCellDef="let a">
+                  <a>{{a.pdf_url}}</a>
+                </td>
+              </ng-container>
 
 
-              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+
+              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url','pdf_url'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url','pdf_url'];"></tr>
 
 
 
@@ -194,10 +208,17 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="pdf_url">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> DOCUMENTO </th>
+                <td mat-cell *matCellDef="let a">
+                  <a>{{a.pdf_url}}</a>
+                </td>
+              </ng-container>
 
 
-              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+
+              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url','pdf_url'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url','pdf_url'];"></tr>
 
 
 
@@ -252,10 +273,17 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="pdf_url">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> DOCUMENTO </th>
+                <td mat-cell *matCellDef="let a">
+                  <a>{{a.pdf_url}}</a>
+                </td>
+              </ng-container>
 
 
-              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+
+              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url','pdf_url'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url','pdf_url'];"></tr>
 
 
 
@@ -311,10 +339,17 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="pdf_url">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> DOCUMENTO </th>
+                <td mat-cell *matCellDef="let a">
+                  <a>{{a.pdf_url}}</a>
+                </td>
+              </ng-container>
 
 
-              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url'];"></tr>
+
+              <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','tipo','estado','name_asignado','image_url','pdf_url'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','tipo','estado','name_asignado','image_url','pdf_url'];"></tr>
 
 
 

@@ -13,6 +13,7 @@ import { FondoLiquidacion } from './fondo_liquidacion';
 import { Proveedor } from './proveedor';
 import { Product } from './product';
 import { Daily } from './daily';
+import { Activity } from './activity';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,10 @@ export class LogisticaService {
 
   addReq(req: Requerimiento) {
     return this.http.post(`${this.baseUrl}/postRequerimiento.php`, req);
+  }
+
+  addActivity(ac: Activity) {
+    return this.http.post(`${this.baseUrl}/postActivity.php`, ac);
   }
 
   addProvider(prov: Proveedor) {
@@ -98,6 +103,10 @@ export class LogisticaService {
 
   getAllCategories() {
     return this.http.get(`${this.baseUrl}/getAllCategories.php`);
+  }
+
+  getActivities(estado: string) {
+    return this.http.get(`${this.baseUrl}/getActivities.php?estado=${estado}`);
   }
 
   getPrioridad() {
@@ -230,6 +239,10 @@ export class LogisticaService {
 
   deleteFondoItem(item_id) {
     return this.http.delete(`${this.baseUrl}/deleteFondoItem.php?item_id=${item_id}`);
+  }
+
+  deleteActivity(id) {
+    return this.http.delete(`${this.baseUrl}/deleteActivity.php?id=${id}`);
   }
 
   getClientFromReniec(doc_number: string) {

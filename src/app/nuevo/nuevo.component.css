@@ -119,3 +119,27 @@ tr.example-element-row:not(.example-expanded-row):active {
 .mat-cell{
   padding: 5px 5px 5px 5px;
 }
+
+.card-orden{
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+  border-radius: 15px;
+
+
+  background: -webkit-linear-gradient(0deg, #c4c7c7, #d4d6d7);
+  background: -o-linear-gradient(0deg, #c4c7c7, #d4d6d7);
+  background: -moz-linear-gradient(0deg, #c4c7c7, #d4d6d7);
+  background: linear-gradient(0deg, #c4c7c7, #d4d6d7);
+}
+
+.fondo{
+  /*   background: -webkit-linear-gradient(45deg, #4a5b5a, #8daeb0);
+    background: -o-linear-gradient(45deg, #4a5b5a, #8daeb0);
+    background: -moz-linear-gradient(45deg, #4a5b5a, #8daeb0);
+    background: linear-gradient(45deg, #4a5b5a, #8daeb0); */
+    background-color: #6a7e7f;
+    color: whitesmoke;
+  }

@@ -163,11 +163,11 @@ export class WarehouseComponent implements OnInit {
               this.orden_item = new OrdenItem(null,null,null,null,null,null,null);
 
               if(b.val_prov!=''){
-                this.orden_item.cantidad = parseFloat(((parseFloat(a['3'])/parseFloat(b.val_sis))*parseFloat(b.val_prov)).toFixed(2));
+                this.orden_item.cantidad = Math.ceil(parseFloat(((parseFloat(a['3'])/parseFloat(b.val_sis))*parseFloat(b.val_prov)).toFixed(2)));
                 this.orden_item.descripcion = b.um_prov + ' ' + b.descripcion;
               }
               else{
-                this.orden_item.cantidad = parseFloat(parseFloat(a['3']).toFixed(2));
+                this.orden_item.cantidad = parseFloat(parseFloat(a['3']).toFixed(1));
                 this.orden_item.descripcion = a['2'] + ' ' + a['1'];
               }
 

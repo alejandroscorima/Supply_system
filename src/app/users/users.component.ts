@@ -161,6 +161,7 @@ export class DialogNewUser implements OnInit {
       }
       else{
         this.usersService.addUser(this.data).subscribe(res=>{
+          console.log(res);
           if(res){
             this.dialogRef.close('true');
           }

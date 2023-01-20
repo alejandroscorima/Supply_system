@@ -147,6 +147,13 @@
                   <mat-label>Hora Fin:</mat-label>
                   <input matInput [(ngModel)]="reg.h_fin" type="time" placeholder="end hour">
                 </mat-form-field>
+
+                <mat-form-field style="width:55%;" appearance="outline" >
+                  <mat-label>Actividad:</mat-label>
+                  <mat-select [(value)]="reg.actividad" >
+                      <mat-option *ngFor="let ac of activities" [value]="ac.actividad">{{ac.actividad}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
       
                 <mat-form-field style="width:70%;" appearance="outline">
                   <mat-label>Descripcion:</mat-label>
@@ -191,6 +198,11 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> HORA FIN </th>
                   <td mat-cell *matCellDef="let a"> {{a.h_fin}}</td>
                 </ng-container>
+
+                <ng-container matColumnDef="actividad">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> ACTIVIDAD </th>
+                  <td mat-cell *matCellDef="let a"> {{a.actividad}}</td>
+                </ng-container>
   
                 <ng-container matColumnDef="descripcion">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
@@ -207,8 +219,8 @@
                 </ng-container>
                 
 
-                <tr mat-header-row *matHeaderRowDef="['fecha','h_inicio','h_fin','descripcion','edit'];"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['fecha','h_inicio','h_fin','descripcion','edit'];"></tr>
+                <tr mat-header-row *matHeaderRowDef="['fecha','h_inicio','h_fin','actividad','descripcion','edit'];"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['fecha','h_inicio','h_fin','actividad','descripcion','edit'];"></tr>
   
   
   

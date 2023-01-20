@@ -62,7 +62,7 @@ export class ViewOrdersComponent implements OnInit {
   reqView: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
   ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null);
 
-  itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
+  itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
 
   listaOrdersView: Orden[]= [];
 

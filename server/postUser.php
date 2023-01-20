@@ -21,7 +21,7 @@ if (!$jsonUser) {
     exit("No hay datos");
 }
 $bd = include_once "bdData.php";
-$sentencia = $bd->prepare("insert into users(doc_number, first_name, last_name, gender, username, password, area_id, campus_id, position, supply_role) values (?,?,?,?,?,?,?,?,?)");
+$sentencia = $bd->prepare("insert into users(doc_number, first_name, last_name, gender, username, password, area_id, campus_id, position, supply_role) values (?,?,?,?,?,?,?,?,?,?)");
 $resultado = $sentencia->execute([$jsonUser->doc_number, $jsonUser->first_name, $jsonUser->last_name, $jsonUser->gender, $jsonUser->username, $jsonUser->password, $jsonUser->area_id, $jsonUser->campus_id, $jsonUser->position, $jsonUser->supply_role]);
 echo json_encode([
     "resultado" => $resultado,

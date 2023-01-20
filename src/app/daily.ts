@@ -4,6 +4,7 @@ export class Daily {
     public fecha: string,
     public h_inicio: string,
     public h_fin: string,
+    public actividad: string,
     public descripcion: string,
     public user_id: number,
     public id?: number,

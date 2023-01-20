@@ -29,6 +29,7 @@ import { FileUploadService } from '../file-upload.service';
 import { runInThisContext } from 'vm';
 import { Daily } from '../daily';
 import { threadId } from 'worker_threads';
+import { Activity } from '../activity';
 
 
 @Component({
@@ -65,7 +66,8 @@ export class DailyComponent implements OnInit {
   destino_dir='';
 
   regList: Daily[]= [];
-  reg: Daily = new Daily('','','','',0);
+  reg: Daily = new Daily('','','','','',0);
+  activities: Activity[] = [];
 
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
   monedas: string[] = ['SOLES','DOLARES AMERICANOS'];
@@ -127,18 +129,20 @@ export class DailyComponent implements OnInit {
     this.reg.user_id = this.user.user_id;
     this.logisticaService.addDaily(this.reg).subscribe(res=>{
       console.log(res);
+      this.toastr.success('Actividad registrada correctamente');
+      this.reg.h_inicio='';
+      this.reg.h_fin='';
+      this.reg.descripcion='';
+      this.reg.actividad='';
+      this.logisticaService.getDaily().subscribe((resd:Daily[])=>{
+        this.regList=resd;
+        console.log(this.regList);
+        this.dataSourceDaily = new MatTableDataSource(this.regList);
+        this.dataSourceDaily.paginator = this.paginator.toArray()[0];
+        this.dataSourceDaily.sort = this.sort.toArray()[0];
+      });
     });
-    this.toastr.success('Actividad registrada correctamente');
-    this.reg.h_inicio='';
-    this.reg.h_fin='';
-    this.reg.descripcion='';
-    this.logisticaService.getDaily().subscribe((resd:Daily[])=>{
-      this.regList=resd;
-      console.log(this.regList);
-      this.dataSourceDaily = new MatTableDataSource(this.regList);
-      this.dataSourceDaily.paginator = this.paginator.toArray()[0];
-      this.dataSourceDaily.sort = this.sort.toArray()[0];
-    });
+
   }
 
 
@@ -188,7 +192,6 @@ export class DailyComponent implements OnInit {
     this.demo1TabIndex = (this.demo1TabIndex+1) % tabCount;
 
     this.logisticaService.getDaily().subscribe((resd:Daily[])=>{
-      this.regList=resd;
       if(resd.length!=0){
         this.regList=[];
         this.regList=resd;
@@ -199,6 +202,13 @@ export class DailyComponent implements OnInit {
         this.dataSourceDaily.sort = this.sort.toArray()[0];
       }
     });
+
+    this.logisticaService.getActivities('ACTIVO').subscribe((actList:Activity[])=>{
+      if(actList.length!=0){
+        this.activities=actList;
+      }
+
+    })
 
     
     if(this.cookiesService.checkToken('session_id')){

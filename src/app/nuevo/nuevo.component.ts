@@ -54,7 +54,7 @@ export class NuevoComponent implements OnInit {
 
   req: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
 
-  item: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
+  item: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
 
   listaReq: Item[]= [];
 
@@ -67,6 +67,7 @@ export class NuevoComponent implements OnInit {
   shortLink: string = "";
   loading: boolean = false; // Flag variable
   file: File = null; // Variable to store file
+  pdf: File = null; // Variable to store file
 
   preview: any='';
   f_inicio;
@@ -108,6 +109,24 @@ export class NuevoComponent implements OnInit {
     }
   }
 
+  onPDFChanged(event) {
+    this.pdf = event.target.files[0];
+    if (this.pdf) {
+
+      var currentFile = this.pdf;
+
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+
+      };
+
+      reader.readAsDataURL(currentFile);
+
+      console.log(currentFile);
+    }
+  }
+
   // OnClick of button Upload
   onUpload() {
     this.loading = !this.loading;
@@ -135,10 +154,12 @@ export class NuevoComponent implements OnInit {
     if(this.item.cantidad!=null&&this.item.descripcion!=null&&this.item.tipo!=null){
       this.item.image=this.file;
       this.file=null;
+      this.item.pdf=this.pdf;
+      this.pdf=null;
       this.item.req_codigo=this.req.codigo;
       this.item.descripcion=this.item.descripcion.toUpperCase();
       this.listaReq.push(this.item);
-      this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
+      this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
       this.dataSourceReq = new MatTableDataSource(this.listaReq);
       this.dataSourceReq.paginator = this.paginator.toArray()[0];
       this.dataSourceReq.sort = this.sort.toArray()[0];
@@ -150,7 +171,7 @@ export class NuevoComponent implements OnInit {
 
   deleteItem(indice){
     this.listaReq.splice(indice,1);
-    this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','');
+    this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
     this.dataSourceReq = new MatTableDataSource(this.listaReq);
     this.dataSourceReq.paginator = this.paginator.toArray()[0];
     this.dataSourceReq.sort = this.sort.toArray()[0];
@@ -276,6 +297,18 @@ export class NuevoComponent implements OnInit {
                 console.log(i.h_inicio);
                 if(i.image){
                   this.fileUploadService.upload(i.image).subscribe(res => {
+
+                    if(i.pdf){
+                      this.fileUploadService.upload(i.pdf).subscribe(resPDF => {
+                        if (resPDF) {
+                          i.pdf_url = resPDF;
+                        }
+                      });
+                    }
+                    else{
+                      i.pdf_url = '';
+                    }
+
                     if (res) {
 
                       i.image_url = res;
@@ -285,6 +318,16 @@ export class NuevoComponent implements OnInit {
                   });
                 }
                 else{
+                  if(i.pdf){
+                    this.fileUploadService.upload(i.pdf).subscribe(resPDF => {
+                      if (resPDF) {
+                        i.pdf_url = resPDF;
+                      }
+                    });
+                  }
+                  else{
+                    i.pdf_url = '';
+                  }
                   i.image_url = '';
                   this.logisticaService.addReqDet(i).subscribe();
                 }

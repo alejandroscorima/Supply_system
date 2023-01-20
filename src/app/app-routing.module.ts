@@ -18,6 +18,7 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { MobilityComponent } from './mobility/mobility.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { DailyComponent } from './daily/daily.component';
+import { ActivitiesComponent } from './activities/activities.component';
 
 const routes: Routes = [
   { path: "", component: InicioComponent },
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: "mobility", component: MobilityComponent},
   { path: "analytics", component: AnalyticsComponent},
   { path: "daily", component: DailyComponent},
+  { path: "activities", component: ActivitiesComponent},
 
   //{ path: "", redirectTo: "/clientes", pathMatch: "full" },// Cuando es la raíz
   //{ path: "**", redirectTo: "/clientes" }

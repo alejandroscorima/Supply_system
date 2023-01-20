@@ -11,7 +11,7 @@ $bd = include_once "bdLogistica.php";
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");
 //$sentencia = $bd->prepare("select * from actas.actas where estado= '".$estado."'");
 
-$sentencia = $bd->prepare("SELECT id, req_codigo, cantidad, descripcion, tipo, estado, image_url, id_asignado, obs, f_inicio, h_inicio, f_atencion, h_atencion, f_compra, h_compra, f_final, h_final FROM req_detalles WHERE req_codigo='".$codigo."'  AND estado='ENTREGADO'");
+$sentencia = $bd->prepare("SELECT id, req_codigo, cantidad, descripcion, tipo, estado, image_url, pdf_url, id_asignado, obs, f_inicio, h_inicio, f_atencion, h_atencion, f_compra, h_compra, f_final, h_final FROM req_detalles WHERE req_codigo='".$codigo."'  AND estado='ENTREGADO'");
 
 
 /* if($tipo_usuario=='ASISTENTE'){
