@@ -71,7 +71,7 @@
           <ng-container matColumnDef="pdf_url">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> DOCUMENTO </th>
             <td mat-cell *matCellDef="let a">
-              <a>{{a.pdf_url}}</a>
+              <a [href]="a.pdf_url" target="_blank">{{a.pdf_url}}</a>
             </td>
           </ng-container>
 
@@ -129,7 +129,7 @@
           <ng-container matColumnDef="pdf_url">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> DOCUMENTO </th>
             <td mat-cell *matCellDef="let a">
-              <a>{{a.pdf_url}}</a>
+              <a [href]="a.pdf_url" target="_blank">{{a.pdf_url}}</a>
             </td>
           </ng-container>
 

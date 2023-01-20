@@ -260,8 +260,10 @@ export class NuevoComponent implements OnInit {
         dateStr+='-';
 
         this.logisticaService.getLastReqCode(dateStr).subscribe(resp=>{
+          console.log(resp);
           if(resp){
-            var respArray=String(resp['codigo']).substring(8,12);
+            var respArray=String(resp['codigo']).split('-');
+            console.log(respArray);
             var code;
             if(parseInt(respArray[1])+1<10){
               code='000'+String(parseInt(respArray[1])+1);
@@ -298,38 +300,49 @@ export class NuevoComponent implements OnInit {
                 if(i.image){
                   this.fileUploadService.upload(i.image).subscribe(res => {
 
-                    if(i.pdf){
-                      this.fileUploadService.upload(i.pdf).subscribe(resPDF => {
-                        if (resPDF) {
-                          i.pdf_url = resPDF;
-                        }
-                      });
-                    }
-                    else{
-                      i.pdf_url = '';
-                    }
-
                     if (res) {
 
                       i.image_url = res;
 
                     }
-                    this.logisticaService.addReqDet(i).subscribe();
+
+                    if(i.pdf){
+                      this.fileUploadService.upload(i.pdf).subscribe(resPDF => {
+                        if (resPDF) {
+                          i.pdf_url = resPDF;
+                        }
+                        this.logisticaService.addReqDet(i).subscribe(ress => {
+                          console.log(ress);
+                        });
+                      });
+                    }
+                    else{
+                      i.pdf_url = '';
+                      this.logisticaService.addReqDet(i).subscribe(ress => {
+                        console.log(ress);
+                      });
+                    }
+
                   });
                 }
                 else{
+                  i.image_url = '';
                   if(i.pdf){
                     this.fileUploadService.upload(i.pdf).subscribe(resPDF => {
                       if (resPDF) {
                         i.pdf_url = resPDF;
                       }
+                      this.logisticaService.addReqDet(i).subscribe(ress => {
+                        console.log(ress);
+                      });
                     });
                   }
                   else{
                     i.pdf_url = '';
+                    this.logisticaService.addReqDet(i).subscribe(ress => {
+                      console.log(ress);
+                    });
                   }
-                  i.image_url = '';
-                  this.logisticaService.addReqDet(i).subscribe();
                 }
 
 
