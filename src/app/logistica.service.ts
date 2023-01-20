@@ -13,6 +13,7 @@ import { FondoLiquidacion } from './fondo_liquidacion';
 import { Proveedor } from './proveedor';
 import { Product } from './product';
 import { Daily } from './daily';
+import { Mobility } from './mobility';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,10 @@ export class LogisticaService {
     return this.http.post(`${this.baseUrl}/postDaily.php`, daily);
   }
 
+  addMobility(mobility: Mobility){
+    return this.http.post(`${this.baseUrl}/postMobility.php`, mobility)
+  }
+
   updateReq(req: Requerimiento) {
     return this.http.put(`${this.baseUrl}/updateRequerimiento.php`, req);
   }
@@ -62,6 +67,10 @@ export class LogisticaService {
 
   getDaily(){
     return this.http.get(`${this.baseUrl}/getDaily.php`)
+  }
+
+  getMobility(){
+    return this.http.get(`${this.baseUrl}/getMobility.php`)
   }
 
   getAreaById(area_id: number) {

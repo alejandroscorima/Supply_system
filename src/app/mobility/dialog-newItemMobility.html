@@ -12,8 +12,8 @@
     </mat-form-field>
 
     <mat-form-field style="width:28%;" class="sala" id="sala" appearance="outline" >
-      <mat-label>Categoria:</mat-label>
-      <mat-select [(value)]="data['item'].categoria" (selectionChange)="ChangeCategory()">
+      <mat-label>Sala:</mat-label>
+      <mat-select [(value)]="data['item'].campus" (selectionChange)="ChangeCategory()">
           <mat-option *ngFor="let c of categories" [value]="c['name']">{{c['name']}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -24,34 +24,34 @@
       <span matPrefix>S/.&nbsp;</span>
     </mat-form-field>
 
-    <!--  <mat-form-field style="width:28%;" appearance="outline" >
+<!--      <mat-form-field style="width:28%;" appearance="outline" >
       <mat-label>Tipo documento:</mat-label>
       <mat-select [(value)]="data['item'].tipo_doc">
           <mat-option *ngFor="let d of docs" [value]="d">{{d}}</mat-option>
       </mat-select>
     </mat-form-field> -->
 
-    <!-- <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+<!--     <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
       <mat-label>Serie:</mat-label>
       <input matInput [(ngModel)]="data['item'].serie">
-    </mat-form-field>
- -->
-    <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+    </mat-form-field> -->
+
+<!--     <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
       <mat-label>Nº Documento:</mat-label>
       <input matInput [(ngModel)]="data['item'].numero">
-    </mat-form-field>
+    </mat-form-field> -->
 
-    <!-- <mat-form-field style="width:30%;" class="doc_id" appearance="outline">
+<!--     <mat-form-field style="width:30%;" class="doc_id" appearance="outline">
       <mat-label>RUC:</mat-label>
       <input  matInput (keyup)="changeRuc()" [(ngModel)]="data['item'].ruc">
     </mat-form-field> -->
 
-    <!-- <mat-form-field style="width:60%;" class="doc_id" appearance="outline">
+<!--     <mat-form-field style="width:60%;" class="doc_id" appearance="outline">
       <mat-label>Razon Social:</mat-label>
       <input matInput [(ngModel)]="data['item'].raz_social">
     </mat-form-field> -->
 
- <!--    <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
+    <!-- <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
       <mat-label>:</mat-label>
       <mat-select [(value)]="ord.empresa" (selectionChange)="Change()">
           <mat-option *ngFor="let e of empresas" [value]="e">{{e}}</mat-option>

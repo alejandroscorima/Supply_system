@@ -161,29 +161,9 @@
                 <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
               </ng-container>
 
-              <ng-container matColumnDef="tipo_doc">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DOC.</th>
-                <td mat-cell *matCellDef="let a"> {{a.tipo_doc}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="serie">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> SERIE </th>
-                <td mat-cell *matCellDef="let a"> {{a.serie}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="numero">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nº DOC </th>
-                <td mat-cell *matCellDef="let a"> {{a.numero}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="ruc">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> RUC </th>
-                <td mat-cell *matCellDef="let a"> {{a.ruc}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="raz_social">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Razon social </th>
-                <td mat-cell *matCellDef="let a"> {{a.raz_social}}</td>
+              <ng-container matColumnDef="sala">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> SALA </th>
+                <td mat-cell *matCellDef="let a"> {{a.campus}}</td>
               </ng-container>
 
               <ng-container matColumnDef="monto">
@@ -191,20 +171,20 @@
                 <td mat-cell *matCellDef="let a"> S/.{{' '+a.monto}}</td>
               </ng-container>
 
-              <ng-container matColumnDef="cateogria">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> CATEGORIA </th>
-                <td mat-cell *matCellDef="let a"> {{a.categoria}}</td>
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+                <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
               </ng-container>
 
-              <ng-container matColumnDef="select">
+              <!-- <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> RENDIR </th>
                 <td mat-cell *matCellDef="let a; let i=index">
                   <mat-checkbox class="example-margin" (change)="$event ? selection.toggle(a) : null"
                   [checked]="selection.isSelected(a)"></mat-checkbox>
                 </td>
-              </ng-container>
+              </ng-container> -->
 
-              <ng-container matColumnDef="edit">
+              <!-- <ng-container matColumnDef="edit">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> EDITAR </th>
                 <td mat-cell *matCellDef="let a; let i=index">
                   <button mat-icon-button color="primary" (click)="editItem(a)">
@@ -213,9 +193,9 @@
                   <button mat-icon-button color="warn" (click)="delItem(a)">
                     <mat-icon> delete</mat-icon>
                   </button>
-                  <!-- <button mat-raised-button style="background-color: rgb(9, 66, 126); color:white" (click)="edit(a.doc_number)"> <mat-icon>edit</mat-icon> </button>&nbsp; -->
+                  <button mat-raised-button style="background-color: rgb(9, 66, 126); color:white" (click)="edit(a.doc_number)"> <mat-icon>edit</mat-icon> </button>&nbsp;
                 </td>
-              </ng-container>
+              </ng-container> -->
 
  <!--              <ng-container matColumnDef="void1">
                 <td mat-footer-cell *matFooterCellDef colspan="5">
@@ -241,9 +221,8 @@
                 </td>
               </ng-container> -->
 
-
-              <tr mat-header-row *matHeaderRowDef="['fecha','tipo_doc','serie','numero','ruc','raz_social','monto','cateogria','select','edit'];"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['fecha','tipo_doc','serie','numero','ruc','raz_social','monto','cateogria','select','edit'];"></tr>
+              <tr mat-header-row *matHeaderRowDef="['fecha','sala','monto','estado'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['fecha','sala','monto','estado'];"></tr>
               <!-- <tr mat-footer-row *matFooterRowDef="['void1','total','total_amount','void2'];" ></tr> -->
 
 

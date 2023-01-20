@@ -29,6 +29,8 @@ import { FondoItem } from '../fondo_item';
 import { Area } from '../area';
 import { Campus } from '../campus';
 import { FondoLiquidacion } from '../fondo_liquidacion';
+import { Mobility } from '../mobility';
+import { runInThisContext } from 'vm';
 
 
 @Component({
@@ -48,6 +50,8 @@ export class MobilityComponent implements OnInit {
 
   fondoItems: FondoItem[]=[];
   fondoLiquidaciones: FondoLiquidacion[]=[];
+  mobilities: Mobility[]
+
 
   user: User = new User('','','','','','',null,null,'','');
   user_area: Area = new Area('',null);
@@ -73,6 +77,9 @@ export class MobilityComponent implements OnInit {
 
   dataSourceFondoItem: MatTableDataSource<FondoItem>;
   dataSourceFondoLiq: MatTableDataSource<FondoLiquidacion>;
+
+  dataSourceMobility: MatTableDataSource<Mobility>;
+
 
   doc = new jsPDF();
   img = new Image();
@@ -676,7 +683,15 @@ export class MobilityComponent implements OnInit {
       this.fechaStr=year+'-'+month+'-'+day;
 
       console.log(this.fechaStr);
-  
+
+      this.logisticaService.getMobility().subscribe((rspM:Mobility[])=>{
+        console.log(rspM);
+        this.mobilities=rspM;
+        this.dataSourceMobility = new MatTableDataSource(this.mobilities);
+        this.dataSourceMobility.paginator = this.paginator.toArray()[0];
+        this.dataSourceMobility.sort = this.sort.toArray()[0];
+      });
+
       this.fondoLiquidacion=new FondoLiquidacion('','','','','','','',this.user.user_id,'');
   
   
@@ -700,15 +715,15 @@ export class MobilityComponent implements OnInit {
                             this.campus=resi;
                             this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
                               this.fondoLiquidaciones=liqs;
-                              this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
+                              /* this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
                               this.dataSourceFondoLiq.paginator = this.paginator.toArray()[0];
-                              this.dataSourceFondoLiq.sort = this.sort.toArray()[0];
+                              this.dataSourceFondoLiq.sort = this.sort.toArray()[0]; */
   
                               this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
                                 this.fondoItems=res;
-                                this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+                                /* this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
                                 this.dataSourceFondoItem.paginator = this.paginator.toArray()[1];
-                                this.dataSourceFondoItem.sort = this.sort.toArray()[1];
+                                this.dataSourceFondoItem.sort = this.sort.toArray()[1]; */
                               })
   
                             })
@@ -719,15 +734,15 @@ export class MobilityComponent implements OnInit {
                       if(this.user.position=='ADMINISTRADOR'){
                         this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
                           this.fondoItems=res;
-                          this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+                          /* this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
                           this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-                          this.dataSourceFondoItem.sort = this.sort.toArray()[0];
+                          this.dataSourceFondoItem.sort = this.sort.toArray()[0]; */
   
                           this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
                             this.fondoLiquidaciones=liqs;
-                            this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
+                            /* this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
                             this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
-                            this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
+                            this.dataSourceFondoLiq.sort = this.sort.toArray()[1]; */
                           })
   
                         })
