@@ -122,7 +122,10 @@
   </mat-sidenav>
   <mat-sidenav-content >
     <div class="container" style="margin:20px; max-height:100%;" >
-
+      
+      <h3 style="text-align:left;">
+        RENDICION DE MOVILIDAD
+      </h3>
 
       <mat-form-field *ngIf="user.supply_role=='ADMINISTRADOR'||user.supply_role=='SUPERUSUARIO'||user_area.name=='ABASTECIMIENTO'" style="width:30%;" class="sala" id="sala" appearance="outline" >
         <mat-label>Sala:</mat-label>
@@ -132,9 +135,18 @@
       </mat-form-field>
 
 
-      <h3 style="text-align:left;">
-        RENDICION DE MOVILIDAD
-      </h3>
+      <mat-form-field style="width:28%;" appearance="outline">
+        <mat-label>Fecha:</mat-label>
+        <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange(ref.value)">
+        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+        <mat-label>Monto:</mat-label>
+        <input matInput [(ngModel)]="mobility.monto">
+        <span matPrefix>S/.&nbsp;</span>
+      </mat-form-field>
 
       <div *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'">
         <mat-form-field appearance="standard" style="display:display-inline">
@@ -143,18 +155,16 @@
         </mat-form-field>
 
         <div appearance="standard" style="display:display-inline; float:right">
-          <button *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'" mat-raised-button style="background-color: rgb(150, 123, 18); color:white" (click)="addFondoItem()">
+          <button *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'" mat-raised-button style="background-color: green; color:white" (click)="addMobility()">
             <mat-icon>add</mat-icon>AGREGAR
           </button>
           &nbsp;
-          <button *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'" mat-raised-button style="background-color: green; color:white" (click)="addFondoLiquidacion()">
-            <mat-icon>check</mat-icon>REGISTRAR
-          </button>
+          
         </div>
 
 
         <div class="mat-elevation-z8" style="width:100%;">
-            <table mat-table style="width:100%;" [dataSource]="dataSourceFondoItem" matSort multiTemplateDataRows>
+            <table mat-table style="width:100%;" [dataSource]="dataSourceMobility" matSort multiTemplateDataRows>
 
               <ng-container matColumnDef="fecha">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
@@ -235,93 +245,7 @@
             <mat-paginator [pageSizeOptions]="[20, 40, 70, 100]" aria-label="Página"></mat-paginator>
         </div>
       </div>
-
-
-
-
-
-      <h3>HISTÓRICO DE REGISTROS DE MOVILIDAD</h3>
-
-
-<!--       <mat-form-field style="width:25%;" appearance="outline">
-        <mat-label>Fecha:</mat-label>
-        <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange(ref.value)">
-        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-      </mat-form-field> -->
-
-      <mat-form-field appearance="standard" style="display:display-inline">
-        <mat-label>Búsqueda</mat-label>
-        <input matInput (keyup)="applyFilterL($event)" placeholder="Escribe algo para buscar" #input2>
-      </mat-form-field>
-
-      <div class="mat-elevation-z8" style="width:100%;">
-        <table mat-table style="width:100%;" [dataSource]="dataSourceFondoLiq" matSort multiTemplateDataRows>
-
-          <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
-            <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="campus">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> SALA </th>
-            <td mat-cell *matCellDef="let a"> {{a.campus}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="numero">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> NUMERO </th>
-            <td mat-cell *matCellDef="let a"> {{a.numero}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="importe">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> IMPORTE </th>
-            <td mat-cell *matCellDef="let a"> S/.{{' '+a.importe}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="personal">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> RENDIDO POR </th>
-            <td mat-cell *matCellDef="let a"> {{a.personal}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
-            <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="pdf">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> PDF </th>
-            <td mat-cell *matCellDef="let a">
-              <button mat-icon-button (click)="reCreatePDF(a)" color="accent">
-                <mat-icon>description</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ANULAR </th>
-            <td mat-cell *matCellDef="let a; let i=index">
-              <button *ngIf="a.estado!='ANULADO'" mat-icon-button color="primary" (click)="anular(a)"> <mat-icon> cancel </mat-icon> </button>&nbsp;
-            </td>
-          </ng-container>
-
-
-          <tr mat-header-row *matHeaderRowDef="['fecha','campus','numero','importe','personal','estado','pdf','edit'];"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['fecha','campus','numero','importe','personal','estado','pdf','edit'];"></tr>
-
-
-
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="6">No se encontró "{{input2.value}}"</td>
-          </tr>
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
-    </div>
-
-
-
-
+      
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

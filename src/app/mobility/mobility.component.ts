@@ -31,6 +31,7 @@ import { Campus } from '../campus';
 import { FondoLiquidacion } from '../fondo_liquidacion';
 import { Mobility } from '../mobility';
 import { runInThisContext } from 'vm';
+import { TouchSequence } from 'selenium-webdriver';
 
 
 @Component({
@@ -50,7 +51,8 @@ export class MobilityComponent implements OnInit {
 
   fondoItems: FondoItem[]=[];
   fondoLiquidaciones: FondoLiquidacion[]=[];
-  mobilities: Mobility[]
+  mobilities: Mobility[];
+  mobility: Mobility = new Mobility('','','','',0,'','');
 
 
   user: User = new User('','','','','','',null,null,'','');
@@ -199,7 +201,7 @@ export class MobilityComponent implements OnInit {
     }
   
     dateChange(value){
-  /*     var year= this.fecha.getFullYear();
+      var year= this.fecha.getFullYear();
       var month = this.fecha.getMonth()+1;
       if(month<10){
         month='0'+month;
@@ -209,14 +211,7 @@ export class MobilityComponent implements OnInit {
         day='0'+day;
       }
       this.fechaStr=year+'-'+month+'-'+day;
-  
-      this.logisticaService.getFondoItems(this.sala,this.fechaStr).subscribe((res:FondoItem[])=>{
-        this.fondoItems=res;
-        this.dataSourceFondo = new MatTableDataSource(this.fondoItems);
-        this.dataSourceFondo.paginator = this.paginator.toArray()[0];
-        this.dataSourceFondo.sort = this.sort.toArray()[0];
-  
-      }) */
+        
     }
   
     logout(){
@@ -233,23 +228,14 @@ export class MobilityComponent implements OnInit {
       this.logisticaService.getSalaByName(this.sala).subscribe((res4:Campus)=>{
         if(res4){
           //this.user_campus=res4;
-          this.logisticaService.getFondoLiquidacionesByCampus(this.sala,).subscribe((res:FondoLiquidacion[])=>{
-            this.fondoLiquidaciones=res;
-            this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
-            this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
-            this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
-  
-  
-            this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
-              this.fondoItems=res;
-              this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-              this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-              this.dataSourceFondoItem.sort = this.sort.toArray()[0];
-              this.selection.clear();
-  
-             })
-  
-          })
+          this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
+            console.log(rspM);
+            this.mobilities=rspM;
+            this.dataSourceMobility = new MatTableDataSource(this.mobilities);
+            this.dataSourceMobility.paginator = this.paginator.toArray()[0];
+            this.dataSourceMobility.sort = this.sort.toArray()[0];
+          });
+
         }
       })
   
@@ -667,6 +653,30 @@ export class MobilityComponent implements OnInit {
     }
   
   
+    addMobility(){
+      this.mobility.campus=this.sala;
+      this.mobility.estado='REGISTRADO';
+      this.mobility.fecha=this.fechaStr;
+      this.mobility.fecha_gen=this.fechaStr;
+      this.mobility.hora_gen='';
+      this.mobility.monto=this.mobility.monto;
+      this.mobility.user_id=this.user.user_id;
+
+      console.log(this.mobility);
+
+      this.logisticaService.addMobility(this.mobility).subscribe(rspM=>{
+        console.log(rspM);
+        this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
+          console.log(rspM);
+          this.mobilities=rspM;
+          this.dataSourceMobility = new MatTableDataSource(this.mobilities);
+          this.dataSourceMobility.paginator = this.paginator.toArray()[0];
+          this.dataSourceMobility.sort = this.sort.toArray()[0];
+        });
+        this.mobility = new Mobility('','','','',0,'','');
+      });
+
+    }
   
     ngOnInit() {
   
@@ -684,16 +694,6 @@ export class MobilityComponent implements OnInit {
 
       console.log(this.fechaStr);
 
-      this.logisticaService.getMobility().subscribe((rspM:Mobility[])=>{
-        console.log(rspM);
-        this.mobilities=rspM;
-        this.dataSourceMobility = new MatTableDataSource(this.mobilities);
-        this.dataSourceMobility.paginator = this.paginator.toArray()[0];
-        this.dataSourceMobility.sort = this.sort.toArray()[0];
-      });
-
-      this.fondoLiquidacion=new FondoLiquidacion('','','','','','','',this.user.user_id,'');
-  
   
       if(this.cookiesService.checkToken('session_id')){
         this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
@@ -713,39 +713,25 @@ export class MobilityComponent implements OnInit {
                         this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
                           if(resi){
                             this.campus=resi;
-                            this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
-                              this.fondoLiquidaciones=liqs;
-                              /* this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
-                              this.dataSourceFondoLiq.paginator = this.paginator.toArray()[0];
-                              this.dataSourceFondoLiq.sort = this.sort.toArray()[0]; */
-  
-                              this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
-                                this.fondoItems=res;
-                                /* this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-                                this.dataSourceFondoItem.paginator = this.paginator.toArray()[1];
-                                this.dataSourceFondoItem.sort = this.sort.toArray()[1]; */
-                              })
-  
-                            })
+                            this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
+                              console.log(rspM);
+                              this.mobilities=rspM;
+                              this.dataSourceMobility = new MatTableDataSource(this.mobilities);
+                              this.dataSourceMobility.paginator = this.paginator.toArray()[0];
+                              this.dataSourceMobility.sort = this.sort.toArray()[0];
+                            });
                           }
                         })
                       }
   
                       if(this.user.position=='ADMINISTRADOR'){
-                        this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
-                          this.fondoItems=res;
-                          /* this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-                          this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-                          this.dataSourceFondoItem.sort = this.sort.toArray()[0]; */
-  
-                          this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
-                            this.fondoLiquidaciones=liqs;
-                            /* this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
-                            this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
-                            this.dataSourceFondoLiq.sort = this.sort.toArray()[1]; */
-                          })
-  
-                        })
+                        this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
+                          console.log(rspM);
+                          this.mobilities=rspM;
+                          this.dataSourceMobility = new MatTableDataSource(this.mobilities);
+                          this.dataSourceMobility.paginator = this.paginator.toArray()[0];
+                          this.dataSourceMobility.sort = this.sort.toArray()[0];
+                        });
                       }
                     }
                   })
@@ -801,7 +787,7 @@ export class DialogNewItemMobility implements OnInit {
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
 
   listaReq: Item[]= [];
-  categories:any= [];
+  campus:any= [];
 
   prefijoMoney='';
 
@@ -854,9 +840,9 @@ export class DialogNewItemMobility implements OnInit {
 
 
   ngOnInit(): void {
-    this.logisticaService.getAllCategories().subscribe(res=>{
+    this.logisticaService.getAllCampus().subscribe(res=>{
       if(res){
-        this.categories=res;
+        this.campus=res;
       }
     })
 
@@ -886,7 +872,7 @@ export class DialogNewItemMobility implements OnInit {
   }
 
 
-  ChangeCategory(){
+  ChangeCampus(){
   }
 
 }
@@ -926,7 +912,8 @@ export class DialogEditItemMobility implements OnInit {
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
 
   listaReq: Item[]= [];
-  categories:any= [];
+
+  campus:any= [];
 
   prefijoMoney='';
 
@@ -982,9 +969,9 @@ export class DialogEditItemMobility implements OnInit {
     var dateArr=this.data.fecha.split('-');
     this.date= new Date(parseInt(dateArr[0]),parseInt(dateArr[1])-1,parseInt(dateArr[2]));
     console.log(this.date);
-    this.logisticaService.getAllCategories().subscribe(res=>{
+    this.logisticaService.getAllCampus().subscribe(res=>{
       if(res){
-        this.categories=res;
+        this.campus=res;
       }
     })
 
@@ -1012,7 +999,7 @@ export class DialogEditItemMobility implements OnInit {
     this.data.fecha=year+'-'+month+'-'+day;
   }
 
-  ChangeCategory(){
+  ChangeCampus(){
   }
 
 }
