@@ -871,13 +871,8 @@ export class DialogNewItemMobility implements OnInit {
   }
 
 
-
   ChangeCategory(){
   }
-
-
-
-
 
 }
 
@@ -1002,14 +997,8 @@ export class DialogEditItemMobility implements OnInit {
     this.data.fecha=year+'-'+month+'-'+day;
   }
 
-
-
   ChangeCategory(){
   }
-
-
-
-
 
 }
 
