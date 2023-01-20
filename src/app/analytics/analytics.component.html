@@ -35,10 +35,6 @@
           </p>
         </a>
 
-        <a mat-list-item routerLink="/analytics" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
-          <mat-icon class="icon1">analytics</mat-icon>
-          Reportes
-        </a>
         <a mat-list-item routerLink="/" class="navItem">
           <mat-icon class="icon1" >dashboard</mat-icon>
           Dashboard
@@ -51,7 +47,7 @@
           <mat-expansion-panel style="background-color: #b03a64">
             <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
               <mat-panel-title>
-                <mat-icon class="icon4" >settings</mat-icon>
+                <mat-icon class="icon4" >verified</mat-icon>
                 Ordenes
               </mat-panel-title>
             </mat-expansion-panel-header>
@@ -63,15 +59,36 @@
               <mat-icon class="icon4" >warehouse</mat-icon>
               Almacen
             </a>
-            <a mat-list-item routerLink="/view-orders" class="navItem">
-              <mat-icon class="icon4" >visibility</mat-icon>
-              Ver ordenes
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <a mat-list-item routerLink="/daily" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
+          <mat-icon class="icon1">today</mat-icon>
+          Actividades diarias
+        </a>
+
+        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" class="navItem">
+          <mat-expansion-panel style="background-color: #b03a64">
+            <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+              <mat-panel-title>
+                <mat-icon class="icon4" >paid</mat-icon>
+                Rendicion
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLink="/fondo" class="navItem">
+              <mat-icon class="icon4" >paid</mat-icon>
+              Rendicion de fondo
+            </a>
+            <a mat-list-item routerLink="/mobility" class="navItem">
+              <mat-icon class="icon4" >directions_car</mat-icon>
+              Movilidad
             </a>
           </mat-expansion-panel>
         </mat-accordion>
-        <a mat-list-item *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" routerLink="/fondo" class="navItem">
-          <mat-icon class="icon4" >paid</mat-icon>
-          Rendicion de fondo
+
+        <a mat-list-item routerLink="/analytics" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
+          <mat-icon class="icon1">analytics</mat-icon>
+          Reportes
         </a>
 
         <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" class="navItem">
@@ -101,6 +118,10 @@
             <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/providers" class="navItem">
               <mat-icon class="icon4" >store</mat-icon>
               Proveedores
+            </a>
+            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/activities" class="navItem">
+              <mat-icon class="icon4" >task_alt</mat-icon>
+              Actividades
             </a>
 
 
