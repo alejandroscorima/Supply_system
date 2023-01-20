@@ -13,8 +13,8 @@
 
     <mat-form-field style="width:28%;" class="sala" id="sala" appearance="outline" >
       <mat-label>Sala:</mat-label>
-      <mat-select [(value)]="data['item'].campus" (selectionChange)="ChangeCategory()">
-          <mat-option *ngFor="let c of categories" [value]="c['name']">{{c['name']}}</mat-option>
+      <mat-select [(value)]="data['item'].campus" (selectionChange)="ChangeCampus()">
+          <mat-option *ngFor="let c of campus" [value]="c['name']">{{c['name']}}</mat-option>
       </mat-select>
     </mat-form-field>
 

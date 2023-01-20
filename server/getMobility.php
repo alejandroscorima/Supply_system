@@ -3,10 +3,11 @@
 header("Access-Control-Allow-Origin: *");
 //header("Access-Control-Allow-Origin: http://192.168.4.250");
 
+$campus=$_GET['campus'];
 
 $bd = include_once "bdLogistica.php";
 
-$sentencia = $bd->prepare("SELECT fecha, campus, monto, estado, user_id, hora_gen, fecha_gen FROM mobility ORDER BY fecha ASC");
+$sentencia = $bd->prepare("SELECT fecha, campus, monto, estado, user_id, hora_gen, fecha_gen FROM mobility WHERE campus = '".$campus."' ORDER BY fecha ASC");
 
 
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");

@@ -19,8 +19,8 @@ if (!$jsonMobility) {
     exit("No hay datos");
 }
 $bd = include_once "bdLogistica.php";
-$sentencia = $bd->prepare("insert into daily(fecha, sala, campus, monto, estado, user_id, hora_gen, fecha_gen) values (?,?,?,?,?,?,?,?)");
-$resultado = $sentencia->execute([$jsonMobility->fecha, $jsonMobility->sala, $jsonMobility->campus, $jsonMobility->monto, $jsonMobility->estado, $jsonMobility->user_id, $jsonMobility->hora_gen, $jsonMobility->fecha_gen]);
+$sentencia = $bd->prepare("insert into mobility (fecha, campus, monto, estado, user_id, hora_gen, fecha_gen) values (?,?,?,?,?,?,?)");
+$resultado = $sentencia->execute([$jsonMobility->fecha, $jsonMobility->campus, $jsonMobility->monto, $jsonMobility->estado, $jsonMobility->user_id, $jsonMobility->hora_gen, $jsonMobility->fecha_gen]);
 echo json_encode([
     "resultado" => $resultado,
 ]);

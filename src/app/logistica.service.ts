@@ -15,6 +15,7 @@ import { Product } from './product';
 import { Daily } from './daily';
 import { Mobility } from './mobility';
 import { Activity } from './activity';
+import { Campus } from './campus';
 
 @Injectable({
   providedIn: 'root'
@@ -71,11 +72,11 @@ export class LogisticaService {
   }
 
   getDaily(){
-    return this.http.get(`${this.baseUrl}/getDaily.php`)
+    return this.http.get(`${this.baseUrl}/getDaily.php`);
   }
 
-  getMobility(){
-    return this.http.get(`${this.baseUrl}/getMobility.php`)
+  getMobility(campus: String){
+    return this.http.get(`${this.baseUrl}/getMobility.php?campus=${campus}`);
   }
 
   getAreaById(area_id: number) {
