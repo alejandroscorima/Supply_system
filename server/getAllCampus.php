@@ -7,7 +7,7 @@ header("Access-Control-Allow-Origin: *");
 
 $bd = include_once "bdData.php";
 
-$sentencia = $bd->prepare("SELECT campus_id, name, address, company, ruc, supply_ord_suffix, supply_req_suffix FROM campus ORDER BY name ASC");
+$sentencia = $bd->prepare("SELECT campus_id, name, address, company, ruc, supply_ord_suffix, supply_req_suffix FROM campus WHERE supply_switch='ON' ORDER BY name ASC");
 
 
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");
