@@ -62,12 +62,12 @@
           </mat-expansion-panel>
         </mat-accordion>
 
-        <a mat-list-item routerLink="/daily" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
+        <a mat-list-item routerLink="/daily" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'">
           <mat-icon class="icon1">today</mat-icon>
           Actividades diarias
         </a>
 
-        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" class="navItem">
+        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'||user_area.name=='ADMINISTRACION'" class="navItem">
           <mat-expansion-panel style="background-color: #b03a64">
             <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
               <mat-panel-title>
