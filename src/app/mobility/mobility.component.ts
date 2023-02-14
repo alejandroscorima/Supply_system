@@ -52,7 +52,7 @@ export class MobilityComponent implements OnInit {
   fondoItems: FondoItem[]=[];
   fondoLiquidaciones: FondoLiquidacion[]=[];
   mobilities: Mobility[];
-  mobility: Mobility = new Mobility('','','','',0,'','');
+  mobility: Mobility = new Mobility('','','','',0,'','','','','');
 
 
   user: User = new User('','','','','','',null,null,'','');
@@ -61,7 +61,8 @@ export class MobilityComponent implements OnInit {
 
   selection = new SelectionModel<FondoItem>(true, []);
 
-  fecha;
+  fechaStart;
+  fechaEnd;
   fechaStr;
   sala;
   campus:Campus[]=[];
@@ -103,7 +104,7 @@ export class MobilityComponent implements OnInit {
 
 
 
-    editItem(it:FondoItem){
+    editItem(it:Mobility){
 
       var dialogRef;
   
@@ -113,12 +114,13 @@ export class MobilityComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(res => {
         if(res){
-          this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:FondoItem[])=>{
-            this.fondoItems=res2;
-            this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-            this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-            this.dataSourceFondoItem.sort = this.sort.toArray()[0];
-          })
+          this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
+            console.log(rspM);
+            this.mobilities=rspM;
+            this.dataSourceMobility = new MatTableDataSource(this.mobilities);
+            this.dataSourceMobility.paginator = this.paginator.toArray()[0];
+            this.dataSourceMobility.sort = this.sort.toArray()[0];
+          });
         }
       })
   
@@ -200,17 +202,28 @@ export class MobilityComponent implements OnInit {
       }
     }
   
-    dateChange(value){
-      var year= this.fecha.getFullYear();
-      var month = this.fecha.getMonth()+1;
+    fechaChange(){
+      var year= this.fechaStart.getFullYear();
+      var month = this.fechaStart.getMonth()+1;
       if(month<10){
         month='0'+month;
       }
-      var day = this.fecha.getDate();
+      var day = this.fechaStart.getDate();
       if(day<10){
         day='0'+day;
       }
-      this.fechaStr=year+'-'+month+'-'+day;
+      this.mobility.fecha=year+'-'+month+'-'+day;
+
+      var year= this.fechaEnd.getFullYear();
+      var month = this.fechaEnd.getMonth()+1;
+      if(month<10){
+        month='0'+month;
+      }
+      var day = this.fechaEnd.getDate();
+      if(day<10){
+        day='0'+day;
+      }
+      this.mobility.fecha+=' a '+year+'-'+month+'-'+day;
         
     }
   
@@ -242,182 +255,46 @@ export class MobilityComponent implements OnInit {
     }
   
   
-    addFondoItem(){
-      var dialogRef;
   
-      this.fondoItem=new FondoItem(this.sala,this.fechaStr,'','','','','','','','PENDIENTE',0,this.user.user_id);
   
-      dialogRef=this.dialog.open(DialogNewItemMobility,{
-        data:{item:this.fondoItem,
-              date:this.fecha},
+    reCreatePDF(mob:Mobility){
+
+      this.logisticaService.getSalaByName(mob.campus).subscribe((s:Campus)=>{
+        mob.empresa=s.company;
+        mob.campus_dir=s.address;
+        this.generatePDF(mob);
       })
-  
-      dialogRef.afterClosed().subscribe(res => {
-        if(res){
-          this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:FondoItem[])=>{
-            this.fondoItems=res2;
-            this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-            this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-            this.dataSourceFondoItem.sort = this.sort.toArray()[0];
-          })
-        }
-      })
+
+
+
     }
   
   
-    addFondoLiquidacion(){
-      console.log(this.fechaStr);
-      this.fondoLiquidacion.fecha=this.fechaStr;
-      this.fondoLiquidacion.campus=this.sala;
-      this.fondoLiquidacion.campus_dir=this.user_campus.address;
-      this.fondoLiquidacion.empresa=this.user_campus.company;
-      this.fondoLiquidacion.importe='0.0';
-      this.fondoLiquidacion.numero=this.user_campus.supply_ord_suffix;
-      this.fondoLiquidacion.personal=this.user.first_name+' '+this.user.last_name;
-      this.fondoLiquidacion.user_id=this.user.user_id;
-      this.fondoLiquidacion.estado='REGISTRADO';
-
-  
-      this.logisticaService.getLastFondoLiquidacionNum(this.fondoLiquidacion.numero,this.fondoLiquidacion.campus,this.fondoLiquidacion.empresa).subscribe(resp=>{
-        if(resp['numero']){
-          var numStr='';
-          var numArray = String(resp['numero']).split('-');
-          if(parseInt(numArray[1])+1<10){
-            numStr='000'+(parseInt(numArray[1])+1);
-          }
-          else if(parseInt(numArray[1])+1<100){
-            numStr='00'+(parseInt(numArray[1])+1);
-          }
-          else if(parseInt(numArray[1])+1<1000){
-            numStr='0'+(parseInt(numArray[1])+1);
-          }
-          else {
-            numStr=String(parseInt(numArray[1])+1);
-          }
-          this.fondoLiquidacion.numero+='-';
-          this.fondoLiquidacion.numero+=numStr;
-        }
-        else{
-          this.fondoLiquidacion.numero+='-0001';
-        }
-
-
-        this.selection.selected.forEach((i,ind)=>{
-          this.fondoLiquidacion.importe=(parseFloat(this.fondoLiquidacion.importe)+parseFloat(i.monto)).toFixed(2);
-        })
-
-        console.log(this.fondoLiquidacion);
-
-        this.logisticaService.addFondoLiquidacion(this.fondoLiquidacion).subscribe(resss=>{
-          console.log(resss);
-          console.log(resss['liq_id']);
-          if(resss['liq_id']){
-            this.selection.selected.forEach((i,ind)=>{
-              i.liquidacion_id=resss['liq_id'];
-              i.estado='REGISTRADO';
-              this.logisticaService.updateFondoItem(i).subscribe(resr=>{
-                if(ind==this.selection.selected.length-1&&resr){
-                  console.log(this.fondoLiquidacion);
-
-
-                      this.generatePDF(this.fondoLiquidacion);
-
-                      if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){
-                        this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
-                          if(resi){
-                            this.campus=resi;
-                            this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
-                              this.fondoLiquidaciones=liqs;
-                              this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
-                              this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
-                              this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
-
-
-                              this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
-                                this.fondoItems=res;
-                                this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-                                this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-                                this.dataSourceFondoItem.sort = this.sort.toArray()[0];
-                                this.selection.clear();
-
-                                })
-
-                            })
-                          }
-                        })
-                      }
-
-                      if(this.user.position=='ADMINISTRADOR'){
-
-
-                        this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
-                          this.fondoLiquidaciones=liqs;
-                          this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
-                          this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
-                          this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
-
-                          this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
-                            this.fondoItems=res;
-                            this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-                            this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-                            this.dataSourceFondoItem.sort = this.sort.toArray()[0];
-                            this.selection.clear();
-
-                          })
-
-
-                        })
-
-
-                      }
-                    
-                }
-              });
-            })
-          }
-        })
-      })
-  
-    }
-  
-    reCreatePDF(fl:FondoLiquidacion){
-      this.selection.clear();
-      this.logisticaService.getFondoItemsByLiquidacionId(String(fl.id)).subscribe((res:FondoItem[])=>{
-        if(res.length>0){
-          res.forEach(a=>{
-            this.selection.select(a);
-          })
-          this.generatePDF(fl);
-        }
-      })
-    }
-  
-  
-    generatePDF(fondliq:FondoLiquidacion){
+    generatePDF(mob:Mobility){
       var empresaCompleto='';
-      if(fondliq.empresa=='VISION'){
+      if(mob.empresa=='VISION'){
         empresaCompleto='VISION GAMES CORPORATION S.A.C.'
       }
-      if(fondliq.empresa=='SUN'){
+      if(mob.empresa=='SUN'){
         empresaCompleto='SUN INVERSIONES S.A.C.'
       }
-      if(fondliq.empresa=='IMG'){
+      if(mob.empresa=='IMG'){
         empresaCompleto='INVERSIONES MEGA GAMING S.A.C.'
       }
-      if(fondliq.empresa=='GO'){
+      if(mob.empresa=='GO'){
         empresaCompleto='GRUPO OSCORIMA S.A.C.'
       }
-      if(fondliq.empresa=='WARI'){
+      if(mob.empresa=='WARI'){
         empresaCompleto='INVERSIONES WARI S.A.C.'
       }
   
       this.doc = new jsPDF();
   
-      if(fondliq.campus.includes('OFICINA')){
-        this.img.src = 'assets/logo'+fondliq.empresa+'.png';
+      if(mob.campus.includes('OFICINA')){
+        this.img.src = 'assets/logo'+mob.empresa+'.png';
       }
       else{
-        this.img.src = 'assets/logo'+fondliq.campus+'.png';
+        this.img.src = 'assets/logo'+mob.campus+'.png';
       }
   
       this.doc.addImage(this.img, 'png', 10, 10, 40, 40, '','FAST',0);
@@ -426,14 +303,14 @@ export class MobilityComponent implements OnInit {
       this.doc.text(empresaCompleto,100,29,{align:'center'});
       this.doc.setFont("helvetica","normal");
       this.doc.setFontSize(12);
-      this.doc.text(fondliq.campus,100,36,{align:'center'});
+      this.doc.text(mob.campus,100,36,{align:'center'});
       this.doc.setFont("helvetica","normal");
       this.doc.setFontSize(8);
-      if(fondliq.campus_dir.length<63){
-        this.doc.text(fondliq.campus_dir,100,43,{align:'center'});
+      if(mob.campus_dir.length<63){
+        this.doc.text(mob.campus_dir,100,43,{align:'center'});
       }
       else{
-        var direccionArray=fondliq.campus_dir.split(',');
+        var direccionArray=mob.campus_dir.split(',');
         this.doc.text(direccionArray[0],100,43,{align:'center'});
         this.doc.text(direccionArray[1],100,48,{align:'center'});
       }
@@ -441,228 +318,118 @@ export class MobilityComponent implements OnInit {
       //this.doc.roundedRect(65, 25, 80, 20, 2, 2, 'S');
   
   
-      if(this.user_area.name=='ABASTECIMIENTO'){
-        this.doc.rect(150, 21, 50, 21);
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(10);
-        this.doc.setTextColor(0,0,0);
-        this.doc.text('LOGISTICA',175,33,{align:'center'});
-        this.doc.setFontSize(9);
-        this.doc.setTextColor(0,0,0);
-        this.doc.text('LIQUIDACION DE FONDO FIJO',175,26,{align:'center'});
-      }
-      else{
-        this.doc.rect(150, 28, 50, 14);
-        this.doc.setFont("helvetica","normal");
-        this.doc.setFontSize(10);
-        this.doc.setTextColor(0,0,0);
-        this.doc.text('FONDO FIJO',175,26,{align:'center'});
-        this.doc.text('LIQUIDACION DE CHEQUE',175,33,{align:'center'});
-      }
+
+      this.doc.rect(150, 28, 50, 14);
+
       this.doc.setFont("helvetica","normal");
       this.doc.setFontSize(10);
       this.doc.setTextColor(0,0,0);
-      // this.doc.text('Nº '+ this.ord.numero,175-(((9+this.ord.numero.length)/2)*3),39);
-      this.doc.text('Nº '+fondliq.numero,175,39,{align:'center'});
-      this.doc.text('FECHA: '+fondliq.fecha,175,49,{align:'center'});
-      this.doc.text('IMPORTE: '+this.prefijoMoney+' '+fondliq.importe,175,56,{align:'center'});
+      this.doc.text(mob.fecha_gen,175,33,{align:'center'});
+      this.doc.text('S/. '+mob.monto,175,39,{align:'center'});
+
       this.doc.setTextColor(0,0,0);
-      this.doc.text('BANCO',15,58);
-      this.doc.text(': CONTINENTAL',45,58);
-      this.doc.text('RENDIDO POR',15,65);
-      this.doc.text(': '+fondliq.personal,45,65);
+      this.doc.setFontSize(15);
+      this.doc.setFont("helvetica","bold");
+      this.doc.text('LIQUIDACION DE MOVILIDAD',110,70,{align:'center'});
+
+      this.doc.setFont("helvetica","normal");
+      this.doc.setFontSize(10);
+      this.doc.text('SALA: ',110,80,{align:'right'});
+      this.doc.text('FECHA: ',110,88,{align:'right'});
+      this.doc.text('FONDO: ',110,96,{align:'right'});
+
+      this.doc.text(mob.campus,111,80,{align:'left'});
+      this.doc.text(mob.fecha,111,88,{align:'left'});
+      this.doc.text('S/. '+mob.monto,111,96,{align:'left'});
   /*     this.doc.text('DIRECCION',15,79);
       this.doc.setFontSize(11); */
   /*     this.doc.text(': '+fondliq.campus_dir,45,79);
       this.doc.setFontSize(12); */
-      this.doc.line(10, 75, 200, 75,'S');
+      this.doc.line(80, 110, 140, 110,'S');
       this.doc.setFontSize(8);
       this.doc.setFont("helvetica","bold");
-      this.doc.text('FECHA',19,80,{align:'center'});
-      this.doc.text('TIPO DOC',36,80,{align:'center'});
-      this.doc.text('SERIE',51,80,{align:'center'});
-      this.doc.text('Nº DOC.',65,80,{align:'center'});
-      this.doc.text('RUC',85,80,{align:'center'});
-      this.doc.text('RAZON SOCIAL',98,80,{align:'left'});
-      this.doc.text('MONTO',192,80,{align:'center'});
-      var pos_line=75;
+      this.doc.text('CONCEPTO',95,115,{align:'center'});
+      this.doc.text('MONTO (S/.)',125,115,{align:'center'});
+      var pos_line=110;
       var pos_item=pos_line+5;
       this.doc.setFont("helvetica","normal");
-      this.selection.selected.forEach(m=>{
-        pos_line+=7;
-        pos_item+=7;
-        this.doc.line(10, pos_line, 200, pos_line, 'S');
-        this.doc.text(String(m.fecha),19,pos_item,{align:'center'});
-        this.doc.text(String(m.tipo_doc),36,pos_item,{align:'center'});
-        this.doc.text(String(m.serie),51,pos_item,{align:'center'});
-        this.doc.text(String(m.numero),65,pos_item,{align:'center'});
-        this.doc.text(String(m.ruc),85,pos_item,{align:'center'});
-        this.doc.setFontSize(8);
-        if(m.raz_social.length<=47){
-          this.doc.text(m.raz_social,98,pos_item);
-        }
-        else{
-          if(m.raz_social.length<=94){
-            this.doc.text(m.raz_social.substring(0,47),98,pos_item);
-            pos_line+=7;
-            pos_item+=7;
-            this.doc.text(m.raz_social.substring(47,m.raz_social.length),98,pos_item);
-          }
-          else{
-            this.doc.text(m.raz_social.substring(0,47),98,pos_item);
-            pos_line+=7;
-            pos_item+=7;
-            this.doc.text(m.raz_social.substring(47,94),98,pos_item);
-            pos_line+=7;
-            pos_item+=7;
-            this.doc.text(m.raz_social.substring(94,m.raz_social.length),98,pos_item);
-          }
-        }
-  
-        this.doc.setFontSize(8);
-        this.doc.text(m.monto,192,pos_item,{align:'center'});
-      })
       pos_line+=7;
-      this.doc.line(10, pos_line, 200, pos_line, 'S');
-  
-      this.doc.line(10, 75, 10, pos_line, 'S');
-      this.doc.line(28, 75, 28, pos_line, 'S');
-      this.doc.line(28, 75, 28, pos_line, 'S');
-      this.doc.line(45, 75, 45, pos_line, 'S');
-      this.doc.line(57, 75, 57, pos_line, 'S');
-      this.doc.line(74, 75, 74, pos_line, 'S');
-      this.doc.line(97, 75, 97, pos_line, 'S');
-      this.doc.line(184, 75, 184, pos_line, 'S');
-      this.doc.line(200, 75, 200, pos_line, 'S');
-  /*    pos_line+=10;
-      this.doc.setFontSize(9);
-      this.doc.setTextColor(183,18,18);
-      this.doc.text('SON: '+fondliq.importe,15,pos_line); */
+      pos_item+=7;
+      this.doc.line(80, pos_line, 140, pos_line, 'S');
+      this.doc.text('MOVILIDAD',95,pos_item,{align:'center'});
+      this.doc.text(mob.monto,125,pos_item,{align:'center'});
       pos_line+=7;
-      this.doc.setFontSize(12);
-      this.doc.setTextColor(0,0,0);
-      this.doc.roundedRect(140, pos_line, 60, 7, 2, 2, 'S');
+      pos_item+=7;
       this.doc.setFont("helvetica","bold");
-      this.doc.text('TOTAL',142,pos_line+5);
-  /*     this.doc.text('IGV',142,pos_line+12);
-      this.doc.text('REBAJADO: '+this.prefijoMoney+' '+fondliq.importe,20,pos_line+19);
-      this.doc.text('TOTAL',142,pos_line+19); */
-      this.doc.text(this.prefijoMoney,166,pos_line+5);
-  /*     this.doc.text(this.prefijoMoney,166,pos_line+12);
-      this.doc.text(this.prefijoMoney,166,pos_line+19); */
-      this.doc.text(fondliq.importe,197,pos_line+5,{align:'right'});
-  /*     this.doc.text(fondliq.importe,197,pos_line+12,{align:'right'});
-      this.doc.text(fondliq.importe,197,pos_line+19,{align:'right'}); */
-      //console.log(this.doc.internal.getFontSize());
+      this.doc.line(80, pos_line, 140, pos_line, 'S');
+      this.doc.text('TOTAL',95,pos_item,{align:'center'});
+      this.doc.text('S/. '+mob.monto,125,pos_item,{align:'center'});
+      this.doc.setFont("helvetica","normal");
+      pos_line+=7;
+      this.doc.line(80, pos_line, 140, pos_line, 'S');
   
-  /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */
+      this.doc.line(80, 110, 80, pos_line, 'S');
+      this.doc.line(110, 110, 110, pos_line, 'S');
+      this.doc.line(140, 110, 140, pos_line, 'S');
   
   
       window.open(URL.createObjectURL(this.doc.output("blob")));
   
   
-  /*     if(true){
-  
-          this.doc = new jsPDF();
-  
-          this.img.src = 'assets/logoVision.png'
-          this.doc.addImage(this.img, 'png', 10, 10, 60, 25);
-          this.doc.setFont("times","bold");
-          this.doc.setFontSize(22);
-          this.doc.text(this.tituloSala,this.posTituloSala,40);
-          this.doc.setFont("helvetica");
-          this.doc.setFontSize(16);
-          this.doc.text('CASINO',91,48);
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(12);
-          this.doc.text(this.direccionSala,105-((this.direccionSala.length/2)*2),56);
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(18);
-          this.doc.text('ACTA DE ENTREGA DE PREMIO',55,70);
-          this.doc.setFont("helvetica","bold");
-  
-          this.doc.setFontSize(11);
-          this.doc.text('Señor(a)',20,90);
-          this.doc.text('D.N.I.',20,100);
-          this.doc.text('Dirección',20,110);
-          this.doc.text('Fecha',20,130);
-          this.doc.text('Hora de sorteo',20,140);
-          this.doc.text('Premio sorteado',20,150);
-          this.doc.text('Nombre de sorteo',20,160);
-          this.doc.text('Número de cupón',20,170);
-  
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(10);
-          this.doc.text(':  '+this.nombreSorteo,53,90);
-          this.doc.text(':  '+this.doc_number,53,100);
-          this.doc.setFontSize(8);
-          this.doc.setCharSpace(10);
-          this.doc.text(':  '+this.direccionSorteo,53,110);
-          this.doc.text('   '+this.direccionSorteo2,53,120);
-          this.doc.setFontSize(10);
-          this.doc.text(':  '+this.fechaLongSorteo,53,130);
-          this.doc.text(':  '+this.horaLongSorteo,53,140);
-          this.doc.text(':  '+this.premioLongSorteo + ' CON 00/100 SOLES    |   S/'+this.premioSorteo,53,150);
-          this.doc.text(':  '+this.nombreDeSorteo,53,160);
-          this.doc.text(':  '+this.cupon_number,53,170);
-  
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(15);
-          this.doc.text('_________________________',25,200);
-          this.doc.text('_________________________',110,200);
-          this.doc.text('_________________________',50,250);
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(9);
-          this.doc.text(this.nombreSorteo,85-1.9*(this.nombreSorteo.length/2),258);
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(12);
-          this.doc.text(this.doc_number,85-2.5*(this.doc_number.length/2),263);
-          this.doc.text('Cliente',77,269);
-  
-          this.doc.rect(130,240,28,35);
-  
-  
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(9);
-          this.doc.text(this.admin_nombre,60-1.9*(this.admin_nombre.length/2),208);
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(12);
-          this.doc.text(this.admin_doc,60-2.5*(this.admin_doc.length/2),213);
-          this.doc.text('Administrador(a)',42,219);
-  
-  
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(9);
-          this.doc.text(this.adj_nombre,146-1.9*(this.adj_nombre.length/2),208);
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(12);
-          this.doc.text(this.adj_doc,146-2.5*(this.adj_doc.length/2),213);
-          this.doc.text('Adjunto(a)',135,219);
-  
-          this.toastr.success('Acta generada correctamente!','',{progressBar:true});
-  
-          window.open(URL.createObjectURL(this.doc.output("blob")));
-  
-          this.router.navigate(['']);
-  
-      }
-  
-      else{
-        this.toastr.warning('Por favor, verifique que todos los campos estén completados');
-      } */
     }
   
   
     addMobility(){
+      var year= this.fechaStart.getFullYear();
+      var month = this.fechaStart.getMonth()+1;
+      if(month<10){
+        month='0'+month;
+      }
+      var day = this.fechaStart.getDate();
+      if(day<10){
+        day='0'+day;
+      }
+      this.mobility.fecha=year+'-'+month+'-'+day;
+
+      year= this.fechaEnd.getFullYear();
+      month = this.fechaEnd.getMonth()+1;
+      if(month<10){
+        month='0'+month;
+      }
+      day = this.fechaEnd.getDate();
+      if(day<10){
+        day='0'+day;
+      }
+      this.mobility.fecha+=' a '+year+'-'+month+'-'+day;
+
+
+      this.fechaStart = new Date();
+      year= this.fechaStart.getFullYear();
+      month = this.fechaStart.getMonth()+1;
+      if(month<10){
+        month='0'+month;
+      }
+      day = this.fechaStart.getDate();
+      if(day<10){
+        day='0'+day;
+      }
+      this.mobility.fecha_gen=year+'-'+month+'-'+day;
+
+      var hour = this.fechaStart.getHours();
+      var min = this.fechaStart.getMinutes();
+      var sec = this.fechaStart.getSeconds();
+
+      this.mobility.hora_gen = hour+':'+min+':'+sec; 
+
+
       this.mobility.campus=this.sala;
       this.mobility.estado='REGISTRADO';
-      this.mobility.fecha=this.fechaStr;
-      this.mobility.fecha_gen=this.fechaStr;
-      this.mobility.hora_gen='';
       this.mobility.monto=this.mobility.monto;
       this.mobility.user_id=this.user.user_id;
 
       console.log(this.mobility);
+
+      this.generatePDF(this.mobility);
 
       this.logisticaService.addMobility(this.mobility).subscribe(rspM=>{
         console.log(rspM);
@@ -673,26 +440,15 @@ export class MobilityComponent implements OnInit {
           this.dataSourceMobility.paginator = this.paginator.toArray()[0];
           this.dataSourceMobility.sort = this.sort.toArray()[0];
         });
-        this.mobility = new Mobility('','','','',0,'','');
+        this.mobility = new Mobility('','','','',0,'','','','','');
       });
 
     }
   
     ngOnInit() {
   
-      this.fecha=new Date();
-      var year= this.fecha.getFullYear();
-      var month = this.fecha.getMonth()+1;
-      if(month<10){
-        month='0'+month;
-      }
-      var day = this.fecha.getDate();
-      if(day<10){
-        day='0'+day;
-      }
-      this.fechaStr=year+'-'+month+'-'+day;
-
-      console.log(this.fechaStr);
+      this.fechaStart=new Date();
+      this.fechaEnd=new Date();
 
   
       if(this.cookiesService.checkToken('session_id')){
@@ -707,7 +463,10 @@ export class MobilityComponent implements OnInit {
                     if(c){
                       this.user_campus=c;
                       this.sala=this.user_campus.name;
-  
+
+                      this.mobility.empresa=this.user_campus.company;
+                      this.mobility.campus=this.sala;
+                      this.mobility.campus_dir=this.user_campus.address;
   
                       if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){
                         this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{

@@ -97,6 +97,9 @@ export class OrdenComponent implements OnInit {
   igvSlideChecked: boolean;
   igvSlideDisabled: boolean;
 
+  retencionSlideChecked: boolean;
+  retencionSlideDisabled: boolean;
+
   percepInput;
 
   //View orders----------------------------------
@@ -169,7 +172,7 @@ export class OrdenComponent implements OnInit {
           this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
           this.ord.igv=(parseFloat(this.ord.igv)+(oi.cantidad*(parseFloat(oi.unit_price_aux)-parseFloat(oi.unit_price)))).toFixed(2);
         })
-        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
       }
       else{
         this.ord.subtotal=(0.0).toFixed(2);
@@ -181,18 +184,19 @@ export class OrdenComponent implements OnInit {
           this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
         })
         this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(2);
-        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
       }
     }
     else{
       this.igvSlideChecked=false;
       this.igvSlideDisabled=true;
       this.ord.igv=(0.0).toFixed(2);
-      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     }
   }
 
   updateRetencion(){
+    
     if(this.retencionActivated){
       if(this.ord.retencion_percent==null||this.ord.retencion_percent==''){
         this.ord.retencion=(0.0).toFixed(2);
@@ -201,11 +205,11 @@ export class OrdenComponent implements OnInit {
         this.ord.retencion=((parseFloat(this.ord.retencion_percent)*parseFloat(this.ord.subtotal))/100).toFixed(2);
       }
 
-      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     }
     else{
       this.ord.retencion=(0.0).toFixed(2);
-      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     } 
   }
 
@@ -217,11 +221,11 @@ export class OrdenComponent implements OnInit {
       else{
         this.ord.percepcion=(parseFloat(this.percepInput)).toFixed(2);
       }
-      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     }
     else{
       this.ord.percepcion=(0.0).toFixed(2);
-      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)+parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     } 
   }
 
@@ -248,6 +252,7 @@ export class OrdenComponent implements OnInit {
     this.updateIgv();
 
   }
+
 
   searchItem(){
 

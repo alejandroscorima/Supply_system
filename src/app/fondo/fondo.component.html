@@ -168,6 +168,7 @@
         </mat-form-field>
 
         <div appearance="standard" style="display:display-inline; float:right">
+          <a>IMPORTE: {{' S/. '+displayImporte}}</a>&nbsp;
           <button *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'" mat-raised-button style="background-color: rgb(150, 123, 18); color:white" (click)="addFondoItem()">
             <mat-icon>add</mat-icon>AGREGAR
           </button>
@@ -224,7 +225,7 @@
               <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> RENDIR </th>
                 <td mat-cell *matCellDef="let a; let i=index">
-                  <mat-checkbox class="example-margin" (change)="$event ? selection.toggle(a) : null"
+                  <mat-checkbox class="example-margin" (change)="listChange($event,a)"
                   [checked]="selection.isSelected(a)"></mat-checkbox>
                 </td>
               </ng-container>

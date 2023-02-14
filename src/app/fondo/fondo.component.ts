@@ -62,6 +62,10 @@ export class FondoComponent implements OnInit {
 
   fondoItem;
 
+  displayImporte='';
+
+  ord_suffix='';
+
 
 
   total_amount=0;
@@ -225,6 +229,11 @@ export class FondoComponent implements OnInit {
     salaChange(){
       this.logisticaService.getSalaByName(this.sala).subscribe((res4:Campus)=>{
         if(res4){
+          this.fondoLiquidacion.campus=this.sala;
+          this.fondoLiquidacion.campus_dir=res4.address;
+          this.fondoLiquidacion.empresa=res4.company;
+          this.ord_suffix=res4.supply_ord_suffix;
+          this.fondoLiquidacion.numero=res4.supply_ord_suffix;
           //this.user_campus=res4;
           this.logisticaService.getFondoLiquidacionesByCampus(this.sala,).subscribe((res:FondoLiquidacion[])=>{
             this.fondoLiquidaciones=res;
@@ -247,12 +256,22 @@ export class FondoComponent implements OnInit {
       })
   
     }
-  
+
+    listChange(e,a){
+      this.selection.toggle(a);
+      this.displayImporte='';
+      var montoAct=0;
+      this.selection.selected.forEach(i=>{
+        montoAct+=parseFloat(i.monto);
+      })
+      this.displayImporte=montoAct.toFixed(2);
+    }  
   
     addFondoItem(){
       var dialogRef;
   
       this.fondoItem=new FondoItem(this.sala,this.fechaStr,'','','','','','','','PENDIENTE',0,this.user.user_id);
+      this.selection.clear();
   
       dialogRef=this.dialog.open(DialogNewItemFondo,{
         data:{item:this.fondoItem,
@@ -275,12 +294,9 @@ export class FondoComponent implements OnInit {
     addFondoLiquidacion(){
       console.log(this.fechaStr);
       this.fondoLiquidacion.fecha=this.fechaStr;
-      this.fondoLiquidacion.campus=this.sala;
-      this.fondoLiquidacion.campus_dir=this.user_campus.address;
-      this.fondoLiquidacion.empresa=this.user_campus.company;
-      this.fondoLiquidacion.importe='0.0';
-      var ord_suffix: string=this.user_campus.supply_ord_suffix;
-      this.fondoLiquidacion.numero=this.user_campus.supply_ord_suffix;
+
+      this.fondoLiquidacion.importe='';
+
       this.fondoLiquidacion.personal=this.user.first_name+' '+this.user.last_name;
       this.fondoLiquidacion.user_id=this.user.user_id;
       this.fondoLiquidacion.estado='REGISTRADO';
@@ -302,17 +318,15 @@ export class FondoComponent implements OnInit {
           else {
             numStr=String(parseInt(numArray[1])+1);
           }
-          ord_suffix=ord_suffix+'-';
-          this.fondoLiquidacion.numero=ord_suffix+numStr;
+          this.ord_suffix=this.ord_suffix+'-';
+          this.fondoLiquidacion.numero=this.ord_suffix+numStr;
         }
         else{
-          this.fondoLiquidacion.numero=ord_suffix+'-0001';
+          this.fondoLiquidacion.numero=this.ord_suffix+'-0001';
         }
 
 
-        this.selection.selected.forEach((i,ind)=>{
-          this.fondoLiquidacion.importe=(parseFloat(this.fondoLiquidacion.importe)+parseFloat(i.monto)).toFixed(2);
-        })
+        this.fondoLiquidacion.importe=this.displayImporte;
 
         console.log(this.fondoLiquidacion);
 
@@ -339,6 +353,7 @@ export class FondoComponent implements OnInit {
                               this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
                               this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
                               this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
+                              this.selection.clear();
 
 
                               this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
@@ -363,6 +378,7 @@ export class FondoComponent implements OnInit {
                           this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
                           this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
                           this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
+                          this.selection.clear();
 
                           this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
                             this.fondoItems=res;
@@ -569,102 +585,13 @@ export class FondoComponent implements OnInit {
       window.open(URL.createObjectURL(this.doc.output("blob")));
   
   
-  /*     if(true){
-  
-          this.doc = new jsPDF();
-  
-          this.img.src = 'assets/logoVision.png'
-          this.doc.addImage(this.img, 'png', 10, 10, 60, 25);
-          this.doc.setFont("times","bold");
-          this.doc.setFontSize(22);
-          this.doc.text(this.tituloSala,this.posTituloSala,40);
-          this.doc.setFont("helvetica");
-          this.doc.setFontSize(16);
-          this.doc.text('CASINO',91,48);
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(12);
-          this.doc.text(this.direccionSala,105-((this.direccionSala.length/2)*2),56);
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(18);
-          this.doc.text('ACTA DE ENTREGA DE PREMIO',55,70);
-          this.doc.setFont("helvetica","bold");
-  
-          this.doc.setFontSize(11);
-          this.doc.text('Señor(a)',20,90);
-          this.doc.text('D.N.I.',20,100);
-          this.doc.text('Dirección',20,110);
-          this.doc.text('Fecha',20,130);
-          this.doc.text('Hora de sorteo',20,140);
-          this.doc.text('Premio sorteado',20,150);
-          this.doc.text('Nombre de sorteo',20,160);
-          this.doc.text('Número de cupón',20,170);
-  
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(10);
-          this.doc.text(':  '+this.nombreSorteo,53,90);
-          this.doc.text(':  '+this.doc_number,53,100);
-          this.doc.setFontSize(8);
-          this.doc.setCharSpace(10);
-          this.doc.text(':  '+this.direccionSorteo,53,110);
-          this.doc.text('   '+this.direccionSorteo2,53,120);
-          this.doc.setFontSize(10);
-          this.doc.text(':  '+this.fechaLongSorteo,53,130);
-          this.doc.text(':  '+this.horaLongSorteo,53,140);
-          this.doc.text(':  '+this.premioLongSorteo + ' CON 00/100 SOLES    |   S/'+this.premioSorteo,53,150);
-          this.doc.text(':  '+this.nombreDeSorteo,53,160);
-          this.doc.text(':  '+this.cupon_number,53,170);
-  
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(15);
-          this.doc.text('_________________________',25,200);
-          this.doc.text('_________________________',110,200);
-          this.doc.text('_________________________',50,250);
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(9);
-          this.doc.text(this.nombreSorteo,85-1.9*(this.nombreSorteo.length/2),258);
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(12);
-          this.doc.text(this.doc_number,85-2.5*(this.doc_number.length/2),263);
-          this.doc.text('Cliente',77,269);
-  
-          this.doc.rect(130,240,28,35);
-  
-  
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(9);
-          this.doc.text(this.admin_nombre,60-1.9*(this.admin_nombre.length/2),208);
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(12);
-          this.doc.text(this.admin_doc,60-2.5*(this.admin_doc.length/2),213);
-          this.doc.text('Administrador(a)',42,219);
-  
-  
-          this.doc.setFont("helvetica","normal");
-          this.doc.setFontSize(9);
-          this.doc.text(this.adj_nombre,146-1.9*(this.adj_nombre.length/2),208);
-          this.doc.setFont("helvetica","bold");
-          this.doc.setFontSize(12);
-          this.doc.text(this.adj_doc,146-2.5*(this.adj_doc.length/2),213);
-          this.doc.text('Adjunto(a)',135,219);
-  
-          this.toastr.success('Acta generada correctamente!','',{progressBar:true});
-  
-          window.open(URL.createObjectURL(this.doc.output("blob")));
-  
-          this.router.navigate(['']);
-  
-      }
-  
-      else{
-        this.toastr.warning('Por favor, verifique que todos los campos estén completados');
-      } */
     }
   
   
-  
-  
-  
     ngOnInit() {
+
+      this.displayImporte=parseInt('0').toFixed(2);
+      this.selection.clear();
   
       this.fecha=new Date();
       var year= this.fecha.getFullYear();
@@ -695,6 +622,12 @@ export class FondoComponent implements OnInit {
                     if(c){
                       this.user_campus=c;
                       this.sala=this.user_campus.name;
+
+                      this.fondoLiquidacion.campus=this.sala;
+                      this.fondoLiquidacion.campus_dir=this.user_campus.address;
+                      this.fondoLiquidacion.empresa=this.user_campus.company;
+                      this.ord_suffix=this.user_campus.supply_ord_suffix;
+                      this.fondoLiquidacion.numero=this.user_campus.supply_ord_suffix;
   
   
                       if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){

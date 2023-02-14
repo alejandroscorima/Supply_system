@@ -8,6 +8,9 @@ export class Mobility {
     public user_id: number,
     public hora_gen: string,
     public fecha_gen: string,
+    public empresa: string,
+    public campus_dir: string,
+    public fecha_entrega: string,
     public id?: number,
   ) { }
 }

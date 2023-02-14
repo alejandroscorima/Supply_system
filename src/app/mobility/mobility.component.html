@@ -160,11 +160,16 @@
       </mat-form-field>
 
 
-      <mat-form-field style="width:28%;" appearance="outline">
+      <mat-form-field style="width:40%;" appearance="outline">
         <mat-label>Fecha:</mat-label>
-        <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange(ref.value)">
-        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+
+
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate [(ngModel)]="fechaStart" placeholder="Desde">
+          <input matEndDate [(ngModel)]="fechaEnd" placeholder="Hasta">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
   
       <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
@@ -206,10 +211,10 @@
                 <td mat-cell *matCellDef="let a"> S/.{{' '+a.monto}}</td>
               </ng-container>
 
-              <ng-container matColumnDef="estado">
+<!--               <ng-container matColumnDef="estado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
                 <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
-              </ng-container>
+              </ng-container> -->
 
               <!-- <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> RENDIR </th>
@@ -219,18 +224,20 @@
                 </td>
               </ng-container> -->
 
-              <!-- <ng-container matColumnDef="edit">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> EDITAR </th>
+              <ng-container matColumnDef="pdf">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> PDF </th>
                 <td mat-cell *matCellDef="let a; let i=index">
-                  <button mat-icon-button color="primary" (click)="editItem(a)">
+                  <button mat-icon-button color="primary" (click)="reCreatePDF(a)">
+                    <mat-icon> description</mat-icon>
+                  </button>
+<!--                   <button mat-icon-button color="primary" (click)="editItem(a)">
                     <mat-icon> edit</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" (click)="delItem(a)">
+                  </button> -->
+<!--                   <button mat-icon-button color="warn" (click)="delItem(a)">
                     <mat-icon> delete</mat-icon>
-                  </button>
-                  <button mat-raised-button style="background-color: rgb(9, 66, 126); color:white" (click)="edit(a.doc_number)"> <mat-icon>edit</mat-icon> </button>&nbsp;
+                  </button> -->
                 </td>
-              </ng-container> -->
+              </ng-container>
 
  <!--              <ng-container matColumnDef="void1">
                 <td mat-footer-cell *matFooterCellDef colspan="5">
@@ -256,8 +263,8 @@
                 </td>
               </ng-container> -->
 
-              <tr mat-header-row *matHeaderRowDef="['fecha','sala','monto','estado'];"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['fecha','sala','monto','estado'];"></tr>
+              <tr mat-header-row *matHeaderRowDef="['fecha','sala','monto','pdf'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['fecha','sala','monto','pdf'];"></tr>
               <!-- <tr mat-footer-row *matFooterRowDef="['void1','total','total_amount','void2'];" ></tr> -->
 
 
