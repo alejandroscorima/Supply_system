@@ -8,7 +8,7 @@ $campus_id=$_GET['campus_id'];
 
 $bd = include_once "bdData.php";
 
-$sentencia = $bd->prepare("SELECT campus_id, name, address, company, ruc, supply_ord_suffix, supply_req_suffix FROM campus WHERE campus_id=".$campus_id);
+$sentencia = $bd->prepare("SELECT campus_id, name, address, company, ruc, supply_ord_suffix, supply_req_suffix FROM campus WHERE supply_switch='ON' AND campus_id=".$campus_id);
 
 $sentencia->execute();
 //$cliente = $sentencia->fetchObject();
