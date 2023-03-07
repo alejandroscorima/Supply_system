@@ -162,35 +162,35 @@ export class OrdenComponent implements OnInit {
     if(this.igvActivated){
       this.igvSlideDisabled=false;
       if(this.igvSlideChecked){
-        this.ord.subtotal=(0.0).toFixed(2);
-        this.ord.igv=(0.0).toFixed(2);
+        this.ord.subtotal=(0.0).toFixed(5);
+        this.ord.igv=(0.0).toFixed(5);
         this.ord.total=(0.0).toFixed(2);
         this.listaOrd.forEach((oi:OrdenItem)=>{
           oi.unit_price_aux=oi.unit_price;
-          oi.unit_price=((100*parseFloat(oi.unit_price))/118).toFixed(2);
-          oi.subtotal=(oi.cantidad*parseFloat(oi.unit_price)).toFixed(2);
-          this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
-          this.ord.igv=(parseFloat(this.ord.igv)+(oi.cantidad*(parseFloat(oi.unit_price_aux)-parseFloat(oi.unit_price)))).toFixed(2);
+          oi.unit_price=((100*parseFloat(oi.unit_price))/118).toFixed(5);
+          oi.subtotal=(oi.cantidad*parseFloat(oi.unit_price)).toFixed(5);
+          this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(5);
+          this.ord.igv=(parseFloat(this.ord.igv)+(oi.cantidad*(parseFloat(oi.unit_price_aux)-parseFloat(oi.unit_price)))).toFixed(5);
         })
         this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
       }
       else{
-        this.ord.subtotal=(0.0).toFixed(2);
-        this.ord.igv=(0.0).toFixed(2);
+        this.ord.subtotal=(0.0).toFixed(5);
+        this.ord.igv=(0.0).toFixed(5);
         this.ord.total=(0.0).toFixed(2);
         this.listaOrd.forEach((oi:OrdenItem)=>{
           oi.unit_price=oi.unit_price_aux;
-          oi.subtotal=(oi.cantidad*parseFloat(oi.unit_price)).toFixed(2);
-          this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
+          oi.subtotal=(oi.cantidad*parseFloat(oi.unit_price)).toFixed(5);
+          this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(5);
         })
-        this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(2);
+        this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(5);
         this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
       }
     }
     else{
       this.igvSlideChecked=false;
       this.igvSlideDisabled=true;
-      this.ord.igv=(0.0).toFixed(2);
+      this.ord.igv=(0.0).toFixed(5);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     }
   }
@@ -199,16 +199,16 @@ export class OrdenComponent implements OnInit {
     
     if(this.retencionActivated){
       if(this.ord.retencion_percent==null||this.ord.retencion_percent==''){
-        this.ord.retencion=(0.0).toFixed(2);
+        this.ord.retencion=(0.0).toFixed(5);
       }
       else{
-        this.ord.retencion=((parseFloat(this.ord.retencion_percent)*parseFloat(this.ord.subtotal))/100).toFixed(2);
+        this.ord.retencion=((parseFloat(this.ord.retencion_percent)*parseFloat(this.ord.subtotal))/100).toFixed(5);
       }
 
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     }
     else{
-      this.ord.retencion=(0.0).toFixed(2);
+      this.ord.retencion=(0.0).toFixed(5);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     } 
   }
@@ -216,15 +216,15 @@ export class OrdenComponent implements OnInit {
   updatePercepcion(){
     if(this.percepcionActivated){
       if(this.percepInput==null||this.percepInput==''){
-        this.ord.percepcion=(0.0).toFixed(2);
+        this.ord.percepcion=(0.0).toFixed(5);
       }
       else{
-        this.ord.percepcion=(parseFloat(this.percepInput)).toFixed(2);
+        this.ord.percepcion=(parseFloat(this.percepInput)).toFixed(5);
       }
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     }
     else{
-      this.ord.percepcion=(0.0).toFixed(2);
+      this.ord.percepcion=(0.0).toFixed(5);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
     } 
   }
@@ -269,15 +269,15 @@ export class OrdenComponent implements OnInit {
   addItem(){
     if(this.orden_item.cantidad!=null&&this.orden_item.descripcion!=''&&this.orden_item.unit_price!=''){
       this.orden_item.descripcion=this.orden_item.descripcion.toUpperCase();
-      this.orden_item.unit_price=parseFloat(this.orden_item.unit_price).toFixed(2);
+      this.orden_item.unit_price=parseFloat(this.orden_item.unit_price).toFixed(5);
       this.orden_item.unit_price_aux=this.orden_item.unit_price;
-      this.orden_item.subtotal=(this.orden_item.cantidad*parseFloat(this.orden_item.unit_price)).toFixed(2);
+      this.orden_item.subtotal=(this.orden_item.cantidad*parseFloat(this.orden_item.unit_price)).toFixed(5);
       this.listaOrd.push(this.orden_item);
       this.ord.subtotal='0.0';
       this.listaOrd.forEach((oi:OrdenItem)=>{
-       this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
+       this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(5);
       })
-      this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
+      this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(5);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
       this.orden_item = new OrdenItem('',null,'','','','','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
@@ -293,9 +293,9 @@ export class OrdenComponent implements OnInit {
       this.listaOrd.splice(indice,1);
       this.ord.subtotal='0.0';
       this.listaOrd.forEach((oi:OrdenItem)=>{
-      this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
+      this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(5);
       })
-      this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
+      this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(5);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
       this.orden_item = new OrdenItem('',null,'','','','','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
@@ -313,9 +313,9 @@ export class OrdenComponent implements OnInit {
     this.listaOrd.splice(i,1);
     this.ord.subtotal='0.0';
     this.listaOrd.forEach((oi:OrdenItem)=>{
-    this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(2);
+    this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(5);
     })
-    this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
+    this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(5);
     this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
     this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
     this.dataSourceOrd.paginator = this.paginator.toArray()[0];
@@ -390,10 +390,10 @@ export class OrdenComponent implements OnInit {
                       this.prefijoMoney='';
                       this.ord.moneda='SOLES';
                       this.prefijoMoney='S/.';
-                      this.ord.subtotal=parseInt('0').toFixed(2);
-                      this.ord.igv=parseInt('0').toFixed(2);
-                      this.ord.retencion=parseInt('0').toFixed(2);
-                      this.ord.percepcion=parseInt('0').toFixed(2);
+                      this.ord.subtotal=parseInt('0').toFixed(5);
+                      this.ord.igv=parseInt('0').toFixed(5);
+                      this.ord.retencion=parseInt('0').toFixed(5);
+                      this.ord.percepcion=parseInt('0').toFixed(5);
                       this.ord.total=parseInt('0').toFixed(2);
                       this.ord.rebajado='';
                       this.posTituloSala = 74;
@@ -508,22 +508,22 @@ export class OrdenComponent implements OnInit {
   }
 
   changeCant(i){
-    this.ord.ordItems[i].subtotal=(this.ord.ordItems[i].cantidad*parseFloat(this.ord.ordItems[i].unit_price)).toFixed(2);
+    this.ord.ordItems[i].subtotal=(this.ord.ordItems[i].cantidad*parseFloat(this.ord.ordItems[i].unit_price)).toFixed(5);
     this.ord.subtotal='0';
     this.ord.ordItems.forEach(l=>{
-      this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(l.subtotal)).toFixed(2);
+      this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(l.subtotal)).toFixed(5);
     })
-    this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(2);
+    this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(5);
     this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
   }
 
   changePU(i){
-    this.ord.ordItems[i].subtotal=(this.ord.ordItems[i].cantidad*parseFloat(this.ord.ordItems[i].unit_price)).toFixed(2);
+    this.ord.ordItems[i].subtotal=(this.ord.ordItems[i].cantidad*parseFloat(this.ord.ordItems[i].unit_price)).toFixed(5);
     this.ord.subtotal='0';
     this.ord.ordItems.forEach(l=>{
-      this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(l.subtotal)).toFixed(2);
+      this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(l.subtotal)).toFixed(5);
     })
-    this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(2);
+    this.ord.igv=((18*parseFloat(this.ord.subtotal))/100).toFixed(5);
     this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
   }
 
@@ -619,10 +619,10 @@ export class OrdenComponent implements OnInit {
   generarOrden(){
     this.ord.area=this.user_area.name;
     if(this.ord.rebajado==''){
-      this.ord.rebajado=(0.0).toFixed(2);
+      this.ord.rebajado=(0.0).toFixed(5);
     }
     else{
-      this.ord.rebajado=parseFloat(this.ord.rebajado).toFixed(2);
+      this.ord.rebajado=parseFloat(this.ord.rebajado).toFixed(5);
     }
 
     this.ord.razon_social=this.ord.razon_social.toUpperCase();
@@ -698,10 +698,10 @@ export class OrdenComponent implements OnInit {
                   this.prefijoMoney='';
                   this.ord.moneda='SOLES';
                   this.prefijoMoney='S/.';
-                  this.ord.subtotal=parseInt('0').toFixed(2);
-                  this.ord.igv=parseInt('0').toFixed(2);
-                  this.ord.retencion=parseInt('0').toFixed(2);
-                  this.ord.percepcion=parseInt('0').toFixed(2);
+                  this.ord.subtotal=parseInt('0').toFixed(5);
+                  this.ord.igv=parseInt('0').toFixed(5);
+                  this.ord.retencion=parseInt('0').toFixed(5);
+                  this.ord.percepcion=parseInt('0').toFixed(5);
                   this.ord.total=parseInt('0').toFixed(2);
                   this.ord.rebajado='';
                   this.posTituloSala = 74;
@@ -783,8 +783,8 @@ export class OrdenComponent implements OnInit {
       this.doc.line(10, pos_line, 200, pos_line, 'S');
       this.doc.text(String(m.cantidad),24,pos_item,{align:'center'});
       //this.doc.text(m.descripcion,40,pos_item);
-      this.doc.text(m.unit_price,156,pos_item,{align:'center'});
-      this.doc.text(m.subtotal,187,pos_item,{align:'center'});
+      this.doc.text(parseFloat(m.unit_price).toFixed(2),156,pos_item,{align:'center'});
+      this.doc.text(parseFloat(m.subtotal).toFixed(2),187,pos_item,{align:'center'});
       this.doc.setFontSize(8);
       if(m.descripcion.length<=50){
         this.doc.text(m.descripcion,40,pos_item);
@@ -828,21 +828,21 @@ export class OrdenComponent implements OnInit {
     pos_line+=5;
     this.doc.text('SUBTOTAL',142,pos_line);
     this.doc.text(this.prefijoMoney,166,pos_line);
-    this.doc.text(this.ord.subtotal,197,pos_line,{align:'right'});
+    this.doc.text(parseFloat(this.ord.subtotal).toFixed(2),197,pos_line,{align:'right'});
     pos_line+=5;
     this.doc.text('IGV',142,pos_line);
     this.doc.text(this.prefijoMoney,166,pos_line);
-    this.doc.text(this.ord.igv,197,pos_line,{align:'right'});
+    this.doc.text(parseFloat(this.ord.igv).toFixed(2),197,pos_line,{align:'right'});
     pos_line+=5;
     this.doc.text('Retencion('+this.ord.retencion_percent+'%)',142,pos_line);
     this.doc.text(this.prefijoMoney,166,pos_line);
-    this.doc.text(this.ord.retencion,197,pos_line,{align:'right'});
+    this.doc.text(parseFloat(this.ord.retencion).toFixed(2),197,pos_line,{align:'right'});
     pos_line+=5;
     this.doc.text('Percepcion',142,pos_line);
     this.doc.text(this.prefijoMoney,166,pos_line);
-    this.doc.text(this.ord.percepcion,197,pos_line,{align:'right'});
+    this.doc.text(parseFloat(this.ord.percepcion).toFixed(2),197,pos_line,{align:'right'});
     pos_line+=5;
-    this.doc.text('MONTO INICIAL: '+this.prefijoMoney+' '+this.ord.rebajado,20,pos_line);
+    this.doc.text('MONTO INICIAL: '+this.prefijoMoney+' '+parseFloat(this.ord.rebajado).toFixed(2),20,pos_line);
     this.doc.text('TOTAL',142,pos_line);
     this.doc.text(this.prefijoMoney,166,pos_line);
     this.doc.text(this.ord.total,197,pos_line,{align:'right'});

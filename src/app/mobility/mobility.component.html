@@ -186,7 +186,7 @@
 
         <div appearance="standard" style="display:display-inline; float:right">
           <button *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'" mat-raised-button style="background-color: green; color:white" (click)="addMobility()">
-            <mat-icon>add</mat-icon>AGREGAR
+            <mat-icon>add</mat-icon>NUEVO
           </button>
           &nbsp;
           
@@ -195,6 +195,11 @@
 
         <div class="mat-elevation-z8" style="width:100%;">
             <table mat-table style="width:100%;" [dataSource]="dataSourceMobility" matSort multiTemplateDataRows>
+
+              <ng-container matColumnDef="numero">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> NUMERO </th>
+                <td mat-cell *matCellDef="let a"> {{a.numero}}</td>
+              </ng-container>
 
               <ng-container matColumnDef="fecha">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
@@ -239,6 +244,15 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="del">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ELIMINAR </th>
+                <td mat-cell *matCellDef="let a; let i=index">
+                  <button mat-icon-button color="warn" (click)="delItem(a)">
+                    <mat-icon> delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
  <!--              <ng-container matColumnDef="void1">
                 <td mat-footer-cell *matFooterCellDef colspan="5">
 
@@ -263,8 +277,8 @@
                 </td>
               </ng-container> -->
 
-              <tr mat-header-row *matHeaderRowDef="['fecha','sala','monto','pdf'];"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['fecha','sala','monto','pdf'];"></tr>
+              <tr mat-header-row *matHeaderRowDef="['numero','fecha','sala','monto','pdf'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['numero','fecha','sala','monto','pdf'];"></tr>
               <!-- <tr mat-footer-row *matFooterRowDef="['void1','total','total_amount','void2'];" ></tr> -->
 
 

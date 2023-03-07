@@ -11,6 +11,7 @@ export class Mobility {
     public empresa: string,
     public campus_dir: string,
     public fecha_entrega: string,
+    public numero: string,
     public id?: number,
   ) { }
 }

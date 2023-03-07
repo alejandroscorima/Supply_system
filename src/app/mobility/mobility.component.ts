@@ -52,7 +52,7 @@ export class MobilityComponent implements OnInit {
   fondoItems: FondoItem[]=[];
   fondoLiquidaciones: FondoLiquidacion[]=[];
   mobilities: Mobility[];
-  mobility: Mobility = new Mobility('','','','',0,'','','','','');
+  mobility: Mobility = new Mobility('','','','',0,'','','','','','');
 
 
   user: User = new User('','','','','','',null,null,'','');
@@ -241,6 +241,13 @@ export class MobilityComponent implements OnInit {
       this.logisticaService.getSalaByName(this.sala).subscribe((res4:Campus)=>{
         if(res4){
           //this.user_campus=res4;
+
+          this.mobility.numero=res4.supply_ord_suffix;
+
+          this.mobility.empresa=res4.company;
+          this.mobility.campus=res4.name;
+          this.mobility.campus_dir=res4.address;
+
           this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
             console.log(rspM);
             this.mobilities=rspM;
@@ -321,6 +328,12 @@ export class MobilityComponent implements OnInit {
 
       this.doc.rect(150, 28, 50, 14);
 
+      this.doc.setFont("helvetica","italic");
+      this.doc.setFontSize(10);
+
+      this.doc.setTextColor(183,18,18);
+      this.doc.text('Nº '+mob.numero,175,25,{align:'center'});
+
       this.doc.setFont("helvetica","normal");
       this.doc.setFontSize(10);
       this.doc.setTextColor(0,0,0);
@@ -334,6 +347,7 @@ export class MobilityComponent implements OnInit {
 
       this.doc.setFont("helvetica","normal");
       this.doc.setFontSize(10);
+      this.doc.setTextColor(0,0,0);
       this.doc.text('SALA: ',110,80,{align:'right'});
       this.doc.text('FECHA: ',110,88,{align:'right'});
       this.doc.text('FONDO: ',110,96,{align:'right'});
@@ -403,13 +417,13 @@ export class MobilityComponent implements OnInit {
       this.mobility.fecha+=' a '+year+'-'+month+'-'+day;
 
 
-      this.fechaStart = new Date();
-      year= this.fechaStart.getFullYear();
-      month = this.fechaStart.getMonth()+1;
+      var fechaActual = new Date();
+      year= fechaActual.getFullYear();
+      month = fechaActual.getMonth()+1;
       if(month<10){
         month='0'+month;
       }
-      day = this.fechaStart.getDate();
+      day = fechaActual.getDate();
       if(day<10){
         day='0'+day;
       }
@@ -419,29 +433,69 @@ export class MobilityComponent implements OnInit {
       var min = this.fechaStart.getMinutes();
       var sec = this.fechaStart.getSeconds();
 
+      if(hour<10){
+        hour='0'+hour;
+      }
+      if(min<10){
+        min='0'+min;
+      }
+      if(sec<10){
+        sec='0'+sec;
+      }
+
       this.mobility.hora_gen = hour+':'+min+':'+sec; 
 
 
-      this.mobility.campus=this.sala;
+      //this.mobility.campus=this.sala;
       this.mobility.estado='REGISTRADO';
       this.mobility.monto=this.mobility.monto;
       this.mobility.user_id=this.user.user_id;
 
-      console.log(this.mobility);
+      this.logisticaService.getLastMobCode(this.mobility.numero,this.mobility.campus).subscribe(resi=>{
+        console.log(resi);
+        if(resi){
+  
+          var codeArray=String(resi['numero']).split('-');
+          var numeracion = parseInt(codeArray[1])+1;
+          var numeracionStr = '';
+          if(numeracion<10){
+            numeracionStr='000'+numeracion;
+          }
+          else if(numeracion<100){
+            numeracionStr='00'+numeracion;
+          }
+          else if(numeracion<1000){
+            numeracionStr='0'+numeracion;
+          }
+          else{
+            numeracionStr=String(numeracion);
+          }
+          this.mobility.numero=codeArray[0]+'-'+numeracionStr;
+        }
+        else{
+          this.mobility.numero+='-0001';
+        }
 
-      this.generatePDF(this.mobility);
+        this.logisticaService.addMobility(this.mobility).subscribe(rspM=>{
+          if(rspM){
+            console.log(this.mobility);
+            this.generatePDF(this.mobility);
 
-      this.logisticaService.addMobility(this.mobility).subscribe(rspM=>{
-        console.log(rspM);
-        this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
-          console.log(rspM);
-          this.mobilities=rspM;
-          this.dataSourceMobility = new MatTableDataSource(this.mobilities);
-          this.dataSourceMobility.paginator = this.paginator.toArray()[0];
-          this.dataSourceMobility.sort = this.sort.toArray()[0];
+            console.log(rspM);
+            this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
+              console.log(rspM);
+              this.mobilities=rspM;
+              this.dataSourceMobility = new MatTableDataSource(this.mobilities);
+              this.dataSourceMobility.paginator = this.paginator.toArray()[0];
+              this.dataSourceMobility.sort = this.sort.toArray()[0];
+              this.mobility = new Mobility('','','','',0,'','','','','','');
+            });
+          }
+
         });
-        this.mobility = new Mobility('','','','',0,'','','','','');
-      });
+
+      })
+
 
     }
   
@@ -466,6 +520,7 @@ export class MobilityComponent implements OnInit {
 
                       this.mobility.empresa=this.user_campus.company;
                       this.mobility.campus=this.sala;
+                      this.mobility.numero=this.user_campus.supply_ord_suffix;
                       this.mobility.campus_dir=this.user_campus.address;
   
                       if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){

@@ -171,6 +171,10 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getLastOrdCode.php?num=${num}&destino=${destino}&empresa=${empresa}`);
   }
 
+  getLastMobCode(num: string, campus:string) {
+    return this.http.get(`${this.baseUrl}/getLastMobCode.php?num=${num}&campus=${campus}`);
+  }
+
   getLastFondoLiquidacionNum(num: string,campus:string, empresa: string) {
     return this.http.get(`${this.baseUrl}/getLastFondoLiquidacionNum.php?num=${num}&campus=${campus}&empresa=${empresa}`);
   }
