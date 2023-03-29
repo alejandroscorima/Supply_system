@@ -275,6 +275,15 @@
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> SUBTOTAL </th>
                       <td mat-cell *matCellDef="let a"> {{a.subtotal}}</td>
                     </ng-container>
+
+                    <ng-container matColumnDef="igv_toggle">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> IGV </th>
+                      <td mat-cell *matCellDef="let a">
+                        <mat-slide-toggle [checked]="a.igv_toggle" (change)="changeIgvToggleUnit(a)">
+                        </mat-slide-toggle>
+                        {{a.igv_unit}}
+                      </td>
+                    </ng-container>
     
     
                     <ng-container matColumnDef="edit">
@@ -311,6 +320,10 @@
                           (ngModelChange)="updateIgv()">
                         </mat-checkbox>
                         IGV
+                        <mat-form-field style="width: 100px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
+                          <input (keyup)="changeIgv()" [disabled]="!igvActivated||(listaOrd.length==0)" matInput [(ngModel)]="ord.igv_percent">
+                        </mat-form-field>
+                        %
                       </td>
                     </ng-container>
     
@@ -384,15 +397,15 @@
                     </ng-container>
     
     
-                    <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
-                    <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
+                    <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','unit_price','subtotal','igv_toggle','edit'];"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','unit_price','subtotal','igv_toggle','edit'];"></tr>
     
-                    <tr mat-footer-row *matFooterRowDef="['empty2','subtotalO_label','subtotalO','empty1']" style="font-weight: bold;" ></tr>
-                    <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty1']" style="font-weight: bold;" ></tr>
-                    <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty1']" style="font-weight: bold;" ></tr>
-                    <tr mat-footer-row *matFooterRowDef="['empty2','retencion_label','retencion','empty1']" style="font-weight: bold;" ></tr>
-                    <tr mat-footer-row *matFooterRowDef="['empty2','percepcion_label','percepcion','empty1']" style="font-weight: bold;" ></tr>
-                    <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty1']" style="font-weight: bold;" ></tr>
+                    <tr mat-footer-row *matFooterRowDef="['empty2','subtotalO_label','subtotalO','empty2']" style="font-weight: bold;" ></tr>
+                    <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty2']" style="font-weight: bold;" ></tr>
+                    <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty2']" style="font-weight: bold;" ></tr>
+                    <tr mat-footer-row *matFooterRowDef="['empty2','retencion_label','retencion','empty2']" style="font-weight: bold;" ></tr>
+                    <tr mat-footer-row *matFooterRowDef="['empty2','percepcion_label','percepcion','empty2']" style="font-weight: bold;" ></tr>
+                    <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty2']" style="font-weight: bold;" ></tr>
     
     
     

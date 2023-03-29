@@ -76,9 +76,9 @@ export class AnalyticsComponent implements OnInit {
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0);
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'');
 
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null);
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','');
 
   listaOrd: OrdenItem[]= [];
 
@@ -198,7 +198,7 @@ export class AnalyticsComponent implements OnInit {
           this.listaProducts.forEach((b)=>{
             if(a['0']==b.codigo){
 
-              this.orden_item = new OrdenItem(null,null,null,null,null,null,null);
+              this.orden_item = new OrdenItem(null,null,null,null,null,null,null,false,'','');
 
               if(b.val_prov!=''){
                 this.orden_item.cantidad = parseFloat(((parseFloat(a['3'])/parseFloat(b.val_sis))*parseFloat(b.val_prov)).toFixed(2));
@@ -405,7 +405,7 @@ export class AnalyticsComponent implements OnInit {
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*0.18).toFixed(2);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-      this.orden_item = new OrdenItem('',null,'','','','','');
+      this.orden_item = new OrdenItem('',null,'','','','','',false,'','');
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
 
@@ -551,8 +551,8 @@ export class AnalyticsComponent implements OnInit {
 
                     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
                       this.campus=cs;
-                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0);
-                      this.orden_item=new OrdenItem('',null,'','','','','');
+                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'');
+                      this.orden_item=new OrdenItem('',null,'','','','','',false,'','');
                       this.igvActivated=true;
                       this.igvSlideDisabled=false;
                       this.prefijoMoney='';
@@ -828,7 +828,7 @@ export class AnalyticsComponent implements OnInit {
                   this.ord.moneda='SOLES';
                   this.ord.ordItems=[];
                   this.ord.fecha=anio+'-'+mes+'-'+dia;
-                  this.orden_item=new OrdenItem('',null,'','','','','');
+                  this.orden_item=new OrdenItem('',null,'','','','','',false,'','');
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
                   this.dataSourceOrd.paginator = this.paginator.toArray()[0];

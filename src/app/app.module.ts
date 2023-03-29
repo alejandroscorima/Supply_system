@@ -72,7 +72,6 @@ import { DailyComponent, DialogConfirmDaily } from './daily/daily.component';
 import { ActivitiesComponent } from './activities/activities.component';
 
 
-
 @NgModule({
     declarations: [
         AppComponent,

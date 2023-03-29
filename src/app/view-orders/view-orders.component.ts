@@ -60,7 +60,7 @@ export class ViewOrdersComponent implements OnInit {
   user_campusView: Campus = new Campus('','','','','','');
 
   reqView: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
-  ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null);
+  ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'');
 
   itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
 

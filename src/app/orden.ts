@@ -28,6 +28,7 @@ export class Orden {
     public fecha_reg: string,
     public hora_reg: string,
     public user_id: number,
+    public igv_percent:string,
     public id?: number,
   ) { }
 }

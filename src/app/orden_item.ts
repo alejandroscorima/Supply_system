@@ -8,6 +8,9 @@ export class OrdenItem {
     public unit_price_aux: string,
     public subtotal: string,
     public estado:string,
+    public igv_toggle:boolean,
+    public igv_unit: string,
+    public igv_unit_aux: string,
     public id?: number,
   ) { }
 }
