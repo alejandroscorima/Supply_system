@@ -11,6 +11,8 @@ export class OrdenItem {
     public igv_toggle:boolean,
     public igv_unit: string,
     public igv_unit_aux: string,
+    public units: string,
+    public igv_enabled: boolean,
     public id?: number,
   ) { }
 }

@@ -13,6 +13,7 @@ export class FondoItem {
     public estado: string,
     public liquidacion_id: number,
     public user_id: number,
+    public orden_id: number,
     public id?: number,
   ) { }
 }

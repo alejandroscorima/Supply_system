@@ -9,6 +9,8 @@ export class Product {
     public um_prov: string,
     public provider: string,
     public unit_price: string,
+    public exonerado: string,
+    public exonerado_slide: boolean,
     public id?: number,
   ) { }
 

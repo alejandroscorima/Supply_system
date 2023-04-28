@@ -25,4 +25,13 @@ mat-form-field {
   padding: 5px 5px 5px 5px;
 }
 
+.fondo{
+  /*   background: -webkit-linear-gradient(45deg, #4a5b5a, #8daeb0);
+    background: -o-linear-gradient(45deg, #4a5b5a, #8daeb0);
+    background: -moz-linear-gradient(45deg, #4a5b5a, #8daeb0);
+    background: linear-gradient(45deg, #4a5b5a, #8daeb0); */
+  background-color: #6a7e7f;
+  color: whitesmoke;
+}
+
 

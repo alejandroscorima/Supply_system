@@ -28,6 +28,7 @@ import { Proveedor } from '../proveedor';
 import { FileUploadService } from '../file-upload.service';
 import { runInThisContext } from 'vm';
 import { element } from 'protractor';
+import { FondoItem } from '../fondo_item';
 
 @Component({
   selector: 'app-nuevo',
@@ -72,9 +73,9 @@ export class OrdenComponent implements OnInit {
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'18');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'18','NO','NO','OFICINA');
 
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','');
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   listaOrd: OrdenItem[]= [];
 
@@ -83,6 +84,8 @@ export class OrdenComponent implements OnInit {
 
   dataSourceOrd: MatTableDataSource<OrdenItem>;
   selection = new SelectionModel<Item>(true, []);
+
+  selectionTxt = new SelectionModel<Orden>(true, []);
 
   doc = new jsPDF();
 
@@ -124,7 +127,7 @@ export class OrdenComponent implements OnInit {
   user_campusView: Campus = new Campus('','','','','','');
 
   reqView: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
-  ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'');
+  ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA');
 
   itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
 
@@ -139,6 +142,12 @@ export class OrdenComponent implements OnInit {
   previewView: any='';
   moneyTextView='';
   prefijoMoneyView='';
+
+  receipt: FondoItem;
+  fechaRegister
+
+  txtFileName;
+  txtFileUrl;
 
   public demo1TabIndex = 1;
   
@@ -310,7 +319,7 @@ export class OrdenComponent implements OnInit {
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*(parseFloat(this.ord.igv_percent)/100)).toFixed(5);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-      this.orden_item = new OrdenItem('',null,'','','','','',false,'','');
+      this.orden_item = new OrdenItem('',null,'','','','','',false,'','','',true);
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
       this.dataSourceOrd.sort = this.sort.toArray()[0];
@@ -328,7 +337,7 @@ export class OrdenComponent implements OnInit {
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*(parseFloat(this.ord.igv_percent)/100)).toFixed(5);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
-      this.orden_item = new OrdenItem('',null,'','','','','',false,'','');
+      this.orden_item = new OrdenItem('',null,'','','','','',false,'','','',true);
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
       this.dataSourceOrd.paginator = this.paginator.toArray()[0];
       this.dataSourceOrd.sort = this.sort.toArray()[0];
@@ -398,6 +407,8 @@ export class OrdenComponent implements OnInit {
   ngOnInit() {
     this.fecha= new Date();
 
+    this.fechaRegister= new Date();
+
     const tabCount=2;
     this.demo1TabIndex = (this.demo1TabIndex+1) % tabCount;
 
@@ -414,8 +425,8 @@ export class OrdenComponent implements OnInit {
                     this.user_campus=c;
                     this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
                       this.campus=cs;
-                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'18');
-                      this.orden_item=new OrdenItem('',null,'','','','','',false,'','');
+                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'18','NO','NO','OFICINA');
+                      this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
                       this.igvActivated=true;
                       this.igvSlideDisabled=false;
                       this.prefijoMoney='';
@@ -465,7 +476,7 @@ export class OrdenComponent implements OnInit {
                         if(ac){
                           this.campusView=ac;
                         }
-                        this.logisticaService.getAllOrders().subscribe((resOrds:Orden[])=>{
+                        this.logisticaService.getAllOficinaOrders().subscribe((resOrds:Orden[])=>{
                           console.log(this.listaOrdersView);
                           this.listaOrdersView=resOrds;
                           console.log(this.listaOrdersView);
@@ -658,7 +669,7 @@ export class OrdenComponent implements OnInit {
 
     this.ord.razon_social=this.ord.razon_social.toUpperCase();
     this.ord.direccion=this.ord.direccion.toUpperCase();
-    this.logisticaService.getLastOrdCode(this.ord.numero,this.ord.destino,this.ord.empresa).subscribe(resi=>{
+    this.logisticaService.getLastOrdOficinaCode(this.ord.numero,this.ord.destino,this.ord.empresa).subscribe(resi=>{
       if(resi){
 
         var codeArray=String(resi['numero']).split('-');
@@ -719,8 +730,8 @@ export class OrdenComponent implements OnInit {
 
                   this.ord.fecha=anio+'-'+mes+'-'+dia;
 
-                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'');
-                  this.orden_item=new OrdenItem('',null,'','','','','',false,'','');
+                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA');
+                  this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
                   this.dataSourceOrd.paginator = this.paginator.toArray()[0];
@@ -942,6 +953,164 @@ export class OrdenComponent implements OnInit {
       if(res.length>0){
         this.listaOrdView=res;
         this.generatePDFView();
+      }
+    })
+  }
+
+  listTxtChange(e,a){
+    if(this.selectionTxt.isSelected(a)){
+      this.selectionTxt.deselect(a);
+    }
+    else{
+      this.selectionTxt.select(a);
+    }
+
+  }
+
+  async createTxtFile(){
+
+    console.log(this.selectionTxt.selected);
+
+    var dataTxt = '';
+    var tipoComprobante='';
+
+    this.selectionTxt.selected.forEach((ord:Orden,indiOrd)=>{
+      console.log(ord);
+
+      this.logisticaService.getFondoItemsByOrdenId(String(ord.id)).subscribe((res:FondoItem)=>{
+        console.log(indiOrd)
+        console.log(res);
+        if(res){
+          tipoComprobante='';
+          if(res.tipo_doc=='FACTURA'){
+            tipoComprobante='01';
+          }
+          if(res.tipo_doc=='BOLETA'){
+            tipoComprobante='03';
+          }
+          if(res.tipo_doc=='RECIBO'){
+            tipoComprobante='R1';
+          }
+          var fechaArray1=res.fecha.split('-');
+          if(dataTxt!=''){
+            dataTxt=dataTxt+'\n';
+          }
+          var txtline= res.ruc+'|'+tipoComprobante+'|'+res.serie+'|'+res.numero+'|'+fechaArray1[2]+'/'+fechaArray1[1]+'/'+fechaArray1[0]+'|'+res.monto;
+          dataTxt=dataTxt+txtline;
+
+          ord.txt='SI';
+          this.logisticaService.updateOrd(ord).subscribe(resGenTxt=>{  
+  
+            if(indiOrd==this.selectionTxt.selected.length-1){
+              console.log(this.selectionTxt.selected.length);
+              this.txtFileName='ListaComprobantes.txt';
+    
+              const blobTxt = new Blob([dataTxt], { type: 'text/plain' });
+      
+              this.txtFileUrl = window.URL.createObjectURL(blobTxt);
+              console.log(this.txtFileUrl);
+      
+              const aTag = document.createElement('a');
+              aTag.href = this.txtFileUrl;
+              aTag.download = this.txtFileName;
+              aTag.click();
+              aTag.remove();
+    
+              this.selectionTxt.clear();
+            }
+          });
+
+
+        }
+        else{
+          this.toastr.warning('La orden '+ord.numero+' no tiene comprobante asociado');
+        }
+
+
+
+      })
+    })
+
+
+
+
+
+
+  }
+
+  addReceiptView(a: Orden){
+    var dialogRef;
+
+    var anioRegister=this.fechaRegister.getFullYear();
+    var mesRegister=this.fechaRegister.getMonth();
+    var diaRegister=this.fechaRegister.getDate();
+
+    if(mesRegister<10){
+      mesRegister='0'+mesRegister;
+    }
+    if(diaRegister<10){
+      diaRegister='0'+diaRegister;
+    }
+
+    var fechaRegisterStr = anioRegister+'-'+mesRegister+'-'+diaRegister;
+  
+    //this.receipt=new FondoItem(this.sala,this.fechaStr,'','','','','','','','PENDIENTE',0,this.user.user_id);
+    this.receipt=new FondoItem('ORDEN',fechaRegisterStr,'','','',a.ruc,a.razon_social,a.total,'ORDEN','REGISTRADO',0,this.user.user_id,a.id);
+
+    dialogRef=this.dialog.open(DialogAddReceipt,{
+      data:{item:this.receipt,
+            date:this.fechaRegister},
+    })
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(res){
+        a.receipt='SI';
+        this.logisticaService.updateOrd(a).subscribe();
+/*         this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:FondoItem[])=>{
+          this.fondoItems=res2;
+          this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+          this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
+          this.dataSourceFondoItem.sort = this.sort.toArray()[0];
+        }) */
+      }
+    })
+  }
+
+  editReceiptView(a: Orden){
+    var dialogRef;
+
+    var anioRegister=this.fechaRegister.getFullYear();
+    var mesRegister=this.fechaRegister.getMonth();
+    var diaRegister=this.fechaRegister.getDate();
+
+    if(mesRegister<10){
+      mesRegister='0'+mesRegister;
+    }
+    if(diaRegister<10){
+      diaRegister='0'+diaRegister;
+    }
+
+    var fechaRegisterStr = anioRegister+'-'+mesRegister+'-'+diaRegister;
+  
+    //this.receipt=new FondoItem(this.sala,this.fechaStr,'','','','','','','','PENDIENTE',0,this.user.user_id);
+    this.receipt=new FondoItem('ORDEN',fechaRegisterStr,'','','','','','','ORDEN','REGISTRADO',0,this.user.user_id,a.id);
+
+    dialogRef=this.dialog.open(DialogEditReceipt,{
+      data:{item:this.receipt,
+            date:this.fechaRegister},
+    })
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(res){
+        a.receipt='SI';
+        a.txt='NO';
+        this.logisticaService.updateOrd(a).subscribe();
+/*         this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:FondoItem[])=>{
+          this.fondoItems=res2;
+          this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+          this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
+          this.dataSourceFondoItem.sort = this.sort.toArray()[0];
+        }) */
       }
     })
   }
@@ -1205,6 +1374,213 @@ export class DialogConfirmOrden implements OnInit {
 
   ngOnInit(): void {
 
+
+  }
+
+  confirm(){
+
+    this.dialogRef.close(true);
+  }
+
+  cancel(){
+    this.dialogRef.close(false);
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@Component({
+  selector: 'dialog-addReceipt',
+  templateUrl: 'dialog-addReceipt.html',
+  styleUrls: ['./orden.component.css']
+})
+export class DialogAddReceipt implements OnInit {
+
+  docs: string[] = ['FACTURA','BOLETA','RECIBO','HONORARIO','VOUCHER'];
+
+
+  @ViewChildren(MatPaginator) paginator2= new QueryList<MatPaginator>();
+  @ViewChildren(MatSort) sort2= new QueryList<MatSort>();
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogAddReceipt>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private logisticaService: LogisticaService,
+    private toastr: ToastrService,
+  ) {}
+
+  changeRuc(){
+    if(this.data['item'].ruc.length==11){
+      this.logisticaService.getConsultaRUC(this.data['item'].ruc).subscribe(res=>{
+        if(res){
+          this.data['item'].raz_social=res['data']['nombre_o_razon_social'];
+        }
+        else{
+          this.data['item'].raz_social='';
+        }
+      })
+    }
+
+  }
+
+  save(){
+
+    var year= this.data['date'].getFullYear();
+    var month = this.data['date'].getMonth()+1;
+    if(month<10){
+      month='0'+month;
+    }
+    var day = this.data['date'].getDate();
+    if(day<10){
+      day='0'+day;
+    }
+    this.data['item'].fecha=year+'-'+month+'-'+day;
+
+    this.data['item'].monto=parseFloat(this.data['item'].monto).toFixed(2);
+    this.logisticaService.addFondoItem(this.data['item']).subscribe(res=>{
+      if(res){
+        this.dialogRef.close(this.data['item']);
+      }
+    })
+  }
+
+  dateChange(value){
+    var year= this.data['date'].getFullYear();
+    var month = this.data['date'].getMonth()+1;
+    if(month<10){
+      month='0'+month;
+    }
+    var day = this.data['date'].getDate();
+    if(day<10){
+      day='0'+day;
+    }
+    this.data['item'].fecha=year+'-'+month+'-'+day;
+    console.log(this.data['item']);
+  }
+
+  ngOnInit(): void {
+
+
+  }
+
+  confirm(){
+
+    this.dialogRef.close(true);
+  }
+
+  cancel(){
+    this.dialogRef.close(false);
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+@Component({
+  selector: 'dialog-editReceipt',
+  templateUrl: 'dialog-editReceipt.html',
+  styleUrls: ['./orden.component.css']
+})
+export class DialogEditReceipt implements OnInit {
+
+  docs: string[] = ['FACTURA','BOLETA','RECIBO','HONORARIO','VOUCHER'];
+
+
+  @ViewChildren(MatPaginator) paginator2= new QueryList<MatPaginator>();
+  @ViewChildren(MatSort) sort2= new QueryList<MatSort>();
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogEditReceipt>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private logisticaService: LogisticaService,
+    private toastr: ToastrService,
+  ) {}
+
+  changeRuc(){
+    if(this.data['item'].ruc.length==11){
+      this.logisticaService.getConsultaRUC(this.data['item'].ruc).subscribe(res=>{
+        if(res){
+          this.data['item'].raz_social=res['data']['nombre_o_razon_social'];
+        }
+        else{
+          this.data['item'].raz_social='';
+        }
+      })
+    }
+
+  }
+
+  save(){
+
+    var year= this.data['date'].getFullYear();
+    var month = this.data['date'].getMonth()+1;
+    if(month<10){
+      month='0'+month;
+    }
+    var day = this.data['date'].getDate();
+    if(day<10){
+      day='0'+day;
+    }
+    this.data['item'].fecha=year+'-'+month+'-'+day;
+
+    this.data['item'].monto=parseFloat(this.data['item'].monto).toFixed(2);
+    this.logisticaService.updateFondoItem(this.data['item']).subscribe(res=>{
+      if(res){
+        this.dialogRef.close(this.data['item']);
+      }
+    })
+  }
+
+  dateChange(value){
+    var year= this.data['date'].getFullYear();
+    var month = this.data['date'].getMonth()+1;
+    if(month<10){
+      month='0'+month;
+    }
+    var day = this.data['date'].getDate();
+    if(day<10){
+      day='0'+day;
+    }
+    this.data['item'].fecha=year+'-'+month+'-'+day;
+    console.log(this.data['item']);
+  }
+
+  ngOnInit(): void {
+
+    console.log(this.data['item']);
+
+    this.logisticaService.getFondoItemsByOrdenId(this.data['item'].orden_id).subscribe((resFI:FondoItem)=>{
+      console.log(resFI);
+      this.data['item']=resFI;
+    })
 
   }
 

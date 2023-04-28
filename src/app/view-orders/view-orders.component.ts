@@ -60,7 +60,7 @@ export class ViewOrdersComponent implements OnInit {
   user_campusView: Campus = new Campus('','','','','','');
 
   reqView: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
-  ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'');
+  ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA');
 
   itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
 
@@ -406,7 +406,7 @@ export class ViewOrdersComponent implements OnInit {
                           if(ac){
                             this.campusView=ac;
                           }
-                          this.logisticaService.getAllOrders().subscribe((resOrds:Orden[])=>{
+                          this.logisticaService.getAllOficinaOrders().subscribe((resOrds:Orden[])=>{
                             this.listaOrdersView=resOrds;
                             this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
                             this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];

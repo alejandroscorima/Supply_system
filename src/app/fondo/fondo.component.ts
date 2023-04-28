@@ -29,6 +29,7 @@ import { FondoItem } from '../fondo_item';
 import { Area } from '../area';
 import { Campus } from '../campus';
 import { FondoLiquidacion } from '../fondo_liquidacion';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -85,6 +86,10 @@ export class FondoComponent implements OnInit {
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
 
 
+  txtFileUrl;
+  txtFileName;
+
+
 
 
   constructor(private clientesService: ClientesService, private dialogo: MatDialog,
@@ -94,6 +99,7 @@ export class FondoComponent implements OnInit {
     private usersService: UsersService,
     public dialog: MatDialog,
     private toastr: ToastrService,
+    private sanitizer: DomSanitizer,
     ) { }
 
 
@@ -270,7 +276,7 @@ export class FondoComponent implements OnInit {
     addFondoItem(){
       var dialogRef;
   
-      this.fondoItem=new FondoItem(this.sala,this.fechaStr,'','','','','','','','PENDIENTE',0,this.user.user_id);
+      this.fondoItem=new FondoItem(this.sala,this.fechaStr,'','','','','','','','PENDIENTE',0,this.user.user_id,0);
       this.selection.clear();
   
       dialogRef=this.dialog.open(DialogNewItemFondo,{
@@ -318,8 +324,7 @@ export class FondoComponent implements OnInit {
           else {
             numStr=String(parseInt(numArray[1])+1);
           }
-          this.ord_suffix=this.ord_suffix+'-';
-          this.fondoLiquidacion.numero=this.ord_suffix+numStr;
+          this.fondoLiquidacion.numero=this.ord_suffix+'-'+numStr;
         }
         else{
           this.fondoLiquidacion.numero=this.ord_suffix+'-0001';
@@ -414,6 +419,60 @@ export class FondoComponent implements OnInit {
           this.generatePDF(fl);
         }
       })
+    }
+
+    createTxtFile(fl:FondoLiquidacion){
+
+      console.log(fl);
+
+
+      this.logisticaService.getFondoItemsByLiquidacionId(String(fl.id)).subscribe((res:FondoItem[])=>{
+        console.log(res);
+        if(res.length>0){
+          var dataTxt = '';
+          var tipoComprobante='';
+          res.forEach(a=>{
+            tipoComprobante='';
+            if(a.tipo_doc=='FACTURA'){
+              tipoComprobante='01';
+            }
+            if(a.tipo_doc=='BOLETA'){
+              tipoComprobante='03';
+            }
+            if(a.tipo_doc=='RECIBO'){
+              tipoComprobante='R1';
+            }
+            var fechaArray1=a.fecha.split('-');
+            if(dataTxt!=''){
+              dataTxt=dataTxt+'\n';
+            }
+            var txtline=a.ruc+'|'+tipoComprobante+'|'+a.serie+'|'+a.numero+'|'+fechaArray1[2]+'/'+fechaArray1[1]+'/'+fechaArray1[0]+'|'+a.monto;
+            dataTxt=dataTxt+txtline;
+          })
+
+          console.log(dataTxt);
+
+
+          this.txtFileName=fl.numero+'.txt';
+
+          const blobTxt = new Blob([dataTxt], { type: 'text/plain' });
+
+          this.txtFileUrl = window.URL.createObjectURL(blobTxt);
+          console.log(this.txtFileUrl);
+
+          const aTag = document.createElement('a');
+          aTag.href = this.txtFileUrl;
+          aTag.download = this.txtFileName;
+          aTag.click();
+          aTag.remove();
+          
+  
+
+          
+        }
+      })
+
+
     }
   
   
@@ -718,12 +777,12 @@ export class DialogNewItemFondo implements OnInit {
 
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
   monedas: string[] = ['SOL','DOLAR'];
-  docs: string[] = ['FACTURA','BOLETA','RECIBO'];
+  docs: string[] = ['FACTURA','BOLETA','RECIBO','HONORARIO','VOUCHER'];
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','');
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   listaReq: Item[]= [];
   categories:any= [];
@@ -850,12 +909,12 @@ export class DialogEditItemFondo implements OnInit {
 
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
   monedas: string[] = ['SOL','DOLAR'];
-  docs: string[] = ['FACTURA','BOLETA','RECIBO'];
+  docs: string[] = ['FACTURA','BOLETA','RECIBO','HONORARIO','VOUCHER'];
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','');
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   listaReq: Item[]= [];
   categories:any= [];

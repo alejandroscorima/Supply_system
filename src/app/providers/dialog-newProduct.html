@@ -36,12 +36,21 @@
       <input matInput [(ngModel)]="data.um_prov">
     </mat-form-field>
 
-    <mat-form-field style="width:70%;" class="sala" id="sala" appearance="outline" >
+    <mat-form-field style="width:65%;" class="sala" id="sala" appearance="outline" >
       <mat-label>Proveedor:</mat-label>
       <mat-select [(value)]="data.provider" >
           <mat-option *ngFor="let p of providers" [value]="p['ruc']">{{p['categoria']}} - {{p['razon_social']}}</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <mat-form-field style="width:20%;" class="doc_id" appearance="outline">
+      <mat-label>Precio Unit:</mat-label>
+      <input matInput [(ngModel)]="data.unit_price">
+    </mat-form-field>
+
+    <mat-slide-toggle [checked]="data.exonerado_slide" (change)="changeExonerado($event)">
+      Exonerado
+    </mat-slide-toggle>
 
 <!--     <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
       <mat-label>Sede:</mat-label>

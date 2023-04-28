@@ -107,8 +107,12 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getAllProducts.php?ruc=${ruc}`);
   }
 
-  getAllOrders() {
-    return this.http.get(`${this.baseUrl}/getAllOrders.php`);
+  getAllOficinaOrders() {
+    return this.http.get(`${this.baseUrl}/getAllOficinaOrders.php`);
+  }
+
+  getAllWarehouseOrders() {
+    return this.http.get(`${this.baseUrl}/getAllWarehouseOrders.php`);
   }
 
   getAllCategories() {
@@ -167,8 +171,12 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getLastReqCode.php?dateStr=${dateStr}`);
   }
 
-  getLastOrdCode(num: string,destino:string, empresa: string) {
-    return this.http.get(`${this.baseUrl}/getLastOrdCode.php?num=${num}&destino=${destino}&empresa=${empresa}`);
+  getLastOrdOficinaCode(num: string,destino:string, empresa: string) {
+    return this.http.get(`${this.baseUrl}/getLastOrdOficinaCode.php?num=${num}&destino=${destino}&empresa=${empresa}`);
+  }
+
+  getLastOrdWarehouseCode(num: string,destino:string, empresa: string) {
+    return this.http.get(`${this.baseUrl}/getLastOrdWarehouseCode.php?num=${num}&destino=${destino}&empresa=${empresa}`);
   }
 
   getLastMobCode(num: string, campus:string) {
@@ -225,6 +233,10 @@ export class LogisticaService {
 
   getFondoItemsByLiquidacionId(liq_id: string) {
     return this.http.get(`${this.baseUrl}/getFondoItemsByLiquidacionId.php?liq_id=${liq_id}`);
+  }
+
+  getFondoItemsByOrdenId(orden_id: string) {
+    return this.http.get(`${this.baseUrl}/getFondoItemsByOrdenId.php?orden_id=${orden_id}`);
   }
 
   getOrdenItemsByOrdenId(ord_id: string) {

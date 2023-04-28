@@ -11,7 +11,7 @@ $empresa=$_GET['empresa'];
 
 $bd = include_once "bdLogistica.php";
 
-$sentencia = $bd->prepare("SELECT numero FROM ordenes WHERE numero LIKE '%".$num."%' AND destino='".$destino."' AND empresa='".$empresa."' ORDER BY id DESC LIMIT 0, 1");
+$sentencia = $bd->prepare("SELECT numero FROM ordenes WHERE numero LIKE '%".$num."%' AND destino='".$destino."' AND empresa='".$empresa."' AND section='ALMACEN' ORDER BY id DESC LIMIT 0, 1");
 
 $sentencia->execute();
 //$cliente = $sentencia->fetchObject();

@@ -452,10 +452,10 @@ export class DialogDetalleReqAsist implements OnInit {
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
 
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA');
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','');
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   dataSourceReq: MatTableDataSource<Item>;
   selection = new SelectionModel<Item>(true, []);
@@ -600,7 +600,7 @@ export class DialogDetalleReqAsist implements OnInit {
       this.ord.destino=this.req.sala;
       this.ord.area=this.req.area;
       this.selection.selected.forEach(j=>{
-        this.orden_item = new OrdenItem(null,null,null,null,null,null,null,false,'','');
+        this.orden_item = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
         this.orden_item.cantidad=j.cantidad;
         this.orden_item.descripcion=j.descripcion;
@@ -626,7 +626,7 @@ export class DialogDetalleReqAsist implements OnInit {
           if(res){
 
             this.selection.selected.forEach((j,inde)=>{
-              this.orden_item = new OrdenItem(null,null,null,null,null,null,null,false,'','');
+              this.orden_item = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
               this.req.items.forEach((k,ind)=>{
                 if(j.id==k.id){
                   j.estado='ATENDIDO';
@@ -1154,10 +1154,10 @@ export class DialogCreateOrden implements OnInit {
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA');
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
-  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','');
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   listaReq: Item[]= [];
 
@@ -1375,7 +1375,7 @@ export class DialogCreateOrden implements OnInit {
     })
     this.ord.razon_social=this.ord.razon_social.toUpperCase();
     this.ord.direccion=this.ord.direccion.toUpperCase();
-    this.logisticaService.getLastOrdCode(this.ord.numero,this.ord.destino,this.ord.empresa).subscribe(resi=>{
+    this.logisticaService.getLastOrdOficinaCode(this.ord.numero,this.ord.destino,this.ord.empresa).subscribe(resi=>{
       if(resi){
 
         var codeArray=String(resi['numero']).split('-');

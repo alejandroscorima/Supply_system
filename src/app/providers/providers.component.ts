@@ -29,13 +29,15 @@ export class ProvidersComponent implements OnInit {
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
 
-  p: Product = new Product('','','','','','','','');
+  p: Product = new Product('','','','','','','','','NO',false);
   prov: Proveedor = new Proveedor('','','','','','');
   provActive;
 
   listaProviders: Proveedor[]= [];
   listaProvidersActive: Proveedor[]= [];
   listaProducts: Product[]= [];
+
+  statusExonerado=['NO','SI'];
 
   dataSourceProviders: MatTableDataSource<Proveedor>;
   dataSourceProducts: MatTableDataSource<Product>;
@@ -156,7 +158,7 @@ export class ProvidersComponent implements OnInit {
   newProduct(){
     var dialogRef;
 
-    var newProd: Product = new Product('','','','','','','','');
+    var newProd: Product = new Product('','','','','','','','','NO',false);
 
     dialogRef=this.dialog.open(DialogNewProduct,{
       data:newProd,
@@ -417,6 +419,16 @@ export class DialogNewProduct implements OnInit {
     })
   }
 
+  changeExonerado(e){
+    if(e.checked){
+      this.data.exonerado='SI';
+    }
+    if(!e.checked){
+      this.data.exonerado='NO';
+    }
+    console.log(this.data.exonerado);
+  }
+
 
 }
 
@@ -461,9 +473,25 @@ export class DialogEditProduct implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
+    if(this.data.exonerado=='NO'){
+      this.data.exonerado_slide=false;
+    }
+    else{
+      this.data.exonerado_slide=true;
+    }
     this.logisticaService.getAllProviders().subscribe((ps:Proveedor[])=>{
       this.providers=ps;
     })
+  }
+
+  changeExonerado(e){
+    if(e.checked){
+      this.data.exonerado='SI';
+    }
+    if(!e.checked){
+      this.data.exonerado='NO';
+    }
+    console.log(this.data.exonerado);
   }
 
 

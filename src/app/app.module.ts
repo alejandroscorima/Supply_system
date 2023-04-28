@@ -60,7 +60,7 @@ import { AreasComponent, DialogNewArea, DialogEditArea } from './areas/areas.com
 import { ProvidersComponent, DialogNewProvider, DialogEditProvider, DialogNewProduct, DialogEditProduct } from './providers/providers.component';
 import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 
-import { WarehouseComponent } from './warehouse/warehouse.component';
+import { DialogAddReceiptWarehouse, DialogEditReceiptWarehouse, WarehouseComponent } from './warehouse/warehouse.component';
 import { MatTabsModule} from '@angular/material/tabs';
 import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, DialogEditItemMobility} from './mobility/mobility.component';
 
@@ -70,6 +70,8 @@ import { MatProgressBarModule} from '@angular/material/progress-bar';
 import { DailyComponent, DialogConfirmDaily } from './daily/daily.component';
 
 import { ActivitiesComponent } from './activities/activities.component';
+
+import { DialogAddReceipt, DialogEditReceipt } from './orden/orden.component';
 
 
 @NgModule({
@@ -124,6 +126,10 @@ import { ActivitiesComponent } from './activities/activities.component';
         DailyComponent,
         DialogConfirmDaily,
         ActivitiesComponent,
+        DialogAddReceipt,
+        DialogEditReceipt,
+        DialogAddReceiptWarehouse,
+        DialogEditReceiptWarehouse,
 
     ],
     imports: [
