@@ -12,6 +12,7 @@ export class Mobility {
     public campus_dir: string,
     public fecha_entrega: string,
     public numero: string,
+    public personal: string,
     public id?: number,
   ) { }
 }

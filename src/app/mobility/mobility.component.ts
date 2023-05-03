@@ -52,7 +52,7 @@ export class MobilityComponent implements OnInit {
   fondoItems: FondoItem[]=[];
   fondoLiquidaciones: FondoLiquidacion[]=[];
   mobilities: Mobility[];
-  mobility: Mobility = new Mobility('','','','',0,'','','','','','');
+  mobility: Mobility = new Mobility('','','','',0,'','','','','','','');
 
 
   user: User = new User('','','','','','',null,null,'','');
@@ -269,7 +269,10 @@ export class MobilityComponent implements OnInit {
       this.logisticaService.getSalaByName(mob.campus).subscribe((s:Campus)=>{
         mob.empresa=s.company;
         mob.campus_dir=s.address;
-        this.generatePDF(mob);
+        this.usersService.getUserById(mob.user_id).subscribe((usReg:User)=>{
+          mob.personal=usReg.first_name+' '+usReg.last_name;
+          this.generatePDF(mob);
+        })
       })
 
 
@@ -348,23 +351,21 @@ export class MobilityComponent implements OnInit {
       this.doc.setFont("helvetica","normal");
       this.doc.setFontSize(10);
       this.doc.setTextColor(0,0,0);
-      this.doc.text('SALA: ',110,80,{align:'right'});
-      this.doc.text('FECHA: ',110,88,{align:'right'});
-      this.doc.text('FONDO: ',110,96,{align:'right'});
+      this.doc.text('RENDIDO POR: '+mob.personal,110,80,{align:'center'});
+      this.doc.text('SALA: '+mob.campus,110,88,{align:'center'});
+      this.doc.text('FECHA: '+mob.fecha,110,96,{align:'center'});
+      this.doc.text('FONDO: '+'S/. '+mob.monto,110,104,{align:'center'});
 
-      this.doc.text(mob.campus,111,80,{align:'left'});
-      this.doc.text(mob.fecha,111,88,{align:'left'});
-      this.doc.text('S/. '+mob.monto,111,96,{align:'left'});
   /*     this.doc.text('DIRECCION',15,79);
       this.doc.setFontSize(11); */
   /*     this.doc.text(': '+fondliq.campus_dir,45,79);
       this.doc.setFontSize(12); */
-      this.doc.line(80, 110, 140, 110,'S');
+      this.doc.line(80, 118, 140, 118,'S');
       this.doc.setFontSize(8);
       this.doc.setFont("helvetica","bold");
-      this.doc.text('CONCEPTO',95,115,{align:'center'});
-      this.doc.text('MONTO (S/.)',125,115,{align:'center'});
-      var pos_line=110;
+      this.doc.text('CONCEPTO',95,123,{align:'center'});
+      this.doc.text('MONTO (S/.)',125,123,{align:'center'});
+      var pos_line=118;
       var pos_item=pos_line+5;
       this.doc.setFont("helvetica","normal");
       pos_line+=7;
@@ -382,9 +383,9 @@ export class MobilityComponent implements OnInit {
       pos_line+=7;
       this.doc.line(80, pos_line, 140, pos_line, 'S');
   
-      this.doc.line(80, 110, 80, pos_line, 'S');
-      this.doc.line(110, 110, 110, pos_line, 'S');
-      this.doc.line(140, 110, 140, pos_line, 'S');
+      this.doc.line(80, 118, 80, pos_line, 'S');
+      this.doc.line(110, 118, 110, pos_line, 'S');
+      this.doc.line(140, 118, 140, pos_line, 'S');
   
   
       window.open(URL.createObjectURL(this.doc.output("blob")));
@@ -450,6 +451,7 @@ export class MobilityComponent implements OnInit {
       this.mobility.estado='REGISTRADO';
       this.mobility.monto=this.mobility.monto;
       this.mobility.user_id=this.user.user_id;
+      this.mobility.personal=this.user.first_name+' '+this.user.last_name;
 
       this.logisticaService.getLastMobCode(this.mobility.numero,this.mobility.campus).subscribe(resi=>{
         console.log(resi);
@@ -488,7 +490,7 @@ export class MobilityComponent implements OnInit {
               this.dataSourceMobility = new MatTableDataSource(this.mobilities);
               this.dataSourceMobility.paginator = this.paginator.toArray()[0];
               this.dataSourceMobility.sort = this.sort.toArray()[0];
-              this.mobility = new Mobility('','','','',0,'','','','','','');
+              this.mobility = new Mobility('','','','',0,'','','','','','','');
             });
           }
 

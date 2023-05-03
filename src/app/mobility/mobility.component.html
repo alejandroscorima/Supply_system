@@ -178,19 +178,19 @@
         <span matPrefix>S/.&nbsp;</span>
       </mat-form-field>
 
+      <div appearance="standard" >
+        <button *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'" mat-raised-button style="background-color: green; color:white" (click)="addMobility()">
+          <mat-icon>check</mat-icon>REGISTRAR MOVILIDAD
+        </button>
+        &nbsp;
+        
+      </div>
+
       <div *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'">
         <mat-form-field appearance="standard" style="display:display-inline">
           <mat-label>Búsqueda</mat-label>
           <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
         </mat-form-field>
-
-        <div appearance="standard" style="display:display-inline; float:right">
-          <button *ngIf="user_area.name=='ADMINISTRACION'||user.supply_role=='ADMINISTRACION'||user_area.name=='ABASTECIMIENTO'" mat-raised-button style="background-color: green; color:white" (click)="addMobility()">
-            <mat-icon>add</mat-icon>NUEVO
-          </button>
-          &nbsp;
-          
-        </div>
 
 
         <div class="mat-elevation-z8" style="width:100%;">
