@@ -7,7 +7,9 @@ header("Access-Control-Allow-Origin: *");
 
 $bd = include_once "bdLogistica.php";
 
-$sentencia = $bd->prepare("SELECT id, req_id, numero, ruc, razon_social, direccion, subtotal, igv, total, rebajado, fecha, destino, tipo, estado, empresa, moneda, area, destino_dir, tipo_pago, num_cuenta, retencion, retencion_percent, percepcion, receipt,txt, section FROM ordenes WHERE section='OFICINA' ORDER BY fecha DESC");
+$user_id=$_GET['user_id'];
+
+$sentencia = $bd->prepare("SELECT id, req_id, numero, ruc, razon_social, direccion, subtotal, igv, total, rebajado, fecha, destino, tipo, estado, empresa, moneda, area, destino_dir, tipo_pago, num_cuenta, retencion, retencion_percent, percepcion, receipt,txt, section FROM ordenes WHERE section='OFICINA' AND user_id=".$user_id." ORDER BY fecha DESC");
 
 
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");

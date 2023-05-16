@@ -107,8 +107,8 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getAllProducts.php?ruc=${ruc}`);
   }
 
-  getAllOficinaOrders() {
-    return this.http.get(`${this.baseUrl}/getAllOficinaOrders.php`);
+  getAllOficinaOrders(user_id) {
+    return this.http.get(`${this.baseUrl}/getAllOficinaOrders.php?user_id=${user_id}`);
   }
 
   getAllWarehouseOrders() {

@@ -100,6 +100,7 @@ export class LoginComponent implements OnInit {
           if(parseInt(resSes['session_id'])!=0){
 
             this.cookiesService.setToken('session_id',resSes['session_id']);
+            this.cookiesService.setToken('user_id',String(this.user.user_id));
             this.router.navigateByUrl('/');
           }
         })

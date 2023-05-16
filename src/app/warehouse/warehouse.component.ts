@@ -466,7 +466,7 @@ export class WarehouseComponent implements OnInit {
         a.igv_enabled=false;
       }
       if(!e.checked){
-        a.igv_enabled=true;
+        a.igv_enabled=false;
       }
       
     })

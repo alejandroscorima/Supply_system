@@ -48,6 +48,8 @@ export class OrdenComponent implements OnInit {
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
 
+  user_id;
+
   campus = [];
   areas = [];
   prioridades = [];
@@ -417,6 +419,12 @@ export class OrdenComponent implements OnInit {
         if(s){
           this.usersService.getUserById(s.user_id).subscribe((u:User)=>{
             this.user=u;
+
+            this.user_id=this.user.user_id;
+
+            console.log('user_id:',this.cookiesService.checkToken('user_id'));
+            console.log('user_id:',this.cookiesService.getToken('user_id'));
+
             this.logisticaService.getAreaById(this.user.area_id).subscribe((a:Area)=>{
               if(a){
                 this.user_area=a;
@@ -476,7 +484,7 @@ export class OrdenComponent implements OnInit {
                         if(ac){
                           this.campusView=ac;
                         }
-                        this.logisticaService.getAllOficinaOrders().subscribe((resOrds:Orden[])=>{
+                        this.logisticaService.getAllOficinaOrders(this.user_id).subscribe((resOrds:Orden[])=>{
                           console.log(this.listaOrdersView);
                           this.listaOrdersView=resOrds;
                           console.log(this.listaOrdersView);
@@ -666,6 +674,10 @@ export class OrdenComponent implements OnInit {
     else{
       this.ord.rebajado=parseFloat(this.ord.rebajado).toFixed(5);
     }
+
+    this.user_id=this.user.user_id;
+
+    this.ord.user_id=this.user_id;
 
     this.ord.razon_social=this.ord.razon_social.toUpperCase();
     this.ord.direccion=this.ord.direccion.toUpperCase();
