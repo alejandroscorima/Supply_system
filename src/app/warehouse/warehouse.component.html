@@ -494,14 +494,14 @@
       
       
       
-                      <tr mat-header-row *matHeaderRowDef="['cantidad','units','descripcion','unit_price','subtotal','igv_toggle','edit'];"></tr>
-                      <tr mat-row *matRowDef="let row; columns: ['cantidad','units','descripcion','unit_price','subtotal','igv_toggle','edit'];"></tr>
+                      <tr mat-header-row *matHeaderRowDef="['cantidad','units','descripcion','unit_price','subtotal','igv_toggle'];"></tr>
+                      <tr mat-row *matRowDef="let row; columns: ['cantidad','units','descripcion','unit_price','subtotal','igv_toggle'];"></tr>
 
-                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','subtotalO_label','subtotalO','empty2']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','igv_label','igv','empty2']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','igv_included','empty2']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','percepcion_label','percepcion','empty2']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','total_label','total','empty2']" style="font-weight: bold;" ></tr>
+                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','subtotalO_label','subtotalO','empty1']" style="font-weight: bold;" ></tr>
+                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','igv_label','igv','empty1']" style="font-weight: bold;" ></tr>
+                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','igv_included','empty1']" style="font-weight: bold;" ></tr>
+                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','percepcion_label','percepcion','empty1']" style="font-weight: bold;" ></tr>
+                      <tr mat-footer-row *matFooterRowDef="['empty2','empty1','total_label','total','empty1']" style="font-weight: bold;" ></tr>
       
       
       
