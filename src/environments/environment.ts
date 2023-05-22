@@ -3,11 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   //baseUrl: "http://localhost:8888/Logistica/server",
   //baseUrl: "http://localhost:8888/InventarioPatrimonio/server",
   //baseUrl: "http://localhost:8888/Logistica/server",
-  baseUrl: "http://34.207.60.246/Logistica",
+  baseUrl: ".",
   //baseUrl: "http://localhost/Ingreso/server",
 };
 
