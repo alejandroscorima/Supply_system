@@ -7,7 +7,7 @@ export const environment = {
   //baseUrl: "http://localhost:8888/Logistica/server",
   //baseUrl: "http://localhost:8888/InventarioPatrimonio/server",
   //baseUrl: "http://localhost:8888/Logistica/server",
-  baseUrl: ".",
+  baseUrl: "http://52.5.47.64/Logistica",
   //baseUrl: "http://localhost/Ingreso/server",
 };
 

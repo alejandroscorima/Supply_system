@@ -323,8 +323,7 @@ export class OrdenComponent implements OnInit {
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
       this.orden_item = new OrdenItem('',null,'','','','','',false,'','','',true);
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
-      this.dataSourceOrd.paginator = this.paginator.toArray()[0];
-      this.dataSourceOrd.sort = this.sort.toArray()[0];
+      //this.dataSourceOrd.sort = this.sort.toArray()[0];
     }
     else{
       this.toastr.warning('Completa correctamente el item!');
@@ -341,8 +340,6 @@ export class OrdenComponent implements OnInit {
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
       this.orden_item = new OrdenItem('',null,'','','','','',false,'','','',true);
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
-      this.dataSourceOrd.paginator = this.paginator.toArray()[0];
-      this.dataSourceOrd.sort = this.sort.toArray()[0];
   }
 
   editItem(a:OrdenItem,i){
@@ -360,8 +357,6 @@ export class OrdenComponent implements OnInit {
     this.ord.igv=(parseFloat(this.ord.subtotal)*(parseFloat(this.ord.igv_percent)/100)).toFixed(5);
     this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
     this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
-    this.dataSourceOrd.paginator = this.paginator.toArray()[0];
-    this.dataSourceOrd.sort = this.sort.toArray()[0];
   }
 
   
@@ -391,9 +386,6 @@ export class OrdenComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceOrd.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSourceOrd.paginator) {
-      this.dataSourceOrd.paginator.firstPage();
-    }
   }
 
   logout(){
@@ -746,8 +738,6 @@ export class OrdenComponent implements OnInit {
                   this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
-                  this.dataSourceOrd.paginator = this.paginator.toArray()[0];
-                  this.dataSourceOrd.sort = this.sort.toArray()[0];
                   this.igvActivated=true;
                   this.prefijoMoney='';
                   this.ord.moneda='SOLES';
@@ -779,103 +769,102 @@ export class OrdenComponent implements OnInit {
 
     this.doc = new jsPDF();
 
-
     this.img.src = 'assets/logo'+this.ord.empresa+'.png';
-
-    this.doc.addImage(this.img, 'png', 10, 10, 40, 40, '','FAST',0);
+    this.doc.addImage(this.img, 'png', 15, 10, 30, 30, '','FAST',0);
     this.doc.setFont("helvetica","bold");
     this.doc.setFontSize(18);
-    this.doc.text('ORDEN DE '+ this.ord.tipo,105,35,{align:'center'});
+    this.doc.text('ORDEN DE '+ this.ord.tipo,105,25,{align:'center'});
     this.doc.setFont("helvetica","normal");
     this.doc.setFontSize(14);
-    this.doc.text(this.ord.destino,105,42,{align:'center'});
+    this.doc.text(this.ord.destino,105,32,{align:'center'});
     this.doc.setFont("helvetica","normal");
     this.doc.setFontSize(8);
-    this.doc.text(this.ord.destino_dir,105,50,{align:'center'});
-    this.doc.roundedRect(65, 25, 80, 20, 2, 2, 'S');
-    this.doc.rect(150, 28, 50, 14);
+    this.doc.text(this.ord.destino_dir,105,40,{align:'center'});
+    this.doc.roundedRect(65, 15, 80, 20, 2, 2, 'S');
+    this.doc.rect(150, 18, 50, 14);
     this.doc.setFont("helvetica","normal");
     this.doc.setFontSize(9);
     this.doc.setTextColor(183,18,18);
-    this.doc.text('ORDEN DE '+ this.ord.tipo,175,33,{align:'center'});
+    this.doc.text('ORDEN DE '+ this.ord.tipo,175,23,{align:'center'});
     // this.doc.text('Nº '+ this.ord.numero,175-(((9+this.ord.numero.length)/2)*3),39);
-    this.doc.text('Nº '+this.ord.numero,175,39,{align:'center'});
+    this.doc.text('Nº '+this.ord.numero,175,29,{align:'center'});
     this.doc.setTextColor(0,0,0);
-    this.doc.text('RUC',15,65);
-    this.doc.text(': '+this.ord.ruc,45,65);
-    this.doc.text('PROVEEDOR',15,72);
-    this.doc.text(': '+this.ord.razon_social,45,72);
-    this.doc.text('DIRECCION',15,79);
-    this.doc.setFontSize(9);
-    this.doc.text(': '+this.ord.direccion,45,79);
-    this.doc.setFontSize(9);
-    this.doc.roundedRect(10, 89, 190, 14, 4, 4, 'S');
-    this.doc.line(10, 96, 200, 96, 'S');
+    this.doc.text('RUC',15,48);
+    this.doc.text(': '+this.ord.ruc,45,48);
+    this.doc.text('PROVEEDOR',15,53);
+    this.doc.text(': '+this.ord.razon_social,45,53);
+    this.doc.text('DIRECCION',15,58);
+    this.doc.setFontSize(7);
+    this.doc.text(': '+this.ord.direccion,45,58);
+    this.doc.setFontSize(8);
+    this.doc.roundedRect(10, 63, 190, 12, 2, 2, 'S');
+    this.doc.line(10, 69, 200, 69, 'S');
     this.doc.setFont("helvetica","bold");
-    this.doc.text('CONDICIONES DE PAGO',40,94,{align:'center'});
-    this.doc.text('CCI',105,94,{align:'center'});
-    this.doc.text('FECHA COMPRA',165,94,{align:'center'});
+    this.doc.text('CONDICIONES DE PAGO',40,68,{align:'center'});
+    this.doc.text('CCI',105,68,{align:'center'});
+    this.doc.text('FECHA COMPRA',165,68,{align:'center'});
     this.doc.setFont("helvetica","normal");
 
-    this.doc.text(this.ord.tipo_pago,40,101,{align:'center'});
-    this.doc.text(this.ord.num_cuenta,105,101,{align:'center'});
-    this.doc.text(this.ord.fecha,165,101,{align:'center'});
+    this.doc.text(this.ord.tipo_pago,40,73,{align:'center'});
+    this.doc.text(this.ord.num_cuenta,105,73,{align:'center'});
+    this.doc.text(this.ord.fecha,165,73,{align:'center'});
 
-    this.doc.line(10, 113, 200, 113, 'S');
+    this.doc.line(10, 79, 200, 79, 'S');
     this.doc.setFontSize(8);
     this.doc.setFont("helvetica","bold");
-    this.doc.text('CANTIDAD',24,118,{align:'center'});
-    this.doc.text('DESCRIPCION',90,118,{align:'center'});
-    this.doc.text('PRECIO UNIT.',156,118,{align:'center'});
-    this.doc.text('SUBTOTAL',187,118,{align:'center'});
+    this.doc.text('CANTIDAD',22,83,{align:'center'});
+    this.doc.text('DESCRIPCION',86,83,{align:'center'});
+    this.doc.text('PRECIO UNIT.',156,83,{align:'center'});
+    this.doc.text('SUBTOTAL',187,83,{align:'center'});
     this.doc.setFont("helvetica","normal");
-    var pos_line=113;
-    var pos_item=pos_line+5;
+    var pos_line=79;
+    var pos_line_start=pos_line;
+    var pos_item=pos_line+4;
     this.listaOrd.forEach(m=>{
-      pos_line+=7;
-      pos_item+=7;
+      pos_line+=6;
+      pos_item+=6;
       this.doc.line(10, pos_line, 200, pos_line, 'S');
-      this.doc.text(String(m.cantidad),24,pos_item,{align:'center'});
+      this.doc.text(String(m.cantidad),22,pos_item,{align:'center'});
       //this.doc.text(m.descripcion,40,pos_item);
       this.doc.text(parseFloat(m.unit_price).toFixed(2),156,pos_item,{align:'center'});
       this.doc.text(parseFloat(m.subtotal).toFixed(2),187,pos_item,{align:'center'});
       this.doc.setFontSize(8);
-      if(m.descripcion.length<=50){
-        this.doc.text(m.descripcion,40,pos_item);
+      if(m.descripcion.length<=55){
+        this.doc.text(m.descripcion,36,pos_item);
       }
       else{
-        if(m.descripcion.length<=100){
-          this.doc.text(m.descripcion.substring(0,50),40,pos_item);
-          pos_line+=7;
-          pos_item+=7;
-          this.doc.text(m.descripcion.substring(50,m.descripcion.length),40,pos_item);
+        if(m.descripcion.length<=110){
+          this.doc.text(m.descripcion.substring(0,55),36,pos_item);
+          pos_line+=6;
+          pos_item+=6;
+          this.doc.text(m.descripcion.substring(55,m.descripcion.length),36,pos_item);
         }
         else{
-          if(m.descripcion.length<=150){
-            this.doc.text(m.descripcion.substring(0,50),40,pos_item);
-            pos_line+=7;
-            pos_item+=7;
-            this.doc.text(m.descripcion.substring(50,100),40,pos_item);
-            pos_line+=7;
-            pos_item+=7;
-            this.doc.text(m.descripcion.substring(100,m.descripcion.length),40,pos_item);
+          if(m.descripcion.length<=165){
+            this.doc.text(m.descripcion.substring(0,55),36,pos_item);
+            pos_line+=6;
+            pos_item+=6;
+            this.doc.text(m.descripcion.substring(55,110),36,pos_item);
+            pos_line+=6;
+            pos_item+=6;
+            this.doc.text(m.descripcion.substring(110,m.descripcion.length),36,pos_item);
 
           }
         }
       }
     })
-    pos_line+=7;
+    pos_line+=6;
     this.doc.line(10, pos_line, 200, pos_line, 'S');
-    this.doc.line(10, 113, 10, pos_line, 'S');
-    this.doc.line(38, 113, 38, pos_line, 'S');
-    this.doc.line(140, 113, 140, pos_line, 'S');
-    this.doc.line(174, 113, 174, pos_line, 'S');
-    this.doc.line(200, 113, 200, pos_line, 'S');
+    this.doc.line(10, pos_line_start, 10, pos_line, 'S');
+    this.doc.line(34, pos_line_start, 34, pos_line, 'S');
+    this.doc.line(140, pos_line_start, 140, pos_line, 'S');
+    this.doc.line(174, pos_line_start, 174, pos_line, 'S');
+    this.doc.line(200, pos_line_start, 200, pos_line, 'S');
     pos_line+=10;
     this.doc.setFontSize(8);
     this.doc.setTextColor(183,18,18);
     this.doc.text('SON: '+this.moneyText,15,pos_line);
-    pos_line+=9;
+    pos_line+=5;
     this.doc.setFontSize(8);
     this.doc.setTextColor(0,0,0);
     this.doc.roundedRect(140, pos_line, 60, 27, 2, 2, 'S');
@@ -1001,6 +990,9 @@ export class OrdenComponent implements OnInit {
             tipoComprobante='03';
           }
           if(res.tipo_doc=='RECIBO'){
+            tipoComprobante='R1';
+          }
+          if(res.tipo_doc=='HONORARIO'){
             tipoComprobante='R1';
           }
           var fechaArray1=res.fecha.split('-');
@@ -1133,101 +1125,101 @@ export class OrdenComponent implements OnInit {
     this.docView = new jsPDF();
 
     this.imgView.src = 'assets/logo'+this.ordView.empresa+'.png';
-    this.docView.addImage(this.imgView, 'png', 10, 10, 40, 40, '','FAST',0);
+    this.docView.addImage(this.imgView, 'png', 15, 10, 30, 30, '','FAST',0);
     this.docView.setFont("helvetica","bold");
     this.docView.setFontSize(18);
-    this.docView.text('ORDEN DE '+ this.ordView.tipo,105,35,{align:'center'});
+    this.docView.text('ORDEN DE '+ this.ordView.tipo,105,25,{align:'center'});
     this.docView.setFont("helvetica","normal");
     this.docView.setFontSize(14);
-    this.docView.text(this.ordView.destino,105,42,{align:'center'});
+    this.docView.text(this.ordView.destino,105,32,{align:'center'});
     this.docView.setFont("helvetica","normal");
     this.docView.setFontSize(8);
-    this.docView.text(this.ordView.destino_dir,105,50,{align:'center'});
-    this.docView.roundedRect(65, 25, 80, 20, 2, 2, 'S');
-    this.docView.rect(150, 28, 50, 14);
+    this.docView.text(this.ordView.destino_dir,105,40,{align:'center'});
+    this.docView.roundedRect(65, 15, 80, 20, 2, 2, 'S');
+    this.docView.rect(150, 18, 50, 14);
     this.docView.setFont("helvetica","normal");
     this.docView.setFontSize(9);
     this.docView.setTextColor(183,18,18);
-    this.docView.text('ORDEN DE '+ this.ordView.tipo,175,33,{align:'center'});
+    this.docView.text('ORDEN DE '+ this.ordView.tipo,175,23,{align:'center'});
     // this.doc.text('Nº '+ this.ord.numero,175-(((9+this.ord.numero.length)/2)*3),39);
-    this.docView.text('Nº '+this.ordView.numero,175,39,{align:'center'});
+    this.docView.text('Nº '+this.ordView.numero,175,29,{align:'center'});
     this.docView.setTextColor(0,0,0);
-    this.docView.text('RUC',15,65);
-    this.docView.text(': '+this.ordView.ruc,45,65);
-    this.docView.text('PROVEEDOR',15,72);
-    this.docView.text(': '+this.ordView.razon_social,45,72);
-    this.docView.text('DIRECCION',15,79);
-    this.docView.setFontSize(9);
-    this.docView.text(': '+this.ordView.direccion,45,79);
-    this.docView.setFontSize(9);
-    this.docView.roundedRect(10, 89, 190, 14, 4, 4, 'S');
-    this.docView.line(10, 96, 200, 96, 'S');
+    this.docView.text('RUC',15,48);
+    this.docView.text(': '+this.ordView.ruc,45,48);
+    this.docView.text('PROVEEDOR',15,53);
+    this.docView.text(': '+this.ordView.razon_social,45,53);
+    this.docView.text('DIRECCION',15,58);
+    this.docView.setFontSize(7);
+    this.docView.text(': '+this.ordView.direccion,45,58);
+    this.docView.setFontSize(8);
+    this.docView.roundedRect(10, 63, 190, 12, 2, 2, 'S');
+    this.docView.line(10, 69, 200, 69, 'S');
     this.docView.setFont("helvetica","bold");
-    this.docView.text('CONDICIONES DE PAGO',40,94,{align:'center'});
-    this.docView.text('CCI',105,94,{align:'center'});
-    this.docView.text('FECHA COMPRA',165,94,{align:'center'});
+    this.docView.text('CONDICIONES DE PAGO',40,68,{align:'center'});
+    this.docView.text('CCI',105,68,{align:'center'});
+    this.docView.text('FECHA COMPRA',165,68,{align:'center'});
     this.docView.setFont("helvetica","normal");
 
-    this.docView.text(this.ordView.tipo_pago,40,101,{align:'center'});
-    this.docView.text(this.ordView.num_cuenta,105,101,{align:'center'});
-    this.docView.text(this.ordView.fecha,165,101,{align:'center'});
+    this.docView.text(this.ordView.tipo_pago,40,73,{align:'center'});
+    this.docView.text(this.ordView.num_cuenta,105,73,{align:'center'});
+    this.docView.text(this.ordView.fecha,165,73,{align:'center'});
 
-    this.docView.line(10, 113, 200, 113, 'S');
+    this.docView.line(10, 79, 200, 79, 'S');
     this.docView.setFontSize(8);
     this.docView.setFont("helvetica","bold");
-    this.docView.text('CANTIDAD',24,118,{align:'center'});
-    this.docView.text('DESCRIPCION',90,118,{align:'center'});
-    this.docView.text('PRECIO UNIT.',156,118,{align:'center'});
-    this.docView.text('SUBTOTAL',187,118,{align:'center'});
+    this.docView.text('CANTIDAD',22,83,{align:'center'});
+    this.docView.text('DESCRIPCION',86,83,{align:'center'});
+    this.docView.text('PRECIO UNIT.',156,83,{align:'center'});
+    this.docView.text('SUBTOTAL',187,83,{align:'center'});
     this.docView.setFont("helvetica","normal");
-    var pos_line=113;
-    var pos_item=pos_line+5;
+    var pos_line=79;
+    var pos_line_start=pos_line;
+    var pos_item=pos_line+4;
     this.listaOrdView.forEach(m=>{
-      pos_line+=7;
-      pos_item+=7;
+      pos_line+=6;
+      pos_item+=6;
       this.docView.line(10, pos_line, 200, pos_line, 'S');
-      this.docView.text(String(m.cantidad),24,pos_item,{align:'center'});
+      this.docView.text(String(m.cantidad),22,pos_item,{align:'center'});
       //this.doc.text(m.descripcion,40,pos_item);
       this.docView.text(m.unit_price,156,pos_item,{align:'center'});
       this.docView.text(m.subtotal,187,pos_item,{align:'center'});
       this.docView.setFontSize(8);
-      if(m.descripcion.length<=50){
-        this.docView.text(m.descripcion,40,pos_item);
+      if(m.descripcion.length<=55){
+        this.docView.text(m.descripcion,36,pos_item);
       }
       else{
-        if(m.descripcion.length<=100){
-          console.log(m.descripcion.substring(0,50));
-          this.docView.text(m.descripcion.substring(0,50),40,pos_item);
-          pos_line+=7;
-          pos_item+=7;
-          this.docView.text(m.descripcion.substring(50,m.descripcion.length),40,pos_item);
+        if(m.descripcion.length<=110){
+          this.docView.text(m.descripcion.substring(0,55),36,pos_item);
+          pos_line+=6;
+          pos_item+=6;
+          this.docView.text(m.descripcion.substring(55,m.descripcion.length),36,pos_item);
         }
         else{
-          if(m.descripcion.length<=150){
-            this.docView.text(m.descripcion.substring(0,50),40,pos_item);
-            pos_line+=7;
-            pos_item+=7;
-            this.docView.text(m.descripcion.substring(50,100),40,pos_item);
-            pos_line+=7;
-            pos_item+=7;
-            this.docView.text(m.descripcion.substring(100,m.descripcion.length),40,pos_item);
+          if(m.descripcion.length<=165){
+            this.docView.text(m.descripcion.substring(0,55),36,pos_item);
+            pos_line+=6;
+            pos_item+=6;
+            this.docView.text(m.descripcion.substring(55,110),36,pos_item);
+            pos_line+=6;
+            pos_item+=6;
+            this.docView.text(m.descripcion.substring(110,m.descripcion.length),36,pos_item);
 
           }
         }
       }
     })
-    pos_line+=7;
+    pos_line+=6;
     this.docView.line(10, pos_line, 200, pos_line, 'S');
-    this.docView.line(10, 113, 10, pos_line, 'S');
-    this.docView.line(38, 113, 38, pos_line, 'S');
-    this.docView.line(140, 113, 140, pos_line, 'S');
-    this.docView.line(174, 113, 174, pos_line, 'S');
-    this.docView.line(200, 113, 200, pos_line, 'S');
+    this.docView.line(10, pos_line_start, 10, pos_line, 'S');
+    this.docView.line(34, pos_line_start, 34, pos_line, 'S');
+    this.docView.line(140, pos_line_start, 140, pos_line, 'S');
+    this.docView.line(174, pos_line_start, 174, pos_line, 'S');
+    this.docView.line(200, pos_line_start, 200, pos_line, 'S');
     pos_line+=10;
     this.docView.setFontSize(8);
     this.docView.setTextColor(183,18,18);
     this.docView.text('SON: '+this.moneyTextView,15,pos_line);
-    pos_line+=9;
+    pos_line+=5;
     this.docView.setFontSize(8);
     this.docView.setTextColor(0,0,0);
     this.docView.roundedRect(140, pos_line, 60, 27, 2, 2, 'S');

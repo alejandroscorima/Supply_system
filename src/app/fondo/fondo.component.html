@@ -347,7 +347,7 @@
           <ng-container matColumnDef="txt">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> TXT </th>
             <td mat-cell *matCellDef="let a">
-              <button mat-icon-button (click)="createTxtFile(a)" color="accent">
+              <button *ngIf="a.estado!='ANULADO'" mat-icon-button (click)="createTxtFile(a)" color="accent">
                 <mat-icon>save_alt</mat-icon>
               </button>
             </td>

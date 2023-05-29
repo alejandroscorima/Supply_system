@@ -442,6 +442,9 @@ export class FondoComponent implements OnInit {
             if(a.tipo_doc=='RECIBO'){
               tipoComprobante='R1';
             }
+            if(a.tipo_doc=='HONORARIO'){
+              tipoComprobante='R1';
+            }
             var fechaArray1=a.fecha.split('-');
             if(dataTxt!=''){
               dataTxt=dataTxt+'\n';
