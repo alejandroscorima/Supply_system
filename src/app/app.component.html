@@ -1,5 +1,150 @@
 <div class="contenedor-padre">
-  <router-outlet>
 
-  </router-outlet>
+  <mat-toolbar class="barra"  id="barra" *ngIf="user.first_name!=''">
+    <mat-toolbar-row >
+      <button (click)="cajon.toggle()" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
+  
+      <span>
+        SUPPLY &nbsp;
+      </span>
+      <span class="example-spacer"></span>
+      <button mat-raised-button (click)="logout()">
+        <mat-icon>logout</mat-icon>Cerrar sesión
+      </button>
+  
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-sidenav-container class="contenido">
+    <mat-sidenav closed  style="width: 200px; background-color: rgba(37,43,43);  backdrop-filter: blur(10px); color: whitesmoke;" #cajon mode="side">
+      <mat-nav-list style="padding-top:0px;">
+          <p style="margin-top:0px;margin-bottom: 0px; text-align: center;">
+            <img *ngIf="user.gender=='MASCULINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-male.png"  VSPACE="20">
+            <img *ngIf="user.gender=='FEMENINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-female.png"  VSPACE="20">
+          </p>
+          <a>
+            <h3 style="text-align:center; margin: 10px;">{{user.first_name+' '+user.paternal_surname+' '+user.maternal_surname}}</h3>
+            <p style="text-align:center; margin: 10px;">
+              <br/>
+              <a style="font-weight:bold;">AREA: </a>
+              <a style="font-weight:normal;">{{colab.area}}</a>
+              <br/>
+            </p>
+            <p style="text-align:center; margin: 10px;">
+              <a style="font-weight:bold;">SEDE: </a>
+              <a style="font-weight:normal;">{{colab.campus}}</a>
+              <br/>
+            </p>
+          </a>
+  
+          <a mat-list-item routerLink="/" class="navItem">
+            <mat-icon class="icon1" >dashboard</mat-icon>
+            Dashboard
+          </a>
+          <a mat-list-item routerLink="/new" class="navItem">
+            <mat-icon class="icon4" >category</mat-icon>
+            Ingresar requerimiento
+          </a>
+          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||colab.area=='ASISTENTE'||user_role=='SUPERVISOR'" class="navItem">
+            <mat-expansion-panel style="background-color: #b03a64">
+              <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+                <mat-panel-title>
+                  <mat-icon class="icon4" >verified</mat-icon>
+                  Ordenes
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a mat-list-item routerLink="/orden" class="navItem">
+                <mat-icon class="icon4" >verified</mat-icon>
+                Orden
+              </a>
+              <a mat-list-item routerLink="/warehouse" class="navItem">
+                <mat-icon class="icon4" >warehouse</mat-icon>
+                Almacen
+              </a>
+            </mat-expansion-panel>
+          </mat-accordion>
+  
+          <a mat-list-item routerLink="/daily" class="navItem" *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'">
+            <mat-icon class="icon1">today</mat-icon>
+            Actividades diarias
+          </a>
+  
+          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'||(user_role=='USUARIO AVANZADO'&&colab.area_id==13)" class="navItem">
+            <mat-expansion-panel style="background-color: #b03a64">
+              <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+                <mat-panel-title>
+                  <mat-icon class="icon4" >paid</mat-icon>
+                  Rendicion
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a mat-list-item routerLink="/fondo" class="navItem">
+                <mat-icon class="icon4" >paid</mat-icon>
+                Rendicion de fondo
+              </a>
+              <a mat-list-item routerLink="/mobility" class="navItem">
+                <mat-icon class="icon4" >directions_car</mat-icon>
+                Movilidad
+              </a>
+            </mat-expansion-panel>
+          </mat-accordion>
+  
+          <a mat-list-item routerLink="/analytics" class="navItem" *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'">
+            <mat-icon class="icon1">analytics</mat-icon>
+            Reportes
+          </a>
+  
+          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'" class="navItem">
+            <mat-expansion-panel style="background-color: #b03a64">
+              <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
+                <mat-panel-title>
+                  <mat-icon class="icon4" >settings</mat-icon>
+                  Configuracion
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a mat-list-item routerLink="/users" class="navItem">
+                <mat-icon class="icon4" >manage_accounts</mat-icon>
+                Usuarios
+              </a>
+              <a mat-list-item routerLink="/categories" class="navItem">
+                <mat-icon class="icon4" >category</mat-icon>
+                Categorias
+              </a>
+              <a mat-list-item routerLink="/campus" class="navItem">
+                <mat-icon class="icon4" >casino</mat-icon>
+                Salas
+              </a>
+              <a mat-list-item routerLink="/areas" class="navItem">
+                <mat-icon class="icon4" >group_work</mat-icon>
+                Areas
+              </a>
+              <a mat-list-item routerLink="/providers" class="navItem">
+                <mat-icon class="icon4" >store</mat-icon>
+                Proveedores
+              </a>
+              <a mat-list-item routerLink="/activities" class="navItem">
+                <mat-icon class="icon4" >task_alt</mat-icon>
+                Actividades
+              </a>
+  
+  
+            </mat-expansion-panel>
+          </mat-accordion>
+  
+          <a mat-list-item style="align-content: center;">
+            <a mat-stroked-button color="primary">Oscorp Technology</a>
+          </a>
+  
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="fondo">
+
+      <router-outlet style="height: 100%;">
+
+      </router-outlet>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+
 </div>

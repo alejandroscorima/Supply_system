@@ -18,7 +18,6 @@ import { Requerimiento } from '../requerimiento';
 import { LogisticaService } from '../logistica.service';
 import { CookiesService } from '../cookies.service';
 import { UsersService } from '../users.service';
-import { UserSession } from '../user_session';
 import { Area } from '../area';
 import { Campus } from '../campus';
 import { Orden } from '../orden';
@@ -29,6 +28,7 @@ import { Proveedor } from '../proveedor';
 import * as XLSX from 'xlsx';
 import { Product } from '../product';
 import { Chart, registerables } from 'chart.js';
+import { Collaborator } from '../collaborator';
 Chart.register(...registerables);
 
 
@@ -47,9 +47,13 @@ Chart.register(...registerables);
 })
 export class AnalyticsComponent implements OnInit {
 
-  user: User = new User('','','','','','',null,null,'','');
+  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
+
+  user_id: number = 0;
+  user_role: string = '';
 
   pay_type=['EFECTIVO','TRANSFERENCIA']
 
@@ -76,7 +80,7 @@ export class AnalyticsComponent implements OnInit {
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'','NO','NO','OFICINA');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'','NO','NO','OFICINA','');
 
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
@@ -442,154 +446,144 @@ export class AnalyticsComponent implements OnInit {
     }
   }
 
-  logout(){
-    var session_id=this.cookiesService.getToken('session_id');
-    this.usersService.deleteSession(session_id).subscribe(resDel=>{
-      if(resDel){
-        this.cookiesService.deleteToken('session_id');
-        location.reload();
-      }
-    })
-  }
 
   ngOnInit() {
     this.fecha= new Date();
 
 
 
-    if(this.cookiesService.checkToken('session_id')){
-      this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
-        if(s){
-          this.usersService.getUserById(s.user_id).subscribe((u:User)=>{
-            this.user=u;
-            this.logisticaService.getAreaById(this.user.area_id).subscribe((a:Area)=>{
-              if(a){
-                this.user_area=a;
-                this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
-                  if(c){
-                    this.user_campus=c;
+    if(this.cookiesService.checkToken('user_id')){
+      this.user_id = parseInt(this.cookiesService.getToken('user_id'));
+      this.user_role = this.cookiesService.getToken('user_role');
 
+      this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
+        this.user=u;
 
-                    this.logisticaService.getReqDetailsResumeByUser().subscribe((resume:any[])=>{
-                      console.log(resume);
-                      if(resume.length>0){
-                        this.dataSourceReqDetResume = new MatTableDataSource(resume);
-                        this.dataSourceReqDetResume.paginator = this.paginator.toArray()[0];
-                        this.dataSourceReqDetResume.sort = this.sort.toArray()[0];
-                      }
+        this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+          this.colab=c;
+          this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
+            if(ar){
+              this.user_area=ar;
+              this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
+                if(camp){
+                  this.user_campus=camp;
 
-                    })
-
-
-
-                    this.logisticaService.getFondoItemsResumeByCategory().subscribe((resume:any[])=>{
-
-                      this.context = (<HTMLCanvasElement>this.myChart.nativeElement).getContext('2d');
-
-                      this.chartOne = new Chart(this.context, {
-                        type: 'pie',
-                        data: {
-                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orangeeeeeeeee'],
-                            datasets: [{
-                              label: 'Monto:',
-                              data: [12, 19, 3, 5, 2, 3],
-                              backgroundColor: [
-                                  'rgba(255, 99, 132, 0.2)',
-                                  'rgba(54, 162, 235, 0.2)',
-                                  'rgba(255, 206, 86, 0.2)',
-                                  'rgba(75, 192, 192, 0.2)',
-                                  'rgba(153, 102, 255, 0.2)',
-                                  'rgba(255, 159, 64, 0.2)'
-                              ],
-                              borderColor: [
-                                  'rgba(255, 99, 132, 1)',
-                                  'rgba(54, 162, 235, 1)',
-                                  'rgba(255, 206, 86, 1)',
-                                  'rgba(75, 192, 192, 1)',
-                                  'rgba(153, 102, 255, 1)',
-                                  'rgba(255, 159, 64, 1)'
-                              ],
-                              borderWidth: 1,
-                              hoverOffset: 25
-                            }]
-                        },
-                        options: {
-/*                             scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }, */
-                            responsive: true,
-                            //maintainAspectRatio: false,
-                            plugins:{
-                              legend:{
-                                position: 'right',
+                  this.logisticaService.getReqDetailsResumeByUser().subscribe((resume:any[])=>{
+                    console.log(resume);
+                    if(resume.length>0){
+                      this.dataSourceReqDetResume = new MatTableDataSource(resume);
+                      this.dataSourceReqDetResume.paginator = this.paginator.toArray()[0];
+                      this.dataSourceReqDetResume.sort = this.sort.toArray()[0];
+                    }
+  
+                  })
+  
+                  this.logisticaService.getFondoItemsResumeByCategory().subscribe((resume:any[])=>{
+  
+                    this.context = (<HTMLCanvasElement>this.myChart.nativeElement).getContext('2d');
+  
+                    this.chartOne = new Chart(this.context, {
+                      type: 'pie',
+                      data: {
+                          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orangeeeeeeeee'],
+                          datasets: [{
+                            label: 'Monto:',
+                            data: [12, 19, 3, 5, 2, 3],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1,
+                            hoverOffset: 25
+                          }]
+                      },
+                      options: {
+  /*                             scales: {
+                              y: {
+                                  beginAtZero: true
                               }
+                          }, */
+                          responsive: true,
+                          //maintainAspectRatio: false,
+                          plugins:{
+                            legend:{
+                              position: 'right',
                             }
-                        }
-                      });
-
-
-
-
-
-                      console.log(resume);
-                      this.columnsAge=['Edad','Cantidad',{ role: 'annotation' }];
-                      var categ =[]
-                      this.age=[];
-                      resume.forEach(a1=>{
-                        categ=[];
-                        categ.push(a1['CATEGORIA']);
-                        categ.push(a1['MONTO']);
-                        categ.push(String(a1['MONTO']));
-                        this.age.push(categ);
-                      })
-                    })
-
-
-
-
-                    this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
-                      this.campus=cs;
-                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA');
-                      this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
-                      this.igvActivated=true;
-                      this.igvSlideDisabled=false;
-                      this.prefijoMoney='';
-                      this.ord.moneda='SOLES';
-                      this.prefijoMoney='S/.';
-                      this.ord.subtotal=parseInt('0').toFixed(2);
-                      this.ord.igv=parseInt('0').toFixed(2);
-                      this.ord.total=parseInt('0').toFixed(2);
-                      this.ord.rebajado='';
-                      this.posTituloSala = 74;
-
-                      var anio = this.fecha.getFullYear();
-                      var mes = this.fecha.getMonth()+1;
-                      var dia = this.fecha.getDate();
-
-                      if(mes<10){
-                        mes='0'+mes;
+                          }
                       }
-                      if(dia<10){
-                        dia='0'+dia;
-                      }
-
-                      this.ord.fecha=anio+'-'+mes+'-'+dia;
-                      console.log(this.ord.empresa);
+                    });
+  
+  
+  
+  
+  
+                    console.log(resume);
+                    this.columnsAge=['Edad','Cantidad',{ role: 'annotation' }];
+                    var categ =[]
+                    this.age=[];
+                    resume.forEach(a1=>{
+                      categ=[];
+                      categ.push(a1['CATEGORIA']);
+                      categ.push(a1['MONTO']);
+                      categ.push(String(a1['MONTO']));
+                      this.age.push(categ);
                     })
-                    this.logisticaService.getActiveProviders().subscribe((provl:Proveedor[])=>{
-                      this.listaProvidersActive=provl;
-                    })
-                  }
-                })
+                  })
+  
+                  this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
+                    this.campus=cs;
+                    this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA','');
+                    this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
+                    this.igvActivated=true;
+                    this.igvSlideDisabled=false;
+                    this.prefijoMoney='';
+                    this.ord.moneda='SOLES';
+                    this.prefijoMoney='S/.';
+                    this.ord.subtotal=parseInt('0').toFixed(2);
+                    this.ord.igv=parseInt('0').toFixed(2);
+                    this.ord.total=parseInt('0').toFixed(2);
+                    this.ord.rebajado='';
+                    this.posTituloSala = 74;
+  
+                    var anio = this.fecha.getFullYear();
+                    var mes = this.fecha.getMonth()+1;
+                    var dia = this.fecha.getDate();
+  
+                    if(mes<10){
+                      mes='0'+mes;
+                    }
+                    if(dia<10){
+                      dia='0'+dia;
+                    }
+  
+                    this.ord.fecha=anio+'-'+mes+'-'+dia;
+                    console.log(this.ord.empresa);
+                  })
+                  this.logisticaService.getActiveProviders().subscribe((provl:Proveedor[])=>{
+                    this.listaProvidersActive=provl;
+                  })
+  
+                }
+              })
+  
+            }
+          })
+        })
 
-              }
-            })
 
-          });
-        }
-      })
+      });
     }
     else{
       this.router.navigateByUrl('/login');

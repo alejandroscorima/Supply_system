@@ -8,7 +8,6 @@ import { Requerimiento } from './requerimiento';
 import { Item } from './item';
 
 import { CookieService } from 'ngx-cookie-service';
-import { UserSession } from './user_session';
 
 @Injectable({
   providedIn: 'root'
@@ -21,19 +20,39 @@ export class UsersService {
   constructor(private http: HttpClient, private cookies: CookieService) { }
 
 
-  getAllUsers() {
+/*   getAllUsers() {
     return this.http.get(`${this.baseUrl}/getAllUsers.php`);
+  } */
+
+  getAllUsersNew() {
+    return this.http.get(`${this.baseUrl}/getAllUsersNew.php`);
   }
 
-  getUser(username, password) {
+/*   getUser(username, password) {
     return this.http.get(`${this.baseUrl}/getUser.php?username=${username}&password=${password}`);
   }
 
   getUserById(user_id) {
     return this.http.get(`${this.baseUrl}/getUserById.php?user_id=${user_id}`);
+  } */
+
+  getUserNew(username, password) {
+    return this.http.get(`${this.baseUrl}/getUserNew.php?username=${username}&password=${password}`);
   }
 
-  getPersonal(area_id) {
+  getUserByIdNew(user_id) {
+    return this.http.get(`${this.baseUrl}/getUserByIdNew.php?user_id=${user_id}`);
+  }
+
+  getCollaboratorById(colab_id) {
+    return this.http.get(`${this.baseUrl}/getCollaboratorById.php?colab_id=${colab_id}`);
+  }
+
+  getPersonalNew(area_id) {
+    return this.http.get(`${this.baseUrl}/getPersonalNew.php?area_id=${area_id}`);
+  }
+
+/*   getPersonal(area_id) {
     return this.http.get(`${this.baseUrl}/getPersonal.php?area_id=${area_id}`);
   }
 
@@ -43,19 +62,8 @@ export class UsersService {
 
   updateUser(u: User) {
     return this.http.put(`${this.baseUrl}/updateUser.php`, u);
-  }
+  } */
 
-  addSession(session: UserSession) {
-    return this.http.post(`${this.baseUrl}/postSession.php`, session);
-  }
-
-  getSession(session_id) {
-    return this.http.get(`${this.baseUrl}/getSession.php?session_id=${session_id}`);
-  }
-
-  deleteSession(session_id) {
-    return this.http.delete(`${this.baseUrl}/deleteSession.php?session_id=${session_id}`);
-  }
 
   getAreas() {
     return this.http.get(`${this.baseUrl}/getAreas.php`);

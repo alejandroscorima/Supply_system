@@ -16,7 +16,7 @@ import { Product } from '../product';
 import { Proveedor } from '../proveedor';
 import { User } from '../user';
 import { UsersService } from '../users.service';
-import { UserSession } from '../user_session';
+import { Collaborator } from '../collaborator';
 
 @Component({
   selector: 'app-providers',
@@ -25,9 +25,13 @@ import { UserSession } from '../user_session';
 })
 export class ProvidersComponent implements OnInit {
 
-  user: User = new User('','','','','','',0,0,'','');
+  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
+
+  user_id: number = 0;
+  user_role: string = '';
 
   p: Product = new Product('','','','','','','','','NO',false);
   prov: Proveedor = new Proveedor('','','','','','');
@@ -73,15 +77,6 @@ export class ProvidersComponent implements OnInit {
     }
   }
 
-  logout(){
-    var session_id=this.cookiesService.getToken('session_id');
-    this.usersService.deleteSession(session_id).subscribe(resDel=>{
-      if(resDel){
-        this.cookiesService.deleteToken('session_id');
-        location.reload();
-      }
-    })
-  }
 
   provChange(){
     this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
@@ -95,7 +90,8 @@ export class ProvidersComponent implements OnInit {
   new(){
     var dialogRef;
 
-    var newUser: User = new User('','','','','','',0,0,'','');
+    var newUser: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+    var newColab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
 
     dialogRef=this.dialog.open(DialogNewProvider,{
       data:newUser,
@@ -200,49 +196,54 @@ export class ProvidersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.cookiesService.checkToken('session_id')){
-      this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
-        if(s){
-          this.usersService.getUserById(s.user_id).subscribe((u:User)=>{
-            this.user=u;
-            this.logisticaService.getAreaById(this.user.area_id).subscribe((a:Area)=>{
-              if(a){
-                this.user_area=a;
-                this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
-                  if(c){
-                    this.user_campus=c;
+    if(this.cookiesService.checkToken('user_id')){
+      this.user_id = parseInt(this.cookiesService.getToken('user_id'));
+      this.user_role = this.cookiesService.getToken('user_role');
 
-                    this.usersService.getAllUsers().subscribe((us:User[])=>{
-/*                       this.listaUsers=us;
-                      this.dataSourceUsers = new MatTableDataSource(this.listaUsers);
-                      this.dataSourceUsers.paginator = this.paginator.toArray()[0];
-                      this.dataSourceUsers.sort = this.sort.toArray()[0]; */
-                    })
-                  }
-                })
+      this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
+        this.user=u;
 
-              }
-            })
 
-          });
-        }
-        this.provActive='TODOS';
-        this.logisticaService.getAllProviders().subscribe((provl:Proveedor[])=>{
-          this.listaProviders=provl;
-          this.dataSourceProviders = new MatTableDataSource(this.listaProviders);
-          this.dataSourceProviders.paginator = this.paginator.toArray()[0];
-          this.dataSourceProviders.sort = this.sort.toArray()[0];
+
+        this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+          this.colab=c;
+          this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
+            if(ar){
+              this.user_area=ar;
+              this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
+                if(camp){
+                  this.user_campus=camp;
+
+                  this.usersService.getAllUsersNew().subscribe((us:User[])=>{
+
+                  })
+                }
+              })
+  
+            }
+          })
         })
-        this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
-          this.listaProducts=prodl;
-          this.dataSourceProducts = new MatTableDataSource(this.listaProducts);
-          this.dataSourceProducts.paginator = this.paginator.toArray()[1];
-          this.dataSourceProducts.sort = this.sort.toArray()[1];
-        })
-        this.logisticaService.getActiveProviders().subscribe((provl:Proveedor[])=>{
-          this.listaProvidersActive=provl;
-          this.listaProvidersActive.unshift(new Proveedor('TODOS','TODOS','','','ACTIVO','TODOS'));
-        })
+
+
+
+      });
+
+      this.provActive='TODOS';
+      this.logisticaService.getAllProviders().subscribe((provl:Proveedor[])=>{
+        this.listaProviders=provl;
+        this.dataSourceProviders = new MatTableDataSource(this.listaProviders);
+        this.dataSourceProviders.paginator = this.paginator.toArray()[0];
+        this.dataSourceProviders.sort = this.sort.toArray()[0];
+      })
+      this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
+        this.listaProducts=prodl;
+        this.dataSourceProducts = new MatTableDataSource(this.listaProducts);
+        this.dataSourceProducts.paginator = this.paginator.toArray()[1];
+        this.dataSourceProducts.sort = this.sort.toArray()[1];
+      })
+      this.logisticaService.getActiveProviders().subscribe((provl:Proveedor[])=>{
+        this.listaProvidersActive=provl;
+        this.listaProvidersActive.unshift(new Proveedor('TODOS','TODOS','','','ACTIVO','TODOS'));
       })
 
     }

@@ -4,20 +4,34 @@
     height: 100vh;
 }
 
-.icon1{
-  color: rgba(20, 102, 20, 0.817);
-}
-
-.icon2{
-  color: rgb(95, 10, 95);
-}
-
-.icon3{
-  color: red;
-}
-
 .contenido {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.barra {
+  flex: 0 1 auto;
+  color:white;
+  background-color: rgb(34, 146, 161);
+  height: 60px;
+}
+
+.fondo{
+    background-color: #6a7e7f;
+    height: 100%;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.fondo::-webkit-scrollbar{  /* Chrome & Safari*/
+  display: none;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.navItem{
+  color: whitesmoke;
 }
 
 

@@ -14,7 +14,7 @@ import { CookiesService } from '../cookies.service';
 import { LogisticaService } from '../logistica.service';
 import { User } from '../user';
 import { UsersService } from '../users.service';
-import { UserSession } from '../user_session';
+import { Collaborator } from '../collaborator';
 
 @Component({
   selector: 'app-areas',
@@ -23,9 +23,13 @@ import { UserSession } from '../user_session';
 })
 export class AreasComponent implements OnInit {
 
-  user: User = new User('','','','','','',0,0,'','');
+  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
+
+  user_id: number = 0;
+  user_role: string = '';
 
   listaAreas: Area[]= [];
   dataSourceAreas: MatTableDataSource<Area>;
@@ -42,15 +46,6 @@ export class AreasComponent implements OnInit {
     private toastr: ToastrService,
   ) { }
 
-  logout(){
-    var session_id=this.cookiesService.getToken('session_id');
-    this.usersService.deleteSession(session_id).subscribe(resDel=>{
-      if(resDel){
-        this.cookiesService.deleteToken('session_id');
-        location.reload();
-      }
-    })
-  }
 
   applyFilterU(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -92,32 +87,39 @@ export class AreasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.cookiesService.checkToken('session_id')){
-      this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
-        if(s){
-          this.usersService.getUserById(s.user_id).subscribe((u:User)=>{
-            this.user=u;
-            this.logisticaService.getAreaById(this.user.area_id).subscribe((a:Area)=>{
-              if(a){
-                this.user_area=a;
-                this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
-                  if(c){
-                    this.user_campus=c;
-                    this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
-                      this.listaAreas=as;
-                      this.dataSourceAreas = new MatTableDataSource(this.listaAreas);
-                      this.dataSourceAreas.paginator = this.paginator.toArray()[0];
-                      this.dataSourceAreas.sort = this.sort.toArray()[0];
-                    })
-                  }
-                })
+    if(this.cookiesService.checkToken('user_id')){
+      this.user_id = parseInt(this.cookiesService.getToken('user_id'));
+      this.user_role = this.cookiesService.getToken('user_role');
 
-              }
-            })
+      this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
+        this.user=u;
 
-          });
-        }
-      })
+
+        this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+          this.colab=c;
+          this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
+            if(ar){
+              this.user_area=ar;
+              this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
+                if(camp){
+                  this.user_campus=camp;
+
+                  this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
+                    this.listaAreas=as;
+                    this.dataSourceAreas = new MatTableDataSource(this.listaAreas);
+                    this.dataSourceAreas.paginator = this.paginator.toArray()[0];
+                    this.dataSourceAreas.sort = this.sort.toArray()[0];
+                  })
+  
+                }
+              })
+  
+            }
+          })
+        })
+
+
+      });
 
     }
     else{

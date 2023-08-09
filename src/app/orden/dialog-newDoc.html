@@ -1,0 +1,28 @@
+<div >
+  <a mat-dialog-title style="margin: 0px; text-align: center;">NUEVO </a>
+
+  <div mat-dialog-content class="newDocDialogContent">
+
+    <p>
+      <input style="display:none" type="file" (change)="onDocChanged($event)" #docInput accept=".xls, .xlsx, .doc, .docx, .txt, .pdf, .jpg, .jpeg, .png">
+      <button mat-raised-button (click)="docInput.click()"><mat-icon>upload_file</mat-icon>SUBIR</button>&nbsp;
+      <a *ngIf="doc">{{doc.name}} </a>
+
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre documento</mat-label>
+        <input matInput placeholder="Escribe el nombre" [(ngModel)]="data.name">
+      </mat-form-field>
+    </p>
+
+  </div>
+
+  <div mat-dialog-actions style="padding: 0px; text-align: center; align-content: center; justify-content: center;">
+
+    <button mat-raised-button style="background-color:rgb(6, 134, 6); color: white;" (click)="save()"  ><mat-icon>save</mat-icon></button>
+    <button mat-raised-button style="background-color:rgb(125, 15, 15); color: white;" (click)="cancel()"  ><mat-icon>close</mat-icon></button>
+
+  </div>
+
+</div>

@@ -18,10 +18,10 @@ import { Requerimiento } from '../requerimiento';
 import { LogisticaService } from '../logistica.service';
 import { CookiesService } from '../cookies.service';
 import { UsersService } from '../users.service';
-import { UserSession } from '../user_session';
 import { Area } from '../area';
 import { Campus } from '../campus';
 import { FileUploadService } from '../file-upload.service';
+import { Collaborator } from '../collaborator';
 
 
 @Component({
@@ -47,10 +47,14 @@ export class NuevoComponent implements OnInit {
   mes;
   dia;
 
-  user: User = new User('','','','','','',null,null,'','');
+  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   area_chief='';
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
+
+  user_id: number = 0;
+  user_role: string = '';
 
   req: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
 
@@ -188,9 +192,9 @@ export class NuevoComponent implements OnInit {
   areaChange(e){
     this.areas.forEach(a=>{
       if(a['name']==e.value){
-        this.usersService.getUserById(this.user_area.chief_id).subscribe((ac:User)=>{
+        this.usersService.getUserByIdNew(this.user_area.chief_id).subscribe((ac:User)=>{
           if(ac){
-            this.req.encargado=ac.first_name+' '+ac.last_name;
+            this.req.encargado=ac.first_name+' '+ac.paternal_surname+' '+ac.maternal_surname;
           }
           else{
             this.req.encargado='';
@@ -385,94 +389,94 @@ export class NuevoComponent implements OnInit {
     }
   }
 
-  logout(){
-    var session_id=this.cookiesService.getToken('session_id');
-    this.usersService.deleteSession(session_id).subscribe(resDel=>{
-      if(resDel){
-        this.cookiesService.deleteToken('session_id');
-        location.reload();
-      }
-    })
-  }
 
   ngOnInit() {
 
 
 
-    if(this.cookiesService.checkToken('session_id')){
+    if(this.cookiesService.checkToken('user_id')){
 
-      this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
-        if(s){
-          this.usersService.getUserById(s.user_id).subscribe((u:User)=>{
-            if(u){
-              this.user=u;
-              this.logisticaService.getAreaById(this.user.area_id).subscribe((a:Area)=>{
-                if(a){
-                  this.user_area=a;
-                  this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
-                    if(c){
-                      this.user_campus=c;
+      this.user_id = parseInt(this.cookiesService.getToken('user_id'));
+      this.user_role = this.cookiesService.getToken('user_role');
 
-                      this.fecha=new Date();
-                      this.anio=this.fecha.getFullYear();
-                      this.mes=this.fecha.getMonth()+1;
-                      this.dia=this.fecha.getDate();
+      this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
+        if(u){
+          this.user=u;
 
-                      if(this.mes<10){
-                        this.mes='0'+this.mes;
+
+
+          this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+            this.colab=c;
+            this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
+              if(ar){
+                this.user_area=ar;
+                this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
+                  if(camp){
+                    this.user_campus=camp;
+  
+                    this.fecha=new Date();
+                    this.anio=this.fecha.getFullYear();
+                    this.mes=this.fecha.getMonth()+1;
+                    this.dia=this.fecha.getDate();
+  
+                    if(this.mes<10){
+                      this.mes='0'+this.mes;
+                    }
+                    if(this.dia<10){
+                      this.dia='0'+this.dia;
+                    }
+  
+                    this.req.fecha=this.anio+'-'+this.mes+'-'+this.dia;
+                    console.log(this.user_area.name);
+                    console.log(this.user_campus.name);
+                    this.req.area=String(this.user_area.name);
+                    this.req.sala=String(this.user_campus.name);
+  
+                    this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
+                      if(as){
+                        this.areas=as;
                       }
-                      if(this.dia<10){
-                        this.dia='0'+this.dia;
-                      }
-
-                      this.req.fecha=this.anio+'-'+this.mes+'-'+this.dia;
-                      console.log(this.user_area.name);
-                      console.log(this.user_campus.name);
-                      this.req.area=String(this.user_area.name);
-                      this.req.sala=String(this.user_campus.name);
-
-                      this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
-                        if(as){
-                          this.areas=as;
+                      this.logisticaService.getAllCampus().subscribe((ac:Campus[])=>{
+                        if(ac){
+                          this.campus=ac;
                         }
-                        this.logisticaService.getAllCampus().subscribe((ac:Campus[])=>{
-                          if(ac){
-                            this.campus=ac;
-                          }
-
-                          this.logisticaService.getPrioridad().subscribe((res3:string[])=>{
-                            if(res3){
-                              this.prioridades=res3;
-
-                              if(this.user_area.name=='ADMINISTRACION'){
-                                this.req.encargado=this.user.first_name+' '+this.user.last_name;
-                              }
-                              else{
-                                this.usersService.getUserById(this.user_area.chief_id).subscribe((ac:User)=>{
-                                  console.log(ac);
-                                  if(ac){
-                                    this.req.encargado=ac.first_name+' '+ac.last_name;
-                                  }
-                                  else{
-                                    this.req.encargado=this.user.first_name+' '+this.user.last_name;
-                                  }
-                                })
-                              }
-
+  
+                        this.logisticaService.getPrioridad().subscribe((res3:string[])=>{
+                          if(res3){
+                            this.prioridades=res3;
+  
+                            if(this.user_area.name=='ADMINISTRACION'){
+                              this.req.encargado=this.user.first_name+' '+this.user.paternal_surname+' '+this.user.maternal_surname;
                             }
-                          })
+                            else{
+                              this.usersService.getUserByIdNew(this.user_area.chief_id).subscribe((ac:User)=>{
+                                console.log(ac);
+                                if(ac){
+                                  this.req.encargado=ac.first_name+' '+ac.paternal_surname+' '+ac.maternal_surname;
+                                }
+                                else{
+                                  this.req.encargado=this.user.first_name+' '+this.user.paternal_surname+' '+this.user.maternal_surname;
+                                }
+                              })
+                            }
+  
+                          }
                         })
                       })
+                    })
+    
+                  }
+                })
+    
+              }
+            })
+          })
 
-                    }
-                  })
-                }
-              })
 
-            }
-          });
+
+
         }
-      })
+      });
 
     }
     else{

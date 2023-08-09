@@ -169,7 +169,7 @@
     <mat-form-field style="width:50%;" class="sala" id="sala" appearance="outline" >
       <mat-label>Asignar a:</mat-label>
       <mat-select [(value)]="id_selected" (selectionChange)="asigChange()">
-          <mat-option *ngFor="let p of personal" [value]="p['user_id']">{{p['first_name']+' '+p['last_name']}}</mat-option>
+          <mat-option *ngFor="let p of personal" [value]="p.user_id">{{p.first_name+' '+p.paternal_surname+' '+p.maternal_surname}}</mat-option>
       </mat-select>
     </mat-form-field>
 

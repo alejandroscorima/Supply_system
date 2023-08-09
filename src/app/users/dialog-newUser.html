@@ -13,7 +13,7 @@
 
     <mat-form-field style="width:33%;" class="doc_id" appearance="outline">
       <mat-label>Apellidos:</mat-label>
-      <input matInput [(ngModel)]="data.last_name">
+      <input matInput [(ngModel)]="data">
     </mat-form-field>
 
     <mat-form-field style="width:33%;" class="doc_id" appearance="outline">
@@ -42,21 +42,21 @@
 
     <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
       <mat-label>Area:</mat-label>
-      <mat-select [(value)]="data.area_id">
+      <mat-select [(value)]="data">
           <mat-option *ngFor="let ar of areas" [value]="ar['area_id']">{{ar['name']}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
       <mat-label>Sede:</mat-label>
-      <mat-select [(value)]="data.campus_id" >
+      <mat-select [(value)]="data" >
           <mat-option *ngFor="let c of campus" [value]="c['campus_id']">{{c['name']}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
       <mat-label>Cargo:</mat-label>
-      <mat-select [(value)]="data.position">
+      <mat-select [(value)]="data">
           <mat-option *ngFor="let p of positions" [value]="p">{{p}}</mat-option>
       </mat-select>
     </mat-form-field>

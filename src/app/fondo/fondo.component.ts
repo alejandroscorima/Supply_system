@@ -19,7 +19,6 @@ import { LogisticaService } from '../logistica.service';
 import { Requerimiento } from '../requerimiento';
 import { CookiesService } from '../cookies.service';
 import { UsersService } from '../users.service';
-import { UserSession } from '../user_session';
 import { Console } from 'console';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Orden } from '../orden';
@@ -30,6 +29,7 @@ import { Area } from '../area';
 import { Campus } from '../campus';
 import { FondoLiquidacion } from '../fondo_liquidacion';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Collaborator } from '../collaborator';
 
 
 @Component({
@@ -50,9 +50,13 @@ export class FondoComponent implements OnInit {
   fondoItems: FondoItem[]=[];
   fondoLiquidaciones: FondoLiquidacion[]=[];
 
-  user: User = new User('','','','','','',null,null,'','');
+  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
+
+  user_id: number = 0;
+  user_role: string = '';
 
   selection = new SelectionModel<FondoItem>(true, []);
 
@@ -222,15 +226,6 @@ export class FondoComponent implements OnInit {
       }) */
     }
   
-    logout(){
-      var session_id=this.cookiesService.getToken('session_id');
-      this.usersService.deleteSession(session_id).subscribe(resDel=>{
-        if(resDel){
-          this.cookiesService.deleteToken('session_id');
-          location.reload();
-        }
-      })
-    }
   
     salaChange(){
       this.logisticaService.getSalaByName(this.sala).subscribe((res4:Campus)=>{
@@ -303,7 +298,7 @@ export class FondoComponent implements OnInit {
 
       this.fondoLiquidacion.importe='';
 
-      this.fondoLiquidacion.personal=this.user.first_name+' '+this.user.last_name;
+      this.fondoLiquidacion.personal=this.user.first_name+' '+this.user.paternal_surname+' '+this.user.maternal_surname;
       this.fondoLiquidacion.user_id=this.user.user_id;
       this.fondoLiquidacion.estado='REGISTRADO';
 
@@ -375,7 +370,7 @@ export class FondoComponent implements OnInit {
                         })
                       }
 
-                      if(this.user.position=='ADMINISTRADOR'){
+                      if(this.colab.position=='ADMINISTRADOR'){
 
 
                         this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
@@ -672,72 +667,82 @@ export class FondoComponent implements OnInit {
       this.fondoLiquidacion=new FondoLiquidacion('','','','','','','',this.user.user_id,'');
   
   
-      if(this.cookiesService.checkToken('session_id')){
-        this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
-          if(s){
-            this.usersService.getUserById(s.user_id).subscribe((u:User)=>{
-              this.user=u;
-              this.logisticaService.getAreaById(this.user.area_id).subscribe((a:Area)=>{
-                if(a){
-                  this.user_area=a;
-                  this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
-                    if(c){
-                      this.user_campus=c;
-                      this.sala=this.user_campus.name;
+      if(this.cookiesService.checkToken('user_id')){
+        this.user_id = parseInt(this.cookiesService.getToken('user_id'));
+        this.user_role = this.cookiesService.getToken('user_role');
 
-                      this.fondoLiquidacion.campus=this.sala;
-                      this.fondoLiquidacion.campus_dir=this.user_campus.address;
-                      this.fondoLiquidacion.empresa=this.user_campus.company;
-                      this.ord_suffix=this.user_campus.supply_ord_suffix;
-                      this.fondoLiquidacion.numero=this.user_campus.supply_ord_suffix;
+        this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
+          this.user=u;
+
+
+
+          this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+            this.colab=c;
+            this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
+              if(ar){
+                this.user_area=ar;
+                this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
+                  if(camp){
+                    this.user_campus=camp;
+  
+                    this.sala=this.user_campus.name;
+
+                    this.fondoLiquidacion.campus=this.sala;
+                    this.fondoLiquidacion.campus_dir=this.user_campus.address;
+                    this.fondoLiquidacion.empresa=this.user_campus.company;
+                    this.ord_suffix=this.user_campus.supply_ord_suffix;
+                    this.fondoLiquidacion.numero=this.user_campus.supply_ord_suffix;
   
   
-                      if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){
-                        this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
-                          if(resi){
-                            this.campus=resi;
-                            this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
-                              this.fondoLiquidaciones=liqs;
-                              this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
-                              this.dataSourceFondoLiq.paginator = this.paginator.toArray()[0];
-                              this.dataSourceFondoLiq.sort = this.sort.toArray()[0];
-  
-                              this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
-                                this.fondoItems=res;
-                                this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-                                this.dataSourceFondoItem.paginator = this.paginator.toArray()[1];
-                                this.dataSourceFondoItem.sort = this.sort.toArray()[1];
-                              })
-  
-                            })
-                          }
-                        })
-                      }
-  
-                      if(this.user.position=='ADMINISTRADOR'){
-                        this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
-                          this.fondoItems=res;
-                          this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
-                          this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
-                          this.dataSourceFondoItem.sort = this.sort.toArray()[0];
-  
+                    if(this.user_role=='ADMINISTRADOR'||this.user_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){
+                      this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
+                        if(resi){
+                          this.campus=resi;
                           this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
                             this.fondoLiquidaciones=liqs;
                             this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
-                            this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
-                            this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
+                            this.dataSourceFondoLiq.paginator = this.paginator.toArray()[0];
+                            this.dataSourceFondoLiq.sort = this.sort.toArray()[0];
+  
+                            this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
+                              this.fondoItems=res;
+                              this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+                              this.dataSourceFondoItem.paginator = this.paginator.toArray()[1];
+                              this.dataSourceFondoItem.sort = this.sort.toArray()[1];
+                            })
+  
                           })
-  
-                        })
-                      }
+                        }
+                      })
                     }
-                  })
-                }
-              })
   
-            });
-          }
-        })
+                    if(this.colab.position=='ADMINISTRADOR'){
+                      this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
+                        this.fondoItems=res;
+                        this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);
+                        this.dataSourceFondoItem.paginator = this.paginator.toArray()[0];
+                        this.dataSourceFondoItem.sort = this.sort.toArray()[0];
+  
+                        this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
+                          this.fondoLiquidaciones=liqs;
+                          this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
+                          this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
+                          this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
+                        })
+  
+                      })
+                    }
+    
+                  }
+                })
+    
+              }
+            })
+          })
+
+
+
+        });
   
   
       }

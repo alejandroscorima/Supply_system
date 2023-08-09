@@ -1,0 +1,52 @@
+<div class="docs">
+  <a mat-dialog-title style="margin: 0px; text-align: center;">DOCUMENTOS </a>
+
+  <div mat-dialog-content class="tableContainer">
+
+    <div style="padding-top: 10px; padding-bottom: 10px;">
+      <table mat-table [dataSource]="dataSourceDocs" class="mat-elevation-z8" style="width: 100%;">
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> DOC </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> FECHA </th>
+          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="view">
+          <th mat-header-cell *matHeaderCellDef> VER </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="less" color="accent" >
+              <a [href]="element.url" target="_blank">
+                <mat-icon>description</mat-icon>
+              </a>
+            </button>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef> EDIT </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button disabled (click)="edit(element)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button disabled (click)="delete(element)"><mat-icon>delete</mat-icon></button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="['name','date','view','edit']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name','date','view','edit'];"></tr>
+      </table>
+    </div>
+
+
+  </div>
+
+  <div mat-dialog-actions style="padding: 0px; text-align: center; align-content: center; justify-content: center;">
+
+    <button mat-raised-button style="background-color:rgb(17, 92, 106); color: white;" (click)="new()"  ><mat-icon>add</mat-icon>Nuevo</button>
+
+  </div>
+
+</div>

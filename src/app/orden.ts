@@ -32,6 +32,7 @@ export class Orden {
     public receipt: string,
     public txt: string,
     public section: string,
+    public comprobante: string,
     public id?: number,
   ) { }
 }

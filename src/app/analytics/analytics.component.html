@@ -1,635 +1,483 @@
-<mat-toolbar class="barra"  id="barra" style="height:8vh;">
-  <mat-toolbar-row >
-    <button (click)="cajon.toggle()" mat-icon-button>
-      <mat-icon>menu</mat-icon>
-    </button>
-
-    <span>
-      SUPPLY&nbsp;
-    </span>
-    <span class="example-spacer"></span>
-    <button mat-raised-button (click)="logout()">
-      <mat-icon>logout</mat-icon>Cerrar sesión
-    </button>
-  </mat-toolbar-row>
-</mat-toolbar>
-<mat-sidenav-container class="contenido" style="height:92vh;">
-  <mat-sidenav opened  style="min-width: 150px; max-width: 220px; background-color: #252b2b; color: whitesmoke;" #cajon mode="side">
-    <mat-nav-list style="padding-top:0px;">
-        <p style="margin-top:0px;margin-bottom: 0px; text-align: center;">
-          <img *ngIf="user.gender=='MASCULINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-male.png"  VSPACE="20">
-          <img *ngIf="user.gender=='FEMENINO'" style="width: 180px; height: 180px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;" class="mat-elevation-z8" mat-image src="assets/user-female.png"  VSPACE="20">
-        </p>
-        <a>
-          <h3 style="text-align:center; margin: 10px;">{{user.first_name+' '+user.last_name}}</h3>
-          <p style="text-align:center; margin: 10px;">
-            <br/>
-            <a style="font-weight:bold;">AREA: </a>
-            <a style="font-weight:normal;">{{user_area.name}}</a>
-            <br/>
-          </p>
-          <p style="text-align:center; margin: 10px;">
-            <a style="font-weight:bold;">SEDE: </a>
-            <a style="font-weight:normal;">{{user_campus.name}}</a>
-            <br/>
-          </p>
-        </a>
-
-        <a mat-list-item routerLink="/" class="navItem">
-          <mat-icon class="icon1" >dashboard</mat-icon>
-          Dashboard
-        </a>
-        <a mat-list-item routerLink="/new" class="navItem">
-          <mat-icon class="icon4" >category</mat-icon>
-          Ingresar requerimiento
-        </a>
-        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'" class="navItem">
-          <mat-expansion-panel style="background-color: #b03a64">
-            <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
-              <mat-panel-title>
-                <mat-icon class="icon4" >verified</mat-icon>
-                Ordenes
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <a mat-list-item routerLink="/orden" class="navItem">
-              <mat-icon class="icon4" >verified</mat-icon>
-              Generar orden
-            </a>
-            <a mat-list-item routerLink="/warehouse" class="navItem">
-              <mat-icon class="icon4" >warehouse</mat-icon>
-              Almacen
-            </a>
-          </mat-expansion-panel>
-        </mat-accordion>
-
-        <a mat-list-item routerLink="/daily" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'">
-          <mat-icon class="icon1">today</mat-icon>
-          Actividades diarias
-        </a>
-
-        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'||user_area.name=='ABASTECIMIENTO'||user_area.name=='ADMINISTRACION'" class="navItem">
-          <mat-expansion-panel style="background-color: #b03a64">
-            <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
-              <mat-panel-title>
-                <mat-icon class="icon4" >paid</mat-icon>
-                Rendicion
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <a mat-list-item routerLink="/fondo" class="navItem">
-              <mat-icon class="icon4" >paid</mat-icon>
-              Rendicion de fondo
-            </a>
-            <a mat-list-item routerLink="/mobility" class="navItem">
-              <mat-icon class="icon4" >directions_car</mat-icon>
-              Movilidad
-            </a>
-          </mat-expansion-panel>
-        </mat-accordion>
-
-        <a mat-list-item routerLink="/analytics" class="navItem" *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'">
-          <mat-icon class="icon1">analytics</mat-icon>
-          Reportes
-        </a>
-
-        <mat-accordion *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" class="navItem">
-          <mat-expansion-panel style="background-color: #b03a64">
-            <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
-              <mat-panel-title>
-                <mat-icon class="icon4" >settings</mat-icon>
-                Configuracion
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/users" class="navItem">
-              <mat-icon class="icon4" >manage_accounts</mat-icon>
-              Usuarios
-            </a>
-            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/categories" class="navItem">
-              <mat-icon class="icon4" >category</mat-icon>
-              Categorias
-            </a>
-            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/campus" class="navItem">
-              <mat-icon class="icon4" >casino</mat-icon>
-              Salas
-            </a>
-            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/areas" class="navItem">
-              <mat-icon class="icon4" >group_work</mat-icon>
-              Areas
-            </a>
-            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/providers" class="navItem">
-              <mat-icon class="icon4" >store</mat-icon>
-              Proveedores
-            </a>
-            <a mat-list-item *ngIf="user.supply_role=='SUPERUSUARIO'||user.supply_role=='ADMINISTRADOR'" routerLink="/activities" class="navItem">
-              <mat-icon class="icon4" >task_alt</mat-icon>
-              Actividades
-            </a>
+<div class="container" style="margin:20px; max-height:100%;" >
 
 
-          </mat-expansion-panel>
-        </mat-accordion>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" >
+    <mat-tab label="Atención" class="tabWare">
+      <div class="container" style="margin: 20px; text-align:center;" >
 
-        <a mat-list-item style="align-content: center;">
-          <a mat-stroked-button color="primary">Oscorp Technology</a>
-        </a>
+        <mat-card class="mat-elevation-z8 card-orden">
+          <mat-card-title>
+            DETALLE POR ASISTENTE
+          </mat-card-title>
+          <mat-card-content>
+            <mat-form-field appearance="standard" style="display:display-inline">
+              <mat-label>Búsqueda</mat-label>
+              <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
+            </mat-form-field>
+  
+  
+            <div class="mat-elevation-z8" style="width:100%;">
+                <table mat-table style="width:100%;" [dataSource]="dataSourceReqDetResume" matSort>
+  
+                  <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </th>
+                    <td mat-cell *matCellDef="let a"> {{a['NOMBRE']+' '+a['APELLIDO'] }}</td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="pendiente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> PENDIENTES </th>
+                    <td mat-cell *matCellDef="let a"> {{a['PENDIENTE']}}</td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="comprado">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> COMPRADOS </th>
+                    <td mat-cell *matCellDef="let a"> {{a['COMPRADO']}}</td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="entregado">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ENTREGADOS </th>
+                    <td mat-cell *matCellDef="let a"> {{a['ENTREGADO']}}</td>
+                  </ng-container>
 
-    </mat-nav-list>
-    <!--<mat-accordion>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Más
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+                  <ng-container matColumnDef="asignado">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ASIGNADOS </th>
+                    <td mat-cell *matCellDef="let a"> {{a['ASIGNADO']}}</td>
+                  </ng-container>
+  
+  
+                  <ng-container matColumnDef="progress">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> PROGRESO </th>
+                    <td mat-cell *matCellDef="let a; let i=index">
+                      <mat-progress-bar mode="determinate" color="accent" value="{{a['ENTREGADO']*100/a['ASIGNADO']}}"></mat-progress-bar>
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="empty2">
+                    <td mat-footer-cell *matFooterCellDef colspan="2">
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="empty1">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="subtotalO_label">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      SUBTOTAL
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="igv_label">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      IGV
+                      <mat-checkbox [(ngModel)]="igvActivated" [disabled]="listaOrd.length==0"
+                        (ngModelChange)="updateIgv()">
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="igv_included">
+                    <td mat-footer-cell *matFooterCellDef colspan="2">
+                      <mat-slide-toggle [checked]="igvSlideChecked" [disabled]="igvSlideDisabled||listaOrd.length==0" (change)="change($event)">
+                        IGV incluido
+                      </mat-slide-toggle>
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="total_label">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      TOTAL
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="subtotalO">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      {{ord.subtotal}}
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="igv">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      {{ord.igv}}
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="total">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      {{ord.total}}
+                    </td>
+                  </ng-container>
+  
+  
+                  <tr mat-header-row *matHeaderRowDef="['nombre','pendiente','comprado','entregado','asignado','progress'];"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['nombre','pendiente','comprado','entregado','asignado','progress'];"></tr>
 
-      </mat-expansion-panel>
-    </mat-accordion> -->
-  </mat-sidenav>
-  <mat-sidenav-content style="height:90vh; " class="fondo">
+  
+  
+  
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
+                  </tr>
+                </table>
+  
+                <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="end">
 
-    <div class="container" style="margin:20px; max-height:100%;" >
+          </mat-card-actions>
+        </mat-card>
+      </div>
 
-
-      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" >
-        <mat-tab label="Atención" class="tabWare">
-          <div class="container" style="margin: 20px; text-align:center;" >
-
-            <mat-card class="mat-elevation-z8 card-orden">
-              <mat-card-title>
-                DETALLE POR ASISTENTE
-              </mat-card-title>
-              <mat-card-content>
-                <mat-form-field appearance="standard" style="display:display-inline">
-                  <mat-label>Búsqueda</mat-label>
-                  <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
-                </mat-form-field>
-      
-      
-                <div class="mat-elevation-z8" style="width:100%;">
-                    <table mat-table style="width:100%;" [dataSource]="dataSourceReqDetResume" matSort>
-      
-                      <ng-container matColumnDef="nombre">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </th>
-                        <td mat-cell *matCellDef="let a"> {{a['NOMBRE']+' '+a['APELLIDO'] }}</td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="pendiente">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> PENDIENTES </th>
-                        <td mat-cell *matCellDef="let a"> {{a['PENDIENTE']}}</td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="comprado">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> COMPRADOS </th>
-                        <td mat-cell *matCellDef="let a"> {{a['COMPRADO']}}</td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="entregado">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ENTREGADOS </th>
-                        <td mat-cell *matCellDef="let a"> {{a['ENTREGADO']}}</td>
-                      </ng-container>
-
-                      <ng-container matColumnDef="asignado">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ASIGNADOS </th>
-                        <td mat-cell *matCellDef="let a"> {{a['ASIGNADO']}}</td>
-                      </ng-container>
-      
-      
-                      <ng-container matColumnDef="progress">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> PROGRESO </th>
-                        <td mat-cell *matCellDef="let a; let i=index">
-                          <mat-progress-bar mode="determinate" color="accent" value="{{a['ENTREGADO']*100/a['ASIGNADO']}}"></mat-progress-bar>
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="empty2">
-                        <td mat-footer-cell *matFooterCellDef colspan="2">
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="empty1">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="subtotalO_label">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          SUBTOTAL
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="igv_label">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          IGV
-                          <mat-checkbox [(ngModel)]="igvActivated" [disabled]="listaOrd.length==0"
-                            (ngModelChange)="updateIgv()">
-                          </mat-checkbox>
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="igv_included">
-                        <td mat-footer-cell *matFooterCellDef colspan="2">
-                          <mat-slide-toggle [checked]="igvSlideChecked" [disabled]="igvSlideDisabled||listaOrd.length==0" (change)="change($event)">
-                            IGV incluido
-                          </mat-slide-toggle>
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="total_label">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          TOTAL
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="subtotalO">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          {{ord.subtotal}}
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="igv">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          {{ord.igv}}
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="total">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          {{ord.total}}
-                        </td>
-                      </ng-container>
-      
-      
-                      <tr mat-header-row *matHeaderRowDef="['nombre','pendiente','comprado','entregado','asignado','progress'];"></tr>
-                      <tr mat-row *matRowDef="let row; columns: ['nombre','pendiente','comprado','entregado','asignado','progress'];"></tr>
-    
-      
-      
-      
-                      <tr class="mat-row" *matNoDataRow>
-                        <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
-                      </tr>
-                    </table>
-      
-                    <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
-                </div>
-              </mat-card-content>
-              <mat-card-actions align="end">
-
-              </mat-card-actions>
-            </mat-card>
-          </div>
-
-        </mat-tab>
-        <mat-tab label="Fondos" class="tabWare"> 
-          <div class="container" style="margin: 20px; text-align:center;" >
+    </mat-tab>
+    <mat-tab label="Fondos" class="tabWare"> 
+      <div class="container" style="margin: 20px; text-align:center;" >
 
 
-            <mat-card class="mat-elevation-z8 card-orden" style="text-align: center; align-content: center;">
-              <mat-card-title>
-                MONTOS POR CATEGORIA
-              </mat-card-title>
-              <mat-card-content style="text-align: center; align-content: center;">
+        <mat-card class="mat-elevation-z8 card-orden" style="text-align: center; align-content: center;">
+          <mat-card-title>
+            MONTOS POR CATEGORIA
+          </mat-card-title>
+          <mat-card-content style="text-align: center; align-content: center;">
 
 
-    
-                <div class="mat-elevation-z8" style="max-width: 400px; max-height: 400px; padding: 10px; display: block; margin-left: auto; margin-right: auto; ">
 
-                  <canvas #myChart style=" width: 300px; height: 300px; display: block; margin-left: auto; margin-right: auto; ">{{chartOne}}</canvas>
+            <div class="mat-elevation-z8" style="max-width: 400px; max-height: 400px; padding: 10px; display: block; margin-left: auto; margin-right: auto; ">
+
+              <canvas #myChart style=" width: 300px; height: 300px; display: block; margin-left: auto; margin-right: auto; ">{{chartOne}}</canvas>
 
 
-                  <google-chart
-                  [type]="typeAge"
-                  [data]="age"
-                  [options]="optionsAge"
-                  [title]="titleAge"
-                  [columns]="columnsAge"
-                  style="min-width: 600px !important; min-height: 400px;">
-                  </google-chart>
+              <google-chart
+              [type]="typeAge"
+              [data]="age"
+              [options]="optionsAge"
+              [title]="titleAge"
+              [columns]="columnsAge"
+              style="min-width: 600px !important; min-height: 400px;">
+              </google-chart>
 
 
 
 
 <!--                   <mat-form-field appearance="standard" style="display:display-inline">
-                    <mat-label>Búsqueda</mat-label>
-                    <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
-                  </mat-form-field>
+                <mat-label>Búsqueda</mat-label>
+                <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
+              </mat-form-field>
 
-                  <table mat-table style="width:100%;" [dataSource]="dataSourceFondoxCat" matSort>
-    
-                    <ng-container matColumnDef="nombre">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </th>
-                      <td mat-cell *matCellDef="let a"> {{a['NOMBRE']+' '+a['APELLIDO'] }}</td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="pendiente">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> PENDIENTES </th>
-                      <td mat-cell *matCellDef="let a"> {{a['PENDIENTE']}}</td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="comprado">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> COMPRADOS </th>
-                      <td mat-cell *matCellDef="let a"> {{a['COMPRADO']}}</td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="entregado">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> ENTREGADOS </th>
-                      <td mat-cell *matCellDef="let a"> {{a['ENTREGADO']}}</td>
-                    </ng-container>
+              <table mat-table style="width:100%;" [dataSource]="dataSourceFondoxCat" matSort>
 
-                    <ng-container matColumnDef="asignado">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> ASIGNADOS </th>
-                      <td mat-cell *matCellDef="let a"> {{a['ASIGNADO']}}</td>
-                    </ng-container>
-    
-    
-                    <ng-container matColumnDef="progress">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> PROGRESO </th>
-                      <td mat-cell *matCellDef="let a; let i=index">
-                        <mat-progress-bar mode="determinate" color="accent" value="{{a['ENTREGADO']*100/a['ASIGNADO']}}"></mat-progress-bar>
-                      </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="empty2">
-                      <td mat-footer-cell *matFooterCellDef colspan="2">
-                      </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="empty1">
-                      <td mat-footer-cell *matFooterCellDef colspan="1">
-                      </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="subtotalO_label">
-                      <td mat-footer-cell *matFooterCellDef colspan="1">
-                        SUBTOTAL
-                      </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="igv_label">
-                      <td mat-footer-cell *matFooterCellDef colspan="1">
-                        IGV
-                        <mat-checkbox [(ngModel)]="igvActivated" [disabled]="listaOrd.length==0"
-                          (ngModelChange)="updateIgv()">
-                        </mat-checkbox>
-                      </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="igv_included">
-                      <td mat-footer-cell *matFooterCellDef colspan="2">
-                        <mat-slide-toggle [checked]="igvSlideChecked" [disabled]="igvSlideDisabled||listaOrd.length==0" (change)="change($event)">
-                          IGV incluido
-                        </mat-slide-toggle>
-                      </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="total_label">
-                      <td mat-footer-cell *matFooterCellDef colspan="1">
-                        TOTAL
-                      </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="subtotalO">
-                      <td mat-footer-cell *matFooterCellDef colspan="1">
-                        {{ord.subtotal}}
-                      </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="igv">
-                      <td mat-footer-cell *matFooterCellDef colspan="1">
-                        {{ord.igv}}
-                      </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="total">
-                      <td mat-footer-cell *matFooterCellDef colspan="1">
-                        {{ord.total}}
-                      </td>
-                    </ng-container>
-    
-    
-                    <tr mat-header-row *matHeaderRowDef="['nombre','pendiente','comprado','entregado','asignado','progress'];"></tr>
-                    <tr mat-row *matRowDef="let row; columns: ['nombre','pendiente','comprado','entregado','asignado','progress'];"></tr>
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </th>
+                  <td mat-cell *matCellDef="let a"> {{a['NOMBRE']+' '+a['APELLIDO'] }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="pendiente">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> PENDIENTES </th>
+                  <td mat-cell *matCellDef="let a"> {{a['PENDIENTE']}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="comprado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> COMPRADOS </th>
+                  <td mat-cell *matCellDef="let a"> {{a['COMPRADO']}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="entregado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> ENTREGADOS </th>
+                  <td mat-cell *matCellDef="let a"> {{a['ENTREGADO']}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="asignado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> ASIGNADOS </th>
+                  <td mat-cell *matCellDef="let a"> {{a['ASIGNADO']}}</td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="progress">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> PROGRESO </th>
+                  <td mat-cell *matCellDef="let a; let i=index">
+                    <mat-progress-bar mode="determinate" color="accent" value="{{a['ENTREGADO']*100/a['ASIGNADO']}}"></mat-progress-bar>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="empty2">
+                  <td mat-footer-cell *matFooterCellDef colspan="2">
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="empty1">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtotalO_label">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    SUBTOTAL
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="igv_label">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    IGV
+                    <mat-checkbox [(ngModel)]="igvActivated" [disabled]="listaOrd.length==0"
+                      (ngModelChange)="updateIgv()">
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="igv_included">
+                  <td mat-footer-cell *matFooterCellDef colspan="2">
+                    <mat-slide-toggle [checked]="igvSlideChecked" [disabled]="igvSlideDisabled||listaOrd.length==0" (change)="change($event)">
+                      IGV incluido
+                    </mat-slide-toggle>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="total_label">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    TOTAL
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtotalO">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    {{ord.subtotal}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="igv">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    {{ord.igv}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="total">
+                  <td mat-footer-cell *matFooterCellDef colspan="1">
+                    {{ord.total}}
+                  </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="['nombre','pendiente','comprado','entregado','asignado','progress'];"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['nombre','pendiente','comprado','entregado','asignado','progress'];"></tr>
+
+
+
+
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
+                </tr>
+              </table> -->
   
-    
-    
-    
-                    <tr class="mat-row" *matNoDataRow>
-                      <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
-                    </tr>
-                  </table> -->
-      
-                    <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
-                </div>
-              </mat-card-content>
-              <mat-card-actions align="end">
+                <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="end">
 
-              </mat-card-actions>
-            </mat-card>
+          </mat-card-actions>
+        </mat-card>
 
 
 
 
 <!--             <mat-card class="mat-elevation-z8 card-orden">
-              <mat-card-title>EMPRESA</mat-card-title>
-              <mat-card-content>
-      
-                <mat-form-field style="width:22%;" class="sala" id="sala" appearance="outline" >
-                  <mat-label>Destino:</mat-label>
-                  <mat-select [(value)]="ord.destino" (selectionChange)="asigChange()">
-                      <mat-option *ngFor="let c of campus" [value]="c['name']">{{c['name']}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-      
-                <mat-form-field style="width:22%;" class="sala" id="sala" appearance="outline" >
-                  <mat-label>Moneda:</mat-label>
-                  <mat-select [(value)]="ord.moneda" (selectionChange)="asigMoneyChange()">
-                      <mat-option *ngFor="let m of monedas" [value]="m">{{m}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-      
-                <mat-form-field style="width:22%;" appearance="outline">
-                  <mat-label>Fecha:</mat-label>
-                  <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange()">
-                  <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                  <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                </mat-form-field>
+          <mat-card-title>EMPRESA</mat-card-title>
+          <mat-card-content>
+  
+            <mat-form-field style="width:22%;" class="sala" id="sala" appearance="outline" >
+              <mat-label>Destino:</mat-label>
+              <mat-select [(value)]="ord.destino" (selectionChange)="asigChange()">
+                  <mat-option *ngFor="let c of campus" [value]="c['name']">{{c['name']}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <mat-form-field style="width:22%;" class="sala" id="sala" appearance="outline" >
+              <mat-label>Moneda:</mat-label>
+              <mat-select [(value)]="ord.moneda" (selectionChange)="asigMoneyChange()">
+                  <mat-option *ngFor="let m of monedas" [value]="m">{{m}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <mat-form-field style="width:22%;" appearance="outline">
+              <mat-label>Fecha:</mat-label>
+              <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange()">
+              <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+              <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
 
-                <mat-form-field style="width:22%;" class="sala" id="sala" appearance="outline" >
-                  <mat-label>Condiciones Pago:</mat-label>
-                  <mat-select [(value)]="ord.tipo_pago">
-                      <mat-option *ngFor="let p of pay_type" [value]="p">{{p}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </mat-card-content>
-            </mat-card>
+            <mat-form-field style="width:22%;" class="sala" id="sala" appearance="outline" >
+              <mat-label>Condiciones Pago:</mat-label>
+              <mat-select [(value)]="ord.tipo_pago">
+                  <mat-option *ngFor="let p of pay_type" [value]="p">{{p}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
 
-            <mat-card class="mat-elevation-z8 card-orden">
-              <mat-card-title>PROVEEDOR</mat-card-title>
-              <mat-card-content>
-                <mat-form-field style="width:55%;" class="sala" id="sala" appearance="outline" >
-                  <mat-label>Proveedor:</mat-label>
-                  <mat-select [(value)]="provActive" (selectionChange)="provChange()">
-                      <mat-option *ngFor="let pr of listaProvidersActive" [value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+        <mat-card class="mat-elevation-z8 card-orden">
+          <mat-card-title>PROVEEDOR</mat-card-title>
+          <mat-card-content>
+            <mat-form-field style="width:55%;" class="sala" id="sala" appearance="outline" >
+              <mat-label>Proveedor:</mat-label>
+              <mat-select [(value)]="provActive" (selectionChange)="provChange()">
+                  <mat-option *ngFor="let pr of listaProvidersActive" [value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-                <mat-form-field style="width:35%;" class="doc_id" appearance="outline">
-                  <mat-label>Número de Cuenta Bancaria:</mat-label>
-                  <input matInput [(ngModel)]="ord.num_cuenta">
-                </mat-form-field>
-              </mat-card-content>
-            </mat-card>
+            <mat-form-field style="width:35%;" class="doc_id" appearance="outline">
+              <mat-label>Número de Cuenta Bancaria:</mat-label>
+              <input matInput [(ngModel)]="ord.num_cuenta">
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
 
-            <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
-              <mat-card-content>
-                <mat-form-field appearance="standard" style="display:display-inline">
-                  <mat-label>Búsqueda</mat-label>
-                  <input matInput (keyup)="applyFilterWareOrd($event)" placeholder="Escribe algo para buscar" #input2>
-                </mat-form-field>
-      
-      
-                <div class="mat-elevation-z8" style="width:100%; text-align: left;">
-                    <table mat-table style="width:100%;" [dataSource]="dataSourceWareOrd" matSort multiTemplateDataRows>
-      
-                      <ng-container matColumnDef="cantidad">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
-                        <td mat-cell *matCellDef="let a"> {{a.cantidad}}</td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="descripcion">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
-                        <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="unit_price">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> PRECIO UNIT </th>
-                        <td mat-cell *matCellDef="let a"> {{a.unit_price}}</td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="subtotal">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> SUBTOTAL </th>
-                        <td mat-cell *matCellDef="let a"> {{a.subtotal}}</td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="val_prov">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> VALOR </th>
-                        <td mat-cell *matCellDef="let a"> {{a.val_prov}}</td>
-                      </ng-container>
+        <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
+          <mat-card-content>
+            <mat-form-field appearance="standard" style="display:display-inline">
+              <mat-label>Búsqueda</mat-label>
+              <input matInput (keyup)="applyFilterWareOrd($event)" placeholder="Escribe algo para buscar" #input2>
+            </mat-form-field>
+  
+  
+            <div class="mat-elevation-z8" style="width:100%; text-align: left;">
+                <table mat-table style="width:100%;" [dataSource]="dataSourceWareOrd" matSort multiTemplateDataRows>
+  
+                  <ng-container matColumnDef="cantidad">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+                    <td mat-cell *matCellDef="let a"> {{a.cantidad}}</td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="descripcion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+                    <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="unit_price">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> PRECIO UNIT </th>
+                    <td mat-cell *matCellDef="let a"> {{a.unit_price}}</td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="subtotal">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> SUBTOTAL </th>
+                    <td mat-cell *matCellDef="let a"> {{a.subtotal}}</td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="val_prov">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> VALOR </th>
+                    <td mat-cell *matCellDef="let a"> {{a.val_prov}}</td>
+                  </ng-container>
 
-                      <ng-container matColumnDef="um_prov">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> UND. PROVEEDOR </th>
-                        <td mat-cell *matCellDef="let a"> {{a.um_prov}}</td>
-                      </ng-container>
-      
-      
-                      <ng-container matColumnDef="edit">
-                        <th mat-header-cell *matHeaderCellDef >
-                          EDITAR
-                        </th>
-                        <td mat-cell *matCellDef="let a; let i=index">
-                          <button mat-raised-button style="background-color: rgb(9, 66, 126); color:white" > <mat-icon>edit</mat-icon> </button>&nbsp;
-                        </td>
-                      </ng-container>
+                  <ng-container matColumnDef="um_prov">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> UND. PROVEEDOR </th>
+                    <td mat-cell *matCellDef="let a"> {{a.um_prov}}</td>
+                  </ng-container>
+  
+  
+                  <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef >
+                      EDITAR
+                    </th>
+                    <td mat-cell *matCellDef="let a; let i=index">
+                      <button mat-raised-button style="background-color: rgb(9, 66, 126); color:white" > <mat-icon>edit</mat-icon> </button>&nbsp;
+                    </td>
+                  </ng-container>
 
-                      <ng-container matColumnDef="empty2">
-                        <td mat-footer-cell *matFooterCellDef colspan="2">
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="empty1">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="subtotalO_label">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          SUBTOTAL
-                        </td>
-                      </ng-container>
+                  <ng-container matColumnDef="empty2">
+                    <td mat-footer-cell *matFooterCellDef colspan="2">
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="empty1">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="subtotalO_label">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      SUBTOTAL
+                    </td>
+                  </ng-container>
 
-                      <ng-container matColumnDef="subtotalO">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          {{ord.subtotal}}
-                        </td>
-                      </ng-container>
+                  <ng-container matColumnDef="subtotalO">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      {{ord.subtotal}}
+                    </td>
+                  </ng-container>
 
-                      <ng-container matColumnDef="igv_label">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          <mat-checkbox [(ngModel)]="igvActivated" [disabled]="listaOrd.length==0"
-                            (ngModelChange)="updateIgv()">
-                          </mat-checkbox>
-                          IGV
-                        </td>
-                      </ng-container>
+                  <ng-container matColumnDef="igv_label">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      <mat-checkbox [(ngModel)]="igvActivated" [disabled]="listaOrd.length==0"
+                        (ngModelChange)="updateIgv()">
+                      </mat-checkbox>
+                      IGV
+                    </td>
+                  </ng-container>
 
-                      <ng-container matColumnDef="igv">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          {{ord.igv}}
-                        </td>
-                      </ng-container>
+                  <ng-container matColumnDef="igv">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      {{ord.igv}}
+                    </td>
+                  </ng-container>
 
-                      <ng-container matColumnDef="igv_included">
-                        <td mat-footer-cell *matFooterCellDef colspan="2">
-                          <mat-slide-toggle [checked]="igvSlideChecked" [disabled]="igvSlideDisabled||listaOrd.length==0" (change)="change($event)">
-                            IGV incluido
-                          </mat-slide-toggle>
-                        </td>
-                      </ng-container>
+                  <ng-container matColumnDef="igv_included">
+                    <td mat-footer-cell *matFooterCellDef colspan="2">
+                      <mat-slide-toggle [checked]="igvSlideChecked" [disabled]="igvSlideDisabled||listaOrd.length==0" (change)="change($event)">
+                        IGV incluido
+                      </mat-slide-toggle>
+                    </td>
+                  </ng-container>
 
-                      <ng-container matColumnDef="total_label">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          TOTAL
-                        </td>
-                      </ng-container>
-      
-                      <ng-container matColumnDef="total">
-                        <td mat-footer-cell *matFooterCellDef colspan="1">
-                          {{ord.total}}
-                        </td>
-                      </ng-container>
-      
-      
-      
-      
-                      <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
-                      <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
+                  <ng-container matColumnDef="total_label">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      TOTAL
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="total">
+                    <td mat-footer-cell *matFooterCellDef colspan="1">
+                      {{ord.total}}
+                    </td>
+                  </ng-container>
+  
+  
+  
+  
+                  <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','unit_price','subtotal','edit'];"></tr>
 
-                      <tr mat-footer-row *matFooterRowDef="['empty2','subtotalO_label','subtotalO','empty1']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty1']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty1']" style="font-weight: bold;" ></tr>
-                      <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty1']" style="font-weight: bold;" ></tr>
-      
-      
-      
-                      <tr class="mat-row" *matNoDataRow>
-                        <td class="mat-cell" colspan="6">No se encontró "{{input2.value}}"</td>
-                      </tr>
-                    </table>
-      
-                    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> 
-                </div>
-              </mat-card-content>
-      
-            </mat-card>
+                  <tr mat-footer-row *matFooterRowDef="['empty2','subtotalO_label','subtotalO','empty1']" style="font-weight: bold;" ></tr>
+                  <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty1']" style="font-weight: bold;" ></tr>
+                  <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty1']" style="font-weight: bold;" ></tr>
+                  <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty1']" style="font-weight: bold;" ></tr>
+  
+  
+  
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="6">No se encontró "{{input2.value}}"</td>
+                  </tr>
+                </table>
+  
+                <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> 
+            </div>
+          </mat-card-content>
+  
+        </mat-card>
 
-            <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
-              <button mat-raised-button style="background-color: rgb(59, 145, 82); color:white" (click)="generarOrden()" > 
-                <mat-icon>verified</mat-icon>
-                Generar
-              </button>
-              
-            </mat-card> -->
-            
-          </div>
-        </mat-tab>
-        <mat-tab label="Ver ordenes" class="tabWare">
+        <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
+          <button mat-raised-button style="background-color: rgb(59, 145, 82); color:white" (click)="generarOrden()" > 
+            <mat-icon>verified</mat-icon>
+            Generar
+          </button>
+          
+        </mat-card> -->
+        
+      </div>
+    </mat-tab>
+    <mat-tab label="Ver ordenes" class="tabWare">
 
-        </mat-tab>
-      </mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
 
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
-
-
+</div>
 
 

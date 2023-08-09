@@ -16,6 +16,7 @@ import { Daily } from './daily';
 import { Mobility } from './mobility';
 import { Activity } from './activity';
 import { Campus } from './campus';
+import { Doc } from './doc';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,14 @@ export class LogisticaService {
 
   addOrd(ord: Orden) {
     return this.http.post(`${this.baseUrl}/postOrden.php`, ord);
+  }
+
+  addDoc(doc: Doc) {
+    return this.http.post(`${this.baseUrl}/postDoc.php`, doc);
+  }
+
+  getDocsByOrdenId(orden_id: number) {
+    return this.http.get(`${this.baseUrl}/getDocsByOrdenId.php?orden_id=${orden_id}`);
   }
 
   addFondoItem(it: FondoItem) {
@@ -107,8 +116,8 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getAllProducts.php?ruc=${ruc}`);
   }
 
-  getAllOficinaOrders(user_id) {
-    return this.http.get(`${this.baseUrl}/getAllOficinaOrders.php?user_id=${user_id}`);
+  getAllOficinaOrders(user_id, user_role, destino) {
+    return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNew.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);
   }
 
   getAllWarehouseOrders() {
@@ -143,7 +152,7 @@ export class LogisticaService {
     return this.http.put(`${this.baseUrl}/updateReqDetalle.php`, item);
   }
 
-  getReqsPendientes(tipo_usuario: string, id_asignado:string, user_id:number) {
+/*   getReqsPendientes(tipo_usuario: string, id_asignado:string, user_id:number) {
     return this.http.get(`${this.baseUrl}/getReqsPendientes.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}`);
   }
 
@@ -153,6 +162,18 @@ export class LogisticaService {
 
   getReqsFin(tipo_usuario: string, id_asignado:string, user_id:number) {
     return this.http.get(`${this.baseUrl}/getReqsFin.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}`);
+  } */
+
+  getReqsPendientesNew(tipo_usuario: string, id_asignado:string, user_id:number) {
+    return this.http.get(`${this.baseUrl}/getReqsPendientesNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}`);
+  }
+
+  getReqsProcesoNew(tipo_usuario: string, id_asignado:string, user_id:number) {
+    return this.http.get(`${this.baseUrl}/getReqsProcesoNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}`);
+  }
+
+  getReqsFinNew(tipo_usuario: string, id_asignado:string, user_id:number) {
+    return this.http.get(`${this.baseUrl}/getReqsFinNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}`);
   }
 
   getSalaByName(campus_name: string) {

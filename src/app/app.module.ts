@@ -18,9 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { DialogCreateOrden, InicioComponent } from './inicio/inicio.component';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
-import { DialogHistoryDetail, DialogLudops, HistoryComponent } from './history/history.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { GenerarActaComponent } from './generar-acta/generar-acta.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -41,7 +39,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { DialogNewD, DialogNewR, DialogConfirm, NuevoComponent } from './nuevo/nuevo.component';
-import { BirthdayComponent } from './birthday/birthday.component';
 
 import { MatGridListModule} from '@angular/material/grid-list';
 import { GoogleChartsModule } from 'angular-google-charts';
@@ -52,7 +49,6 @@ import { MatStepperModule} from '@angular/material/stepper';
 
 import { FondoComponent, DialogNewItemFondo, DialogConfirmFondo, DialogEditItemFondo } from './fondo/fondo.component';
 import { DialogConfirmOrden, OrdenComponent } from './orden/orden.component';
-import { ViewOrdersComponent } from './view-orders/view-orders.component';
 import { UsersComponent, DialogNewUser, DialogEditUser } from './users/users.component';
 import { CategoriesComponent, DialogNewCategory, DialogEditCategory } from './categories/categories.component';
 import { CampusComponent, DialogNewCampus, DialogEditCampus } from './campus/campus.component';
@@ -71,7 +67,7 @@ import { DailyComponent, DialogConfirmDaily } from './daily/daily.component';
 
 import { ActivitiesComponent } from './activities/activities.component';
 
-import { DialogAddReceipt, DialogEditReceipt } from './orden/orden.component';
+import { DialogAddReceipt, DialogEditReceipt, DialogShowDocs, DialogNewDoc, DialogEditDoc } from './orden/orden.component';
 
 
 @NgModule({
@@ -82,10 +78,6 @@ import { DialogAddReceipt, DialogEditReceipt } from './orden/orden.component';
         OrdenComponent,
         WarehouseComponent,
         InicioComponent,
-        HistoryComponent,
-        GenerarActaComponent,
-        BirthdayComponent,
-        ViewOrdersComponent,
         FondoComponent,
         //DialogRevisar,
         DialogDetalleReqAdm,
@@ -96,8 +88,6 @@ import { DialogAddReceipt, DialogEditReceipt } from './orden/orden.component';
         DialogNewD,
         DialogNewR,
         DialogConfirm,
-        DialogHistoryDetail,
-        DialogLudops,
         DialogNewItemFondo,
         UsersComponent,
         DialogNewUser,
@@ -130,6 +120,9 @@ import { DialogAddReceipt, DialogEditReceipt } from './orden/orden.component';
         DialogEditReceipt,
         DialogAddReceiptWarehouse,
         DialogEditReceiptWarehouse,
+        DialogShowDocs,
+        DialogNewDoc,
+        DialogEditDoc,
 
     ],
     imports: [

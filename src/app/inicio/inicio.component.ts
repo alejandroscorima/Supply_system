@@ -17,7 +17,6 @@ import { LogisticaService } from '../logistica.service';
 import { Requerimiento } from '../requerimiento';
 import { CookiesService } from '../cookies.service';
 import { UsersService } from '../users.service';
-import { UserSession } from '../user_session';
 import { Console } from 'console';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Orden } from '../orden';
@@ -28,6 +27,7 @@ import { Campus } from '../campus';
 import { FileUploadService } from '../file-upload.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatStepper } from '@angular/material/stepper';
+import { Collaborator } from '../collaborator';
 
 
 @Component({
@@ -49,9 +49,13 @@ export class InicioComponent implements OnInit {
   reqProceso: Requerimiento[]=[];
   reqFin: Requerimiento[]=[];
 
-  user: User = new User('','','','','','',null,null,'','');
+  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
+
+  user_id: number = 0;
+  user_role: string ='';
 
 
   dataSourceSale: MatTableDataSource<Item>;
@@ -96,7 +100,7 @@ export class InicioComponent implements OnInit {
   showReqDetails(req:Requerimiento){
     var dialogRef;
 
-    if(this.user.supply_role=='SUPERUSUARIO'||this.user.supply_role=='ADMINISTRADOR'){
+    if(this.user_role=='SUPER USUARIO'||this.user_role=='SUPER ADMINISTRADOR'){
       dialogRef=this.dialog.open(DialogDetalleReqAdm,{
         data:req
       })
@@ -108,7 +112,7 @@ export class InicioComponent implements OnInit {
       })
     }
 
-    if(this.user.supply_role=='ASISTENTE'){
+    if(this.user_role=='ADMINISTRADOR'||this.user_role=='ASISTENTE'){
       dialogRef=this.dialog.open(DialogDetalleReqAsist,{
         data:{req:req,user_id:this.user.user_id}
       })
@@ -120,7 +124,7 @@ export class InicioComponent implements OnInit {
       })
     }
 
-    if(this.user.supply_role=='USUARIO'){
+    if(this.user_role=='USUARIO'||this.user_role=='USUARIO AVANZADO'){
       dialogRef=this.dialog.open(DialogDetalleReqUsr,{
         data:req
       })
@@ -137,13 +141,11 @@ export class InicioComponent implements OnInit {
 
 
   logout(){
-    var session_id=this.cookiesService.getToken('session_id');
-    this.usersService.deleteSession(session_id).subscribe(resDel=>{
-      if(resDel){
-        this.cookiesService.deleteToken('session_id');
-        location.reload();
-      }
-    })
+
+    this.cookiesService.deleteToken('user_id');
+    this.cookiesService.deleteToken('user_role');
+    location.reload();
+  
   }
 
 
@@ -151,68 +153,69 @@ export class InicioComponent implements OnInit {
 
 
   ngOnInit() {
-    if(this.cookiesService.checkToken('session_id')){
-      this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
-        if(s){
-          console.log(window.innerWidth)
-          if(window.innerWidth<500){
-            this.sidenav.close();
-          }
-          this.usersService.getUserById(s.user_id).subscribe((u:User)=>{
-            this.user=u;
-            this.logisticaService.getAreaById(this.user.area_id).subscribe((a:Area)=>{
-              if(a){
-                this.user_area=a;
-                this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
-                  if(c){
-                    this.user_campus=c;
+    if(this.cookiesService.checkToken('user_id')){
+      this.user_id=parseInt(this.cookiesService.getToken('user_id'));
+      this.user_role=this.cookiesService.getToken('user_role');
+      console.log(this.user_role);
+      this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
+        console.log(u);
+        this.user=u;
+        this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+          this.colab=c;
+          this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
+            if(ar){
+              this.user_area=ar;
+              this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
+                if(camp){
+                  this.user_campus=camp;
+
+  
+                }
+              })
+  
+            }
+          })
+        })
+
+        this.logisticaService.getReqsPendientesNew(this.user_role,String(this.user.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
+          this.reqPendientes=res;
+          this.cont_pend =this.reqPendientes.length;
+          /* res.forEach(res => {
+            console.log(res+"req pendiente"+conta)
+            conta = conta + 1
+          });
+          console.log(res+'fin'+conta); */ //Se observa cómo se obtiene cada req
+        })
+
+        this.logisticaService.getReqsProcesoNew(this.user_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
+          this.reqProceso=res;
+          this.cont_asig =this.reqProceso.length;
+          if(this.user_role=='ASISTENTE'||this.user_role=='ADMINISTRADOR'){
+            this.reqProceso.forEach((rp:Requerimiento,ind)=>{
+              this.logisticaService.getReqDetailsAprobByCode(rp.codigo,String(this.user.user_id)).subscribe((rpt:Item[])=>{
+                var cantFin=0;
+                rpt.forEach(m=>{
+                  if(m.estado=='ENTREGADO'){
+                    cantFin+=1;
                   }
                 })
-
-              }
+                if(cantFin==rpt.length){
+                  this.reqProceso.splice(ind,1);
+                  setTimeout(()=>{
+                    this.reqFin.push(rp);
+                  },500)
+                }
+              })
             })
+          }
+        })
 
-            this.logisticaService.getReqsPendientes(this.user.supply_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
-              this.reqPendientes=res;
-              this.cont_pend =this.reqPendientes.length;
-              /* res.forEach(res => {
-                console.log(res+"req pendiente"+conta)
-                conta = conta + 1
-              });
-              console.log(res+'fin'+conta); */ //Se observa cómo se obtiene cada req
-            })
+        this.logisticaService.getReqsFinNew(this.user_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
+          this.reqFin=res;
+          this.cont_fina =this.reqFin.length;
+        })
 
-            this.logisticaService.getReqsProceso(this.user.supply_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
-              this.reqProceso=res;
-              this.cont_asig =this.reqProceso.length;
-              if(this.user.supply_role=='ASISTENTE'){
-                this.reqProceso.forEach((rp:Requerimiento,ind)=>{
-                  this.logisticaService.getReqDetailsAprobByCode(rp.codigo,String(this.user.user_id)).subscribe((rpt:Item[])=>{
-                    var cantFin=0;
-                    rpt.forEach(m=>{
-                      if(m.estado=='ENTREGADO'){
-                        cantFin+=1;
-                      }
-                    })
-                    if(cantFin==rpt.length){
-                      this.reqProceso.splice(ind,1);
-                      setTimeout(()=>{
-                        this.reqFin.push(rp);
-                      },500)
-                    }
-                  })
-                })
-              }
-            })
-
-            this.logisticaService.getReqsFin(this.user.supply_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
-              this.reqFin=res;
-              this.cont_fina =this.reqFin.length;
-            })
-
-          });
-        }
-      })
+      });
 
 
     }
@@ -307,7 +310,7 @@ export class DialogDetalleReqAdm implements OnInit {
       this.dataSourceReq = new MatTableDataSource(this.req.items);
       this.dataSourceReq.paginator = this.paginator2.toArray()[0];
       this.dataSourceReq.sort = this.sort2.toArray()[0];
-      this.usersService.getPersonal(1).subscribe((pers:User[])=>{
+      this.usersService.getPersonalNew(1).subscribe((pers:User[])=>{
         this.personal=pers;
       })
     })
@@ -315,8 +318,8 @@ export class DialogDetalleReqAdm implements OnInit {
     if(this.data.estado!='PENDIENTE'){
       this.logisticaService.getReqDetailsByCode(this.data.codigo).subscribe((respu:Item[])=>{
         respu.forEach(h=>{
-          this.usersService.getUserById(h.id_asignado).subscribe((resi:User)=>{
-            h.name_asignado=resi.first_name+' '+resi.last_name
+          this.usersService.getUserByIdNew(h.id_asignado).subscribe((resi:User)=>{
+            h.name_asignado=resi.first_name+' '+resi.paternal_surname+' '+resi.maternal_surname;
           })
         })
         this.dataSourceReqDetAll = new MatTableDataSource(respu);
@@ -452,7 +455,7 @@ export class DialogDetalleReqAsist implements OnInit {
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
 
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA','');
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
@@ -832,9 +835,9 @@ export class DialogDetalleReqUsr implements OnInit {
 
         asList.forEach((ite:Item)=>{
 
-          this.usersService.getUserById(ite.id_asignado).subscribe((enc:User)=>{
+          this.usersService.getUserByIdNew(ite.id_asignado).subscribe((enc:User)=>{
             console.log(enc);
-            ite.name_asignado=enc.first_name+' '+enc.last_name;
+            ite.name_asignado=enc.first_name+' '+enc.paternal_surname+' '+enc.maternal_surname;
           })
 
           if(ite.estado=='ASIGNADO'){
@@ -863,9 +866,9 @@ export class DialogDetalleReqUsr implements OnInit {
 
         atList.forEach((ite:Item)=>{
 
-          this.usersService.getUserById(ite.id_asignado).subscribe((enc:User)=>{
+          this.usersService.getUserByIdNew(ite.id_asignado).subscribe((enc:User)=>{
             console.log(enc);
-            ite.name_asignado=enc.first_name+' '+enc.last_name;
+            ite.name_asignado=enc.first_name+' '+enc.paternal_surname+' '+enc.maternal_surname;
           })
 
           if(ite.estado=='ASIGNADO'){
@@ -894,9 +897,9 @@ export class DialogDetalleReqUsr implements OnInit {
 
         coList.forEach((ite:Item)=>{
 
-          this.usersService.getUserById(ite.id_asignado).subscribe((enc:User)=>{
+          this.usersService.getUserByIdNew(ite.id_asignado).subscribe((enc:User)=>{
             console.log(enc);
-            ite.name_asignado=enc.first_name+' '+enc.last_name;
+            ite.name_asignado=enc.first_name+' '+enc.paternal_surname+' '+enc.maternal_surname;
           })
 
           if(ite.estado=='ASIGNADO'){
@@ -930,9 +933,9 @@ export class DialogDetalleReqUsr implements OnInit {
 
         enList.forEach((ite:Item)=>{
 
-          this.usersService.getUserById(ite.id_asignado).subscribe((enc:User)=>{
+          this.usersService.getUserByIdNew(ite.id_asignado).subscribe((enc:User)=>{
             console.log(enc);
-            ite.name_asignado=enc.first_name+' '+enc.last_name;
+            ite.name_asignado=enc.first_name+' '+enc.paternal_surname+' '+enc.maternal_surname;
           })
 
           if(ite.estado=='ASIGNADO'){
@@ -956,9 +959,9 @@ export class DialogDetalleReqUsr implements OnInit {
 
       this.req.items.forEach((ite:Item)=>{
 
-        this.usersService.getUserById(ite.id_asignado).subscribe((enc:User)=>{
+        this.usersService.getUserByIdNew(ite.id_asignado).subscribe((enc:User)=>{
           console.log(enc);
-          ite.name_asignado=enc.first_name+' '+enc.last_name;
+          ite.name_asignado=enc.first_name+' '+enc.paternal_surname+' '+enc.maternal_surname;
         })
 
         if(ite.estado=='ASIGNADO'){
@@ -1054,7 +1057,7 @@ export class DialogDetalleReqUsr implements OnInit {
       },1000)
 
 
-      this.usersService.getPersonal('ABASTECIMIENTO').subscribe((pers:User[])=>{
+      this.usersService.getPersonalNew(1).subscribe((pers:User[])=>{
         this.personal=pers;
       })
     })
@@ -1154,7 +1157,7 @@ export class DialogCreateOrden implements OnInit {
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA','');
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);

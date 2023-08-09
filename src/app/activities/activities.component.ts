@@ -17,7 +17,7 @@ import { Product } from '../product';
 import { Proveedor } from '../proveedor';
 import { User } from '../user';
 import { UsersService } from '../users.service';
-import { UserSession } from '../user_session';
+import { Collaborator } from '../collaborator';
 
 @Component({
   selector: 'app-activities',
@@ -26,9 +26,13 @@ import { UserSession } from '../user_session';
 })
 export class ActivitiesComponent implements OnInit {
 
-  user: User = new User('','','','','','',0,0,'','');
+  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
+
+  user_id: number = 0;
+  user_role: string = '';
 
   activities: Activity[] = [];
   acti: Activity = new Activity('','');
@@ -60,15 +64,6 @@ export class ActivitiesComponent implements OnInit {
     }
   }
 
-  logout(){
-    var session_id=this.cookiesService.getToken('session_id');
-    this.usersService.deleteSession(session_id).subscribe(resDel=>{
-      if(resDel){
-        this.cookiesService.deleteToken('session_id');
-        location.reload();
-      }
-    })
-  }
 
   regActivity(){
     this.logisticaService.addActivity(this.acti).subscribe(res=>{
@@ -98,42 +93,44 @@ export class ActivitiesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if(this.cookiesService.checkToken('session_id')){
-      this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
-        if(s){
-          this.usersService.getUserById(s.user_id).subscribe((u:User)=>{
-            this.user=u;
-            this.logisticaService.getAreaById(this.user.area_id).subscribe((a:Area)=>{
-              if(a){
-                this.user_area=a;
-                this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
-                  if(c){
-                    this.user_campus=c;
+    if(this.cookiesService.checkToken('user_id')){
+      this.user_id = parseInt(this.cookiesService.getToken('user_id'));
+      this.user_role = this.cookiesService.getToken('user_role');
 
-                    this.usersService.getAllUsers().subscribe((us:User[])=>{
-/*                       this.listaUsers=us;
-                      this.dataSourceUsers = new MatTableDataSource(this.listaUsers);
-                      this.dataSourceUsers.paginator = this.paginator.toArray()[0];
-                      this.dataSourceUsers.sort = this.sort.toArray()[0]; */
-                    })
-                  }
-                })
+      this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
+        this.user=u;
 
-              }
-            })
+        this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+          this.colab=c;
+          this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
+            if(ar){
+              this.user_area=ar;
+              this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
+                if(camp){
+                  this.user_campus=camp;
 
-          });
-        }
+                  this.usersService.getAllUsersNew().subscribe((us:User[])=>{
 
-        this.acti=new Activity('','ACTIVO');
+                  })
 
-        this.logisticaService.getActivities('TODOS').subscribe((actList:Activity[])=>{
-          this.activities=actList;
-          this.dataSourceActivities = new MatTableDataSource(this.activities);
-          this.dataSourceActivities.paginator = this.paginator.toArray()[0];
-          this.dataSourceActivities.sort = this.sort.toArray()[0];
+  
+                }
+              })
+  
+            }
+          })
         })
 
+
+      });
+
+      this.acti=new Activity('','ACTIVO');
+
+      this.logisticaService.getActivities('TODOS').subscribe((actList:Activity[])=>{
+        this.activities=actList;
+        this.dataSourceActivities = new MatTableDataSource(this.activities);
+        this.dataSourceActivities.paginator = this.paginator.toArray()[0];
+        this.dataSourceActivities.sort = this.sort.toArray()[0];
       })
 
     }

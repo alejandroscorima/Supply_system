@@ -19,9 +19,9 @@ import { LogisticaService } from '../logistica.service';
 import { UsersService } from '../users.service';
 import { CookiesService } from '../cookies.service';
 import { Session } from 'protractor';
-import { UserSession } from '../user_session';
 import { Area } from '../area';
 import { Campus } from '../campus';
+import { Collaborator } from '../collaborator';
 
 
 @Component({
@@ -43,7 +43,8 @@ export class LoginComponent implements OnInit {
 
   hide = true;
 
-  user: User = new User(null,null,null,null,null,null,null,null,null,null);
+  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
@@ -77,33 +78,27 @@ export class LoginComponent implements OnInit {
 
   }
 
-  createSession(user_id: number){
-    var dateAux= new Date();
-    var created= dateAux.getTime();
-    var s = new UserSession(String(user_id),String(created),String(created+36000000));
-    return s;
-  }
-
   onKeyup(e){
 
   }
 
   login(){
-    this.usersService.getUser(this.username,this.password).subscribe((res:User)=>{
+    this.username=this.username.trim();
+    this.password=this.password.trim();
+    this.usersService.getUserNew(this.username,this.password).subscribe((res:User)=>{
       if(res){
         this.user=res;
 
-        var newS = this.createSession(this.user.user_id);
-        this.usersService.addSession(newS).subscribe(resSes=>{
-
-
-          if(parseInt(resSes['session_id'])!=0){
-
-            this.cookiesService.setToken('session_id',resSes['session_id']);
-            this.cookiesService.setToken('user_id',String(this.user.user_id));
-            this.router.navigateByUrl('/');
-          }
-        })
+        if(this.user.supply_role!='NINGUNO'){
+          this.cookiesService.setToken('user_id',String(this.user.user_id));
+          console.log(this.user.supply_role)
+          this.cookiesService.setToken('user_role',String(this.user.supply_role));
+          location.reload();
+        }
+        else{
+          this.toastr.error('Usuario no autorizado');
+        }
+          
       }
       else{
         if(this.username==''||this.password==''){
@@ -120,7 +115,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
-    if(this.cookiesService.checkToken('session_id')){
+    if(this.cookiesService.checkToken('user_id')){
 
       this.router.navigateByUrl('/');
 

@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver, ElementRef, HostListener, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ClientesService } from "../clientes.service"
 import { User } from "../user"
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ThemePalette } from '@angular/material/core';
 import { FormBuilder, FormControl } from '@angular/forms';
@@ -18,7 +18,6 @@ import { Requerimiento } from '../requerimiento';
 import { LogisticaService } from '../logistica.service';
 import { CookiesService } from '../cookies.service';
 import { UsersService } from '../users.service';
-import { UserSession } from '../user_session';
 import { Area } from '../area';
 import { Campus } from '../campus';
 import { Orden } from '../orden';
@@ -29,6 +28,8 @@ import { FileUploadService } from '../file-upload.service';
 import { runInThisContext } from 'vm';
 import { element } from 'protractor';
 import { FondoItem } from '../fondo_item';
+import { Doc } from '../doc';
+import { Collaborator } from '../collaborator';
 
 @Component({
   selector: 'app-nuevo',
@@ -44,13 +45,19 @@ import { FondoItem } from '../fondo_item';
 })
 export class OrdenComponent implements OnInit {
 
-  user: User = new User('','','','','','',null,null,'','');
+  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
+  campusToView: Campus = new Campus('','','','','','');
+  ordenCampus: Campus = new Campus('','','','','','');
+  ordenCampusView: Campus = new Campus('','','','','','');
 
-  user_id;
+  user_id: number = 0;
+  user_role: string = '';
 
   campus = [];
+
   areas = [];
   prioridades = [];
 
@@ -61,7 +68,7 @@ export class OrdenComponent implements OnInit {
 
   types=['COMPRA','SERVICIO'];
 
-  pay_type=['EFECTIVO','TRANSFERENCIA']
+  pay_type=['EFECTIVO','TRANSFERENCIA','CREDITO 30 DIAS','CREDITO 45 DIAS'];
 
   destino_dir='';
 
@@ -75,7 +82,7 @@ export class OrdenComponent implements OnInit {
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'18','NO','NO','OFICINA');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'18','NO','NO','OFICINA','');
 
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
@@ -123,13 +130,14 @@ export class OrdenComponent implements OnInit {
   areaView;
   salaView;
 
-  userView: User = new User('','','','','','',null,null,'','');
+  userView: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colabView: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   area_chiefView='';
   user_areaView: Area = new Area('',null);
   user_campusView: Campus = new Campus('','','','','','');
 
   reqView: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
-  ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA');
+  ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA','');
 
   itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
 
@@ -388,15 +396,10 @@ export class OrdenComponent implements OnInit {
 
   }
 
-  logout(){
-    var session_id=this.cookiesService.getToken('session_id');
-    this.usersService.deleteSession(session_id).subscribe(resDel=>{
-      if(resDel){
-        this.cookiesService.deleteToken('session_id');
-        location.reload();
-      }
-    })
+  compareObjectsView(o1: any, o2: any): boolean {
+    return o1.name === o2.name && o1.name === o2.name;
   }
+
 
   ngOnInit() {
     this.fecha= new Date();
@@ -404,98 +407,104 @@ export class OrdenComponent implements OnInit {
     this.fechaRegister= new Date();
 
     const tabCount=2;
-    this.demo1TabIndex = (this.demo1TabIndex+1) % tabCount;
+    this.demo1TabIndex = 0;
 
-    if(this.cookiesService.checkToken('session_id')){
-      this.usersService.getSession(this.cookiesService.getToken('session_id')).subscribe((s:UserSession)=>{
-        if(s){
-          this.usersService.getUserById(s.user_id).subscribe((u:User)=>{
-            this.user=u;
+    if(this.cookiesService.checkToken('user_id')){
+      this.user_id = parseInt(this.cookiesService.getToken('user_id'));
+      this.user_role = this.cookiesService.getToken('user_role');
+      console.log(this.user_role);
+      this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
+        this.user=u;
 
-            this.user_id=this.user.user_id;
 
-            console.log('user_id:',this.cookiesService.checkToken('user_id'));
-            console.log('user_id:',this.cookiesService.getToken('user_id'));
 
-            this.logisticaService.getAreaById(this.user.area_id).subscribe((a:Area)=>{
-              if(a){
-                this.user_area=a;
-                this.logisticaService.getCampusById(this.user.campus_id).subscribe((c:Campus)=>{
-                  if(c){
-                    this.user_campus=c;
-                    this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
-                      this.campus=cs;
-                      this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'18','NO','NO','OFICINA');
-                      this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
-                      this.igvActivated=true;
-                      this.igvSlideDisabled=false;
-                      this.prefijoMoney='';
-                      this.ord.moneda='SOLES';
-                      this.prefijoMoney='S/.';
-                      this.ord.subtotal=parseInt('0').toFixed(5);
-                      this.ord.igv=parseInt('0').toFixed(5);
-                      this.ord.retencion=parseInt('0').toFixed(5);
-                      this.ord.percepcion=parseInt('0').toFixed(5);
-                      this.ord.total=parseInt('0').toFixed(2);
-                      this.ord.rebajado='';
-                      this.posTituloSala = 74;
+        this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+          this.colab=c;
+          this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
+            if(ar){
+              this.user_area=ar;
+              this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
+                if(camp){
+                  this.user_campus=camp;
 
-                      var anio = this.fecha.getFullYear();
-                      var mes = this.fecha.getMonth()+1;
-                      var dia = this.fecha.getDate();
-
-                      if(mes<10){
-                        mes='0'+mes;
-                      }
-                      if(dia<10){
-                        dia='0'+dia;
-                      }
-
-                      this.ord.fecha=anio+'-'+mes+'-'+dia;
-                      console.log(this.ord.empresa);
-                    })
-
-                    //vieworders
-                    this.fechaView=new Date();
-                    this.anioView=this.fechaView.getFullYear();
-                    this.mesView=this.fechaView.getMonth()+1;
-                    this.diaView=this.fechaView.getDate();
-
-                    if(this.mesView<10){
-                      this.mesView='0'+this.mesView;
+                  this.campusToView= new Campus('NINGUNO','','','','','');
+                  this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
+                    this.campus=cs;
+                    this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'18','NO','NO','OFICINA','');
+                    this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
+                    this.igvActivated=true;
+                    this.igvSlideDisabled=false;
+                    this.prefijoMoney='';
+                    this.ord.moneda='SOLES';
+                    this.prefijoMoney='S/.';
+                    this.ord.subtotal=parseInt('0').toFixed(5);
+                    this.ord.igv=parseInt('0').toFixed(5);
+                    this.ord.retencion=parseInt('0').toFixed(5);
+                    this.ord.percepcion=parseInt('0').toFixed(5);
+                    this.ord.total=parseInt('0').toFixed(2);
+                    this.ord.rebajado='';
+                    this.posTituloSala = 74;
+  
+                    var anio = this.fecha.getFullYear();
+                    var mes = this.fecha.getMonth()+1;
+                    var dia = this.fecha.getDate();
+  
+                    if(mes<10){
+                      mes='0'+mes;
                     }
-                    if(this.diaView<10){
-                      this.diaView='0'+this.diaView;
+                    if(dia<10){
+                      dia='0'+dia;
                     }
-
-                    this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
-                      if(as){
-                        this.areasView=as;
+  
+                    this.ord.fecha=anio+'-'+mes+'-'+dia;
+                    console.log(this.ord.empresa);
+                  })
+  
+                  //vieworders
+                  this.fechaView=new Date();
+                  this.anioView=this.fechaView.getFullYear();
+                  this.mesView=this.fechaView.getMonth()+1;
+                  this.diaView=this.fechaView.getDate();
+  
+                  if(this.mesView<10){
+                    this.mesView='0'+this.mesView;
+                  }
+                  if(this.diaView<10){
+                    this.diaView='0'+this.diaView;
+                  }
+  
+                  this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
+                    if(as){
+                      this.areasView=as;
+                    }
+                    this.logisticaService.getAllCampus().subscribe((ac:Campus[])=>{
+                      if(ac){
+                        this.campusView=ac;
+                        this.campusView.unshift(new Campus('TODOS','','','','',''));
+  
                       }
-                      this.logisticaService.getAllCampus().subscribe((ac:Campus[])=>{
-                        if(ac){
-                          this.campusView=ac;
-                        }
-                        this.logisticaService.getAllOficinaOrders(this.user_id).subscribe((resOrds:Orden[])=>{
-                          console.log(this.listaOrdersView);
-                          this.listaOrdersView=resOrds;
-                          console.log(this.listaOrdersView);
-                          this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
-                          this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];
-                          this.dataSourceOrdersView.sort = this.sort.toArray()[0];
-                        })
+                      this.logisticaService.getAllOficinaOrders(this.user_id, this.user_role, this.campusToView.name).subscribe((resOrds:Orden[])=>{
+                        console.log(resOrds);
+                        console.log(this.listaOrdersView);
+                        this.listaOrdersView=resOrds;
+                        console.log(this.listaOrdersView);
+                        this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
+                        this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];
+                        this.dataSourceOrdersView.sort = this.sort.toArray()[0];
                       })
                     })
+                  })
 
-                  }
-                })
+  
+                }
+              })
+  
+            }
+          })
+        })
 
-              }
-            })
 
-          });
-        }
-      })
+      });
     }
     else{
       this.router.navigateByUrl('/login');
@@ -506,10 +515,23 @@ export class OrdenComponent implements OnInit {
 
   asigChange(){
     this.logisticaService.getSalaByName(this.ord.destino).subscribe((res:Campus)=>{
+      this.ordenCampus=res;
       this.ord.destino_dir=res.address;
       this.ord.empresa=res.company;
       this.ord.numero=res.supply_ord_suffix;
       console.log(this.ord.empresa);
+    })
+  }
+
+  changeDestinoView(){
+    this.logisticaService.getAllOficinaOrders(this.user_id, this.user_role, this.campusToView.name).subscribe((resOrds:Orden[])=>{
+      console.log(resOrds);
+      console.log(this.listaOrdersView);
+      this.listaOrdersView=resOrds;
+      console.log(this.listaOrdersView);
+      this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
+      this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];
+      this.dataSourceOrdersView.sort = this.sort.toArray()[0];
     })
   }
 
@@ -734,7 +756,7 @@ export class OrdenComponent implements OnInit {
 
                   this.ord.fecha=anio+'-'+mes+'-'+dia;
 
-                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA');
+                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA','');
                   this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
@@ -770,7 +792,10 @@ export class OrdenComponent implements OnInit {
     this.doc = new jsPDF();
 
     this.img.src = 'assets/logo'+this.ord.empresa+'.png';
-    this.doc.addImage(this.img, 'png', 15, 10, 30, 30, '','FAST',0);
+    this.doc.addImage(this.img, 'png', 15, 4, 30, 30, '','FAST',0);
+    this.doc.setFont("helvetica","normal");
+    this.doc.setFontSize(9);
+    this.doc.text('RUC: '+this.ordenCampus.ruc,30,36,{align:'center'});
     this.doc.setFont("helvetica","bold");
     this.doc.setFontSize(18);
     this.doc.text('ORDEN DE '+ this.ord.tipo,105,25,{align:'center'});
@@ -930,15 +955,6 @@ export class OrdenComponent implements OnInit {
     }
   }
 
-  logoutView(){
-    var session_id=this.cookiesService.getToken('session_id');
-    this.usersService.deleteSession(session_id).subscribe(resDel=>{
-      if(resDel){
-        this.cookiesService.deleteToken('session_id');
-        location.reload();
-      }
-    })
-  }
 
   reCreatePDFView(o:Orden){
     this.ordView=o;
@@ -953,7 +969,10 @@ export class OrdenComponent implements OnInit {
     this.logisticaService.getOrdenItemsByOrdenId(String(this.ordView.id)).subscribe((res:OrdenItem[])=>{
       if(res.length>0){
         this.listaOrdView=res;
-        this.generatePDFView();
+        this.logisticaService.getSalaByName(this.ordView.destino).subscribe((res5:Campus)=>{
+          this.ordenCampusView=res5;
+          this.generatePDFView();
+        })
       }
     })
   }
@@ -1037,9 +1056,32 @@ export class OrdenComponent implements OnInit {
 
 
 
+  }
 
+  showDocs(a:Orden){
+    var dialogRef;
 
+    var anioRegister=this.fechaRegister.getFullYear();
+    var mesRegister=this.fechaRegister.getMonth();
+    var diaRegister=this.fechaRegister.getDate();
 
+    if(mesRegister<10){
+      mesRegister='0'+mesRegister;
+    }
+    if(diaRegister<10){
+      diaRegister='0'+diaRegister;
+    }
+
+    var fechaRegisterStr = anioRegister+'-'+mesRegister+'-'+diaRegister;
+
+    dialogRef=this.dialog.open(DialogShowDocs,{
+      data:a,
+    })
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(res){
+      }
+    })
   }
 
   addReceiptView(a: Orden){
@@ -1125,7 +1167,10 @@ export class OrdenComponent implements OnInit {
     this.docView = new jsPDF();
 
     this.imgView.src = 'assets/logo'+this.ordView.empresa+'.png';
-    this.docView.addImage(this.imgView, 'png', 15, 10, 30, 30, '','FAST',0);
+    this.docView.addImage(this.imgView, 'png', 15, 4, 30, 30, '','FAST',0);
+    this.docView.setFont("helvetica","normal");
+    this.docView.setFontSize(9);
+    this.docView.text('RUC: '+this.ordenCampusView.ruc,30,36,{align:'center'});
     this.docView.setFont("helvetica","bold");
     this.docView.setFontSize(18);
     this.docView.text('ORDEN DE '+ this.ordView.tipo,105,25,{align:'center'});
@@ -1314,7 +1359,7 @@ export class OrdenComponent implements OnInit {
         })
 
         const tabCount=2;
-        this.demo1TabIndex = (this.demo1TabIndex+1) % tabCount;
+        this.demo1TabIndex = 0;
 
         /* this.logisticaService.getFondoItemsByLiquidacionId(String(fond.id)).subscribe((resi:FondoItem[])=>{
           fond.estado='ANULADO';
@@ -1590,6 +1635,238 @@ export class DialogEditReceipt implements OnInit {
 
   confirm(){
 
+    this.dialogRef.close(true);
+  }
+
+  cancel(){
+    this.dialogRef.close(false);
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+@Component({
+  selector: 'dialog-showDocs',
+  templateUrl: 'dialog-showDocs.html',
+  styleUrls: ['./orden.component.css']
+})
+export class DialogShowDocs implements OnInit {
+
+  @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
+  @ViewChildren(MatSort) sort= new QueryList<MatSort>();
+
+  dataSourceDocs: MatTableDataSource<Doc>;
+
+  docsList: Doc[]=[];
+  newDoc: Doc = new Doc('','','',0);
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogShowDocs>,
+    @Inject(MAT_DIALOG_DATA) public data:Orden,
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private logisticaService: LogisticaService,
+    private toastr: ToastrService,
+    public dialog2: MatDialog,
+  ) {}
+
+
+  ngOnInit(): void {
+
+    this.logisticaService.getDocsByOrdenId(this.data.id).subscribe((docsL:Doc[])=>{
+      if(docsL){
+        this.docsList=docsL;
+        this.dataSourceDocs = new MatTableDataSource(this.docsList);
+        this.dataSourceDocs.paginator = this.paginator.toArray()[0];
+        this.dataSourceDocs.sort = this.sort.toArray()[0];
+      }
+
+    })
+
+  }
+
+  new(){
+    var dialogRef2;
+
+
+    dialogRef2=this.dialog2.open(DialogNewDoc,{
+      data:this.newDoc,
+      disableClose:true,
+    })
+
+    dialogRef2.afterClosed().subscribe(res => {
+      if(res){
+        this.newDoc.orden_id=this.data.id;
+        this.logisticaService.addDoc(this.newDoc).subscribe(confirm=>{
+          if(confirm){
+            this.toastr.success('DOCUMENTO AGREGADO')
+            this.logisticaService.getDocsByOrdenId(this.data.id).subscribe((docsL:Doc[])=>{
+              if(docsL){
+                this.docsList=docsL;
+                this.dataSourceDocs = new MatTableDataSource(this.docsList);
+                this.dataSourceDocs.paginator = this.paginator.toArray()[0];
+                this.dataSourceDocs.sort = this.sort.toArray()[0];
+              }
+        
+            })
+          }
+        })
+      }
+    })
+  }
+
+  edit(el:Doc){
+    var dialogRef3;
+
+    dialogRef3=this.dialog2.open(DialogEditDoc,{
+      data:el,
+    })
+
+    dialogRef3.afterClosed().subscribe(res => {
+      if(res){
+      }
+    })
+  }
+
+  delete(el:Doc){
+
+  }
+
+  cancel(){
+    this.dialogRef.close(false);
+  }
+
+
+}
+
+
+
+
+
+
+
+@Component({
+  selector: 'dialog-newDoc',
+  templateUrl: 'dialog-newDoc.html',
+  styleUrls: ['./orden.component.css']
+})
+export class DialogNewDoc implements OnInit {
+
+  @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
+  @ViewChildren(MatSort) sort= new QueryList<MatSort>();
+
+  doc: File = null;
+  docName='';
+
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogNewDoc>,
+    @Inject(MAT_DIALOG_DATA) public data:Doc,
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private logisticaService: LogisticaService,
+    private toastr: ToastrService,
+    private fileUploadService: FileUploadService,
+  ) {}
+
+
+  ngOnInit(): void {
+
+
+  }
+
+  onDocChanged(event) {
+    this.doc = event.target.files[0];
+    if (this.doc) {
+
+      var currentFile = this.doc;
+
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+
+      };
+
+      reader.readAsDataURL(currentFile);
+
+      console.log(currentFile);
+    }
+  }
+
+  save(){
+    if(this.doc){
+      this.fileUploadService.uploadDoc(this.doc).subscribe(res=>{
+        if(res){
+          this.toastr.info('CARGADO CORRECTAMENTE')
+          this.data.url=res;
+
+          const currentDate = new Date();
+          const day = currentDate.getDate().toString().padStart(2, '0');
+          const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+          const year = currentDate.getFullYear().toString();
+          const hours = currentDate.getHours().toString().padStart(2, '0');
+          const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+
+          this.data.date=`${day}-${month}-${year} ${hours}:${minutes}`;
+
+          this.dialogRef.close(true);
+        }
+        else{
+          this.toastr.warning('Error al cargar archivo');
+        }
+      })
+    }
+    else{
+      this.toastr.warning('No hay documento valido');
+    }
+  }
+
+  cancel(){
+    this.dialogRef.close(false);
+  }
+
+
+}
+
+
+
+
+
+@Component({
+  selector: 'dialog-editDoc',
+  templateUrl: 'dialog-editDoc.html',
+  styleUrls: ['./orden.component.css']
+})
+export class DialogEditDoc implements OnInit {
+
+  @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
+  @ViewChildren(MatSort) sort= new QueryList<MatSort>();
+
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogEditDoc>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private logisticaService: LogisticaService,
+    private toastr: ToastrService,
+  ) {}
+
+
+  ngOnInit(): void {
+
+
+  }
+
+  save(){
     this.dialogRef.close(true);
   }
 
