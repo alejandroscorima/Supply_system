@@ -559,7 +559,24 @@ export class DialogDetalleReqAsist implements OnInit {
     it.estado='ENTREGADO';
     it.f_final=this.anio+'-'+this.mes+'-'+this.dia;
     it.h_final=this.hour+':'+this.minutes+':'+this.seconds;
-    this.logisticaService.updateReqDet(it).subscribe(a=>{})
+    this.logisticaService.updateReqDet(it).subscribe(a=>{
+      if(a){
+        this.logisticaService.getReqDetailsAprobByCode(this.data.codigo, this.data.id_asignado).subscribe((respu:Item[])=>{
+          if(respu.length!=0){
+
+          }
+          else{
+
+            this.req.estado='FINALIZADO';
+            this.logisticaService.updateReq(this.req).subscribe(resupdtR2=>{
+              if(resupdtR2){
+              }
+            })
+          }
+
+        })
+      }
+    })
   }
 
 

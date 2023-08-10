@@ -370,7 +370,7 @@ export class FondoComponent implements OnInit {
                         })
                       }
 
-                      if(this.colab.position=='ADMINISTRADOR'){
+                      if(this.user_role=='USUARIO AVANZADO'&&this.user_area.name=='OPERACIONES GAMING'){
 
 
                         this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
