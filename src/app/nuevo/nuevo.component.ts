@@ -445,21 +445,8 @@ export class NuevoComponent implements OnInit {
                           if(res3){
                             this.prioridades=res3;
   
-                            if(this.user_area.name=='ADMINISTRACION'){
-                              this.req.encargado=this.user.first_name+' '+this.user.paternal_surname+' '+this.user.maternal_surname;
-                            }
-                            else{
-                              this.usersService.getUserByIdNew(this.user_area.chief_id).subscribe((ac:User)=>{
-                                console.log(ac);
-                                if(ac){
-                                  this.req.encargado=ac.first_name+' '+ac.paternal_surname+' '+ac.maternal_surname;
-                                }
-                                else{
-                                  this.req.encargado=this.user.first_name+' '+this.user.paternal_surname+' '+this.user.maternal_surname;
-                                }
-                              })
-                            }
-  
+                            this.req.encargado=this.user.first_name+' '+this.user.paternal_surname+' '+this.user.maternal_surname;
+
                           }
                         })
                       })

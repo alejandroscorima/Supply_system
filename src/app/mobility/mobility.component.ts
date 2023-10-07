@@ -527,7 +527,7 @@ export class MobilityComponent implements OnInit {
                     this.mobility.numero=this.user_campus.supply_ord_suffix;
                     this.mobility.campus_dir=this.user_campus.address;
   
-                    if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){
+                    if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPER USUARIO'||this.user_area.name=='ABASTECIMIENTO'){
                       this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
                         if(resi){
                           this.campus=resi;
@@ -542,7 +542,7 @@ export class MobilityComponent implements OnInit {
                       })
                     }
   
-                    if(this.colab.position=='ADMINISTRADOR'){
+                    if(this.user.supply_role=='USUARIO AVANZADO'&&(this.colab.area_id==13||this.colab.area_id==12)){
                       this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
                         console.log(rspM);
                         this.mobilities=rspM;

@@ -42,11 +42,8 @@
             <mat-icon class="icon1" >dashboard</mat-icon>
             Dashboard
           </a>
-          <a mat-list-item routerLink="/new" class="navItem">
-            <mat-icon class="icon4" >category</mat-icon>
-            Ingresar requerimiento
-          </a>
-          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||colab.area=='ASISTENTE'||user_role=='SUPERVISOR'" class="navItem">
+
+          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||colab.area=='ASISTENTE'||user_role=='SUPERVISOR'||(user_role=='USUARIO AVANZADO'&&colab.area_id==12)||(user_role=='USUARIO AVANZADO'&&colab.area_id==13)" class="navItem">
             <mat-expansion-panel style="background-color: #b03a64">
               <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
                 <mat-panel-title>
@@ -64,13 +61,18 @@
               </a>
             </mat-expansion-panel>
           </mat-accordion>
+
+          <a mat-list-item routerLink="/new" class="navItem">
+            <mat-icon class="icon4" >category</mat-icon>
+            Ingresar requerimiento
+          </a>
   
           <a mat-list-item routerLink="/daily" class="navItem" *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'">
             <mat-icon class="icon1">today</mat-icon>
             Actividades diarias
           </a>
   
-          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'||(user_role=='USUARIO AVANZADO'&&colab.area_id==13)" class="navItem">
+          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'||(user_role=='USUARIO AVANZADO'&&colab.area_id==13)||(user_role=='USUARIO AVANZADO'&&colab.area_id==12)" class="navItem">
             <mat-expansion-panel style="background-color: #b03a64">
               <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
                 <mat-panel-title>

@@ -9,11 +9,11 @@
   </mat-form-field>
 
 
-  <h3 style="text-align:left;" *ngIf="(colab.area_id==13&&user_role=='USUARIO AVANZADO')||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'||user_role=='SUPER ADMINISTRADOR'">
+  <h3 style="text-align:left;" *ngIf="(colab.area_id==13&&user_role=='USUARIO AVANZADO')||(colab.area_id==12&&user_role=='USUARIO AVANZADO')||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'||user_role=='SUPER ADMINISTRADOR'">
     RENDICION DE FONDO
   </h3>
 
-  <div *ngIf="(colab.area_id==13&&user_role=='USUARIO AVANZADO')||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'||user_role=='SUPER ADMINISTRADOR'">
+  <div *ngIf="(colab.area_id==13&&user_role=='USUARIO AVANZADO')||(colab.area_id==12&&user_role=='USUARIO AVANZADO')||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'||user_role=='SUPER ADMINISTRADOR'">
     <mat-form-field appearance="standard" style="display:display-inline">
       <mat-label>Búsqueda</mat-label>
       <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>

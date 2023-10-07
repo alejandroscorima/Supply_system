@@ -402,6 +402,7 @@ export class OrdenComponent implements OnInit {
 
 
   ngOnInit() {
+
     this.fecha= new Date();
 
     this.fechaRegister= new Date();
@@ -458,6 +459,42 @@ export class OrdenComponent implements OnInit {
   
                     this.ord.fecha=anio+'-'+mes+'-'+dia;
                     console.log(this.ord.empresa);
+
+                    if(this.cookiesService.checkToken('reqItems')){
+                      this.ord.tipo=this.cookiesService.getToken('tipo');
+                      console.log(this.cookiesService.getToken('destino'));
+                      this.ord.destino=this.cookiesService.getToken('destino');
+                      this.asigChange();
+                      console.log(JSON.parse(this.cookiesService.getToken('reqItems')));
+                      var its:Item[]=JSON.parse(this.cookiesService.getToken('reqItems'));
+                      its.forEach((itel:Item)=>{
+                        this.orden_item = new OrdenItem('',null,'','','','','',false,'','','',true);
+                        this.orden_item.cantidad=itel.cantidad;
+                        this.orden_item.descripcion=itel.descripcion.toUpperCase();
+                        this.orden_item.unit_price=parseFloat('0.0').toFixed(5);
+                        this.orden_item.unit_price_aux=this.orden_item.unit_price;
+                        this.orden_item.igv_toggle=true;
+                        this.orden_item.subtotal=(this.orden_item.cantidad*parseFloat(this.orden_item.unit_price)).toFixed(5);
+                        this.orden_item.igv_unit=(parseFloat(this.orden_item.subtotal)*(parseFloat(this.ord.igv_percent)/100)).toFixed(5);
+                        this.listaOrd.push(this.orden_item);
+                        this.ord.subtotal='0.0';
+                        this.listaOrd.forEach((oi:OrdenItem)=>{
+                         this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(5);
+                        })
+                        this.ord.igv=(parseFloat(this.ord.subtotal)*(parseFloat(this.ord.igv_percent)/100)).toFixed(5);
+                        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+                        this.orden_item = new OrdenItem('',null,'','','','','',false,'','','',true);
+                        this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
+                      })
+                      this.cookiesService.deleteToken('reqItems');
+                      this.cookiesService.deleteToken('destino');
+                      this.cookiesService.deleteToken('tipo');
+                    }
+                    else{
+                      console.log('No hay reqItems');
+                    }
+
+
                   })
   
                   //vieworders

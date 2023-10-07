@@ -20,7 +20,7 @@ export class CookiesService {
   constructor(private http: HttpClient, private cookies: CookieService) { }
 
 
-  setToken(token_name: string, token: string) {
+  setToken(token_name: string, token: any) {
     this.cookies.set(token_name, token);
   }
 

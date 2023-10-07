@@ -285,7 +285,7 @@
     
     <mat-tab label="VER ORDENES" class="tabWare">
 
-      <mat-form-field style="width:40%;" appearance="outline" *ngIf="user_role=='ADMINISTRADOR' || user_role=='SUPERVISOR'">
+      <mat-form-field style="width:40%;" appearance="outline" *ngIf="user_role=='SUPER ADMINISTRADOR' || user_role=='SUPERVISOR'">
         <mat-label>Destino:</mat-label>
         <mat-select [(ngModel)]="campusToView" [compareWith]="compareObjectsView" (selectionChange)="changeDestinoView()">
             <mat-option *ngFor="let cv of campusView" [value]="cv">{{cv.name}}</mat-option>

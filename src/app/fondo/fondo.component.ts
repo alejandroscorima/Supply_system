@@ -344,7 +344,7 @@ export class FondoComponent implements OnInit {
 
                       this.generatePDF(this.fondoLiquidacion);
 
-                      if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){
+                      if(this.user.supply_role=='ADMINISTRADOR'||this.user.supply_role=='SUPER USUARIO'||this.user_area.name=='ABASTECIMIENTO'){
                         this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
                           if(resi){
                             this.campus=resi;
@@ -370,7 +370,7 @@ export class FondoComponent implements OnInit {
                         })
                       }
 
-                      if(this.user_role=='USUARIO AVANZADO'&&this.user_area.name=='OPERACIONES GAMING'){
+                      if(this.user_role=='USUARIO AVANZADO'&&(this.user_area.area_id==12||this.user_area.area_id==13)){
 
 
                         this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
@@ -694,7 +694,7 @@ export class FondoComponent implements OnInit {
                     this.fondoLiquidacion.numero=this.user_campus.supply_ord_suffix;
   
   
-                    if(this.user_role=='ADMINISTRADOR'||this.user_role=='SUPERUSUARIO'||this.user_area.name=='ABASTECIMIENTO'){
+                    if(this.user_role=='ADMINISTRADOR'||this.user_role=='SUPER USUARIO'||this.user_area.name=='ABASTECIMIENTO'){
                       this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
                         if(resi){
                           this.campus=resi;
@@ -716,7 +716,7 @@ export class FondoComponent implements OnInit {
                       })
                     }
   
-                    if(this.colab.position=='ADMINISTRADOR'){
+                    if(this.user_role=='USUARIO AVANZADO'&&(this.colab.area_id==12||this.colab.area_id==13)){
                       this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:FondoItem[])=>{
                         this.fondoItems=res;
                         this.dataSourceFondoItem = new MatTableDataSource(this.fondoItems);

@@ -49,6 +49,8 @@ export class InicioComponent implements OnInit {
   reqProceso: Requerimiento[]=[];
   reqFin: Requerimiento[]=[];
 
+  reqTotal: Requerimiento[]=[];
+
   user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
   colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
@@ -59,6 +61,8 @@ export class InicioComponent implements OnInit {
 
 
   dataSourceSale: MatTableDataSource<Item>;
+
+  dataSourceReqs: MatTableDataSource<Requerimiento>;
 
 
   doc = new jsPDF();
@@ -92,6 +96,15 @@ export class InicioComponent implements OnInit {
 
     if (this.dataSourceSale.paginator) {
       this.dataSourceSale.paginator.firstPage();
+    }
+  }
+
+  applyFilterI(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceReqs.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceReqs.paginator) {
+      this.dataSourceReqs.paginator.firstPage();
     }
   }
 
@@ -179,6 +192,10 @@ export class InicioComponent implements OnInit {
 
         this.logisticaService.getReqsPendientesNew(this.user_role,String(this.user.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
           this.reqPendientes=res;
+          this.reqTotal.push(...this.reqPendientes);
+          this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
+          this.dataSourceReqs.paginator = this.paginator.toArray()[0];
+          this.dataSourceReqs.sort = this.sort.toArray()[0];
           this.cont_pend =this.reqPendientes.length;
           /* res.forEach(res => {
             console.log(res+"req pendiente"+conta)
@@ -189,6 +206,10 @@ export class InicioComponent implements OnInit {
 
         this.logisticaService.getReqsProcesoNew(this.user_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
           this.reqProceso=res;
+          this.reqTotal.push(...this.reqProceso);
+          this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
+          this.dataSourceReqs.paginator = this.paginator.toArray()[0];
+          this.dataSourceReqs.sort = this.sort.toArray()[0];
           this.cont_asig =this.reqProceso.length;
           if(this.user_role=='ASISTENTE'||this.user_role=='ADMINISTRADOR'){
             this.reqProceso.forEach((rp:Requerimiento,ind)=>{
@@ -212,6 +233,10 @@ export class InicioComponent implements OnInit {
 
         this.logisticaService.getReqsFinNew(this.user_role,String(u.user_id),this.user.user_id).subscribe((res:Requerimiento[])=>{
           this.reqFin=res;
+          this.reqTotal.push(...this.reqFin);
+          this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
+          this.dataSourceReqs.paginator = this.paginator.toArray()[0];
+          this.dataSourceReqs.sort = this.sort.toArray()[0];
           this.cont_fina =this.reqFin.length;
         })
 
@@ -244,6 +269,8 @@ export class DialogDetalleReqAdm implements OnInit {
   areas = [];
   prioridades = [];
 
+  types=['COMPRA','SERVICIO'];
+
   fecha;
   anio;
   mes;
@@ -260,6 +287,10 @@ export class DialogDetalleReqAdm implements OnInit {
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
   item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA','');
+
+  orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   dataSourceReq: MatTableDataSource<Item>;
   dataSourceReqDetAll: MatTableDataSource<Item>;
@@ -279,6 +310,9 @@ export class DialogDetalleReqAdm implements OnInit {
     private logisticaService: LogisticaService,
     private toastr: ToastrService,
     public dialog: MatDialog,
+    public dialog2: MatDialog,
+    public router: Router,
+    public cookiesService: CookiesService,
   ) {}
 
   applyFilterD(event: Event) {
@@ -305,15 +339,14 @@ export class DialogDetalleReqAdm implements OnInit {
     this.req=this.data;
     console.log(this.req);
 
-    this.logisticaService.getReqDetailsPendByCode(this.data.codigo,this.data.id_asignado).subscribe((respu:Item[])=>{
-      this.req.items=respu;
-      this.dataSourceReq = new MatTableDataSource(this.req.items);
-      this.dataSourceReq.paginator = this.paginator2.toArray()[0];
-      this.dataSourceReq.sort = this.sort2.toArray()[0];
-      this.usersService.getPersonalNew(1).subscribe((pers:User[])=>{
-        this.personal=pers;
+    if(false){
+      this.logisticaService.getReqDetailsAprobByCode(this.req.codigo,String(this.data['user_id'])).subscribe((respu:Item[])=>{
+        this.req.items=respu;
+        this.dataSourceReq = new MatTableDataSource(this.req.items);
+        this.dataSourceReq.paginator = this.paginator2.toArray()[0];
+        this.dataSourceReq.sort = this.sort2.toArray()[0];
       })
-    })
+    }
 
     if(this.data.estado!='PENDIENTE'){
       this.logisticaService.getReqDetailsByCode(this.data.codigo).subscribe((respu:Item[])=>{
@@ -322,9 +355,20 @@ export class DialogDetalleReqAdm implements OnInit {
             h.name_asignado=resi.first_name+' '+resi.paternal_surname+' '+resi.maternal_surname;
           })
         })
-        this.dataSourceReqDetAll = new MatTableDataSource(respu);
-        this.dataSourceReqDetAll.paginator = this.paginator2.toArray()[1];
-        this.dataSourceReqDetAll.sort = this.sort2.toArray()[1];
+        this.dataSourceReq = new MatTableDataSource(respu);
+        this.dataSourceReq.paginator = this.paginator2.toArray()[0];
+        this.dataSourceReq.sort = this.sort2.toArray()[0];
+      })
+    }
+    else{
+      this.logisticaService.getReqDetailsPendByCode(this.data.codigo,this.data.id_asignado).subscribe((respu:Item[])=>{
+        this.req.items=respu;
+        this.dataSourceReq = new MatTableDataSource(this.req.items);
+        this.dataSourceReq.paginator = this.paginator2.toArray()[0];
+        this.dataSourceReq.sort = this.sort2.toArray()[0];
+        this.usersService.getPersonalNew(1).subscribe((pers:User[])=>{
+          this.personal=pers;
+        })
       })
     }
 
@@ -416,6 +460,114 @@ export class DialogDetalleReqAdm implements OnInit {
     })
   }
 
+  btnComprado(it: Item){
+    this.fecha=new Date();
+    this.anio=this.fecha.getFullYear();
+    this.mes=this.fecha.getMonth()+1;
+    this.dia=this.fecha.getDate();
+
+    if(this.mes<10){
+      this.mes='0'+this.mes;
+    }
+    if(this.dia<10){
+      this.dia='0'+this.dia;
+    }
+
+    this.hour = this.fecha.getHours();
+    this.minutes = this.fecha.getMinutes();
+    this.seconds = this.fecha.getSeconds();
+    if(this.hour<10){
+      this.hour='0'+this.hour;
+    }
+    if(this.minutes<10){
+      this.minutes='0'+this.minutes;
+    }
+    if(this.seconds<10){
+      this.seconds='0'+this.seconds;
+    }
+
+    it.estado='COMPRADO';
+    it.f_compra=this.anio+'-'+this.mes+'-'+this.dia;
+    it.h_compra=this.hour+':'+this.minutes+':'+this.seconds;
+    this.logisticaService.updateReqDet(it).subscribe(a=>{})
+  }
+
+  btnEntregado(it:Item){
+    this.fecha=new Date();
+    this.anio=this.fecha.getFullYear();
+    this.mes=this.fecha.getMonth()+1;
+    this.dia=this.fecha.getDate();
+
+    if(this.mes<10){
+      this.mes='0'+this.mes;
+    }
+    if(this.dia<10){
+      this.dia='0'+this.dia;
+    }
+
+    this.hour = this.fecha.getHours();
+    this.minutes = this.fecha.getMinutes();
+    this.seconds = this.fecha.getSeconds();
+    if(this.hour<10){
+      this.hour='0'+this.hour;
+    }
+    if(this.minutes<10){
+      this.minutes='0'+this.minutes;
+    }
+    if(this.seconds<10){
+      this.seconds='0'+this.seconds;
+    }
+
+    it.estado='ENTREGADO';
+    it.f_final=this.anio+'-'+this.mes+'-'+this.dia;
+    it.h_final=this.hour+':'+this.minutes+':'+this.seconds;
+    this.logisticaService.updateReqDet(it).subscribe(a=>{
+      if(a){
+        this.logisticaService.getReqDetailsAprobByCode(this.data.codigo, this.data.id_asignado).subscribe((respu:Item[])=>{
+          if(respu.length!=0){
+
+          }
+          else{
+
+            this.req.estado='FINALIZADO';
+            this.logisticaService.updateReq(this.req).subscribe(resupdtR2=>{
+              if(resupdtR2){
+              }
+            })
+          }
+
+        })
+      }
+    })
+  }
+
+  btnCrearOrden(){
+
+    if(!this.selection.isEmpty()){
+
+      console.log(this.selection);
+      console.log(this.selection.selected);
+
+      this.cookiesService.setToken('reqItems',JSON.stringify(this.selection.selected));
+      this.cookiesService.setToken('tipo',this.selection.selected[0].tipo);
+      console.log(this.data.sala);
+      this.cookiesService.setToken('destino',this.data.sala);
+
+      this.dialogRef.close();
+
+      this.router.navigateByUrl('/orden');
+
+
+
+
+    }
+
+    else{
+      this.toastr.warning('Selecciona algun item');
+    }
+
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
@@ -478,6 +630,8 @@ export class DialogDetalleReqAsist implements OnInit {
     private toastr: ToastrService,
     public dialog: MatDialog,
     public dialog2: MatDialog,
+    public router: Router,
+    public cookiesService: CookiesService,
   ) {}
 
   applyFilterD(event: Event) {
@@ -598,101 +752,19 @@ export class DialogDetalleReqAsist implements OnInit {
   }
 
   btnCrearOrden(){
-
     if(!this.selection.isEmpty()){
-      var dialogRef2;
 
-      this.fecha=new Date();
-      this.anio=this.fecha.getFullYear();
-      this.mes=this.fecha.getMonth()+1;
-      this.dia=this.fecha.getDate();
+      console.log(this.selection);
+      console.log(this.selection.selected);
 
-      if(this.mes<10){
-        this.mes='0'+this.mes;
-      }
-      if(this.dia<10){
-        this.dia='0'+this.dia;
-      }
+      this.cookiesService.setToken('reqItems',JSON.stringify(this.selection.selected));
+      this.cookiesService.setToken('tipo',this.selection.selected[0].tipo);
+      console.log(this.data.sala);
+      this.cookiesService.setToken('destino',this.req.sala);
 
-      this.ord.ordItems=[];
+      this.dialogRef.close();
 
-      this.ord.fecha=this.anio+'-'+this.mes+'-'+this.dia;
-      this.ord.destino=this.req.sala;
-      this.ord.area=this.req.area;
-      this.selection.selected.forEach(j=>{
-        this.orden_item = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
-
-        this.orden_item.cantidad=j.cantidad;
-        this.orden_item.descripcion=j.descripcion;
-        this.ord.ordItems.push(this.orden_item);
-        this.ord.tipo=j.tipo;
-      })
-      this.ord.req_id=this.req.id;
-
-      this.logisticaService.getSalaByName(this.ord.destino).subscribe(res=>{
-
-        this.ord.destino_dir=res['address'];
-
-        this.ord.empresa=res['company'];
-        this.ord.numero=res['supply_ord_suffix'];
-
-
-
-        dialogRef2=this.dialog2.open(DialogCreateOrden,{
-          data:this.ord,
-        })
-
-        dialogRef2.afterClosed().subscribe(res => {
-          if(res){
-
-            this.selection.selected.forEach((j,inde)=>{
-              this.orden_item = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
-              this.req.items.forEach((k,ind)=>{
-                if(j.id==k.id){
-                  j.estado='ATENDIDO';
-
-                  this.logisticaService.updateReqDet(j).subscribe(resupdt=>{
-                    if(inde==this.selection.selected.length-1){
-                      this.logisticaService.getReqDetailsAprobByCode(this.data.codigo, this.data.id_asignado).subscribe((respu:Item[])=>{
-                        if(respu.length!=0){
-                          //this.req.estado='ASIGNADO';
-                          //this.logisticaService.updateReq(this.req).subscribe(resupdtR=>{
-                            this.req.items=respu;
-
-                            this.dataSourceReq = new MatTableDataSource(this.req.items);
-                            this.dataSourceReq.paginator = this.paginator2.toArray()[0];
-                            this.dataSourceReq.sort = this.sort2.toArray()[0];
-                            this.selection.clear();
-
-                          //})
-
-                        }
-                        else{
-                          console.log('U'+this.data['user_id']+',');
-                          this.req.id_asignado = this.req.id_asignado.replace('U'+this.data['user_id']+',','');
-                          console.log(this.req);
-                          if(this.req.id_asignado==''){
-                            this.req.estado='ATENDIDO';
-                          }
-                          this.logisticaService.updateReq(this.req).subscribe(resupdtR2=>{
-                            if(resupdtR2){
-                              this.dialogRef.close(true);
-                            }
-                          })
-                        }
-
-                      })
-                    }
-                  });
-                }
-              })
-            })
-
-          }
-
-        })
-
-      })
+      this.router.navigateByUrl('/orden');
 
 
 

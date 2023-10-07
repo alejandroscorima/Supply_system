@@ -7,17 +7,26 @@
 
         <mat-card class="mat-elevation-z8 card-orden">
           <mat-card-title>
-            DETALLE POR ASISTENTE
+            ESTADISTICA
           </mat-card-title>
           <mat-card-content>
-            <mat-form-field appearance="standard" style="display:display-inline">
+<!--             <mat-form-field appearance="standard" style="display:display-inline">
               <mat-label>Búsqueda</mat-label>
               <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
-            </mat-form-field>
+            </mat-form-field> -->
   
   
             <div class="mat-elevation-z8" style="width:100%;">
-                <table mat-table style="width:100%;" [dataSource]="dataSourceReqDetResume" matSort>
+
+
+
+              <iframe title="Report Section" width="900" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMDVjNjQ5NGEtMjM2MC00MTMxLTkzZjgtZDQzOWIxOTc0MDUxIiwidCI6ImM0YTY2YzM0LTJiYjctNDUxZi04YmUxLWIyYzI2YTQzMDE1OCIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+
+
+
+
+
+ <!--                <table mat-table style="width:100%;" [dataSource]="dataSourceReqDetResume" matSort>
   
                   <ng-container matColumnDef="nombre">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </th>
@@ -119,7 +128,7 @@
                   <tr class="mat-row" *matNoDataRow>
                     <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
                   </tr>
-                </table>
+                </table> -->
   
                 <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
             </div>
@@ -145,17 +154,17 @@
 
             <div class="mat-elevation-z8" style="max-width: 400px; max-height: 400px; padding: 10px; display: block; margin-left: auto; margin-right: auto; ">
 
-              <canvas #myChart style=" width: 300px; height: 300px; display: block; margin-left: auto; margin-right: auto; ">{{chartOne}}</canvas>
+<!--               <canvas #myChart style=" width: 300px; height: 300px; display: block; margin-left: auto; margin-right: auto; ">{{chartOne}}</canvas> -->
 
 
-              <google-chart
+<!--               <google-chart
               [type]="typeAge"
               [data]="age"
               [options]="optionsAge"
               [title]="titleAge"
               [columns]="columnsAge"
               style="min-width: 600px !important; min-height: 400px;">
-              </google-chart>
+              </google-chart> -->
 
 
 
