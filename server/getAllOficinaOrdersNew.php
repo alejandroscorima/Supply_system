@@ -27,7 +27,22 @@ if($user_role=='SUPERVISOR'||$user_role=='ADMINISTRADOR'){
 
 }
 else{
-    $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante FROM (SELECT ordenes.id, ordenes.req_id, ordenes.numero, ordenes.ruc, ordenes.razon_social, ordenes.direccion, ordenes.subtotal, ordenes.igv, ordenes.total, ordenes.rebajado, ordenes.fecha, ordenes.destino, ordenes.tipo, ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area, ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta, ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section FROM oscorp_supply.ordenes WHERE ordenes.section='OFICINA' AND ordenes.user_id=".$user_id." ) a LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id ORDER BY a.fecha DESC;");
+    if($user_role=='SUPER ADMINISTRADOR'){
+        if($destino=='NINGUNO'){
+            $sentencia = $bd->prepare("SELECT * FROM oscorp_supply.ordenes WHERE ordenes.section='CASA';");
+        }
+        else{
+            if($destino=='TODOS'){
+                $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante FROM (SELECT ordenes.id, ordenes.req_id, ordenes.numero, ordenes.ruc, ordenes.razon_social, ordenes.direccion, ordenes.subtotal, ordenes.igv, ordenes.total, ordenes.rebajado, ordenes.rebajado total_inicial, ordenes.fecha, ordenes.destino, ordenes.tipo, ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area, ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta, ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section FROM oscorp_supply.ordenes WHERE ordenes.section='OFICINA' ) a LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id ORDER BY a.fecha DESC;");
+            }
+            else{
+                $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante FROM (SELECT ordenes.id, ordenes.req_id, ordenes.numero, ordenes.ruc, ordenes.razon_social, ordenes.direccion, ordenes.subtotal, ordenes.igv, ordenes.total, ordenes.rebajado, ordenes.rebajado total_inicial, ordenes.fecha, ordenes.destino, ordenes.tipo, ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area, ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta, ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section FROM oscorp_supply.ordenes WHERE ordenes.section='OFICINA' AND ordenes.destino='".$destino."' ) a LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id ORDER BY a.fecha DESC;");
+            }
+        }
+    }
+    else{
+        $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante FROM (SELECT ordenes.id, ordenes.req_id, ordenes.numero, ordenes.ruc, ordenes.razon_social, ordenes.direccion, ordenes.subtotal, ordenes.igv, ordenes.total, ordenes.rebajado, ordenes.fecha, ordenes.destino, ordenes.tipo, ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area, ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta, ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section FROM oscorp_supply.ordenes WHERE ordenes.section='OFICINA' AND ordenes.user_id=".$user_id." ) a LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id ORDER BY a.fecha DESC;");
+    }
 }
 
 

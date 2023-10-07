@@ -34,5 +34,6 @@ export class Orden {
     public section: string,
     public comprobante: string,
     public id?: number,
+    public total_inicial?: string,
   ) { }
 }

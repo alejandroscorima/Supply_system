@@ -297,12 +297,24 @@
           <input matInput (keyup)="applyFilterDView($event)" placeholder="Escribe algo para buscar" #input1>
       </mat-form-field>
 
+      <button mat-raised-button *ngIf="user_role=='SUPER ADMINISTRADOR'" (click)="exporter.exportTable('xlsx',{fileName:'Ordenes compra/servicio'})"> EXPORTAR A EXCEL</button>
+
       <div class="mat-elevation-z8" style="width:100%;">
-          <table mat-table style="width:100%;" [dataSource]="dataSourceOrdersView" matSort multiTemplateDataRows>
+          <table mat-table style="width:100%;" [dataSource]="dataSourceOrdersView" matSort multiTemplateDataRows matTableExporter #exporter="matTableExporter" [hiddenColumns]="[16,17,18,20,21]">
 
             <ng-container matColumnDef="fecha">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
               <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="area">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> AREA </th>
+              <td mat-cell *matCellDef="let a"> {{a.area}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO </th>
+              <td mat-cell *matCellDef="let a"> {{a.tipo}}</td>
             </ng-container>
 
             <ng-container matColumnDef="numero">
@@ -325,6 +337,31 @@
               <td mat-cell *matCellDef="let a"> {{a.ruc}}</td>
             </ng-container>
 
+            <ng-container matColumnDef="razon_social">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> RAZ. SOC. PROVEEDOR </th>
+              <td mat-cell *matCellDef="let a"> {{a.razon_social}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipo_pago">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DE PAGO </th>
+              <td mat-cell *matCellDef="let a"> {{a.tipo_pago}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="moneda">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> MONEDA </th>
+              <td mat-cell *matCellDef="let a"> {{a.moneda}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="subtotal">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> SUBTOTAL </th>
+              <td mat-cell *matCellDef="let a"> {{a.subtotal}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="igv">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> IGV </th>
+              <td mat-cell *matCellDef="let a"> {{a.igv}}</td>
+            </ng-container>
+
             <ng-container matColumnDef="total">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> TOTAL </th>
               <td mat-cell *matCellDef="let a"> {{a.total}}</td>
@@ -333,6 +370,16 @@
             <ng-container matColumnDef="rebajado">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> MONTO INICIAL </th>
               <td mat-cell *matCellDef="let a"> {{a.rebajado}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="retencion">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> RETENCION </th>
+              <td mat-cell *matCellDef="let a"> {{a.retencion}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="percepcion">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PERCEPCION </th>
+              <td mat-cell *matCellDef="let a"> {{a.percepcion}}</td>
             </ng-container>
 
             <ng-container matColumnDef="pdf">
@@ -384,8 +431,8 @@
             </ng-container>
             
 
-            <tr mat-header-row *matHeaderRowDef="['fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs'];"></tr>
+            <tr mat-header-row *matHeaderRowDef="columnsToShow"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToShow;"></tr>
 
 
 
