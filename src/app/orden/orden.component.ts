@@ -420,11 +420,10 @@ export class OrdenComponent implements OnInit {
         this.columnsToShow=['fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs'];
       }
       else{
-        ['fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs']
+        this.columnsToShow=['fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs'];
       }
       this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
         this.user=u;
-
 
 
         this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{

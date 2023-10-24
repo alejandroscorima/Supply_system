@@ -104,6 +104,10 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getAllCampus.php`);
   }
 
+  getCampusBySupervisorId(sup_id: number) {
+    return this.http.get(`${this.baseUrl}/getCampusBySupervisorId.php?sup_id=${sup_id}`);
+  }
+
   getActiveProviders() {
     return this.http.get(`${this.baseUrl}/getActiveProviders.php`);
   }
@@ -164,16 +168,16 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getReqsFin.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}`);
   } */
 
-  getReqsPendientesNew(tipo_usuario: string, id_asignado:string, user_id:number) {
-    return this.http.get(`${this.baseUrl}/getReqsPendientesNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}`);
+  getReqsPendientesNew(tipo_usuario: string, id_asignado:string, user_id:number, salas:string[]) {
+    return this.http.get(`${this.baseUrl}/getReqsPendientesNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}&salas=${salas}`);
   }
 
-  getReqsProcesoNew(tipo_usuario: string, id_asignado:string, user_id:number) {
-    return this.http.get(`${this.baseUrl}/getReqsProcesoNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}`);
+  getReqsProcesoNew(tipo_usuario: string, id_asignado:string, user_id:number, salas:string[]) {
+    return this.http.get(`${this.baseUrl}/getReqsProcesoNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}&salas=${salas}`);
   }
 
-  getReqsFinNew(tipo_usuario: string, id_asignado:string, user_id:number) {
-    return this.http.get(`${this.baseUrl}/getReqsFinNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}`);
+  getReqsFinNew(tipo_usuario: string, id_asignado:string, user_id:number, salas:string[]) {
+    return this.http.get(`${this.baseUrl}/getReqsFinNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}&salas=${salas}`);
   }
 
   getSalaByName(campus_name: string) {
