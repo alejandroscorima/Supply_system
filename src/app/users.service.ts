@@ -8,6 +8,7 @@ import { Requerimiento } from './requerimiento';
 import { Item } from './item';
 
 import { CookieService } from 'ngx-cookie-service';
+import { Collaborator } from './collaborator';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,30 @@ export class UsersService {
     return this.http.get(`${this.baseUrl}/getAllUsers.php`);
   } */
 
+  addUser(u: User) {
+    return this.http.post(`${this.baseUrl}/postUser.php`, u);
+  }
+
+  addColab(c: Collaborator) {
+    return this.http.post(`${this.baseUrl}/postColab.php`, c);
+  }
+
   getAllUsersNew() {
     return this.http.get(`${this.baseUrl}/getAllUsersNew.php`);
+  }
+
+  getPersonFromReniec(doc_number: string) {
+
+    this.urlconsulta = 'https://my.apidevs.pro/api/dni/'+doc_number+'?api_token=e9cc47e67d492cdee675bfb2b365c09393611b5141144aa0da34cab5429bb5e8';
+    return this.http.get(this.urlconsulta);
+  }
+
+  updateUser(u: User) {
+    return this.http.put(`${this.baseUrl}/updateUser.php`, u);
+  }
+
+  updateCollaborator(c: Collaborator) {
+    return this.http.put(`${this.baseUrl}/updateColab.php`, c);
   }
 
 /*   getUser(username, password) {
@@ -44,8 +67,16 @@ export class UsersService {
     return this.http.get(`${this.baseUrl}/getUserByIdNew.php?user_id=${user_id}`);
   }
 
-  getCollaboratorById(colab_id) {
+  getUserByDocNew(doc_number) {
+    return this.http.get(`${this.baseUrl}/getUserByDocNew.php?doc_number=${doc_number}`);
+  }
+
+/*   getCollaboratorById(colab_id) {
     return this.http.get(`${this.baseUrl}/getCollaboratorById.php?colab_id=${colab_id}`);
+  } */
+
+  getCollaboratorByUserId(user_id) {
+    return this.http.get(`${this.baseUrl}/getCollaboratorByUserId.php?user_id=${user_id}`);
   }
 
   getPersonalNew(area_id) {
@@ -120,5 +151,17 @@ export class UsersService {
 
   updateClient(cliente: User) {
     return this.http.put(`${this.baseUrl}/updateClient.php`, cliente);
+  }
+
+  getPaymentByClientId(client_id: number) {
+    return this.http.get(
+      `${this.baseUrl}/getPaymentByClientId.php?client_id=${client_id}`
+    );
+  }
+
+  getColabsBySituation(situation: string) {
+    return this.http.get(
+      `${this.baseUrl}/getColabsBySituation.php?situation=${situation}`
+    );
   }
 }
