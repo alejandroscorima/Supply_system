@@ -99,6 +99,9 @@ export class OrdenComponent implements OnInit {
   doc = new jsPDF();
 
   img = new Image();
+  sello = new Image();
+
+
 
   posTituloSala;
 
@@ -836,6 +839,8 @@ export class OrdenComponent implements OnInit {
     this.doc = new jsPDF();
 
     this.img.src = 'assets/logo'+this.ord.empresa+'.png';
+    this.sello.src = 'assets/selloVisionGames.png';
+
     this.doc.addImage(this.img, 'png', 15, 4, 30, 30, '','FAST',0);
     this.doc.setFont("helvetica","normal");
     this.doc.setFontSize(9);
@@ -961,6 +966,10 @@ export class OrdenComponent implements OnInit {
     //console.log(this.doc.internal.getFontSize());
 
 /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */
+
+
+    this.doc.addImage( this.sello, 'png',this.doc.internal.pageSize.width - 60,this.doc.internal.pageSize.height -60,50,40,'','FAST',0);
+
 
 
     window.open(URL.createObjectURL(this.doc.output("blob")));
