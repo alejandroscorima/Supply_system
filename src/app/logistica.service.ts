@@ -80,6 +80,13 @@ export class LogisticaService {
     return this.http.put(`${this.baseUrl}/updateOrden.php`, ord);
   }
 
+
+//get functions:
+
+  getSignatureByUserId(user_id: number){
+    return  this.http.get(`${this.baseUrl}/getSignatureByUserId.php?user_id=${user_id}`);
+  }
+
   getDaily(){
     return this.http.get(`${this.baseUrl}/getDaily.php`);
   }

@@ -23,4 +23,5 @@ $signature = $sentencia->fetchObject();
 //echo json_encode($mascotas);
 echo json_encode($signature);
 
+
 ?>
