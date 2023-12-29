@@ -10,5 +10,4 @@ import { AppComponent } from '../app.component';
 export class SideNavComponent extends AppComponent {
 
 
-
 }

@@ -99,12 +99,17 @@
             Ingresar requerimiento
           </a>
   
-          <a mat-list-item routerLink="/daily" class="navItem" *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'">
+          <a mat-list-item routerLink="/daily" 
+          class="navItem" 
+          *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'">
             <mat-icon class="icon1">today</mat-icon>
             Actividades diarias
           </a>
   
-          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'||(user_role=='USUARIO AVANZADO'&&colab.area_id==13)||(user_role=='USUARIO AVANZADO'&&colab.area_id==12)" class="navItem">
+          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||
+          user_role=='ASISTENTE'||
+          (user_role=='USUARIO AVANZADO'&&colab.area_id==13)||
+          (user_role=='USUARIO AVANZADO'&&colab.area_id==12)" class="navItem">
             <mat-expansion-panel style="background-color: #b03a64">
               <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
                 <mat-panel-title>
@@ -128,7 +133,8 @@
             Reportes
           </a>
   
-          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'" class="navItem">
+          <mat-accordion *ngIf="user_role=='SUPER USUARIO'
+          ||user_role=='SUPER ADMINISTRADOR'" class="navItem">
             <mat-expansion-panel style="background-color: #b03a64">
               <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
                 <mat-panel-title>
