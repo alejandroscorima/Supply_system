@@ -1,11 +1,7 @@
 
-
-
-
-
 <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 
 transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
- bg-white dark:bg-gray-800 dark:border-blue-500" aria-label="Sidebar">
+ bg-white dark:bg-gray-800 dark:border-blue-500 overflow-scroll" aria-label="Sidebar">
     <div class="h-full px-3 pb-4  dark:bg-gray-800">
 
  
@@ -26,8 +22,12 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
            </button>
        </div>
        <div class="flex flex-col items-center pb-10">
-           <img class="w-24 h-24 mb-3 rounded-full shadow-lg" [src]="user.photo_url" alt="Bonnie image"/>
-           <h5 class="mb-1 text-l font-medium text-center text-gray-900 dark:text-white">{{user.paternal_surname+' '+user.maternal_surname+', '+user.first_name}}</h5>
+           <img class="w-24 h-24 mb-3 rounded-full shadow-lg"
+            [src]="user.photo_url" alt="Profile picture"/>
+           <h5 class="mb-1 text-l font-medium text-center
+            text-gray-900 dark:text-white">
+            {{user.paternal_surname+' '+user.maternal_surname+', '+user.first_name}}
+            </h5>
           <!--  <span class="text-sm text-center text-gray-500 dark:text-gray-400">{{collaborator.raz_social}}</span>
            --> <span class="text-sm text-center text-gray-500 dark:text-gray-400">{{user_area.name}}</span>
            <span class="text-sm text-center text-gray-500 dark:text-gray-400">{{user_campus.name}}</span>
@@ -51,24 +51,85 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
               </a>
 
               </li>
-              <li>
-              <a class="flex items-center p-2 text-gray-900 rounded-lg
-              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/listas">
-              <mat-icon class="icon2" >verified</mat-icon>
-              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-              </svg>
-              <p class="pl-7 text-base  text-gray-900 dark:text-white">Ordenes</p>
-              </a>
+             
+              <li [hidden]="superUser" >
+                <div  id="accordion-collapse" data-accordion="collapse">
+                
+                    <h2 id="test-heading-1" class="w-0 h-0">
+                        <button type="button" 
+                        data-accordion-target="#test-body-1" 
+                        aria-expanded="true"
+                         aria-controls="test-collapse-body-1">
+                        
+                        </button>
+
+                        <div id="test-body-1"
+                         class="hidden" aria-labelledby="accordion-3-heading-1"></div> 
+                        </h2>
+
+
+                    <h2 id="accordion-collapse-heading-1">
+                      <button type="button"  
+                      class="flex items-start p-2 text-gray-900 rounded-lg content-center
+                      dark:text-white hover:bg-purple-500 w-full font-medium  
+                         dark:focus:ring-gray-800
+                       dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
+                       <svg class=" w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                        <path d="M17 11h-2.722L8 17.278a5.512 5.512 0 0 1-.9.722H17a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1ZM6 0H1a1 1 0 0 0-1 1v13.5a3.5 3.5 0 1 0 7 0V1a1 1 0 0 0-1-1ZM3.5 15.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2ZM16.132 4.9 12.6 1.368a1 1 0 0 0-1.414 0L9 3.55v9.9l7.132-7.132a1 1 0 0 0 0-1.418Z"/>
+                      </svg> 
+                      <p class="pl-7 text-base  text-gray-900 dark:text-white">Ordenes </p> 
+                        <svg data-accordion-icon class="w-4 h-3 
+                        rotate-180 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        </svg>
+                      </button>
+                    </h2>
+                    <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
+                      <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+
+                        <a class="flex items-center p-2 text-black rounded-lg
+                        dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/orden">
+                         
+                          <p class="pl-7 text-base  text-gray-900 dark:text-white">Orden</p>
+                        </a>
+                        <a class="flex items-center p-2 text-black rounded-lg
+                        dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/warehouse" >
+                        
+                          <p class="pl-7 text-base  text-gray-900 dark:text-white">Almacen</p>
+                        </a>
+
+                     </div>
+                    </div>
+                 
+                  </div>
               </li>
+
+
               <li>
               <a class="flex items-center p-2 text-black rounded-lg
+<<<<<<< HEAD
               dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/hb">
                 <mat-icon class="icon2" >category</mat-icon>
                 <p class="pl-7 text-base  text-gray-900 dark:text-white">INGRESAR requerimiento</p>
+=======
+              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group"
+               routerLink="/new">
+            
+               <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.994 19a8.999 8.999 0 1 1 3.53-17.281M5.995 9l4 4 7-8m-1 8v5m-2.5-2.5h5"/>
+              </svg>  
+              
+                <p class="pl-7 text-base 
+                 text-gray-900 dark:text-white"> Ingresar requerimiento</p>
+>>>>>>> 9729715e1f2af736a561d14d12c7b55742503936
               </a>
               </li>
-              <li>
+
+
+
+              <li  [hidden]="superUser">
               <a class="flex items-center p-2 text-gray-900 rounded-lg
+<<<<<<< HEAD
               
               dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/history">
               <mat-icon class="icon2" >paids</mat-icon>
@@ -76,11 +137,164 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
               <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
               </svg>
               <p class="pl-7 text-base  text-gray-900 dark:text-white"> Rendicion</p>
+=======
+              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group"
+              routerLink="/daily" >
+            
+              <svg class="w-6 h-6 text-gray-800 dark:text-white"aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/>
+              </svg>
+              <p class="pl-7 text-base  text-gray-900 dark:text-white">
+                  Actividades diarias</p>
+>>>>>>> 9729715e1f2af736a561d14d12c7b55742503936
               </a>
               </li>
+
+              <li [hidden]="superUser">
+                <div id="accordion-2" data-accordion="closed">
+
+
+                    <h2 id="test-heading-1" class="w-0 h-0">
+                        <button type="button" 
+                        data-accordion-target="#test-body-1" 
+                        aria-expanded="true"
+                         aria-controls="test-collapse-body-1">
+                        
+                        </button>
+
+                        <div id="test-body-1"
+                         class="hidden" aria-labelledby="accordion-3-heading-1"></div> 
+                        </h2>
+
+                    <h2 id="accordion-2-heading-1">
+                      <button type="button" 
+                      class="flex items-start p-2 text-gray-900 rounded-lg content-center
+                      dark:text-white hover:bg-purple-500 w-full font-medium  
+                         dark:focus:ring-gray-800
+                       dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-2-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
+                       <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1.75 15.363a4.954 4.954 0 0 0 2.638 1.574c2.345.572 4.653-.434 5.155-2.247.502-1.813-1.313-3.79-3.657-4.364-2.344-.574-4.16-2.551-3.658-4.364.502-1.813 2.81-2.818 5.155-2.246A4.97 4.97 0 0 1 10 5.264M6 17.097v1.82m0-17.5v2.138"/>
+                      </svg>
+                      <p class="pl-7 text-base  text-gray-900 dark:text-white">Rendiciones</p> 
+                        <svg data-accordion-icon class="w-4 h-3 
+                        rotate-180 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        </svg>
+                      </button>
+                    </h2>
+                    <div id="accordion-2-body-1" class="hidden" aria-labelledby="accordion-2-heading-1">
+                      <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+
+                        <a class="flex items-center p-2 text-black rounded-lg
+                        dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" 
+                        routerLink="/fondo">
+                         
+                          <p class="pl-7 text-base  text-gray-900 dark:text-white">Rendicion de fondo</p>
+                        </a>
+                        <a class="flex items-center p-2 text-black rounded-lg
+                        dark:text-white hover:bg-purple-500
+                         dark:hover:bg-gray-700 group"  routerLink="/mobility" >
+                        
+                          <p class="pl-7 text-base  text-gray-900 dark:text-white">Movilidad/p>
+                        </a>
+
+                     </div>
+                    </div>
+                 
+                  </div>
+              </li>
+
+
+
+
               <li>
+<<<<<<< HEAD
            
+=======
+              <a class="flex items-center p-2 text-gray-900 rounded-lg
+              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/upload">
+              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+                <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+              </svg>
+              <p class="pl-7 text-base  text-gray-900 dark:text-white">Reportes</p>
+              </a>
+>>>>>>> 9729715e1f2af736a561d14d12c7b55742503936
             </li>
+           
+            
+            <li [hidden]="superUser">
+
+            
+                <div id="accordion-test" data-accordion="closed">
+                        <!--ACORDION DATA CLOSE-->
+                    <h2 id="test-heading-1" class="w-0 h-0">
+                        <button type="button" 
+                        data-accordion-target="#test-body-1" 
+                        aria-expanded="true"
+                         aria-controls="test-collapse-body-1">
+                        
+                        </button>
+
+                        <div id="test-body-1"
+                         class="hidden" aria-labelledby="accordion-3-heading-1"></div> 
+                        </h2>
+
+                        <!--ACORDION DATA CLOSE-->
+
+
+
+                    <h2 id="accordion-3-heading-1">
+                      <button type="button" 
+                      class="flex items-start p-2 text-gray-900 rounded-lg content-center
+                      dark:text-white hover:bg-purple-500 w-full font-medium  
+                         dark:focus:ring-gray-800
+                       dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-3-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
+                       <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1.75 15.363a4.954 4.954 0 0 0 2.638 1.574c2.345.572 4.653-.434 5.155-2.247.502-1.813-1.313-3.79-3.657-4.364-2.344-.574-4.16-2.551-3.658-4.364.502-1.813 2.81-2.818 5.155-2.246A4.97 4.97 0 0 1 10 5.264M6 17.097v1.82m0-17.5v2.138"/>
+                      </svg>
+                      <p class="pl-7 text-base  text-gray-900 dark:text-white">Configuracion</p> 
+                        <svg data-accordion-icon class="w-4 h-3 
+                        rotate-180 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        </svg>
+                      </button>
+                    </h2>
+                    <div id="accordion-3-body-1" class="hidden" aria-labelledby="accordion-3-heading-1">
+                      <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+
+                        <a class="flex items-center p-2 text-black rounded-lg
+                        dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" 
+                        routerLink="/users">
+                         
+                          <p class="pl-7 text-base 
+                           text-gray-900 dark:text-white">Usuarios</p>
+                        </a>
+                        <a class="flex items-center p-2 text-black rounded-lg
+                        dark:text-white hover:bg-purple-500
+                         dark:hover:bg-gray-700 group"  routerLink="/providers" >
+                        
+                          <p class="pl-7 text-base 
+                           text-gray-900 dark:text-white">Proveedores</p>
+                        </a>
+                        <a class="flex items-center p-2 text-black rounded-lg
+                        dark:text-white hover:bg-purple-500
+                         dark:hover:bg-gray-700 group" routerLink="/activities" >
+                        
+                          <p class="pl-7 text-base  text-gray-900 
+                          dark:text-white">Actividades</p>
+                        </a>
+
+                     </div>
+                    </div>
+                 
+                  </div>
+              </li>
+
+
+
+
+
             <li>
               <a style="align-content: center p-2 text rounded-lg">
                 <a mat-stroked-button color="bg-white">Oscorp Technology</a>

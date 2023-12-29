@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
   user_role: string = '';
   logged;
 
+ superUser : boolean = false;
+
   today: Date;
   expirationDate: Date;
 
@@ -48,11 +50,29 @@ export class AppComponent implements OnInit {
     this.cookiesService.deleteToken('user_role');
     location.reload();
   }
+   showHiddenInfo(){
 
+ if(this.user_role=='SUPER USUARIO'||
+                this.user_role=='SUPER ADMINISTRADOR'||
+                this.user_role=='ADMINISTRADOR'||
+                this.user_role=='ASISTENTE'||
+                (this.user_role=='USUARIO AVANZADO'&&this.colab.area_id==13)||
+                (this.user_role=='USUARIO AVANZADO'&&this.colab.area_id==12))  
+                {
+                  this.superUser= true;
+                }
+
+ }
   ngOnInit() {
 
     initFlowbite();
     
+
+
+
+
+    this.showHiddenInfo();
+
     this.usersService.getPaymentByClientId(1).subscribe((resPay:Payment)=>{
       console.log(resPay);
       if(resPay.error){
