@@ -30,6 +30,7 @@ import { element } from 'protractor';
 import { FondoItem } from '../fondo_item';
 import { Doc } from '../doc';
 import { Collaborator } from '../collaborator';
+import { Signature } from '../signature';
 
 @Component({
   selector: 'app-nuevo',
@@ -57,6 +58,8 @@ export class OrdenComponent implements OnInit {
   user_role: string = '';
 
   campus = [];
+
+  signature :Signature = new Signature(0,'');
 
   areas = [];
   prioridades = [];
@@ -100,6 +103,7 @@ export class OrdenComponent implements OnInit {
 
   img = new Image();
   sello = new Image();
+
 
 
 
@@ -440,6 +444,17 @@ export class OrdenComponent implements OnInit {
 
                   this.campusToView= new Campus('NINGUNO','','','','','');
                   this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
+
+
+                    this.logisticaService.getSignatureByUserId(this.user.user_id).subscribe((sig:Signature)=>{
+
+                      this.signature=sig;
+                      console.log(this.signature)
+
+                     // this.sello= this.signature.signature_url;
+
+                    })
+
                     this.campus=cs;
                     this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'18','NO','NO','OFICINA','');
                     this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
@@ -839,7 +854,7 @@ export class OrdenComponent implements OnInit {
     this.doc = new jsPDF();
 
     this.img.src = 'assets/logo'+this.ord.empresa+'.png';
-    this.sello.src = 'assets/selloVisionGames.png';
+ 
 
     this.doc.addImage(this.img, 'png', 15, 4, 30, 30, '','FAST',0);
     this.doc.setFont("helvetica","normal");
@@ -968,9 +983,18 @@ export class OrdenComponent implements OnInit {
 /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */
 
 
-    this.doc.addImage( this.sello, 'png',this.doc.internal.pageSize.width - 60,this.doc.internal.pageSize.height -60,50,40,'','FAST',0);
+    //this.doc.addImage( this.sello, 'png',this.doc.internal.pageSize.width - 60,this.doc.internal.pageSize.height -60,50,40,'','FAST',0);
+    
+    
+    if(this.signature.signatureURL!=null||this.signature.signatureURL!=''){
+   //this.sello.src = 'assets/selloVisionGames.png';
+   this.sello.src = this.signature.signatureURL;
 
+   
+    console.log(this.signature.signatureURL)
+    this.doc.addImage( this.signature.signatureURL, 'png',this.doc.internal.pageSize.width - 60,this.doc.internal.pageSize.height -60,50,40,'','FAST',0);
 
+    }
 
     window.open(URL.createObjectURL(this.doc.output("blob")));
 
@@ -1218,6 +1242,7 @@ export class OrdenComponent implements OnInit {
   generatePDFView(){
 
     this.docView = new jsPDF();
+    
 
     this.imgView.src = 'assets/logo'+this.ordView.empresa+'.png';
     this.docView.addImage(this.imgView, 'png', 15, 4, 30, 30, '','FAST',0);
@@ -1342,6 +1367,14 @@ export class OrdenComponent implements OnInit {
     this.docView.text('TOTAL',142,pos_line);
     this.docView.text(this.prefijoMoneyView,166,pos_line);
     this.docView.text(this.ordView.total,197,pos_line,{align:'right'});
+
+
+    if(this.signature.signatureURL!=null||this.signature.signatureURL!=''){
+    this.sello.src = this.signature.signatureURL;
+    //this.sello.src = 'assets/selloVisionGames.png';
+
+    this.docView.addImage( this.sello, 'png',this.docView.internal.pageSize.width - 60,this.docView.internal.pageSize.height -60,50,40,'','FAST',0);
+  }
     //console.log(this.doc.internal.getFontSize());
 
   /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */
