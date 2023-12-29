@@ -1,16 +1,21 @@
+<app-login *ngIf="!logged"></app-login>
 
 <app-nav-bar *ngIf="logged"></app-nav-bar>
 <app-side-nav *ngIf="logged"></app-side-nav>
-<app-login *ngIf="!logged"></app-login>
 
 
 
 
 <div  class="p-4 sm:ml-64 dark:bg-gray-900">
   <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-    <router-outlet >  </router-outlet>
+    <router-outlet  *ngIf="logged" >  </router-outlet>
   </div>
 </div>
+
+
+
+
+
 
 
 <div  class="p-4 sm:ml-64 dark:bg-gray-900">
@@ -76,7 +81,11 @@
             Dashboard
           </a>
 
-          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||colab.area=='ASISTENTE'||user_role=='SUPERVISOR'||(user_role=='USUARIO AVANZADO'&&colab.area_id==12)||(user_role=='USUARIO AVANZADO'&&colab.area_id==13)" class="navItem">
+          <mat-accordion *ngIf="user_role=='SUPER USUARIO'||
+          user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||
+          colab.area=='ASISTENTE'||user_role=='SUPERVISOR'||
+          (user_role=='USUARIO AVANZADO'&&colab.area_id==12)||
+          (user_role=='USUARIO AVANZADO'&&colab.area_id==13)" class="navItem">
             <mat-expansion-panel style="background-color: #b03a64">
               <mat-expansion-panel-header style="padding-left:16px; background-color: white;">
                 <mat-panel-title>
@@ -102,7 +111,8 @@
   
           <a mat-list-item routerLink="/daily" 
           class="navItem" 
-          *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'">
+          *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||
+          user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'">
             <mat-icon class="icon1">today</mat-icon>
             Actividades diarias
           </a>
@@ -129,7 +139,9 @@
             </mat-expansion-panel>
           </mat-accordion>
   
-          <a mat-list-item routerLink="/analytics" class="navItem" *ngIf="user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'">
+          <a mat-list-item routerLink="/analytics" class="navItem" 
+          *ngIf="user_role=='SUPER USUARIO'||
+          user_role=='SUPER ADMINISTRADOR'">
             <mat-icon class="icon1">analytics</mat-icon>
             Reportes
           </a>
