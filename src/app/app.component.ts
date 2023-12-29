@@ -82,6 +82,7 @@ export class AppComponent implements OnInit {
         }
 
         if(this.cookiesService.checkToken('user_id')){
+          this.logged=true;
           this.user_id=parseInt(this.cookiesService.getToken('user_id'));
           this.user_role=this.cookiesService.getToken('user_role');
     
