@@ -12,8 +12,8 @@ import { UsersService } from './users.service';
 import { LogisticaService } from './logistica.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Collaborator } from './collaborator';
-import { Payment } from './payment';
 import { initFlowbite } from 'flowbite';
+import { Payment } from './payment';
 
 @Component({
   selector: 'app-root',
@@ -50,6 +50,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    initFlowbite();
+    if(this.cookiesService.checkToken('user_id')){
+      this.user_id=parseInt(this.cookiesService.getToken('user_id'));
+      this.user_role=this.cookiesService.getToken('user_role');
 
     initFlowbite();
     
