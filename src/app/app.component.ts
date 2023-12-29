@@ -13,6 +13,7 @@ import { LogisticaService } from './logistica.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Collaborator } from './collaborator';
 import { Payment } from './payment';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-root',
@@ -50,7 +51,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
-
+    initFlowbite();
+    
     this.usersService.getPaymentByClientId(1).subscribe((resPay:Payment)=>{
       console.log(resPay);
       if(resPay.error){
@@ -86,11 +88,11 @@ export class AppComponent implements OnInit {
           this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
             console.log(u);
     
-            this.sidenav.open();
+/*             this.sidenav.open();
             console.log(window.innerWidth)
             if(window.innerWidth<500){
               this.sidenav.close();
-            }
+            } */
     
             this.user=u;
             this.usersService.getCollaboratorByUserId(this.user.user_id).subscribe((c:Collaborator)=>{

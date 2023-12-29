@@ -68,6 +68,9 @@ import { DailyComponent, DialogConfirmDaily } from './daily/daily.component';
 import { ActivitiesComponent } from './activities/activities.component';
 
 import { DialogAddReceipt, DialogEditReceipt, DialogShowDocs, DialogNewDoc, DialogEditDoc } from './orden/orden.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { SideNavComponent } from './side-nav/side-nav.component';
+
 
 
 @NgModule({
@@ -123,6 +126,8 @@ import { DialogAddReceipt, DialogEditReceipt, DialogShowDocs, DialogNewDoc, Dial
         DialogShowDocs,
         DialogNewDoc,
         DialogEditDoc,
+        NavBarComponent,
+        SideNavComponent,
 
     ],
     imports: [
