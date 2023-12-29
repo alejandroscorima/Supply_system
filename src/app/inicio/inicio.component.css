@@ -46,19 +46,20 @@ mat-form-field {
 }
 
 .headerPendiente{
-  background: -webkit-linear-gradient(45deg, #7b1f1f, #b82121);
-  background: -o-linear-gradient(45deg, #7b1f1f, #b82121);
-  background: -moz-linear-gradient(45deg, #7b1f1f, #b82121);
-  background: linear-gradient(45deg, #7b1f1f, #b82121);
+ background: -o-linear-gradient(45deg, #4d0000, #b82121);
+  background: -webkit-linear-gradient(45deg, #4d0000, #b82121);
+  background: -o-linear-gradient(45deg, #4d0000, #b82121);
+  background: -moz-linear-gradient(45deg, #4d0000, #b82121);
+  background: linear-gradient(45deg, #4d0000, #b82121);
   color: whitesmoke;
   border-top-right-radius: 15px;
 }
 
 .headerProceso{
-  background: -webkit-linear-gradient(45deg, #907b1c, #af972c);
-  background: -o-linear-gradient(45deg, #907b1c, #af972c);
-  background: -moz-linear-gradient(45deg, #907b1c, #af972c);
-  background: linear-gradient(45deg, #907b1c, #af972c);
+  background: -webkit-linear-gradient(45deg, #584567, #584567);
+  background: -o-linear-gradient(45deg, #584567, #584567);
+  background: -moz-linear-gradient(45deg, #584567, #584567);
+  background: linear-gradient(45deg, #584567, #584567);
   color: whitesmoke;
   border-top-right-radius: 15px;
 }
@@ -73,10 +74,11 @@ mat-form-field {
 }
 
 .alta{
-  background: -webkit-linear-gradient(45deg, #154360, #2980B9);
-  background: -o-linear-gradient(45deg, #154360, #2980B9);
-  background: -moz-linear-gradient(45deg, #154360, #2980B9);
-  background: linear-gradient(45deg, #154360, #2980B9);
+  background: -webkit-linear-gradient(45deg, #cca509, #e4d186);
+  background: -webkit-linear-gradient(45deg, #cca509, #e4d186);
+  background: -o-linear-gradient(45deg, #cca509, #e4d186);
+  background: -moz-linear-gradient(45deg, #cca509, #e4d186);
+  background: linear-gradient(45deg, #cca509, #e4d186);
   color: whitesmoke;
 }
 
