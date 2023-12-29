@@ -205,7 +205,7 @@ export class ProvidersComponent implements OnInit {
 
 
 
-        this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+        this.usersService.getCollaboratorByUserId(this.user.user_id).subscribe((c:Collaborator)=>{
           this.colab=c;
           this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
             if(ar){

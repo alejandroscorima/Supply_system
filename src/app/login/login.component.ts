@@ -22,6 +22,7 @@ import { Session } from 'protractor';
 import { Area } from '../area';
 import { Campus } from '../campus';
 import { Collaborator } from '../collaborator';
+import { Payment } from '../payment';
 
 
 @Component({
@@ -61,6 +62,7 @@ export class LoginComponent implements OnInit {
     private logisticaService: LogisticaService,
     private usersService: UsersService,
     private cookiesService: CookiesService,
+    private cookies: CookiesService,
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
@@ -83,33 +85,61 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    this.username=this.username.trim();
-    this.password=this.password.trim();
-    this.usersService.getUserNew(this.username,this.password).subscribe((res:User)=>{
-      if(res){
-        this.user=res;
 
-        if(this.user.supply_role!='NINGUNO'){
-          this.cookiesService.setToken('user_id',String(this.user.user_id));
-          console.log(this.user.supply_role)
-          this.cookiesService.setToken('user_role',String(this.user.supply_role));
-          location.reload();
-        }
-        else{
-          this.toastr.error('Usuario no autorizado');
-        }
-          
+    this.usersService.getPaymentByClientId(1).subscribe((resPay:Payment)=>{
+      console.log(resPay);
+      if(resPay.error){
+        this.cookies.deleteToken("user_id");
+        this.cookies.deleteToken("user_role");
+        this.cookies.deleteToken('sala');
+        this.cookies.deleteToken('onSession');
+        console.error('Error al obtener el pago:', resPay.error);
+        this.toastr.error('Error al obtener la licencia: '+resPay.error);
+
       }
       else{
-        if(this.username==''||this.password==''){
-          this.toastr.warning('Ingresa un usuario y contraseña');
-        }
-        else{
-          this.toastr.error('Usuario y/o contraseña incorrecto(s)');
-        }
-
+        this.username=this.username.trim();
+        this.password=this.password.trim();
+        this.usersService.getUserNew(this.username,this.password).subscribe((res:User)=>{
+          if(res){
+            this.user=res;
+    
+            if(this.user.supply_role!='NINGUNO'){
+              this.cookiesService.setToken('user_id',String(this.user.user_id));
+              console.log(this.user.supply_role)
+              this.cookiesService.setToken('user_role',String(this.user.supply_role));
+              location.reload();
+            }
+            else{
+              this.toastr.error('Usuario no autorizado');
+            }
+              
+          }
+          else{
+            if(this.username==''||this.password==''){
+              this.toastr.warning('Ingresa un usuario y contraseña');
+            }
+            else{
+              this.toastr.error('Usuario y/o contraseña incorrecto(s)');
+            }
+    
+          }
+        })
       }
-    })
+    },
+    (error) => {
+    
+      this.cookies.deleteToken("user_id");
+      this.cookies.deleteToken("user_role");
+      this.cookies.deleteToken('sala');
+      this.cookies.deleteToken('onSession');
+      console.error('Error al obtener el pago:', error);
+
+      // Maneja el error aquí según tus necesidades
+      this.toastr.error('Error al obtener la licencia: '+error);
+    });
+
+
   }
 
 

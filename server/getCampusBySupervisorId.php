@@ -4,15 +4,14 @@
 header("Access-Control-Allow-Origin: *");
 //header("Access-Control-Allow-Origin: http://192.168.4.250");
 
-$codigo=$_GET['codigo'];
-$id_asignado=$_GET['id_asignado'];
+$sup_id=$_GET['sup_id'];
 
 $bd = include_once "bdLogistica.php";
 
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");
 //$sentencia = $bd->prepare("select * from actas.actas where estado= '".$estado."'");
 
-$sentencia = $bd->prepare("SELECT id, req_codigo, cantidad, descripcion, tipo, estado, image_url, pdf_url, id_asignado, obs, f_inicio, h_inicio, f_atencion, h_atencion, f_compra, h_compra, f_final, h_final FROM req_detalles WHERE req_codigo='".$codigo."'");
+$sentencia = $bd->prepare("SELECT name FROM oscorp_data.campus WHERE supply_switch='ON' AND (supervisor2=".$sup_id." OR supervisor3=".$sup_id.") ORDER BY name ASC");
 
 
 /* if($tipo_usuario=='ASISTENTE'){
@@ -24,8 +23,8 @@ $sentencia = $bd->prepare("SELECT id, req_codigo, cantidad, descripcion, tipo, e
 $sentencia -> execute();
 //[$fecha_cumple]
 //$mascotas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-$detalles = $sentencia->fetchAll(PDO::FETCH_OBJ);
+$campus = $sentencia->fetchAll(PDO::FETCH_OBJ);
 //echo json_encode($mascotas);
-echo json_encode($detalles);
+echo json_encode($campus);
 
 ?>

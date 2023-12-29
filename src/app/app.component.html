@@ -1,5 +1,10 @@
+
+<app-nav-bar></app-nav-bar>
+<app-side-nav></app-side-nav>
+
 <div class="contenedor-padre">
 
+<!-- 
   <mat-toolbar class="barra"  id="barra" *ngIf="user.first_name!=''">
     <mat-toolbar-row >
       <button (click)="cajon.toggle()" mat-icon-button>
@@ -15,7 +20,19 @@
       </button>
   
     </mat-toolbar-row>
-  </mat-toolbar>
+  </mat-toolbar> -->
+
+
+
+
+
+
+
+
+
+
+
+
   <mat-sidenav-container class="contenido">
     <mat-sidenav closed  style="width: 200px; background-color: rgba(37,43,43);  backdrop-filter: blur(10px); color: whitesmoke;" #cajon mode="side">
       <mat-nav-list style="padding-top:0px;">
@@ -29,6 +46,11 @@
               <br/>
               <a style="font-weight:bold;">AREA: </a>
               <a style="font-weight:normal;">{{colab.area}}</a>
+              <br/>
+            </p>
+            <p style="text-align:center; margin: 10px;">
+              <a style="font-weight:bold;">CARGO: </a>
+              <a style="font-weight:normal;">{{colab.position}}</a>
               <br/>
             </p>
             <p style="text-align:center; margin: 10px;">
@@ -108,15 +130,15 @@
                 <mat-icon class="icon4" >manage_accounts</mat-icon>
                 Usuarios
               </a>
-              <a mat-list-item routerLink="/categories" class="navItem">
+              <a mat-list-item *ngIf="false" routerLink="/categories" class="navItem">
                 <mat-icon class="icon4" >category</mat-icon>
                 Categorias
               </a>
-              <a mat-list-item routerLink="/campus" class="navItem">
+              <a mat-list-item *ngIf="false" routerLink="/campus" class="navItem">
                 <mat-icon class="icon4" >casino</mat-icon>
                 Salas
               </a>
-              <a mat-list-item routerLink="/areas" class="navItem">
+              <a mat-list-item *ngIf="false" routerLink="/areas" class="navItem">
                 <mat-icon class="icon4" >group_work</mat-icon>
                 Areas
               </a>

@@ -91,7 +91,7 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header> SELECCIONAR </th>
               <td mat-cell *matCellDef="let a; let i=index">
                 <mat-checkbox style="margin-left: 10px;" class="example-margin" (change)="$event ? selection.toggle(a) : null"
-                [checked]="selection.isSelected(a)"></mat-checkbox>
+                [checked]="selection.isSelected(a)" [disabled]="a.estado!='PENDIENTE'"></mat-checkbox>
               </td>
             </ng-container>
   

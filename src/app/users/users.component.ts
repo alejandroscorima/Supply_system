@@ -28,11 +28,45 @@ export class UsersComponent implements OnInit {
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
 
+  userToAdd: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+
   user_id: number = 0;
   user_role : string = '';
 
   listaUsers: User[]= [];
   dataSourceUsers: MatTableDataSource<User>;
+
+  campus: Campus[] = [];
+  areas: Area[] = [];
+  users: User[] = [];
+  docTypes:string[]=['DNI','CARNET DE EXTRANJERIA','PASAPORTE'];
+  roleTypes:string[]=['USUARIO','USUARIO AVANZADO','ASISTENTE','ADMINISTRADOR','SUPER ADMINISTRADOR','SUPERVISOR'];
+
+
+
+  roleSelected: string;
+  typeSelected: string;
+  personalSelected: User;
+
+  listRoleSelected: string;
+
+  newUser = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  newColab = new Collaborator(0,0,'',0,'','','','','','','','','');
+
+  usersDisplayedColumns = ['type_doc','doc_number','first_name','paternal_surname','maternal_surname','username','supply_role','settings'];
+  usersDisplayedColumnsPhone = ['type_doc','doc_number','first_name','paternal_surname','maternal_surname','username','supply_role','settings'];
+  attendedDisplayedColumns = ['campus','date_start','date_end','hour_start','hour_end','reason','colab','user','type','status','result'];
+  attendedDisplayedColumnsPhone = ['campus','date_start','date_end','hour_start','hour_end','reason','colab','user','type','status','result'];
+
+  dateStart;
+  dateEnd;
+  anio;
+  mes;
+  dia;
+
+  roles=['NINGUNO','USUARIO','USUARIO AVANZADO','SUPER USUARIO','ASISTENTE','ADMINISTRADOR','SUPER ADMINISTRADOR','SUPERVISOR'];
+
+  public demo1TabIndex = 1;
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
@@ -54,6 +88,88 @@ export class UsersComponent implements OnInit {
     if (this.dataSourceUsers.paginator) {
       this.dataSourceUsers.paginator.firstPage();
     }
+  }
+
+  editUser(a){
+    var dialogRef;
+    dialogRef = this.dialog.open(DialogEditUser,{
+      data: a,
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      if(res){
+        
+      }
+    })
+  }
+
+  async updateUsersInfo () {
+
+    for(const u of this.listaUsers){
+      console.log(u);
+      if(u.type_doc=='DNI'&& (u.address=='' || u.address==null)){
+        console.log(u.doc_number);
+        var res = await this.usersService.getPersonFromReniec(u.doc_number).toPromise();
+        console.log(res);
+        if(res['success']){
+          u.paternal_surname=res['data']['apellido_paterno'];
+          u.maternal_surname=res['data']['apellido_materno'];
+          u.first_name=res['data']['nombres'];
+          u.birth_date=res['data']['fecha_nacimiento'];
+          u.civil_status=res['data']['estado_civil'];
+          u.region=res['data']['departamento'];
+          u.province=res['data']['provincia'];
+          u.district=res['data']['distrito'];
+          u.address=res['data']['direccion'];
+
+          var e = await this.usersService.updateUser(u).toPromise();
+
+        }
+      }
+    }
+
+    this.listaUsers.forEach((u:User)=>{
+
+    })
+  }
+
+  changeName(e){
+    this.newUser.first_name= e.toUpperCase();
+    if(this.newUser.first_name.length>0&&this.newUser.paternal_surname.length>0){
+      this.newUser.username=this.newUser.first_name.substring(0,1)+this.newUser.paternal_surname;
+    }
+  }
+
+  changeRole(userToUpdate:User){
+    console.log(userToUpdate);
+    this.usersService.updateUser(userToUpdate).subscribe(resUpdt=>{
+      if(resUpdt){
+        this.toastr.success('Rol actualizado con éxito')
+      }
+      else{
+        this.toastr.error('Ocurrió un error')
+      }
+    })
+
+  }
+
+  searchDNI(){
+    this.logisticaService.getClientFromReniec(this.newUser.doc_number).subscribe(res=>{
+      console.log(res);
+      if(res['success']){
+        this.newUser.first_name=res['data']['nombres'];
+        this.newUser.paternal_surname=res['data']['apellido_paterno'];
+        this.newUser.maternal_surname=res['data']['apellido_materno'];
+        this.newUser.gender=res['data']['sexo'];
+        this.newUser.birth_date=res['data']['fecha_nacimiento'];
+        this.newUser.civil_status=res['data']['estado_civil'];
+        this.newUser.address=res['data']['direccion'];
+        this.newUser.district=res['data']['distrito'];
+        this.newUser.province=res['data']['provincia'];
+        this.newUser.region=res['data']['departamento'];
+        this.newUser.username=this.newUser.first_name.substring(0,1)+this.newUser.paternal_surname;
+      }
+
+    })
   }
 
   new(){
@@ -96,7 +212,7 @@ export class UsersComponent implements OnInit {
         this.user=u;
 
 
-        this.usersService.getCollaboratorById(this.user.colab_id).subscribe((c:Collaborator)=>{
+        this.usersService.getCollaboratorByUserId(this.user.user_id).subscribe((c:Collaborator)=>{
           this.colab=c;
           this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
             if(ar){
@@ -126,6 +242,63 @@ export class UsersComponent implements OnInit {
     else{
       this.router.navigateByUrl('/login');
     }
+  }
+
+  saveUser(){
+    this.usersService.getUserByDocNew(this.newUser.doc_number).subscribe(res=>{
+      if(res){
+        this.toastr.error("Ya existe un usuario registrado con el número de documento: "+this.newUser.doc_number);
+      }
+      else{
+        this.newUser.type_doc=this.typeSelected;
+        this.newUser.supply_role=this.roleSelected;
+        this.newUser.password=this.newUser.doc_number;
+        this.newUser.latitud='0';
+        this.newUser.longitud='0';
+        if(this.newUser.gender=='FEMENINO'){
+          this.newUser.photo_url='http://52.5.47.64/HRControl/assets/user-female.png'
+        }
+        else{
+          this.newUser.photo_url='http://52.5.47.64/HRControl/assets/user-male.png'
+        }
+        this.usersService.addUser(this.newUser).subscribe(
+          (resAddU: any) => {
+            console.log(resAddU);
+        
+            if (resAddU.resultado) {
+              this.toastr.success("Usuario agregado");
+              // Si la inserción fue exitosa, resAddU.lastInsertedId contiene el ID del usuario insertado
+              this.newColab.user_id=resAddU.lastInsertedId;
+              this.usersService.addColab(this.newColab).subscribe(
+                resAddC => {
+                  if(resAddC){
+                    // Lógica adicional después de agregar el colaborador
+                    console.log('Colaborador agregado correctamente.');
+                    this.toastr.success("Colaborador agregado");
+                  }
+                  else{
+                    this.toastr.error("No se pudo agregar el colaborador");
+                  }
+                },
+                (error) => {
+                  console.error('Error al agregar el colaborador:', error);
+                  this.toastr.error('No se pudo agregar el colaborador.');
+                }
+              );
+            } else {
+              // Si hubo un error en la inserción del usuario
+              console.error('Error al insertar el usuario:', resAddU.error);
+              this.toastr.error('No se pudo crear el usuario.');
+            }
+          },
+          (error) => {
+            // Manejar errores de la solicitud HTTP
+            console.error('Error en la solicitud HTTP:', error);
+            this.toastr.error('Error en la solicitud HTTP.');
+          }
+        );
+      }
+    })
   }
 
 }
@@ -222,6 +395,15 @@ export class DialogEditUser implements OnInit {
   areas: Area[]=[];
   campus: Campus[]=[];
 
+  colabOnEdit: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
+
+
+  areaSelected: Area;
+  campusSelected: Campus;
+
+  areaList: Area[]=[];
+  campusList: Campus[]=[];
+
   constructor(
     public dialogRef: MatDialogRef<DialogEditUser>,
     @Inject(MAT_DIALOG_DATA) public data:User,
@@ -240,17 +422,53 @@ export class DialogEditUser implements OnInit {
 
   }
 
+  changeArea(){
+    this.colabOnEdit.area_id=this.areaSelected.area_id;
+    this.usersService.updateCollaborator(this.colabOnEdit).subscribe(res=>{
+      if(res){
+        this.toastr.success("Actualizado")
+      }
+    });
+
+  }
+
+  changeCampus(){
+    this.colabOnEdit.campus_id=this.campusSelected.campus_id;
+    this.usersService.updateCollaborator(this.colabOnEdit).subscribe(res=>{
+      if(res){
+        this.toastr.success("Actualizado")
+      }
+    });
+  }
+
 
 
   ngOnInit(): void {
 
     console.log(this.data);
 
-    this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
-      console.log(cs);
-      this.campus=cs;
-      this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
-        this.areas=as;
+    this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
+      this.areaList=as;
+      this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
+        this.campusList=cs;
+        this.usersService.getCollaboratorByUserId(this.data.user_id).subscribe((resColab:Collaborator)=>{
+          this.colabOnEdit=resColab;
+          console.log(this.colabOnEdit.area_id);
+          console.log(this.areaList)
+          console.log(this.areaList.find(a => a.area_id === this.colabOnEdit.area_id))
+          this.areaSelected = this.areaList.find(a => a.area_id === this.colabOnEdit.area_id);
+
+          console.log(this.colabOnEdit.campus_id)
+          this.campusSelected = this.campusList.find(b => {
+            console.log(b); // Imprimirá el valor de b en la consola
+            console.log(b.campus_id);
+            console.log(this.colabOnEdit.campus_id);
+            console.log(b.campus_id === this.colabOnEdit.campus_id)
+            return b.campus_id === this.colabOnEdit.campus_id;
+          });
+          
+
+        })
       })
     })
   }
