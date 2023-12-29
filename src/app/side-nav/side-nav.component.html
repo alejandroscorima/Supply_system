@@ -52,7 +52,11 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
 
               </li>
              
-              <li [hidden]="superUser" >
+              <li [hidden]="!(user_role=='SUPER USUARIO'||
+              user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||
+              colab.area=='ASISTENTE'||user_role=='SUPERVISOR'||
+              (user_role=='USUARIO AVANZADO'&&colab.area_id==12)||
+              (user_role=='USUARIO AVANZADO'&&colab.area_id==13))" >
                 <div  id="accordion-collapse" data-accordion="collapse">
                 
                     <h2 id="test-heading-1" class="w-0 h-0">
@@ -121,7 +125,9 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
 
 
 
-              <li  [hidden]="superUser">
+              <li  [hidden]="!(user_role=='SUPER USUARIO'||
+              user_role=='SUPER ADMINISTRADOR'||
+              user_role=='ADMINISTRADOR'||user_role=='ASISTENTE')">
               <a class="flex items-center p-2 text-gray-900 rounded-lg
               dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group"
               routerLink="/daily" >
@@ -134,7 +140,10 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
               </a>
               </li>
 
-              <li [hidden]="superUser">
+              <li [hidden]="!(user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||
+              user_role=='ASISTENTE'||
+              (user_role=='USUARIO AVANZADO'&&colab.area_id==13)||
+              (user_role=='USUARIO AVANZADO'&&colab.area_id==12))">
                 <div id="accordion-2" data-accordion="closed">
 
 
@@ -192,7 +201,8 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
 
 
 
-              <li>
+              <li   [hidden]="!(user_role=='SUPER USUARIO'||
+              user_role=='SUPER ADMINISTRADOR')" >
               <a class="flex items-center p-2 text-gray-900 rounded-lg
               dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/analytics">
               <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -204,7 +214,8 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
             </li>
            
             
-            <li [hidden]="superUser">
+            <li [hidden]="!(user_role=='SUPER USUARIO'
+            ||user_role=='SUPER ADMINISTRADOR')">
 
             
                 <div id="accordion-test" data-accordion="closed">
@@ -244,13 +255,29 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
                     <div id="accordion-3-body-1" class="hidden" aria-labelledby="accordion-3-heading-1">
                       <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
 
-                        <a class="flex items-center p-2 text-black rounded-lg
+                          <a class="flex items-center p-2 text-black rounded-lg
                         dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" 
                         routerLink="/users">
                          
                           <p class="pl-7 text-base 
                            text-gray-900 dark:text-white">Usuarios</p>
                         </a>
+                        
+                          <a mat-list-item *ngIf="false" routerLink="/categories" class="navItem">
+                            <mat-icon class="icon4" >category</mat-icon>
+                            Categorias
+                          </a>
+                          <a mat-list-item *ngIf="false" routerLink="/campus" class="navItem">
+                            <mat-icon class="icon4" >casino</mat-icon>
+                            Salas
+                          </a>
+                          <a mat-list-item *ngIf="false" routerLink="/areas" class="navItem">
+                            <mat-icon class="icon4" >group_work</mat-icon>
+                            Areas
+                          </a>
+
+
+                      
                         <a class="flex items-center p-2 text-black rounded-lg
                         dark:text-white hover:bg-purple-500
                          dark:hover:bg-gray-700 group"  routerLink="/providers" >
