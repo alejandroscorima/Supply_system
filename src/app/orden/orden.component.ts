@@ -103,6 +103,7 @@ export class OrdenComponent implements OnInit {
 
 
 
+
   posTituloSala;
 
   igvActivated;
@@ -440,6 +441,10 @@ export class OrdenComponent implements OnInit {
 
                   this.campusToView= new Campus('NINGUNO','','','','','');
                   this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
+
+
+                    
+
                     this.campus=cs;
                     this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'18','NO','NO','OFICINA','');
                     this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
