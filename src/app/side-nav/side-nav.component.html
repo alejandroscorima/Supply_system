@@ -1,5 +1,8 @@
 
 
+
+
+
 <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 
 transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
  bg-white dark:bg-gray-800 dark:border-blue-500" aria-label="Sidebar">
@@ -22,6 +25,84 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
                </svg>
            </button>
        </div>
+       <div class="flex flex-col items-center pb-10">
+           <img class="w-24 h-24 mb-3 rounded-full shadow-lg" [src]="user.photo_url" alt="Bonnie image"/>
+           <h5 class="mb-1 text-l font-medium text-center text-gray-900 dark:text-white">{{user.paternal_surname+' '+user.maternal_surname+', '+user.first_name}}</h5>
+          <!--  <span class="text-sm text-center text-gray-500 dark:text-gray-400">{{collaborator.raz_social}}</span>
+           --> <span class="text-sm text-center text-gray-500 dark:text-gray-400">{{user_area.name}}</span>
+           <span class="text-sm text-center text-gray-500 dark:text-gray-400">{{user_campus.name}}</span>
        </div>
+     </div>
+ 
+
+       <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-">
+
+          <li>
+            
+            <a class="flex items-center p-2 text-gray-900 rounded-lg
+            dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/">
+            <svg class="w-6 h-6 text-gray-800 dark:text-white"
+             aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor" viewBox="0 0 20 20">
+              <path d="M5 0H1a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1Zm14 0h-4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM5 14H1a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1Zm14 0h-4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1ZM12 2H8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2Zm0 14H8a1 1 0 0 0 0 2h4a1 1 0 0 0 0-2Zm-8-4V8a1 1 0 0 0-2 0v4a1 1 0 1 0 2 0Zm14 0V8a1 1 0 0 0-2 0v4a1 1 0 0 0 2 0Z"/>
+            </svg>
+            <p class="pl-7 text-base  text-gray-900
+             dark:text-white">Dashboard</p>
+              </a>
+
+              </li>
+              <li>
+              <a class="flex items-center p-2 text-gray-900 rounded-lg
+              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/listas">
+              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                <path d="M17 11h-2.722L8 17.278a5.512 5.512 0 0 1-.9.722H17a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1ZM6 0H1a1 1 0 0 0-1 1v13.5a3.5 3.5 0 1 0 7 0V1a1 1 0 0 0-1-1ZM3.5 15.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2ZM16.132 4.9 12.6 1.368a1 1 0 0 0-1.414 0L9 3.55v9.9l7.132-7.132a1 1 0 0 0 0-1.418Z"/>
+              </svg>
+              <p class="pl-7 text-base  text-gray-900 dark:text-white">Listas</p>
+              </a>
+              </li>
+              <li>
+              <a class="flex items-center p-2 text-black rounded-lg
+              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/hb">
+                <mat-icon class="icon2" >cake</mat-icon>
+                <p class="pl-7 text-base  text-gray-900 dark:text-white">Cumpleaños</p>
+              </a>
+              </li>
+              <li>
+              <a class="flex items-center p-2 text-gray-900 rounded-lg
+              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/history">
+              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+              </svg>
+              <p class="pl-7 text-base  text-gray-900 dark:text-white"> Historial</p>
+              </a>
+              </li>
+              <li>
+              <a class="flex items-center p-2 text-gray-900 rounded-lg
+              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/upload">
+              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="m14.707 4.793-4-4a1 1 0 0 0-1.416 0l-4 4a1 1 0 1 0 1.416 1.414L9 3.914V12.5a1 1 0 0 0 2 0V3.914l2.293 2.293a1 1 0 0 0 1.414-1.414Z"/>
+                <path d="M18 12h-5v.5a3 3 0 0 1-6 0V12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+              </svg>
+              <p class="pl-7 text-base  text-gray-900 dark:text-white"> Subir PDF</p>
+              </a>
+            </li>
+            <li>
+              <a style="align-content: center p-2 text rounded-lg">
+                <a mat-stroked-button color="bg-white">Oscorp Technology</a>
+              </a>
+              </li>
+             
+
+       </ul>
     </div>
-    </aside>
+ </aside>
+ 
+ 
+
+
+
+
+
+
+
+

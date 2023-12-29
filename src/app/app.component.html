@@ -2,9 +2,19 @@
 <app-nav-bar></app-nav-bar>
 <app-side-nav></app-side-nav>
 
-<div class="contenedor-padre">
 
-<!-- 
+
+
+<div  class="p-4 sm:ml-64 dark:bg-gray-900">
+  <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+    <router-outlet >  </router-outlet>
+  </div>
+</div>
+
+
+<div  class="p-4 sm:ml-64 dark:bg-gray-900">
+  <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+
   <mat-toolbar class="barra"  id="barra" *ngIf="user.first_name!=''">
     <mat-toolbar-row >
       <button (click)="cajon.toggle()" mat-icon-button>
@@ -20,7 +30,7 @@
       </button>
   
     </mat-toolbar-row>
-  </mat-toolbar> -->
+  </mat-toolbar> 
 
 
 
@@ -171,4 +181,5 @@
   </mat-sidenav-container>
   
 
+</div>
 </div>
