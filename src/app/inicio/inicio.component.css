@@ -56,20 +56,35 @@ mat-form-field {
 }
 
 .headerProceso{
-  background: -webkit-linear-gradient(45deg, #584567, #584567);
-  background: -o-linear-gradient(45deg, #584567, #584567);
-  background: -moz-linear-gradient(45deg, #584567, #584567);
-  background: linear-gradient(45deg, #584567, #584567);
+  background: -webkit-linear-gradient(45deg, #7fa6f5, #002783);
+  background: -o-linear-gradient(45deg, #7fa6f5, #002783);
+  background: -moz-linear-gradient(45deg, #7fa6f5, #002783);
+  background: linear-gradient(45deg, #7fa6f5, #002783);
   color: whitesmoke;
   border-top-right-radius: 15px;
 }
+.alta{
+  background: -webkit-linear-gradient(45deg, #e2afff, #410066);
+  background: -webkit-linear-gradient(45deg, #e2afff, #410066);
+  background: -o-linear-gradient(45deg, #e2afff, #410066);
+  background: -moz-linear-gradient(45deg, #e2afff, #410066);
+  background: linear-gradient(45deg, #e2afff, #410066);
+  color: whitesmoke;
+}
 
+.headerFinalizado{
+  background: -webkit-linear-gradient(45deg, #b3f2b3, #1b9b1b);
+  background: -o-linear-gradient(45deg, #b3f2b3, #1b9b1b);
+  background: -moz-linear-gradient(45deg, #b3f2b3, #1b9b1b);
+  background: linear-gradient(45deg, #b3f2b3, #1b9b1b);
+  color: whitesmoke;
+}
 
 .fin{
-  background: -webkit-linear-gradient(45deg, #105b10, #1b9b1b);
-  background: -o-linear-gradient(45deg, #105b10, #1b9b1b);
-  background: -moz-linear-gradient(45deg, #105b10, #1b9b1b);
-  background: linear-gradient(45deg, #105b10, #1b9b1b);
+  background: -webkit-linear-gradient(45deg, #229622, #229622);
+  background: -o-linear-gradient(45deg, #229622, #1b9b1b);
+  background: -moz-linear-gradient(45deg, #229622, #1b9b1b);
+  background: linear-gradient(45deg, #229622, #1b9b1b);
   color: whitesmoke;
 }
 
@@ -91,10 +106,10 @@ mat-form-field {
 }
 
 .baja{
-  background: -webkit-linear-gradient(0deg, #A9CCE3, #e2ecf3);
-  background: -o-linear-gradient(0deg, #A9CCE3, #e2ecf3);
-  background: -moz-linear-gradient(0deg, #A9CCE3, #e2ecf3);
-  background: linear-gradient(0deg, #A9CCE3, #e2ecf3);
+  background: -webkit-linear-gradient(0deg, #ffef89, #d1bc00);
+  background: -webkit-linear-gradient(0deg, #ffef89, #d1bc00);  
+  background: -moz-linear-gradient(0deg, #ffef89,#d1bc00 );
+  background: -moz-linear-gradient(0deg, #ffef89,#d1bc00 );
 }
 
 .navItem{
@@ -114,12 +129,13 @@ mat-form-field {
   border-radius: 15px;
 
 
-  background: -webkit-linear-gradient(0deg, #c4c7c7, #d4d6d7);
-  background: -o-linear-gradient(0deg, #c4c7c7, #d4d6d7);
-  background: -moz-linear-gradient(0deg, #c4c7c7, #d4d6d7);
-  background: linear-gradient(0deg, #c4c7c7, #d4d6d7);
+  background: -webkit-linear-gradient(0deg, #f3f3f3, #f3f3f3);
+  background: -o-linear-gradient(0deg, #f3f3f3, #f3f3f3);
+  background: -moz-linear-gradient(0deg, #f3f3f3, #f3f3f3);
+
+  background: linear-gradient(0deg, #f3f3f3,);
 }
 
 .lbl_description{
-  color: rgb(98, 98, 98);
+  color: rgb(255, 255, 255);
 }

@@ -1,22 +1,24 @@
-<div class="container" style="margin:20px; text-align:center; max-height:100%;" >
+ 
 
-  <div class="row">
-    <mat-card class="mat-elevation-z8 card-orden" >
-      <mat-card-subtitle></mat-card-subtitle>
-      <mat-card-content>
-        <div hidden>
-          <mat-form-field appearance="standard" style="display:display-inline" hidden>
-            <mat-label hidden>Búsqueda</mat-label>
-            <input matInput hidden (keyup)="applyFilterI($event)" placeholder="Escribe algo para buscar" #input1>
-          </mat-form-field>
-        </div>
+  <div class="px-5 pb-5">
+    
+      <div class="flex items-center mt-2.5 mb-5">
+          <div class="flex items-center space-x-1 rtl:space-x-reverse">
+              
+             
+          </div>
+          
+      <div class="flex items-center justify-between">
+          <span class="text-3xl font-bold text-gray-900 dark:text-white justify-content: center;"></span>
+      </div>
+  </div>
 
-
+        
         <button mat-raised-button (click)="exporter.exportTable('xlsx',{fileName:'Requerimientos'})">EXPORTAR EXCEL</button>
+
   
-  
-        <div class="mat-elevation-z8" style="width:100%;" hidden>
-          <table mat-table style="width:100%;" [dataSource]="dataSourceReqs" matSort matTableExporter #exporter="matTableExporter">
+        <div class="mat-elevation-0" style="width:0%; justify-content: center;" hidden  >
+          <table mat-table style="width:0%;" [dataSource]="dataSourceReqs" matSort matTableExporter #exporter="matTableExporter">
   
             <ng-container matColumnDef="codigo">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO </th>
@@ -83,21 +85,18 @@
   
   
             <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
+             
             </tr>
           </table>
   
           <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
         </div>
-      </mat-card-content>
-
-    </mat-card>
   </div>
 
   <div class="row">
     <div class="column" style="height: 80vh; overflow: scroll;" *ngIf="user_role!='ADMINISTRADOR'&&user_role!='ASISTENTE'">
       <h3 style="text-align:left">
-        
+      
         PENDIENTES: {{cont_pend}} 
       </h3>
       
@@ -168,15 +167,15 @@
         </mat-card-content>
       </mat-card>
     </div>
-  </div>
+  
 
 
-  <br/>
+  
 
 
 
 
 
-</div>
+
 
 
