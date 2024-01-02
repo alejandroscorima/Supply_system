@@ -1,7 +1,7 @@
-<div class="container" style="margin:20px; max-height:100%;" >
+<div class=" bg-amber-100 m-3 p-9" style="margin:20px; max-height:100%;" >
 
 
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" >
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" color="accent" >
     <mat-tab label="Subir Excel" class="tabWare">
       <div class="container" style="margin: 20px; text-align:center;" >
         <div style="width:100%;display:display-inline;text-align: center;">
@@ -136,9 +136,133 @@
       </div>
 
     </mat-tab>
-    <mat-tab label="Generar Orden" class="tabWare"> 
-      <div class="container" style="margin: 20px; text-align:center;" >
 
+
+    <mat-tab label="Generar Orden" class="tabWare"> 
+
+
+
+<div>
+      <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+      dark:bg-gray-800 dark:border-gray-700">
+   
+       <a>
+           <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            EMPRESA</h5>
+       </a>
+  
+  
+       <div class="grid mb-8  rounded-lg
+       md:mb-12 md:grid-cols-3 bg-white dark:bg-gray-800 ">
+  
+        
+  
+  
+     <div class=" m-4">
+       <label for="destino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elige el destino</label>
+       <select id="destino" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+       rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700
+        dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+         dark:focus:border-blue-500" (change)="setDestiny($event)">
+          <option  *ngFor=" let c of campus " [value]="c['name']"  (selectionChange)="asigChange()" >{{c['name']}}</option>
+        
+       </select>
+     </div>
+  
+     <div class=" m-4">
+       <label for="moneda" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+         Tipo de moneda:</label>
+       <select id="moneda" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+       rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+     dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+         dark:focus:border-blue-500" (change)="setMoneda($event)" >
+        
+         <option *ngFor=" let m of monedas "  [value]="m">{{m}}</option>
+         
+       </select>
+   </div>
+   <div class=" m-4">
+     <label for="condicion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+       Condición de pago:</label>
+     <select id="condicionSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+     rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+   dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+       dark:focus:border-blue-500" (change)="setCondicion($event)" >
+      <option selected  [hidden]="ord.tipo_pago!=null" [value]="null">Condiciones de pago</option>
+      <option *ngFor=" let p of pay_type "  [value]="p">{{p}}</option>
+       
+     </select>
+  </div>
+  
+           <mat-form-field appearance="outline">
+             <mat-label>Fecha:</mat-label>
+             <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange()">
+             <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+             <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+           </mat-form-field>
+  
+      
+  
+  
+       </div>
+  
+      </div>  
+
+    
+      <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+      dark:bg-gray-800 dark:border-gray-700 my-4 ">
+
+        <a>
+          <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                          PROVEEDOR</h5>
+        </a>
+
+
+  <div class=" grid mb-0.5 justify-start rounded-lg
+  md:mb-2 grid-cols-2 bg-white dark:bg-gray-800  ">
+
+
+    
+    <div class=" m-4">
+    <label for="destino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elige el destino</label>
+    <select id="destino" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+    rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700
+     dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+      dark:focus:border-blue-500" (change)="setProviderActive($event)">
+      <option selected  [hidden]="provActive!=null" 
+      [value]="null">Elige el proveedor</option>
+        
+      <option *ngFor="let pr of listaProvidersActive" 
+       [value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</option>
+     </select>
+    </div>
+
+
+    <div class="m-4">
+      <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Cuenta Bancaria</label>
+      <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+      dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+      dark:focus:border-blue-500"
+
+    [(ngModel)]="ord.num_cuenta" placeholder="Nro de Cuenta Bancaria" >
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+      </div>
+
+
+</div>
+
+      <div class="container" style="margin: 20px; text-align:center;" >
+<!-- 
         <mat-card class="mat-elevation-z8 card-orden">
           <mat-card-title>EMPRESA</mat-card-title>
           <mat-card-content>
@@ -173,13 +297,17 @@
           </mat-card-content>
         </mat-card>
 
+
+
+
         <mat-card class="mat-elevation-z8 card-orden">
           <mat-card-title>PROVEEDOR</mat-card-title>
           <mat-card-content>
             <mat-form-field style="width:55%;" class="sala" id="sala" appearance="outline" >
               <mat-label>Proveedor:</mat-label>
               <mat-select [(value)]="provActive" (selectionChange)="provChange()">
-                  <mat-option *ngFor="let pr of listaProvidersActive" [value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</mat-option>
+                  <mat-option *ngFor="let pr of listaProvidersActive" 
+                  [value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -189,6 +317,14 @@
             </mat-form-field>
           </mat-card-content>
         </mat-card>
+
+
+
+
+ -->
+
+
+
 
         <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
           <mat-card-content>
@@ -382,6 +518,19 @@
         
       </div>
     </mat-tab>
+
+
+
+
+
+
+
+
+
+
+
+
+
     <mat-tab label="Ver ordenes" class="tabWare">
       <mat-form-field appearance="standard" style="display:display-inline">
         <mat-label>Búsqueda</mat-label>

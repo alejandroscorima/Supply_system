@@ -158,6 +158,108 @@ export class WarehouseComponent implements OnInit {
     private toastr: ToastrService,
   ) { }
 
+
+
+
+
+
+
+
+  setActualType(event: any) {
+    const selectedValue = event.target.value;
+
+    switch (selectedValue) {
+      case selectedValue:
+
+
+       
+        this.ord.tipo=selectedValue;
+        console.log(this.ord.tipo);
+         break;
+
+      default:
+     
+        break;
+    }
+  }
+
+  setDestiny(event: any) {
+
+   
+    const selectedValue = event.target.value;
+    ;
+    switch (selectedValue) {
+      case selectedValue:
+
+      this.ord.destino=selectedValue;
+        console.log(this.ord.destino);
+         break;
+
+      default:
+        break;
+    }
+    this.asigChange()
+  }
+
+
+  setMoneda(event: any) {
+
+   
+    const selectedValue = event.target.value;
+    ;
+    switch (selectedValue) {
+      case selectedValue:
+
+       this.ord.moneda=selectedValue;
+        console.log(this.ord.moneda);
+         break;
+
+      default:
+        break;
+    }
+    this.asigMoneyChange()
+  }
+
+
+  setCondicion(event: any) {
+
+   
+    const selectedValue = event.target.value;
+    ;
+    switch (selectedValue) {
+      case selectedValue:
+
+      //this.destiny=selectedValue;
+      this.ord.tipo_pago=selectedValue;
+        console.log(this.ord.tipo_pago);
+         break;
+
+      default:
+        break;
+    }
+    this.asigChange()
+  }
+  setProviderActive(event:any){
+
+
+    const selectedValue = event.target.value;
+    ;
+    switch (selectedValue) {
+      case selectedValue:
+
+      //this.destiny=selectedValue;
+      this.provActive=selectedValue;
+        console.log(this.provActive);
+         break;
+
+      default:
+        break;
+    }
+ 
+      this.provChange()
+  }
+
+
   provChange(){
 
     var provSelected = this.listaProvidersActive.find(s=>
@@ -644,7 +746,12 @@ export class WarehouseComponent implements OnInit {
                     this.ord.total=parseInt('0').toFixed(2);
                     this.ord.rebajado='';
                     this.posTituloSala = 74;
-  
+
+
+                    this.ord.moneda='SOLES';
+                    this.ord.destino=this.campus[0]['name'];
+                    this.provActive=this.listaProvidersActive[0];
+
                     var anio = this.fecha.getFullYear();
                     var mes = this.fecha.getMonth()+1;
                     var dia = this.fecha.getDate();

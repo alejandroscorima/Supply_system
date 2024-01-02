@@ -295,14 +295,6 @@ export class OrdenComponent implements OnInit {
 
   columnsToShow=[];
   
-  ordenTab:boolean=false;
-  switchOrdenToView(){
-
-    console.log(this.ordenTab);
-    this.ordenTab=!this.ordenTab;
-
-  }
-
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
@@ -607,10 +599,15 @@ export class OrdenComponent implements OnInit {
                     this.orden_item.cantidad=1;
                     this.igvActivated=true;
                     this.igvSlideDisabled=false;
+
                     this.prefijoMoney='';
+                    this.ord.tipo='COMPRA'
+                    
                     this.ord.moneda='SOLES';
                     this.ord.destino=this.campus[0]['name'];
+
                     console.log(this.ord.destino)
+
                     this.prefijoMoney='S/.';
                     this.ord.subtotal=parseInt('0').toFixed(5);
                     this.ord.igv=parseInt('0').toFixed(5);

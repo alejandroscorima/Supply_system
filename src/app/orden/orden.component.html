@@ -1,39 +1,5 @@
 <div class=" bg-amber-100 m-3 p-9" style="margin:20px; max-height:100%;" >
 
-  <div class="text-sm font-medium text-center text-gray-500 border-b
-   border-gray-200 dark:text-gray-400 dark:border-gray-700">
-    <ul class="flex flex-wrap -mb-px">
-        <li class="me-2">
-            <a  class="inline-block p-4 border-b-2 
-            border-transparent rounded-t-lg hover:text-gray-600 
-            hover:border-gray-300 dark:hover:text-gray-300">Profile</a>
-        </li>
-        <li class="me-2">
-            <a (click)="switchOrdenToView()" 
-            class="inline-block p-4
-             text-blue-600 border-b-2 border-blue-600 rounded-t-lg active
-              dark:text-blue-500 dark:border-blue-500" aria-current="page">Dashboard</a>
-        </li>
-    </ul>
-  </div>
-
-  <ul class="flex flex-auto justify-around text-sm font-medium text-center text-gray-500 border-b
-   border-gray-200 dark:border-gray-700 dark:text-gray-400">
-    <li aria-current="page" class="me-2 w-1/2  h-full  "  [hidden]="user_role=='SUPERVISOR'" >
-      <button aria-current="page" class=" w-full inline-block p-4 text-blue-600 bg-gray-100
-      rounded-t-lg active dark:bg-gray-800 dark:text-blue-500">
-         <a  >NUEVA ORDEN</a>
-      </button> 
-       
-    </li>
-    <li class="me-2 w-1/2  ">
-      <button class=" w-full inline-block p-4 text-blue-600 bg-gray-100
-      rounded-t-lg  dark:bg-gray-800 dark:text-blue-500">
-        <a >VER ORDENES</a>
-        </button>
-    </li>
-    
-    </ul>
 
   <mat-tab-group class="w-full"  mat-stretch-tabs="false" mat-align-tabs="center" color="accent" [(selectedIndex)]="demo1TabIndex">
     
@@ -630,16 +596,11 @@
 
 
   </div>
-
+<!-- 
       <mat-card class="block max-w-full p-6 mt-7 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
       >
         <mat-card-title>Lista</mat-card-title>
         <mat-card-content>
-<!--               <mat-form-field appearance="standard" style="display:display-inline">
-            <mat-label>Búsqueda</mat-label>
-            <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
-          </mat-form-field> -->
-
 
           <div class="mat-elevation-z8" style="width:100%;">
               <table mat-table style="width:100%;" [dataSource]="dataSourceOrd" matSort>
@@ -802,7 +763,7 @@
                 </tr>
               </table>
 
-              <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
+              
           </div>
         </mat-card-content>
 
@@ -829,7 +790,7 @@
 
       </mat-card>
 
-
+ -->
     </mat-tab>
     
     <mat-tab label="VER ORDENES" class="tabWare">
