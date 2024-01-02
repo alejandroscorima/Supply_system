@@ -42,6 +42,18 @@ import { Signature } from '../signature';
       state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
+    trigger('myAnimation', [
+      transition('* => active', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('500ms', style({ transform: 'translateX(0)', opacity: 1 })),
+      ]),
+      transition('active => *', [
+        style({ transform: 'translateX(0)', opacity: 1 }),
+        animate('500ms', style({ transform: 'translateX(-100%)', opacity: 0 })),
+      ]),
+    ]),
+
+
   ],
 })
 export class OrdenComponent implements OnInit {
@@ -69,16 +81,124 @@ export class OrdenComponent implements OnInit {
   mes;
   dia;
 
+
+
+
+
   types=['COMPRA','SERVICIO'];
+  actualType:string;
+
+  // (change)="setActualType($event)"
+
+  setActualType(event: any) {
+    const selectedValue = event.target.value;
+
+    switch (selectedValue) {
+      case selectedValue:
+
+
+        this.actualType=selectedValue;
+        this.ord.tipo=selectedValue;
+        console.log(this.ord.tipo);
+         break;
+
+  /*     case "SERVICIO":
+        this.actualType="SERVICIO";
+        this.ord.tipo="SERVICIO";
+        console.log(this.ord.tipo);
+        break;
+     */
+      default:
+        // Default logic
+        break;
+    }
+  }
+/*   setActualType(type:string){
+
+    this.actualType=type;
+    this.ord.tipo=type;
+    console.log(this.ord.tipo)
+    console.log(this.actualType)
+     
+  } */
+
 
   pay_type=['EFECTIVO','TRANSFERENCIA','CREDITO 30 DIAS','CREDITO 45 DIAS'];
+  setCondicion(event: any) {
+
+   
+    const selectedValue = event.target.value;
+    ;
+    switch (selectedValue) {
+      case selectedValue:
+
+      //this.destiny=selectedValue;
+      this.ord.tipo_pago=selectedValue;
+        console.log(this.ord.tipo_pago);
+         break;
+
+      default:
+        break;
+    }
+    this.asigChange()
+  }
+
+
+
 
   destino_dir='';
+
+
+  monedas: string[] = ['SOLES','DOLARES AMERICANOS'];
+  actualMoneda
+
+  setMoneda(event: any) {
+
+   
+    const selectedValue = event.target.value;
+    ;
+    switch (selectedValue) {
+      case selectedValue:
+
+      this.actualMoneda=selectedValue;
+      this.ord.moneda=selectedValue;
+        console.log(this.ord.moneda);
+         break;
+
+      default:
+        break;
+    }
+    this.asigChange()
+  }
+
+
+ 
 
   personal: User[]= [];
 
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
-  monedas: string[] = ['SOLES','DOLARES AMERICANOS'];
+  destiny: string;
+  setDestiny(event: any) {
+
+   
+    const selectedValue = event.target.value;
+    ;
+    switch (selectedValue) {
+      case selectedValue:
+
+      this.destiny=selectedValue;
+      this.ord.destino=selectedValue;
+        console.log(this.ord.destino);
+         break;
+
+      default:
+        break;
+    }
+    this.asigChange()
+  }
+
+
+
 
   centenas=['','CIEN','DOSCIENTOS','TRESCIENTOS','CUATROCIENTOS','QUINIENTOS','SEISCIENTOS','SETECIENTOS','OCHOCIENTOS','NOVECIENTOS'];
   decenas=['','DIEZ','VEINTE','TREINTA','CUARENTA','CINCUENTA','SESENTA','SETENTA','OCHENTA','NOVENTA'];
@@ -87,7 +207,12 @@ export class OrdenComponent implements OnInit {
 
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'18','NO','NO','OFICINA','');
 
+
+   
+  
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
+
+
 
   listaOrd: OrdenItem[]= [];
 
@@ -170,6 +295,15 @@ export class OrdenComponent implements OnInit {
 
   columnsToShow=[];
   
+  ordenTab:boolean=false;
+  switchOrdenToView(){
+
+    console.log(this.ordenTab);
+    this.ordenTab=!this.ordenTab;
+
+  }
+
+
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
 
@@ -186,6 +320,18 @@ export class OrdenComponent implements OnInit {
     private fileUploadService: FileUploadService,
   ) { }
 
+
+  increaseQuantityButton(){
+    this.orden_item.cantidad++;
+
+
+  }
+  decreaseQuantityButton(){
+    if( this.orden_item!=null&& this.orden_item.cantidad>1)
+    this.orden_item.cantidad--;
+
+    
+  }
   updateIgv(){
     if(this.igvActivated){
       this.igvSlideDisabled=false;
@@ -458,10 +604,13 @@ export class OrdenComponent implements OnInit {
                     this.campus=cs;
                     this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'18','NO','NO','OFICINA','');
                     this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
+                    this.orden_item.cantidad=1;
                     this.igvActivated=true;
                     this.igvSlideDisabled=false;
                     this.prefijoMoney='';
                     this.ord.moneda='SOLES';
+                    this.ord.destino=this.campus[0]['name'];
+                    console.log(this.ord.destino)
                     this.prefijoMoney='S/.';
                     this.ord.subtotal=parseInt('0').toFixed(5);
                     this.ord.igv=parseInt('0').toFixed(5);
@@ -1477,8 +1626,6 @@ export class OrdenComponent implements OnInit {
   }
 
 }
-
-
 
 
 

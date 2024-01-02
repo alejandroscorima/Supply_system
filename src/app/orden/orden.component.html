@@ -1,10 +1,168 @@
-<div class="container" style="margin:20px; max-height:100%;" >
-      
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" color="accent" [(selectedIndex)]="demo1TabIndex">
+<div class=" bg-amber-100 m-3 p-9" style="margin:20px; max-height:100%;" >
+
+  <div class="text-sm font-medium text-center text-gray-500 border-b
+   border-gray-200 dark:text-gray-400 dark:border-gray-700">
+    <ul class="flex flex-wrap -mb-px">
+        <li class="me-2">
+            <a  class="inline-block p-4 border-b-2 
+            border-transparent rounded-t-lg hover:text-gray-600 
+            hover:border-gray-300 dark:hover:text-gray-300">Profile</a>
+        </li>
+        <li class="me-2">
+            <a (click)="switchOrdenToView()" 
+            class="inline-block p-4
+             text-blue-600 border-b-2 border-blue-600 rounded-t-lg active
+              dark:text-blue-500 dark:border-blue-500" aria-current="page">Dashboard</a>
+        </li>
+    </ul>
+  </div>
+
+  <ul class="flex flex-auto justify-around text-sm font-medium text-center text-gray-500 border-b
+   border-gray-200 dark:border-gray-700 dark:text-gray-400">
+    <li aria-current="page" class="me-2 w-1/2  h-full  "  [hidden]="user_role=='SUPERVISOR'" >
+      <button aria-current="page" class=" w-full inline-block p-4 text-blue-600 bg-gray-100
+      rounded-t-lg active dark:bg-gray-800 dark:text-blue-500">
+         <a  >NUEVA ORDEN</a>
+      </button> 
+       
+    </li>
+    <li class="me-2 w-1/2  ">
+      <button class=" w-full inline-block p-4 text-blue-600 bg-gray-100
+      rounded-t-lg  dark:bg-gray-800 dark:text-blue-500">
+        <a >VER ORDENES</a>
+        </button>
+    </li>
     
-    <mat-tab label="NUEVA ORDEN" class="tabWare" *ngIf="user_role!='SUPERVISOR'">
-      <mat-card class="mat-elevation-z8 card-orden">
+    </ul>
+
+  <mat-tab-group class="w-full"  mat-stretch-tabs="false" mat-align-tabs="center" color="accent" [(selectedIndex)]="demo1TabIndex">
+    
+    <mat-tab label="NUEVA ORDEN" class=" w-full  " *ngIf="user_role!='SUPERVISOR'">
+    
+      <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+       dark:bg-gray-800 dark:border-gray-700">
+    
+        <a>
+            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+             EMPRESA</h5>
+        </a>
+
+
+        <div class="grid mb-8  rounded-lg
+        md:mb-12 md:grid-cols-3 bg-white dark:bg-gray-800 ">
+
+       <div class=" m-4">
+          <label for="Tipos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Elige el Tipo</label>
+          <select id="TiposSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+          rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+        dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+            dark:focus:border-blue-500"   (change)="setActualType($event)" >
+           
+            <option id="optionTipo"
+          *ngFor=" let t of types " (value)="t" onchange="setActualType(t)">
+              <button type="button" (click)="setActualType(t)" >
+                {{t}}
+              </button>
+              
+              </option>
+            
+          </select>
+      </div>
+         
+
+
+      <div class=" m-4">
+        <label for="destino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elige el destino</label>
+        <select id="destino" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+        rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700
+         dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+          dark:focus:border-blue-500" (change)="setDestiny($event)">
+           <option  *ngFor=" let c of campus " [value]="c['name']"  (selectionChange)="asigChange()" >{{c['name']}}</option>
+         
+        </select>
+      </div>
+
+      <div class=" m-4">
+        <label for="moneda" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Tipo de moneda:</label>
+        <select id="moneda" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+        rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+          dark:focus:border-blue-500" (change)="setMoneda($event)" >
+         
+          <option *ngFor=" let m of monedas "  [value]="m">{{m}}</option>
+          
+        </select>
+    </div>
+    <div class=" m-4">
+      <label for="condicion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Condición de pago:</label>
+      <select id="condicionSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+      rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+        dark:focus:border-blue-500" (change)="setCondicion($event)" >
+       <option selected  [hidden]="ord.tipo_pago!=null" [value]="null">Condiciones de pago</option>
+       <option *ngFor=" let p of pay_type "  [value]="p">{{p}}</option>
+        
+      </select>
+  </div>
+
+<!-- 
+            <mat-form-field class="sala" id="sala" appearance="outline" >
+              <mat-label>Tipo:</mat-label>
+              <mat-select [(value)]="ord.tipo" >
+                  <mat-option *ngFor="let t of types" [value]="t">{{t}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <mat-form-field  class="sala" id="sala" appearance="outline" >
+              <mat-label>Destino:</mat-label>
+              <mat-select [(value)]="ord.destino" (selectionChange)="asigChange()">
+                  <mat-option *ngFor="let c of campus" [value]="c['name']">{{c['name']}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <mat-form-field class="sala" id="sala" appearance="outline" >
+              <mat-label>Moneda:</mat-label>
+              <mat-select [(value)]="ord.moneda" (selectionChange)="asigMoneyChange()">
+                  <mat-option *ngFor="let m of monedas" [value]="m">{{m}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+       <mat-form-field  class="sala" id="sala" appearance="outline" >
+              <mat-label>Condiciones Pago:</mat-label>
+              <mat-select [(value)]="ord.tipo_pago">
+                  <mat-option *ngFor="let p of pay_type" [value]="p">{{p}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+ -->
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha:</mat-label>
+              <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange()">
+              <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+              <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+  
+       
+
+
+        </div>
+  
+      </div>  
+
+
+
+
+<!-- 
+      <mat-card
+      class=" mt-7 block max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+       hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+  >
+
+
+
         <mat-card-title>EMPRESA</mat-card-title>
+
         <mat-card-content>
           <mat-form-field style="width:22%" class="sala" id="sala" appearance="outline" >
             <mat-label>Tipo:</mat-label>
@@ -43,7 +201,83 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card class="mat-elevation-z8 card-orden">
+
+
+ -->
+
+ <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+ dark:bg-gray-800 dark:border-gray-700 my-4 ">
+
+  <a>
+      <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+       PROVEEDOR</h5>
+  </a>
+
+
+  <div class=" grid mb-0.5 justify-start rounded-lg
+  md:mb-2 grid-cols-2 bg-white dark:bg-gray-800  ">
+
+  <div class="mb-6 w-1/2">
+   <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese RUC</label>
+   <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+    text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-full p-2.5
+     dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+      dark:focus:border-blue-500"
+
+     (keyup)="changeRuc()" [(ngModel)]="ord.ruc" placeholder="R.U.C."
+     >
+   </div>
+
+   <div class="mb-4 mx-3 w-3/4">
+     <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Razón Social</label>
+     <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+        dark:focus:border-blue-500"
+
+       (keyup)="changeRuc()" [(ngModel)]="ord.razon_social" placeholder="Razón Social."
+       >
+   </div>
+
+   
+ </div>
+
+
+     <div class="mb-6">
+       <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Dirección</label>
+       <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+       text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+       dark:focus:border-blue-500"
+
+         (keyup)="changeRuc()" [(ngModel)]="ord.direccion" placeholder="Dirección">
+
+     </div>
+
+
+     <div class="mb-6">
+       <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Cuenta Bancaria</label>
+       <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+       text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+       dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+       dark:focus:border-blue-500"
+
+         (keyup)="changeRuc()" [(ngModel)]="ord.num_cuenta" placeholder="Nro de Cuenta Bancaria" >
+
+     </div>
+
+
+
+
+
+
+ </div>
+
+<!-- 
+      <mat-card 
+      class="block max-w-full p-6 mt-7 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+      
+     >
         <mat-card-title>PROVEEDOR</mat-card-title>
         <mat-card-content>
           <mat-form-field style="width:32%;" class="doc_id" appearance="outline">
@@ -67,8 +301,114 @@
           </mat-form-field>
         </mat-card-content>
       </mat-card>
+     -->
 
-      <mat-card class="mat-elevation-z8 card-orden">
+
+     <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+     dark:bg-gray-800 dark:border-gray-700">
+  
+      <a>
+          <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            NUEVO ITEM</h5>
+      </a>
+      <div class=" mb-8  rounded-lg
+      md:mb-12 grid grid-cols-9 bg-white dark:bg-gray-800" >
+     
+
+        <form class="max-w-xs mx-auto col-span-2 flex flex-col ">
+          <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad:</label>
+          <div class=" flex ">
+              <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input" class="bg-gray-100 dark:bg-gray-700
+               dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11
+                focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                (click)="decreaseQuantityButton()"
+                >
+                  <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                  </svg>
+              </button>
+              <input type="text"  id="quantity-input" data-input-counter aria-describedby="helper-text-explanation" 
+              class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500
+               focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0" required
+               [(ngModel)]="orden_item.cantidad" placeholder="Cantidad"
+               >
+              <button type="button" id="increment-button" data-input-counter-increment="quantity-input"
+              class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border
+               border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+               (click)="increaseQuantityButton()">
+                  <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                  </svg>
+              </button>
+          </div>
+         
+      </form>
+      
+<!-- 
+        <div class="mb-6 mx-2 w-full col-span-2">
+          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Cantidad</label>
+          <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+          text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-full p-2.5
+          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+          dark:focus:border-blue-500"
+     
+          [(ngModel)]="orden_item.cantidad" placeholder="Cantidad"
+          >
+        </div> -->
+     
+        <div class="mb-6 w-full mx-7 col-span-5 flex flex-col">
+          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese la descripción del producto</label>
+          <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+          text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-7/12 p-2.5
+          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+          dark:focus:border-blue-500"
+     
+           [(ngModel)]="orden_item.descripcion" placeholder="Descripcion"
+          >
+        </div>
+     
+        <div class="mb-6 mx-2 w-full col-span-2 flex flex-col">
+          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Precio</label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+            <h1>s/.</h1>
+            </span>
+            <input type="number" id="website-admin" class="rounded-none rounded-e-lg
+             bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 
+             focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700
+             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+              dark:focus:border-blue-500" placeholder="Precio"
+               [(ngModel)]="orden_item.unit_price" placeholder="Precio"
+              >
+          </div>
+
+        </div>  
+
+        </div>
+        <div class=" w-full text-right">
+        
+          <button type="button" class= " object-right
+          text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl 
+          focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg 
+          text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 hover:bg-blue-800  inline-flex 
+          items-center  dark:bg-blue-600 dark:hover:bg-blue-700 "
+          (click)="addItem()">
+            <svg class="w-4 h-4 text-gray-800 dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+            </svg>
+              Añadir Item 
+            </button>
+         </div>
+       
+
+      </div>
+
+
+<!-- 
+      <mat-card 
+      class="block max-w-full p-6 mt-7 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+      >
         <mat-card-title>Nuevo item</mat-card-title>
         <mat-card-content>
           <mat-form-field style="width:10%;" class="doc_id" appearance="outline">
@@ -96,7 +436,203 @@
         </mat-card-actions>
       </mat-card>
 
-      <mat-card class="mat-elevation-z8 card-orden">
+ -->
+
+
+
+  <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+ dark:bg-gray-800 dark:border-gray-700 mt-4">
+
+  <a>
+      <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+      LISTA</h5>
+  </a> 
+
+  
+  <div class="mat-elevation-z8" style="width:100%;">
+    <table mat-table style="width:100%;" [dataSource]="dataSourceOrd" matSort>
+
+      <ng-container matColumnDef="cantidad">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
+        <td mat-cell *matCellDef="let a"> {{a.cantidad}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCION </th>
+        <td mat-cell *matCellDef="let a"> {{a.descripcion}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="unit_price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> PRECIO UNIT </th>
+        <td mat-cell *matCellDef="let a"> {{a.unit_price}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="subtotal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> SUBTOTAL </th>
+        <td mat-cell *matCellDef="let a"> {{a.subtotal}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="igv_toggle">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> IGV </th>
+        <td mat-cell *matCellDef="let a">
+          <mat-slide-toggle [checked]="a.igv_toggle" (change)="changeIgvToggleUnit(a)">
+          </mat-slide-toggle>
+          {{a.igv_unit}}
+        </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+        <td mat-cell *matCellDef="let a; let i=index">
+          <button class="btnEdit" mat-icon-button focusable="false"  (click)="editItem(a,i)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="btnDel" mat-icon-button focusable="false"  (click)="deleteItem(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="empty2">
+        <td mat-footer-cell *matFooterCellDef colspan="2">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="empty1">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="subtotalO_label">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          SUBTOTAL
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="igv_label">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          <mat-checkbox [(ngModel)]="igvActivated" [disabled]="listaOrd.length==0"
+            (ngModelChange)="updateIgv()">
+          </mat-checkbox>
+          IGV
+          <mat-form-field style="width: 100px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
+            <input (keyup)="changeIgv()" [disabled]="!igvActivated||(listaOrd.length==0)" matInput [(ngModel)]="ord.igv_percent">
+          </mat-form-field>
+          %
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="retencion_label">
+        <td stye='text-align:right; align-content:right;' mat-footer-cell *matFooterCellDef colspan="1">
+          <mat-checkbox [(ngModel)]="retencionActivated" [disabled]="listaOrd.length==0"
+            (ngModelChange)="updateRetencion()">
+          </mat-checkbox>
+          Retención
+          <mat-form-field style="width: 100px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
+            <input (keyup)="changeRet()" [disabled]="!retencionActivated" matInput [(ngModel)]="ord.retencion_percent">
+          </mat-form-field>
+          %
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="percepcion_label">
+        <td stye='text-align:right; align-content:right;' mat-footer-cell *matFooterCellDef colspan="1">
+          <mat-checkbox [(ngModel)]="percepcionActivated" [disabled]="listaOrd.length==0"
+            (ngModelChange)="updatePercepcion()">
+          </mat-checkbox>
+          Percepción
+          <mat-form-field style="width: 100px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
+            <input (keyup)="changePercep()" [disabled]="!percepcionActivated" matInput [(ngModel)]="percepInput">
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="igv_included">
+        <td mat-footer-cell *matFooterCellDef colspan="2">
+          <mat-slide-toggle [checked]="igvSlideChecked" [disabled]="igvSlideDisabled||listaOrd.length==0" (change)="change($event)">
+            IGV incluido
+          </mat-slide-toggle>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="total_label">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          TOTAL
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="subtotalO">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          {{ord.subtotal}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="retencion">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          {{ord.retencion}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="percepcion">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          {{ord.percepcion}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="igv">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          {{ord.igv}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="total">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          {{ord.total}}
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="['cantidad','descripcion','unit_price','subtotal','igv_toggle','edit'];"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['cantidad','descripcion','unit_price','subtotal','igv_toggle','edit'];"></tr>
+
+      <tr mat-footer-row *matFooterRowDef="['empty2','subtotalO_label','subtotalO','empty2']" style="font-weight: bold;" ></tr>
+      <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty2']" style="font-weight: bold;" ></tr>
+      <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty2']" style="font-weight: bold;" ></tr>
+      <tr mat-footer-row *matFooterRowDef="['empty2','retencion_label','retencion','empty2']" style="font-weight: bold;" ></tr>
+      <tr mat-footer-row *matFooterRowDef="['empty2','percepcion_label','percepcion','empty2']" style="font-weight: bold;" ></tr>
+      <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty2']" style="font-weight: bold;" ></tr>
+
+
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
+      </tr>
+    </table>
+
+    <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
+</div>
+ 
+
+    <div  class="inline-flex w-full">
+        <button mat-button style="width:76%; height:50px; padding: 0px ;margin:5px; text-align: right; padding-right: 10px;">
+         MONTO INICIAL:{{' '+prefijoMoney}}
+       </button>
+        <mat-form-field style="width:13%; height:50px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
+             <input matInput [(ngModel)]="ord.rebajado">
+        </mat-form-field>
+        <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white; height:60px; width:25%" (click)="generarOrden()" >
+          <mat-icon>check</mat-icon>Generar Orden
+        </button>
+
+
+</div>
+
+
+  </div>
+
+      <mat-card class="block max-w-full p-6 mt-7 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+      >
         <mat-card-title>Lista</mat-card-title>
         <mat-card-content>
 <!--               <mat-form-field appearance="standard" style="display:display-inline">
@@ -269,7 +805,12 @@
               <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
           </div>
         </mat-card-content>
+
+
+
         <mat-card-actions align="end">
+
+
           <button mat-button style="width:76%; height:50px; padding: 0px ;margin:5px; text-align: right; padding-right: 10px;">
             MONTO INICIAL:{{' '+prefijoMoney}}
           </button>
@@ -279,8 +820,16 @@
           <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white; height:60px; width:25%" (click)="generarOrden()" >
             <mat-icon>check</mat-icon>Generar Orden
           </button>
+
+
+
+
         </mat-card-actions>
+
+
       </mat-card>
+
+
     </mat-tab>
     
     <mat-tab label="VER ORDENES" class="tabWare">
@@ -446,6 +995,15 @@
     </mat-tab>
   
   </mat-tab-group>
+
+
+
+
+
+
+
+
+
 
 </div>
 
