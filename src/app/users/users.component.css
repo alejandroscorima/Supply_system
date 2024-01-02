@@ -1,4 +1,4 @@
-.box{
+/* .box{
   cursor:pointer;
   border-radius: 0%;
   width: 30%;
@@ -7,9 +7,7 @@
 .formRevalidar{
 display: flex;
 flex-direction: column;
-/* margin:1rem auto; */
 max-width: 550px;
-/*box-shadow: -1px 3px 66px 0px rgba(0,0,0,0.75); */
 padding: 1rem;
 }
 
@@ -108,7 +106,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .barra {
   flex: 0 1 auto;
   color:white;
-  /*background-color: rgb(34, 146, 161);*/
+  
 
   background-color: #252b2b;
   height: 60px;
@@ -126,11 +124,6 @@ tr.example-element-row:not(.example-expanded-row):active {
 
   border-radius: 15px;
 
-
-  background: -webkit-linear-gradient(0deg, #c4c7c7, #d4d6d7);
-  background: -o-linear-gradient(0deg, #c4c7c7, #d4d6d7);
-  background: -moz-linear-gradient(0deg, #c4c7c7, #d4d6d7);
-  background: linear-gradient(0deg, #c4c7c7, #d4d6d7);
 }
 
 .navItem{
@@ -142,11 +135,9 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .fondo{
-/*   background: -webkit-linear-gradient(45deg, #4a5b5a, #8daeb0);
   background: -o-linear-gradient(45deg, #4a5b5a, #8daeb0);
   background: -moz-linear-gradient(45deg, #4a5b5a, #8daeb0);
-  background: linear-gradient(45deg, #4a5b5a, #8daeb0); */
-  background-color: #6a7e7f;
+  background-color: #ffffff;
   color: whitesmoke;
 }
 
@@ -157,7 +148,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .cardFondo{
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color:white;
   backdrop-filter: blur(10px);
   margin: 3%;
 }
@@ -172,4 +163,4 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .declined {
   color: rgb(231, 104, 104)
-}
+} */
