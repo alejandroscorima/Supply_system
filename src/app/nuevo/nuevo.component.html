@@ -1,7 +1,115 @@
-<div class="container" style="margin:20px" >
+<div class=" bg-amber-100 m-3 p-9" style="margin:20px; max-height:100%;" >
 
-  <div style="width:95%; float:center; min-width: 550px; margin:10px">
 
+
+    <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+    dark:bg-gray-800 dark:border-gray-700">
+ 
+     <a>
+         <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          Nuevo requerimiento</h5>
+     </a>
+
+
+    <div class="grid mb-8  rounded-lg
+      md:mb-12 md:grid-cols-3 bg-white dark:bg-gray-800 ">
+
+      <div class=" m-4">
+          <label for="Area" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Area:</label>
+          <select id="TiposSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+          rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+        dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+        dark:focus:border-blue-500"  (change)="areaChange($event)" >
+        
+          <option id="optionTipo"
+            *ngFor="let a of areas" [value]="a['name']" >
+          <button type="button" (click)="(a)" >{{a['name']}}</button>
+          
+          </option>
+        
+        </select>
+    </div>
+
+
+    <div class=" m-4  col-span-2">
+      <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Ingrese el nombre del encargado: </label>
+      <input type="text" id="default-input" class="w-full bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5
+      dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+      dark:focus:border-blue-500"
+
+        [(ngModel)]="req.encargado" placeholder="Encargado"
+      >
+    </div>
+
+
+    <div class=" m-4">
+        <label for="sala" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Salas:</label>
+        <select id="TiposSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+        rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+      dark:focus:border-blue-500"  (change)="salaChange($event)">
+        <option selected [hidden]="true">{{req.sala}}</option>
+        <option id="optionTipo"
+            *ngFor="let c of campus" [value]="c['name']">
+        <button type="button" (click)="(c)" >{{c['name']}}</button>
+        
+        </option>
+      
+      </select>
+    </div>
+
+
+    <div class=" m-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha:</mat-label>
+        <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange(ref.value)">
+        <mat-datepicker-toggle disabled="" matSuffix [for]="dp3"></mat-datepicker-toggle>
+        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+
+
+    <div class=" m-4">
+      <label for="prioridad" class="block mb-2 text-sm font-medium text-gray-900
+       dark:text-white">
+          Prioridad:</label>
+      <select id="TiposSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+      rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+    dark:focus:border-blue-500"  (change)="priorityChange($event)">
+      <option selected [hidden]="true">Prioridad</option>
+      <option id="optionTipo"
+      *ngFor="let p of prioridades" [value]="p['nivel']">
+      <button type="button" (click)="(p)" >{{p['nivel']}}</button>
+      
+      </option>
+    
+    </select>
+  </div>
+
+  
+  <div class=" m-4  col-span-3">
+    <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+      Ingrese el motivo: </label>
+    <input type="text" id="default-input" class="w-full bg-gray-50 border border-gray-300
+    text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5
+    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+    dark:focus:border-blue-500"
+
+    [(ngModel)]="req.motivo" placeholder="Motivo"
+    >
+  </div>
+
+
+      </div>
+
+</div>
+<!-- 
     <mat-card class="mat-elevation-z8 card-orden">
       <mat-card-title>Nuevo requerimiento</mat-card-title>
       <mat-card-content>
@@ -34,7 +142,7 @@
 
         <mat-form-field style="width:28%;" class="sala" id="sala" appearance="outline" >
           <mat-label>Prioridad:</mat-label>
-          <mat-select [(value)]="req.prioridad" (selectionChange)="priorityChange()">
+          <mat-select [(value)]="req.prioridad" (selectionChange)="priorityChange($event)">
               <mat-option *ngFor="let p of prioridades" [value]="p['nivel']">{{p['nivel']}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -46,6 +154,8 @@
 
       </mat-card-content>
     </mat-card>
+
+ -->
 
     <mat-card class="mat-elevation-z8 card-orden">
 
@@ -102,6 +212,9 @@
       </mat-card-content>
 
     </mat-card>
+
+
+
 
     <mat-card class="mat-elevation-z8 card-orden">
 
@@ -162,8 +275,4 @@
       </mat-card-content>
     </mat-card>
   </div>
-
-
-</div>
-
 

@@ -185,16 +185,26 @@ export class NuevoComponent implements OnInit {
 
   }
 
-  priorityChange(){
+  priorityChange(event:any){
+    const selectedValue = event.target.value;
+    this.req.prioridad=selectedValue;
+
 
   }
 
-  areaChange(e){
+  areaChange(event:any){
+
+    const selectedValue = event.target.value;
+    
+    this.req.area=selectedValue;
+            
     this.areas.forEach(a=>{
-      if(a['name']==e.value){
+      if(a['name']==selectedValue){
         this.usersService.getUserByIdNew(this.user_area.chief_id).subscribe((ac:User)=>{
           if(ac){
             this.req.encargado=ac.first_name+' '+ac.paternal_surname+' '+ac.maternal_surname;
+            
+          
           }
           else{
             this.req.encargado='';
@@ -203,9 +213,18 @@ export class NuevoComponent implements OnInit {
       }
     })
 
+
+
+
+
+
   }
 
-  salaChange(e){
+  salaChange(event:any){
+
+    const selectedValue = event.target.value;
+    this.req.sala=selectedValue;
+
 
   }
 
