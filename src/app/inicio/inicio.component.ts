@@ -171,6 +171,7 @@ export class InicioComponent implements OnInit {
     if(this.cookiesService.checkToken('user_id')){
       this.user_id=parseInt(this.cookiesService.getToken('user_id'));
       this.user_role=this.cookiesService.getToken('user_role');
+      
       console.log(this.user_role);
       this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
         console.log(u);
