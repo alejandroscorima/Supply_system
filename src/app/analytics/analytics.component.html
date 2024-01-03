@@ -1,26 +1,31 @@
-<div class="container" style="margin:20px; max-height:100%;" >
+<div class=" bg-amber-100 m-3 p-9" style="margin:20px; max-height:100%;" >
 
 
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" >
     <mat-tab label="Atención" class="tabWare">
       <div class="container" style="margin: 20px; text-align:center;" >
 
-        <mat-card class="mat-elevation-z8 card-orden">
-          <mat-card-title>
-            ESTADISTICA
-          </mat-card-title>
-          <mat-card-content>
+      
+        <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+        dark:bg-gray-800 dark:border-gray-700">
+     
+         <a>
+             <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              EMPRESA</h5>
+         </a>
+ 
+          <div>
 <!--             <mat-form-field appearance="standard" style="display:display-inline">
               <mat-label>Búsqueda</mat-label>
               <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
             </mat-form-field> -->
   
   
-            <div class="mat-elevation-z8" style="width:100%;">
+            <div class="mat-elevation-z8" >
 
 
 
-              <iframe title="Report Section" width="900" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMDVjNjQ5NGEtMjM2MC00MTMxLTkzZjgtZDQzOWIxOTc0MDUxIiwidCI6ImM0YTY2YzM0LTJiYjctNDUxZi04YmUxLWIyYzI2YTQzMDE1OCIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+              <iframe title="Report Section" class="w-full" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMDVjNjQ5NGEtMjM2MC00MTMxLTkzZjgtZDQzOWIxOTc0MDUxIiwidCI6ImM0YTY2YzM0LTJiYjctNDUxZi04YmUxLWIyYzI2YTQzMDE1OCIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
 
 
 
@@ -132,11 +137,10 @@
   
                 <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
             </div>
-          </mat-card-content>
-          <mat-card-actions align="end">
+       
+        </div>
 
-          </mat-card-actions>
-        </mat-card>
+      </div>
       </div>
 
     </mat-tab>
