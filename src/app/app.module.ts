@@ -71,7 +71,7 @@ import { DialogAddReceipt, DialogEditReceipt, DialogShowDocs, DialogNewDoc, Dial
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 
-
+import { IntegerPositiveDirective } from './integer-positive.directive';
 
 @NgModule({
     declarations: [
@@ -128,6 +128,7 @@ import { SideNavComponent } from './side-nav/side-nav.component';
         DialogEditDoc,
         NavBarComponent,
         SideNavComponent,
+        IntegerPositiveDirective,
 
     ],
     imports: [

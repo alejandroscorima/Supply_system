@@ -979,7 +979,8 @@ export class OrdenComponent implements OnInit {
                   this.ord.total=parseInt('0').toFixed(2);
                   this.ord.rebajado='';
                   this.posTituloSala = 74;
-
+                  console.log(this.ord)
+                  this.toastr.success('!Exito al generar orden')
                 }
               });
             })
@@ -1138,7 +1139,7 @@ export class OrdenComponent implements OnInit {
 
    
     console.log(this.signature.signatureURL)
-    this.doc.addImage( this.signature.signatureURL, 'png',this.doc.internal.pageSize.width - 60,this.doc.internal.pageSize.height -60,50,40,'','FAST',0);
+    this.doc.addImage( this.sello, 'png',this.doc.internal.pageSize.width - 60,this.doc.internal.pageSize.height -60,50,40,'','FAST',0);
 
     }
 

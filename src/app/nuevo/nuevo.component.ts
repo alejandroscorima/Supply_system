@@ -42,6 +42,8 @@ export class NuevoComponent implements OnInit {
   areas: Area[] = [];
   prioridades = [];
 
+  tipoOrdenItem = ['COMPRA','SERVICIO','COTIZACION'];
+
   fecha;
   anio;
   mes;
@@ -151,7 +153,24 @@ export class NuevoComponent implements OnInit {
   searchItem(){
 
   }
+  ordenChange(event:any){
+    const selectedOption= event.target.value;
+    this.item.tipo=selectedOption;
+    console.log( this.item.tipo);
 
+
+  }
+  increaseQuantityButton(){
+    this.item.cantidad++;
+
+
+  }
+  decreaseQuantityButton(){
+    if( this.item.cantidad!=null&& this.item.cantidad>1)
+    this.item.cantidad--;
+
+    
+  }
 
   addItem(){
     this.item.req_codigo = this.req.codigo;
