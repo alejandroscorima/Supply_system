@@ -42,7 +42,8 @@ export class UsersComponent implements OnInit {
   docTypes:string[]=['DNI','CARNET DE EXTRANJERIA','PASAPORTE'];
   roleTypes:string[]=['USUARIO','USUARIO AVANZADO','ASISTENTE','ADMINISTRADOR','SUPER ADMINISTRADOR','SUPERVISOR'];
 
-
+  generos:string[]=['MASCULINO','FEMENINO','OTRO'];
+  estadosCivil:string[]=['CASADO','SOLTERO','VIUDO','DIVORCIADO/SEPARADO','NO DEFINIDO'];
 
   roleSelected: string;
   typeSelected: string;
@@ -80,7 +81,18 @@ export class UsersComponent implements OnInit {
     private toastr: ToastrService,
   ) { }
 
+  setEstadocivilUser(event:any){
 
+    const selectedValue=event.target.value;
+    this.newUser.civil_status=selectedValue;
+    console.log(this.newUser.civil_status);
+  }
+  setGeneroUser(event:any){
+
+    const selectedValue=event.target.value;
+    this.newUser.gender=selectedValue;
+    console.log(this.newUser.gender);
+  }
 
   setRolUser(event:any){
 

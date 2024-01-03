@@ -79,7 +79,11 @@ export class ProvidersComponent implements OnInit {
   }
 
  
-  provChange(){
+  provChange(event:any){
+
+   const selectedOption=event.target.value;
+    this.provActive=selectedOption;
+    console.log(this.provActive)
     this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
       this.listaProducts=prodl;
       this.dataSourceProducts = new MatTableDataSource(this.listaProducts);

@@ -23,10 +23,11 @@
         <hr class="h-px my-8 col-span-full bg-gray-200 border-0 dark:bg-gray-700"> 
       
 
-        <div class="grid mb-8  rounded-lg
-                          md:mb-12 md:grid-cols-3 bg-white dark:bg-gray-800 ">
-        <div class="mb-2 mx-3 w-full p-1 width:30%  ">
-                <label for="Rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+        <div class="grid mb-8 gap-2 rounded-lg md:mb-12 md:grid-cols-3 bg-white dark:bg-gray-800 ">
+
+
+              <div class="mx-auto w-full min-w-4">
+                <label for="Rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Documento</label>
                 <select id="Rol" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                 focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 
                 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -44,8 +45,9 @@
   
   
 
-            <div class="mx-auto w-full min-w-4">
-              <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+            <div class="mx-auto col-span-2 min-w-4">
+              <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese N° Documento</label>
+            <div class="grid grid-cols-2 gap-1">
               <input type="text" appIntegerPositive id="default-input" class="bg-gray-50 border border-gray-300
                text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
@@ -53,11 +55,14 @@
          
                 (keyup)="searchDNI()" [(ngModel)]="newUser.doc_number" placeholder="Nº Doc:"
                 >
-                <button mat-mini-fab (click)="searchDNI()" [disabled]="typeSelected!='DNI'"><mat-icon>search</mat-icon></button>
-
+              
+               <button mat-mini-fab (click)="searchDNI()" [disabled]="typeSelected!='DNI'"><mat-icon>search</mat-icon></button>
+               </div>
             </div>
-        </div>
 
+            
+        </div>
+              
             <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
 
        
@@ -76,69 +81,90 @@
 
 
               <div class="mb-2 mx-3 w-full p-1 col-span-2 " flex justify-center="items-center" >
-                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese su Nombre</label>
                 <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
                  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                   dark:focus:border-blue-500" placeholder="Nombre:">
+                   dark:focus:border-blue-500" placeholder="Nombre:"   required [(ngModel)]="newUser.first_name ">
                   
               </div>
            
            
           
               <div class="mb-2 mx-3 w-full p-1  ">
-                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese su  Apellido paterno</label>
                 <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
                  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                   dark:focus:border-blue-500" placeholder="Apellido Paterno:">
+                   dark:focus:border-blue-500" placeholder="Apellido Paterno:" required [(ngModel)]="newUser.paternal_surname ">
                   
               </div>
 
            
               <div class="mb-2 mx-3 w-full p-1  ">
-                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese su  Apellido materno</label>
                 <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
                  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                   dark:focus:border-blue-500" placeholder="Apellido Materno :">
+                   dark:focus:border-blue-500" placeholder="Apellido Materno :" required [(ngModel)]="newUser.maternal_surname ">
                   
               </div>
 
 
 
-
-
               <div class="mb-2 mx-3 w-full p-1  ">
-                <label for="Genero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                <select id="Genero" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                    <option selected="">Genero</option>
-                    <option value="Mu">Mujer</option>
-                    <option value="Ho">Hombre</option>
-                    <option value="Otro">Otro</option>
-                   
+                <label for="Rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrse su Genero</label>
+                <select id="Rol" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 
+                dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                
+                (change)="setGeneroUser($event)"
+                >
+                  <option selected="Rol " [hidden]="true">Genero:</option>
+                  <option *ngFor="let ge of generos" [value]="ge">
+                    <button   >{{ge}}</button>
+                    </option>
+
+
                 </select>
 
             </div>
+
+             
           
 
+            <div class="mb-2 mx-3 w-full p-1  ">
+              <label for="Rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese fecha</label>
+             
+                <input type="date" id="default-input" class="bg-gray-50 border border-gray-300
+                text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                  dark:focus:border-blue-500" placeholder="fecha"
+                  required [(ngModel)]="newUser.birth_date" (ngModelChange)="newUser.birth_date= $event.toUpperCase()">
+              
+            </div>
+              
+              <div class="mb-2 mx-3 w-full p-1  ">
+                <label for="Rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese su Estado Civil</label>
+                <select id="Rol" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 
+                dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                
+                (change)="setGeneroUser($event)"
+                >
+                  <option selected="Rol " [hidden]="true">Estado Civil:</option>
+                  <option *ngFor="let es of estadosCivil" [value]="es">
+                    <button   >{{es}}</button>
+                    </option>
 
-              <mat-form-field style="width:28%; min-width: 200px;" appearance="outline">
-                <mat-label>Fecha Nac.:</mat-label>
-                <input matInput required [(ngModel)]="newUser.birth_date" (ngModelChange)="newUser.birth_date= $event.toUpperCase()">
-              </mat-form-field>
 
-              <div class="mb-2 mx-3 w-40">
-                <label for="Estado Civil" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                <select id="Estado Civil" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                    <option selected="">Estado Civil</option>
-                    <option value="">Casado </option>
-                    <option value="PC">Divorciado</option>
-                    <option value="GA">Soltero</option>
-                   
                 </select>
 
             </div>
+
+             
+              
+            
              
              <!--AVANCE-->
 
@@ -151,44 +177,49 @@
 
           
           <div class="mb-2 mx-3 w-full p-1  ">
-            <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+            <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Dirección</label>
             <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
              text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
               dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-               dark:focus:border-blue-500" placeholder="Direccion :">
+               dark:focus:border-blue-500" placeholder="Direccion :"  [(ngModel)]="newUser.address" >
               
           </div>
+          
+    
 
 
-              <!-- <mat-form-field style="width:90%; min-width: 200px;" appearance="outline">
+               <!-- <mat-form-field style="width:90%; min-width: 200px;" appearance="outline">
                 <mat-label>Direccion:</mat-label>
                 <input matInput required [(ngModel)]="newUser.address" (ngModelChange)="newUser.address= $event.toUpperCase()">
-              </mat-form-field> -->
+              </mat-form-field>  -->
 
               <div class="grid mb-8  rounded-lg
               md:mb-12 md:grid-cols-4 bg-white dark:bg-gray-800 ">
 
-              <div class="mb-2 mx-3 w-full p-1  ">
-                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+              <div class="mb-6">
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese distrito</label>
                 <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
-                 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                   dark:focus:border-blue-500" placeholder="Distrito :">
-                  
+                text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                dark:focus:border-blue-500"
+          
+                  [(ngModel)]="newUser.district" placeholder="distrito">
+          
               </div>
               
-              <!-- <mat-form-field style="width:28%; min-width: 200px;" appearance="outline">
+
+             <!-- <mat-form-field style="width:28%; min-width: 200px;" appearance="outline">
                 <mat-label>Distrito:</mat-label>
                 <input matInput required [(ngModel)]="newUser.district" (ngModelChange)="newUser.district= $event.toUpperCase()">
-              </mat-form-field> -->
+              </mat-form-field> 
 
-              
+               -->
               <div class="mb-2 mx-3 w-full p-1  ">
-                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Provincia</label>
                 <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
                  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                   dark:focus:border-blue-500" placeholder="Provincia :">
+                   dark:focus:border-blue-500" placeholder="Provincia :" [(ngModel)]="newUser.province">
                   
               </div>
              
@@ -198,11 +229,11 @@
               </mat-form-field> -->
 
               <div class="mb-2 mx-3 w-full p-1  ">
-                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Departamento</label>
                 <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
                  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                   dark:focus:border-blue-500" placeholder="Departamento :">
+                   dark:focus:border-blue-500" placeholder="Departamento :" [(ngModel)]="newUser.region" >
                   
               </div>
 
@@ -213,7 +244,7 @@
              
              
             <div class="mx-auto w-full min-w-4">
-              <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+              <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese su Usuario</label>
               <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
                text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
@@ -225,14 +256,14 @@
            
   
               <div class="mb-2 mx-3 w-full p-1  ">
-                <label for="Rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <label for="Rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrse el Rol</label>
                 <select id="Rol" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                 focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 
                 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 
                 (change)="setRolUser($event)"
                 >
-                  <option selected="Rol ">Rol:</option>
+                  <option selected="Rol " [hidden]="true">Rol:</option>
                   <option *ngFor="let rl of roleTypes" [value]="rl">
                     <button   >{{rl}}</button>
                     </option>
@@ -242,6 +273,19 @@
 
             </div>
               </div>
+              <div class="">
+                <button type="button" class="flex gap-2 text-white bg-gradient-to-r  from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 
+               focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 
+                 py-2.5 text-center me-2 mb-2" (click)="saveUser()">Registrar
+                   <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 
+                 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 
+             2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1
+              .586-1.414Z"/>
+                 </svg>
+ 
+                </button>
+        </div>
               </div>
 <!-- 
               <mat-form-field style="width:40%; min-width: 200px;" appearance="outline" >
@@ -254,19 +298,7 @@
 
         
 
-        <div>
-                <button type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 
-               focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 
-                 py-2.5 text-center me-2 mb-2" (click)="saveUser()">Registrar
-                   <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
-                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 
-                 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 
-             2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1
-              .586-1.414Z"/>
-                 </svg>
- 
-                </button>
-        </div>
+       
  </div> 
        
   

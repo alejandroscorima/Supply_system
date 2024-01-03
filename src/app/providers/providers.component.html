@@ -74,24 +74,25 @@
     <mat-tab label="Equivalencias" class="tabWare"> 
       <div class="container" style="margin: 20px;" >
 
-        <div class=" m-4">
+        <div  *ngIf="user.supply_role=='ADMINISTRADOR'||user.supply_role=='SUPERUSUARIO'||user_area.name=='ABASTECIMIENTO'" class=" m-4">
          <label for="destino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Proveedor:</label>
           <select id="destino" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
           rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700
            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-            dark:focus:border-blue-500" (selectionChange)="provChange()">
-             <option  *ngFor=" let pr of listaProvidersActive "[value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</option>
+            dark:focus:border-blue-500" [(value)]="provActive" (change)="provChange($event)">
+
+             <option  *ngFor="let pr of listaProvidersActive" [value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</option>
            
           </select>
         </div>
         
         
-        <mat-form-field *ngIf="user.supply_role=='ADMINISTRADOR'||user.supply_role=='SUPERUSUARIO'||user_area.name=='ABASTECIMIENTO'" style="width:70%;" class="sala" id="sala" appearance="outline" >
+        <!-- <mat-form-field *ngIf="user.supply_role=='ADMINISTRADOR'||user.supply_role=='SUPERUSUARIO'||user_area.name=='ABASTECIMIENTO'" style="width:70%;" class="sala" id="sala" appearance="outline" >
           <mat-label>Proveedor:</mat-label>
-          <mat-select [(value)]="provActive" (selectionChange)="provChange()">
+          <mat-select [(value)]="provActive" (selectionChange)="provChange($event)">
               <mat-option *ngFor="let pr of listaProvidersActive" [value]="pr['ruc']">{{pr['categoria']}} - {{pr['razon_social']}}</mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <mat-card style="margin:10px">
           <mat-card-content>
