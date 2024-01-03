@@ -1,14 +1,40 @@
-<div class="containerReq" style="max-height:100%;" >
-
-  <mat-card class="cardFondo">
+<div class=" bg-amber-100 m-3 p-9" style="margin:20px; max-height:100%;" >
+ 
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" color="accent" [(selectedIndex)]="demo1TabIndex">
     
       <mat-tab label="NUEVO" class="tabWare">
         <div class="container" style="margin: 0px; text-align:center;" >
   
-          <mat-card class="mat-elevation-z8 card-orden">
-            <mat-card-title>NUEVO USUARIO</mat-card-title>
-            <mat-card-content>
+        
+        
+        
+
+
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+          <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+          dark:bg-gray-800 dark:border-gray-700">
+       
+        
+        
+        
+          
+          <a>
+            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              NUEVO USUARIO</h5>
+        </a>
+
+          
+
+             
 
 
               <mat-form-field style="width:28%; min-width: 200px;" appearance="outline" >
@@ -24,47 +50,100 @@
               </mat-form-field>
 
               <button mat-mini-fab (click)="searchDNI()" [disabled]="typeSelected!='DNI'"><mat-icon>search</mat-icon></button>
+<!--INICIO AVANCE-->
+              <div class="grid mb-8  rounded-lg
+                          md:mb-12 md:grid-cols-4 bg-white dark:bg-gray-800 ">
 
-              <mat-form-field style="width:90%; min-width: 200px;" appearance="outline">
-                <mat-label>Nombres:</mat-label>
-                <input matInput required [(ngModel)]="newUser.first_name" (ngModelChange)="changeName($event)">
-              </mat-form-field>
 
-              <mat-form-field style="width:45%; min-width: 200px;" appearance="outline">
-                <mat-label>Apellido Paterno:</mat-label>
-                <input matInput required [(ngModel)]="newUser.paternal_surname" (ngModelChange)="newUser.paternal_surname= $event.toUpperCase()">
-              </mat-form-field>
+              <div class="mb-2 mx-3 w-full p-1 col-span-2 " flex justify-center="items-center" >
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+                 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                   dark:focus:border-blue-500" placeholder="Nombre:">
+                  
+              </div>
+           
+           
+          
+              <div class="mb-2 mx-3 w-full p-1  ">
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+                 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                   dark:focus:border-blue-500" placeholder="Apellido Paterno:">
+                  
+              </div>
 
-              <mat-form-field style="width:45%; min-width: 200px;" appearance="outline">
-                <mat-label>Apellido Materno:</mat-label>
-                <input matInput required [(ngModel)]="newUser.maternal_surname" (ngModelChange)="newUser.maternal_surname= $event.toUpperCase()">
-              </mat-form-field>
+           
+              <div class="mb-2 mx-3 w-full p-1  ">
+                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+                 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                   dark:focus:border-blue-500" placeholder="Apellido Materno :">
+                  
+              </div>
 
-              <mat-form-field style="width:28%; min-width: 200px;" appearance="outline">
-                <mat-label>Genero:</mat-label>
-                <input matInput required [(ngModel)]="newUser.gender" (ngModelChange)="newUser.gender= $event.toUpperCase()">
-              </mat-form-field>
+
+
+
+
+              <div class="mb-2 mx-3 w-full p-1  ">
+                <label for="Genero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <select id="Genero" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    <option selected="">Genero</option>
+                    <option value="Mu">Mujer</option>
+                    <option value="Ho">Hombre</option>
+                    <option value="Otro">Otro</option>
+                   
+                </select>
+
+            </div>
+          
+
 
               <mat-form-field style="width:28%; min-width: 200px;" appearance="outline">
                 <mat-label>Fecha Nac.:</mat-label>
                 <input matInput required [(ngModel)]="newUser.birth_date" (ngModelChange)="newUser.birth_date= $event.toUpperCase()">
               </mat-form-field>
 
-              <mat-form-field style="width:28%; min-width: 200px;" appearance="outline">
-                <mat-label>Estado Civil:</mat-label>
-                <input matInput required [(ngModel)]="newUser.civil_status" (ngModelChange)="newUser.civil_status= $event.toUpperCase()">
-              </mat-form-field>
+              <div class="mb-2 mx-3 w-40">
+                <label for="Estado Civil" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <select id="Estado Civil" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    <option selected="">Estado Civil</option>
+                    <option value="">Casado </option>
+                    <option value="PC">Divorciado</option>
+                    <option value="GA">Soltero</option>
+                   
+                </select>
 
-            </mat-card-content>
-          </mat-card>
+            </div>
+             
+             <!--AVANCE-->
 
-          <mat-card class="mat-elevation-z8 card-orden">
-            <mat-card-content>
+          </div>
+  
+          <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+            
 
-              <mat-form-field style="width:90%; min-width: 200px;" appearance="outline">
+
+
+          
+          <div class="mb-2 mx-3 w-full p-1  ">
+            <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+            <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+             text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+              dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+               dark:focus:border-blue-500" placeholder="Direccion :">
+              
+          </div>
+
+
+              <!-- <mat-form-field style="width:90%; min-width: 200px;" appearance="outline">
                 <mat-label>Direccion:</mat-label>
                 <input matInput required [(ngModel)]="newUser.address" (ngModelChange)="newUser.address= $event.toUpperCase()">
-              </mat-form-field>
+              </mat-form-field> -->
 
               <mat-form-field style="width:28%; min-width: 200px;" appearance="outline">
                 <mat-label>Distrito:</mat-label>
@@ -80,40 +159,60 @@
                 <mat-label>Departamento:</mat-label>
                 <input matInput required [(ngModel)]="newUser.region" (ngModelChange)="newUser.region= $event.toUpperCase()">
               </mat-form-field>
-            </mat-card-content>
-          </mat-card>
+         
+              <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
 
-          <mat-card class="mat-elevation-z8 card-orden">
-            <mat-card-content>
+              <div class="grid mb-8  rounded-lg
+              md:mb-12 md:grid-cols-4 bg-white dark:bg-gray-800 ">
 
               <mat-form-field style="width:40%; min-width: 200px;" appearance="outline">
                 <mat-label>Usuario:</mat-label>
                 <input matInput required [(ngModel)]="newUser.username" (ngModelChange)="newUser.username= $event.toUpperCase()">
               </mat-form-field>
   
+              <div class="mb-2 mx-3 w-full p-1 width:40%  ">
+                <label for="Rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                <select id="Rol" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 
+                dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                
+                (change)="setRolUser($event)"
+                >
+                  <option selected="Rol ">Rol:</option>
+                  <option *ngFor="let rl of roleTypes" [value]="rl">
+                    <button   >{{rl}}</button>
+                    </option>
+
+
+                </select>
+
+            </div>
+              </div>
+
+<!-- 
               <mat-form-field style="width:40%; min-width: 200px;" appearance="outline" >
                 <mat-label>Rol:</mat-label>
                 <mat-select required [(ngModel)]="roleSelected" >
                     <mat-option *ngFor="let rl of roleTypes" [value]="rl">{{rl}}</mat-option>
                 </mat-select>
               </mat-form-field>
-  
+ -->
 
   
-            </mat-card-content>
-          </mat-card>
-    
-          <mat-card class="mat-elevation-z8 card-orden">
-            <button mat-raised-button style="background-color: rgb(59, 145, 82); color:white" (click)="saveUser()" > 
+         
+   <button type="button" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none
+    focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Registrar</button>
+
+<!-- 
+            <button  style="background-color: rgb(59, 145, 82); color:white" (click)="saveUser()" > 
               <mat-icon>add_task</mat-icon>
               Registrar
-            </button>
-            
-          </mat-card>
-  
+            </button> -->
+          </div>
+         
         </div>
+       
   
-      </mat-tab>
       
       <mat-tab label="LISTA" class="tabWare">
   
@@ -221,15 +320,9 @@
                 <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
             </div>
             </mat-card-content>
-          </mat-card>
-        </div>
   
-      </mat-tab>
-  
-
-    </mat-tab-group>
   </mat-card>
+
       
 
 
-</div>

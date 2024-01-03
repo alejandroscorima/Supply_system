@@ -81,6 +81,13 @@ export class UsersComponent implements OnInit {
   ) { }
 
 
+
+  setRolUser(event:any){
+
+    const selectedValue=event.target.value;
+    this.roleSelected=selectedValue;
+    
+  }
   applyFilterU(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceUsers.filter = filterValue.trim().toLowerCase();
