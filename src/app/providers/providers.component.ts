@@ -59,6 +59,7 @@ export class ProvidersComponent implements OnInit {
   ) { }
 
 
+  
   applyFilterProv(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceProviders.filter = filterValue.trim().toLowerCase();
@@ -77,7 +78,7 @@ export class ProvidersComponent implements OnInit {
     }
   }
 
-
+ 
   provChange(){
     this.logisticaService.getAllProducts(this.provActive).subscribe((prodl:Product[])=>{
       this.listaProducts=prodl;
@@ -86,6 +87,8 @@ export class ProvidersComponent implements OnInit {
       this.dataSourceProducts.sort = this.sort.toArray()[1];
     })
   }
+ 
+
 
   new(){
     var dialogRef;

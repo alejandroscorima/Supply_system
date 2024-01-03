@@ -88,6 +88,12 @@ export class UsersComponent implements OnInit {
     this.roleSelected=selectedValue;
     
   }
+  setDocUser(event:any){
+
+    const selectedValue=event.target.value;
+    this.typeSelected=selectedValue;
+    
+  }
   applyFilterU(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceUsers.filter = filterValue.trim().toLowerCase();
@@ -159,6 +165,21 @@ export class UsersComponent implements OnInit {
 
   }
 
+
+
+  changeDoc(userToUpdate:User){
+    console.log(userToUpdate);
+    this.usersService.updateUser(userToUpdate).subscribe(resUpdt=>{
+      if(resUpdt)
+         this.toastr.success('Doc actualizado con éxito')
+
+     else
+       this.toastr.error('Ocurrió un error')
+
+   })
+
+}
+ 
   searchDNI(){
     this.logisticaService.getClientFromReniec(this.newUser.doc_number).subscribe(res=>{
       console.log(res);
