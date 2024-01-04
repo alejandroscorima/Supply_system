@@ -150,7 +150,7 @@
                 focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 
                 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 
-                (change)="setGeneroUser($event)"
+                (change)="setEstadocivilUser($event)"
                 >
                   <option selected="Rol " [hidden]="true">Estado Civil:</option>
                   <option *ngFor="let es of estadosCivil" [value]="es">

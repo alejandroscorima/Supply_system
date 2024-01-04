@@ -93,6 +93,7 @@ export class UsersComponent implements OnInit {
     this.newUser.gender=selectedValue;
     console.log(this.newUser.gender);
   }
+  
 
   setRolUser(event:any){
 
