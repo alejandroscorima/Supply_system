@@ -67,6 +67,7 @@ export class UsersComponent implements OnInit {
 
   roles=['NINGUNO','USUARIO','USUARIO AVANZADO','SUPER USUARIO','ASISTENTE','ADMINISTRADOR','SUPER ADMINISTRADOR','SUPERVISOR'];
 
+  
   public demo1TabIndex = 1;
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();

@@ -81,8 +81,9 @@ export class OrdenComponent implements OnInit {
   mes;
   dia;
 
-
-
+  actualProvider:Proveedor=new Proveedor('','','','','','');
+  listaProviders: Proveedor[]= [];
+ 
 
 
   types=['COMPRA','SERVICIO'];
@@ -746,19 +747,45 @@ export class OrdenComponent implements OnInit {
 
   changeRuc(){
     if(this.ord.ruc.length==11){
-      this.toastr.info('Consultando RUC');
-      this.logisticaService.getConsultaRUC(this.ord.ruc).subscribe(res=>{
-        if(res){
+      this.toastr.info('Consultando RUC En Base de datos');
+      this.logisticaService.getProveedorByRuc(this.ord.ruc).subscribe((provl:Proveedor)=>{
+     
+    
+        if(provl){
+          console.log(provl);
           this.toastr.success('Datos obtenidos correctamente');
-          this.ord.razon_social=res['data']['nombre_o_razon_social'];
-          this.ord.direccion=res['data']['direccion_completa'];
+          this.actualProvider=provl;
+          this.ord.razon_social=provl.razon_social
+          this.ord.direccion=provl.direccion
+          this.ord.num_cuenta=provl.cci;
+          this.actualProvider=provl;
+          return;
+        
         }
         else{
-          this.toastr.warning('No se obtuvieron datos');
-          this.ord.razon_social='';
-          this.ord.direccion='';
+            this.toastr.warning('No se encontró coincidencia en la base de datos');
+            this.toastr.info('Consultando RUC En API');
+            this.logisticaService.getConsultaRUC(this.ord.ruc).subscribe(res=>{
+            if(res['success']){
+ 
+            console.log(res);
+            this.toastr.success('Datos obtenidos correctamente');
+            this.ord.razon_social=res['data']['nombre_o_razon_social'];
+            this.ord.direccion=res['data']['direccion_completa'];
+
+              }
+            else{
+            this.toastr.warning('No se obtuvieron datos');
+            this.ord.razon_social='';
+            this.ord.direccion='';
+         }
+         })
+
+
         }
+       
       })
+  
     }
 
   }
@@ -889,7 +916,91 @@ export class OrdenComponent implements OnInit {
     return text;
   }
 
-  generarOrden(){
+  async saveProvider() {
+    console.log('init saveProvider');
+
+    if (this.ord.ruc.length == 11) {
+        console.log('validate 11');
+        console.log(this.ord);
+
+        try {
+            const provl = await this.logisticaService.getProveedorByRuc(this.ord.ruc).toPromise();
+            console.log('provl', provl);
+
+            if (provl) {
+                this.toastr.success('Datos del proveedor actualizados correctamente');
+                this.actualProvider.razon_social = this.ord.razon_social;
+                this.actualProvider.direccion = this.ord.direccion;
+                this.actualProvider.cci = this.ord.num_cuenta;
+                this.actualProvider.ruc = this.ord.ruc;
+                this.actualProvider.estado = 'ACTIVE';
+
+                const updRes = await this.logisticaService.updateProvider(this.actualProvider).toPromise();
+                console.log('updRes', updRes);
+
+                return;
+            } else {
+              console.log(this.ord)
+                this.actualProvider.razon_social = this.ord.razon_social;
+                this.actualProvider.direccion = this.ord.direccion;
+                this.actualProvider.cci = this.ord.num_cuenta;
+                this.actualProvider.ruc = this.ord.ruc;
+                this.actualProvider.estado = 'ACTIVE';
+                this.toastr.success('Datos del proveedor subidos correctamente');
+                const addRes = await this.logisticaService.addProvider(this.actualProvider).toPromise();
+                console.log('addRes', addRes);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Manejar el error según sea necesario
+        }
+    }
+}
+
+  saveProvider1(){
+    console.log('init saveProvider');
+
+    if(this.ord.ruc.length==11){
+      console.log('validate 11');
+            console.log(this.ord);
+
+      this.logisticaService.getProveedorByRuc(this.ord.ruc).subscribe((provl:Proveedor)=>{
+        console.log('provl',provl);
+        if(provl){
+
+          this.toastr.success('Datos del proveedor actualiazados correctamente');
+          this.actualProvider.razon_social=  this.ord.razon_social;
+          this.actualProvider.direccion=this.ord.direccion;
+          this.actualProvider.cci=this.ord.num_cuenta;
+
+          this.logisticaService.updateProvider(this.actualProvider).subscribe(res=>{
+            if(res){
+              console.log('updRes',res);
+            }
+          })
+
+          return;
+        
+        }
+        else{
+            this.actualProvider.razon_social=  this.ord.razon_social;
+            this.actualProvider.direccion=this.ord.direccion;
+            this.actualProvider.cci=this.ord.num_cuenta;
+            this.actualProvider.estado='ACTIVE';
+            this.logisticaService.addProvider(this.actualProvider).subscribe(res=>{
+            if(res){
+              console.log('addRes',res);
+            }
+          })
+        }
+      })
+
+    }
+  }
+
+
+  async generarOrden(){
+    await this.saveProvider();
     this.ord.area=this.user_area.name;
     if(this.ord.rebajado==''){
       this.ord.rebajado=(0.0).toFixed(5);
@@ -950,8 +1061,12 @@ export class OrdenComponent implements OnInit {
               p.ord_codigo=resAddOrd['session_id'];
               p.estado='REGISTRADO'
               this.logisticaService.addOrdDet(p).subscribe(resAddOrdDet=>{
+
+              
+
                 if(ind==this.listaOrd.length-1){
 
+                  //this.saveProvider();
 
                   this.generatePDF();
 
@@ -984,6 +1099,17 @@ export class OrdenComponent implements OnInit {
                   this.ord.rebajado='';
                   this.posTituloSala = 74;
                   console.log(this.ord)
+
+
+                  //GUARDAR
+
+
+
+
+
+
+
+
                   this.toastr.success('!Exito al generar orden')
                 }
               });

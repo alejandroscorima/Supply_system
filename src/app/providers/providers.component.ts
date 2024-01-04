@@ -25,6 +25,7 @@ import { Collaborator } from '../collaborator';
 })
 export class ProvidersComponent implements OnInit {
 
+  
   user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
   colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
