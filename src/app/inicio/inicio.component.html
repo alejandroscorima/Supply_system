@@ -92,13 +92,37 @@
           <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
         </div>
   </div>
-
   <div class="row">
-    <div class="column" style="height: 80vh; overflow: scroll;" *ngIf="user_role!='ADMINISTRADOR'&&user_role!='ASISTENTE'">
+    <div class="column" *ngIf="user_role!='ADMINISTRADOR'&&user_role!='ASISTENTE'">
       <h3 style="text-align:left">
       
         PENDIENTES: {{cont_pend}} 
       </h3>
+    </div>
+
+    <div class="column">
+      <h3 style="text-align:left;" *ngIf="user_role!='ASISTENTE'&&user_role!='ADMINISTRADOR'">
+        PROCESO: {{cont_asig}}
+      </h3>
+      <h3 style="text-align:left;" *ngIf="user_role=='ASISTENTE'||user_role=='ADMINISTRADOR'">
+        ASIGNADO : {{cont_asig}}
+      </h3>
+
+    </div>
+
+    <div class="column"> 
+      <h3 style="text-align:left">
+      
+        FINALIZADO: {{cont_fina}} 
+      </h3>
+    </div>
+
+
+
+  </div>
+  <div class="row">
+    <div class="column" style="height: 80vh; overflow: scroll;" *ngIf="user_role!='ADMINISTRADOR'&&user_role!='ASISTENTE'">
+      
       
       <mat-card *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
         <mat-card-header class="headerPendiente">
@@ -119,13 +143,7 @@
       </mat-card>
     </div>
     <div class="column" style="height: 80vh; overflow: scroll;">
-      <h3 style="text-align:left;" *ngIf="user_role!='ASISTENTE'&&user_role!='ADMINISTRADOR'">
-        PROCESO: {{cont_asig}}
-      </h3>
-      <h3 style="text-align:left;" *ngIf="user_role=='ASISTENTE'||user_role=='ADMINISTRADOR'">
-        ASIGNADO : {{cont_asig}}
-      </h3>
-
+   
       <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
         <mat-card-header class="headerProceso">
           {{r.codigo}}-{{r.area}}
@@ -145,9 +163,7 @@
       </mat-card>
     </div>
     <div class="column" style="height: 80vh; overflow: scroll;">
-      <h3 style="text-align:left;">
-        FINALIZADO: {{cont_fina}}
-      </h3>
+      
 
       <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card" [ngClass]="{'fin':'a'=='a'}">
         <mat-card-header >
