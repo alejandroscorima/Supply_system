@@ -99,6 +99,10 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getAreaById.php?area_id=${area_id}`);
   }
 
+  
+  getActivityById(id: number) {
+    return this.http.get(`${this.baseUrl}/getActivityById.php?id=${id}`);
+  }
   getAllAreas() {
     return this.http.get(`${this.baseUrl}/getAllAreas.php`);
   }
