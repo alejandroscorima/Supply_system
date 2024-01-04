@@ -265,6 +265,9 @@
 
 
           </div>
+
+
+          
             <div class=" flex justify-end">
              
           <button type="button" class= " object-right
@@ -360,10 +363,29 @@
         </mat-form-field>
 
         <div appearance="standard" style="display:display-inline; float:right">
-          <button mat-raised-button style="background-color: green; color:white" (click)="saveReq()">
+          <div class="">
+             
+            <button type="button" class="flex gap-2 text-white bg-gradient-to-r  from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 
+           focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 
+            py-2.5 text-center me-2 mb-2" (click)="saveReq()">
+            <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 
+              2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 
+          2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1
+           .586-1.414Z"/>
+             </svg>
+            Registrar
+            </button>
+            </div>
+            
+  <!--   </div>
+          <button mat-raised-button style="background-color:
+           green; color:white" (click)="saveReq()">
             <mat-icon>check</mat-icon>REGISTRAR
           </button>
-        </div>
+
+-->
+        </div> 
 
 
         <div class="mat-elevation-z8" style="width:100%;">

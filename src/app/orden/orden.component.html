@@ -338,7 +338,7 @@
           <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Precio</label>
           <div class="flex">
             <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-            <h1>s/.</h1>
+            <h1>{{prefijoMoney}}</h1>
             </span>
             <input type="number" appIntegerPositive id="website-admin" class="rounded-none rounded-e-lg
              bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 
@@ -588,10 +588,29 @@
         <mat-form-field style="width:13%; height:50px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
              <input matInput [(ngModel)]="ord.rebajado">
         </mat-form-field>
-        <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white; height:60px; width:25%" (click)="generarOrden()" >
+
+
+        <div class=" my-1 h-12 w-1/4">
+             
+          <button type="button" class="justify-center w-full h-full flex gap-2 text-white bg-gradient-to-r 
+           from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 
+         focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg
+          shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 
+          py-3 text-center me-2 mb-2" (click)="generarOrden()">
+          <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 
+            2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 
+        2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1
+         .586-1.414Z"/>
+           </svg>
+           Generar Orden
+          </button>
+          </div>
+    <!--     <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white; height:60px; width:25%"
+        (click)="generarOrden()" >
           <mat-icon>check</mat-icon>Generar Orden
         </button>
-
+ -->
 
 </div>
 

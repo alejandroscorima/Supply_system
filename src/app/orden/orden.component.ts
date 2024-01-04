@@ -168,7 +168,8 @@ export class OrdenComponent implements OnInit {
       default:
         break;
     }
-    this.asigChange()
+    this.  asigMoneyChange();
+    
   }
 
 
@@ -892,6 +893,7 @@ export class OrdenComponent implements OnInit {
     this.ord.area=this.user_area.name;
     if(this.ord.rebajado==''){
       this.ord.rebajado=(0.0).toFixed(5);
+
     }
     else{
       this.ord.rebajado=parseFloat(this.ord.rebajado).toFixed(5);
@@ -949,6 +951,8 @@ export class OrdenComponent implements OnInit {
               p.estado='REGISTRADO'
               this.logisticaService.addOrdDet(p).subscribe(resAddOrdDet=>{
                 if(ind==this.listaOrd.length-1){
+
+
                   this.generatePDF();
 
                   var anio = this.fecha.getFullYear();
@@ -985,7 +989,9 @@ export class OrdenComponent implements OnInit {
               });
             })
           }
-          else{}
+          else{
+                 this.toastr.warning('Quizá algo salio mal');
+          }
         })
       }
       else{
@@ -1132,8 +1138,9 @@ export class OrdenComponent implements OnInit {
 
     //this.doc.addImage( this.sello, 'png',this.doc.internal.pageSize.width - 60,this.doc.internal.pageSize.height -60,50,40,'','FAST',0);
     
+    console.log(this.signature);
     
-    if(this.signature.signatureURL!=null||this.signature.signatureURL!=''){
+    if(this.signature&&(this.signature.signatureURL!=null||this.signature.signatureURL!='')){
    //this.sello.src = 'assets/selloVisionGames.png';
    this.sello.src = this.signature.signatureURL;
 
