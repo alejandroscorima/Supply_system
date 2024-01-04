@@ -6,7 +6,7 @@ header("Access-Control-Allow-Origin: *");
 
 $id=$_GET['id'];
 
-$bd = include_once "bdData.php";
+$bd = include_once "bdLogistica.php";
 
 $sentencia = $bd->prepare("SELECT id, actividad, estado  FROM activities WHERE id=".$id);
 
