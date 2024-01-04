@@ -283,6 +283,10 @@ export class LogisticaService {
     return this.http.put(`${this.baseUrl}/updateProvider.php`, prov);
   }
 
+  updateActivity(act: Activity) {
+    return this.http.put(`${this.baseUrl}/updateActivity.php`, act);
+  }
+
   updateProduct(prod: Product) {
     return this.http.put(`${this.baseUrl}/updateProduct.php`, prod);
   }
