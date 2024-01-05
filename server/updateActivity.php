@@ -13,5 +13,5 @@ if (!$jsonItem) {
 }
 $bd = include_once "bdLogistica.php";
 $sentencia = $bd->prepare("UPDATE activities SET actividad= ?, estado = ? WHERE id = ?");
-$resultado = $sentencia->execute([$jsonItem->activities, $jsonItem->actividad, $jsonItem->estado, $jsonItem->id]);
+$resultado = $sentencia->execute( $jsonItem->actividad, $jsonItem->estado, $jsonItem->id]);
 echo json_encode($resultado);

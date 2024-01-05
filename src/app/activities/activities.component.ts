@@ -87,11 +87,12 @@ regActivity(){
       console.log(this.acti);
 
         if(this.acti.id!=null){
-          this.logisticaService.getActivityById(this.acti.id).subscribe((actRes:Activity)=>{
-            this.update(actRes);
+            console.log('SI entra a update',this.acti);   
+            this.update(this.acti);
+           
             this.acti=new Activity('','');
-            this.toastr.success('Atividad actualizada correctamente')
-          })
+            
+          
           
 
         }
@@ -118,13 +119,17 @@ regActivity(){
   
   getItemsActivitySelected(ac:Activity){
     this.acti=ac;
+    console.log(this.acti);
     window.scrollTo({top:0, behavior:'smooth'});
 
    }
 
   update(ac:Activity){
-    this.logisticaService.updateActivity(ac).subscribe(res=>{
+    this.logisticaService.updateActivity(this.acti).subscribe(res=>{
+      console.log('entro al update',res)
         this.logisticaService.getActivities('TODOS').subscribe((actList:Activity[])=>{
+
+          this.toastr.success('Atividad actualizada correctamente')
           this.activities=actList;
           this.dataSourceActivities = new MatTableDataSource(this.activities);
           this.dataSourceActivities.paginator = this.paginator.toArray()[0];
