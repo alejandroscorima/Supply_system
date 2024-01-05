@@ -65,6 +65,9 @@ export class AppComponent implements OnInit {
  }
   ngOnInit() {
 
+    var container1= document.getElementById('container-main-1');
+    var container2= document.getElementById('container-main-2');
+
     initFlowbite();
 
     
@@ -82,6 +85,17 @@ export class AppComponent implements OnInit {
         this.cookies.deleteToken('onSession');
         console.error('Error al obtener el pago:', resPay.error);
         this.toastr.error('Error al obtener la licencia: '+resPay.error);
+        container1.classList.remove('p-4');
+        container1.classList.remove('sm:ml-64');
+        container1.classList.remove('dark:bg-gray-900');
+        container2.classList.remove('p-4');
+        container2.classList.remove('border-2');
+        container2.classList.remove('border-gray-200');
+        container2.classList.remove('border-dashed');
+        container2.classList.remove('rounded-lg');
+        container2.classList.remove('dark:border-gray-700');
+        container2.classList.remove('mt-14');
+
         this.router.navigateByUrl('/login');
         console.log('No cumple licencia en APP MODULE');
 
@@ -103,6 +117,16 @@ export class AppComponent implements OnInit {
 
         if(this.cookiesService.checkToken('user_id')){
           this.logged=true;
+          container1.classList.add('p-4');
+          container1.classList.add('sm:ml-64');
+          container1.classList.add('dark:bg-gray-900');
+          container2.classList.add('p-4');
+          container2.classList.add('border-2');
+          container2.classList.add('border-gray-200');
+          container2.classList.add('border-dashed');
+          container2.classList.add('rounded-lg');
+          container2.classList.add('dark:border-gray-700');
+          container2.classList.add('mt-14');
           this.user_id=parseInt(this.cookiesService.getToken('user_id'));
           this.user_role=this.cookiesService.getToken('user_role');
     
@@ -154,6 +178,16 @@ export class AppComponent implements OnInit {
     
         }
         else{
+          container1.classList.remove('p-4');
+          container1.classList.remove('sm:ml-64');
+          container1.classList.remove('dark:bg-gray-900');
+          container2.classList.remove('p-4');
+          container2.classList.remove('border-2');
+          container2.classList.remove('border-gray-200');
+          container2.classList.remove('border-dashed');
+          container2.classList.remove('rounded-lg');
+          container2.classList.remove('dark:border-gray-700');
+          container2.classList.remove('mt-14');
           this.router.navigateByUrl('/login');
         }
       }
@@ -168,6 +202,16 @@ export class AppComponent implements OnInit {
 
       // Maneja el error aquí según tus necesidades
       this.toastr.error('Error al obtener la licencia: '+error);
+      container1.classList.remove('p-4');
+      container1.classList.remove('sm:ml-64');
+      container1.classList.remove('dark:bg-gray-900');
+      container2.classList.remove('p-4');
+      container2.classList.remove('border-2');
+      container2.classList.remove('border-gray-200');
+      container2.classList.remove('border-dashed');
+      container2.classList.remove('rounded-lg');
+      container2.classList.remove('dark:border-gray-700');
+      container2.classList.remove('mt-14');
       this.router.navigateByUrl('/login');
     });
 

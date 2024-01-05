@@ -62,6 +62,7 @@ export class ActivitiesComponent implements OnInit {
     if (this.dataSourceActivities.paginator) {
       this.dataSourceActivities.paginator.firstPage();
     }
+    console
   }
   save(){
 
