@@ -30,6 +30,8 @@ import { element } from 'protractor';
 import { FondoItem } from '../fondo_item';
 import { Doc } from '../doc';
 import { Collaborator } from '../collaborator';
+
+import * as XLSX from 'xlsx';
 import { Signature } from '../signature';
 
 @Component({
@@ -76,6 +78,11 @@ export class OrdenComponent implements OnInit {
   areas = [];
   prioridades = [];
 
+
+
+  docname;
+
+
   fecha;
   anio;
   mes;
@@ -84,66 +91,18 @@ export class OrdenComponent implements OnInit {
   actualProvider:Proveedor=new Proveedor('','','','','','');
   listaProviders: Proveedor[]= [];
  
+  listOrd: OrdenItem[]= [];
+
+  items_ord_wh: any[] = [];
 
 
   types=['COMPRA','SERVICIO'];
   actualType:string;
 
-  // (change)="setActualType($event)"
 
-  setActualType(event: any) {
-    const selectedValue = event.target.value;
-
-    switch (selectedValue) {
-      case selectedValue:
-
-
-        this.actualType=selectedValue;
-        this.ord.tipo=selectedValue;
-        console.log(this.ord.tipo);
-         break;
-
-  /*     case "SERVICIO":
-        this.actualType="SERVICIO";
-        this.ord.tipo="SERVICIO";
-        console.log(this.ord.tipo);
-        break;
-     */
-      default:
-        // Default logic
-        break;
-    }
-  }
-/*   setActualType(type:string){
-
-    this.actualType=type;
-    this.ord.tipo=type;
-    console.log(this.ord.tipo)
-    console.log(this.actualType)
-     
-  } */
-
+  
 
   pay_type=['EFECTIVO','TRANSFERENCIA','CREDITO 30 DIAS','CREDITO 45 DIAS'];
-  setCondicion(event: any) {
-
-   
-    const selectedValue = event.target.value;
-    ;
-    switch (selectedValue) {
-      case selectedValue:
-
-      //this.destiny=selectedValue;
-      this.ord.tipo_pago=selectedValue;
-        console.log(this.ord.tipo_pago);
-         break;
-
-      default:
-        break;
-    }
-    this.asigChange()
-  }
-
 
 
 
@@ -153,54 +112,12 @@ export class OrdenComponent implements OnInit {
   monedas: string[] = ['SOLES','DOLARES AMERICANOS'];
   actualMoneda
 
-  setMoneda(event: any) {
 
-   
-    const selectedValue = event.target.value;
-    ;
-    switch (selectedValue) {
-      case selectedValue:
-
-      this.actualMoneda=selectedValue;
-      this.ord.moneda=selectedValue;
-        console.log(this.ord.moneda);
-         break;
-
-      default:
-        break;
-    }
-    this.  asigMoneyChange();
-    
-  }
-
-
- 
 
   personal: User[]= [];
 
   empresas: string[] = ['SUN','VISION','GO','IMG','WARI'];
   destiny: string;
-  setDestiny(event: any) {
-
-   
-    const selectedValue = event.target.value;
-    ;
-    switch (selectedValue) {
-      case selectedValue:
-
-      this.destiny=selectedValue;
-      this.ord.destino=selectedValue;
-        console.log(this.ord.destino);
-         break;
-
-      default:
-        break;
-    }
-    this.asigChange()
-  }
-
-
-
 
   centenas=['','CIEN','DOSCIENTOS','TRESCIENTOS','CUATROCIENTOS','QUINIENTOS','SEISCIENTOS','SETECIENTOS','OCHOCIENTOS','NOVECIENTOS'];
   decenas=['','DIEZ','VEINTE','TREINTA','CUARENTA','CINCUENTA','SESENTA','SETENTA','OCHENTA','NOVENTA'];
@@ -210,7 +127,7 @@ export class OrdenComponent implements OnInit {
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'18','NO','NO','OFICINA','');
 
 
-   
+
   
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
@@ -314,6 +231,85 @@ export class OrdenComponent implements OnInit {
     private fileUploadService: FileUploadService,
   ) { }
 
+  setActualType(event: any) {
+    const selectedValue = event.target.value;
+
+    switch (selectedValue) {
+      case selectedValue:
+
+
+        this.actualType=selectedValue;
+        this.ord.tipo=selectedValue;
+        console.log(this.ord.tipo);
+         break;
+
+  /*     case "SERVICIO":
+        this.actualType="SERVICIO";
+        this.ord.tipo="SERVICIO";
+        console.log(this.ord.tipo);
+        break;
+     */
+      default:
+        // Default logic
+        break;
+    }
+}
+  setCondicion(event: any) {
+
+    
+      const selectedValue = event.target.value;
+      ;
+      switch (selectedValue) {
+        case selectedValue:
+
+        //this.destiny=selectedValue;
+        this.ord.tipo_pago=selectedValue;
+          console.log(this.ord.tipo_pago);
+          break;
+
+        default:
+          break;
+      }
+      this.asigChange()
+    }
+
+  setMoneda(event: any) {
+
+    
+      const selectedValue = event.target.value;
+      ;
+      switch (selectedValue) {
+        case selectedValue:
+
+        this.actualMoneda=selectedValue;
+        this.ord.moneda=selectedValue;
+          console.log(this.ord.moneda);
+          break;
+
+        default:
+          break;
+      }
+      this.  asigMoneyChange();
+      
+    }
+  setDestiny(event: any) {
+
+    
+      const selectedValue = event.target.value;
+      ;
+      switch (selectedValue) {
+        case selectedValue:
+
+        this.destiny=selectedValue;
+        this.ord.destino=selectedValue;
+          console.log(this.ord.destino);
+          break;
+
+        default:
+          break;
+      }
+      this.asigChange()
+    }
 
   increaseQuantityButton(){
     this.orden_item.cantidad++;
@@ -998,7 +994,82 @@ export class OrdenComponent implements OnInit {
     }
   }
 
+  isValidRow(row: any): boolean {
+    // Validar que "cantidad" sea un entero positivo y "precio" un float positivo
+    const isValidCantidad = Number.isInteger(row.cantidad) && row.cantidad > 0;
+    const isValidPrecio = !isNaN(row.precio) && row.precio > 0;
 
+    return isValidCantidad && isValidPrecio;
+  }
+
+  onFileChange(event: any) {
+    /* wire up file reader */
+    const target: DataTransfer = <DataTransfer>(event.target);
+    if (target.files.length !== 1) {
+      throw new Error('Cannot use multiple files');
+    }
+    const reader: FileReader = new FileReader();
+    reader.readAsBinaryString(target.files[0]);
+    reader.onload = (e: any) => {
+      /* create workbook */
+      const binarystr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(binarystr, { type: 'binary' });
+
+
+
+      /* selected the first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+
+      /* save data */
+      const data = XLSX.utils.sheet_to_json(ws); // to get 2d array pass 2nd parameter as object {header: 1}
+
+      console.log(data); // Data will be logged in array format containing objects
+
+      XLSX.utils.sheet_to_json(ws, { raw: true }).forEach((row: any) => {
+        // Crea una instancia de OrdItem y agrega al arreglo listOrd
+
+        if(this.isValidRow(row)){
+          const ordItem = new OrdenItem('',0,'','','','','',false,'','','',false);
+          ordItem.cantidad = row.cantidad;
+          ordItem.descripcion = row.descripcion;
+          ordItem.unit_price = row.precio;
+          ordItem.descripcion=row.descripcion.toUpperCase();
+          ordItem.unit_price=parseFloat( ordItem.unit_price).toFixed(5);
+          ordItem.unit_price_aux=ordItem.unit_price;
+          ordItem.igv_toggle=true;
+          ordItem.subtotal=(ordItem.cantidad*parseFloat(ordItem.unit_price)).toFixed(5);
+          ordItem.igv_unit=(parseFloat(ordItem.subtotal)*(parseFloat(this.ord.igv_percent)/100)).toFixed(5);
+          console.log(ordItem);
+          this.listaOrd.push(ordItem);
+      
+        }
+        else{
+          this.toastr.error('ERROR al añadir item: ', row.descripcion)
+
+
+        }
+      });
+
+      data.splice(0,7);
+      data.splice(data.length-1,1);
+
+      this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
+
+      this.dataSourceOrd.sort = this.sort.toArray()[0];
+
+
+
+      console.log(this.items_ord_wh);
+    };
+  }
+
+
+
+
+
+  
   async generarOrden(){
     await this.saveProvider();
     this.ord.area=this.user_area.name;

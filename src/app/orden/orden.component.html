@@ -272,7 +272,9 @@
 
      <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
      dark:bg-gray-800 dark:border-gray-700">
-  
+     
+
+    
       <a>
           <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
             NUEVO ITEM</h5>
@@ -408,8 +410,20 @@
 
 
   <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
- dark:bg-gray-800 dark:border-gray-700 mt-4">
+  *:dark:bg-gray-800 dark:border-gray-700 mt-4">
 
+
+  <div style="width:100%;display:display-inline;text-align: center;">
+    SUBIR ITEMS:
+    {{docname}}
+    <p style="align-content: center;text-align: center;">
+      <input (change)="onFileChange($event)" #npt class="form-control" type="file" id="formFile" style="display: none;">
+      <button (click)="npt.click()" mat-raised-button style="background-color: rgb(23, 71, 113); color:white;">
+          <mat-icon>cloud_upload</mat-icon>
+          CLICK AQUÍ
+      </button>
+    </p>
+  </div>  
   <a>
       <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
       LISTA</h5>
@@ -578,7 +592,7 @@
     </table>
 
     <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
-</div>
+  </div>
  
 
     <div  class="inline-flex w-full">

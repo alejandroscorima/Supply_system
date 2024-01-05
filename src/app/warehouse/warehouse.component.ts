@@ -512,15 +512,6 @@ export class WarehouseComponent implements OnInit {
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
 
-
-
-
-
-
-
-
-
-
       /* save data */
       const data = XLSX.utils.sheet_to_json(ws); // to get 2d array pass 2nd parameter as object {header: 1}
 

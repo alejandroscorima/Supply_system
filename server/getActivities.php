@@ -5,16 +5,12 @@ header("Access-Control-Allow-Origin: *");
 //header("Access-Control-Allow-Origin: http://192.168.4.250");
 
 
-$estado=$_GET['estado'];
-
 $bd = include_once "bdLogistica.php";
 
-if($estado=='TODOS'){
-    $sentencia = $bd->prepare("SELECT id, actividad, estado FROM activities");
-}
-else{
-    $sentencia = $bd->prepare("SELECT id, actividad, estado FROM activities WHERE estado='".$estado."'");
-}
+
+$sentencia = $bd->prepare("SELECT id, actividad, estado FROM activities");
+
+
 
 
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");
@@ -23,8 +19,8 @@ else{
 $sentencia -> execute();
 //[$fecha_cumple]
 //$mascotas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-$areas = $sentencia->fetchAll(PDO::FETCH_OBJ);
+$activity = $sentencia->fetchAll(PDO::FETCH_OBJ);
 //echo json_encode($mascotas);
-echo json_encode($areas);
+echo json_encode($activities);
 
 ?>
