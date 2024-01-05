@@ -126,6 +126,7 @@ regActivity(){
           this.dataSourceActivities = new MatTableDataSource(this.activities);
           this.dataSourceActivities.paginator = this.paginator.toArray()[0];
           this.dataSourceActivities.sort = this.sort.toArray()[0];
+          this.acti=new Activity('','');
         })
     });
   }
