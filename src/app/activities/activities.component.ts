@@ -88,6 +88,7 @@ regActivity(){
         if(this.acti.id!=null){
           this.logisticaService.getActivityById(this.acti.id).subscribe((actRes:Activity)=>{
             this.update(actRes);
+            this.acti=new Activity('','');
             this.toastr.success('Atividad actualizada correctamente')
           })
           
@@ -116,6 +117,7 @@ regActivity(){
   
   getItemsActivitySelected(ac:Activity){
     this.acti=ac;
+    window.scrollTo({top:0, behavior:'smooth'});
 
    }
 
@@ -127,8 +129,13 @@ regActivity(){
           this.dataSourceActivities.paginator = this.paginator.toArray()[0];
           this.dataSourceActivities.sort = this.sort.toArray()[0];
           this.acti=new Activity('','');
+          
         })
     });
+
+
+
+
   }
 
     
