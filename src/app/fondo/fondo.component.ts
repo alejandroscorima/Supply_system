@@ -58,6 +58,9 @@ export class FondoComponent implements OnInit {
   user_id: number = 0;
   user_role: string = '';
 
+
+
+
   selection = new SelectionModel<FondoItem>(true, []);
 
   fecha;
@@ -70,7 +73,6 @@ export class FondoComponent implements OnInit {
   displayImporte='';
 
   ord_suffix='';
-
 
 
   total_amount=0;
@@ -543,7 +545,7 @@ export class FondoComponent implements OnInit {
       this.doc.setFont("helvetica","normal");
       this.doc.setFontSize(10);
       this.doc.setTextColor(0,0,0);
-      // this.doc.text('Nº '+ this.ord.numero,175-(((9+this.ord.numero.length)/2)*3),39);
+      // this.doc.text('Nº '+ this.data['item'].numero,175-(((9+this.data['item'].numero.length)/2)*3),39);
       this.doc.text('Nº '+fondliq.numero,175,39,{align:'center'});
       this.doc.text('FECHA: '+fondliq.fecha,175,49,{align:'center'});
       this.doc.text('IMPORTE: '+this.prefijoMoney+' '+fondliq.importe,175,56,{align:'center'});
@@ -795,6 +797,15 @@ export class DialogNewItemFondo implements OnInit {
   listaReq: Item[]= [];
   categories:any= [];
 
+
+
+  
+  actualProvider:Proveedor=new Proveedor('','','','','','');
+  listaProviders: Proveedor[]= [];
+
+
+
+
   prefijoMoney='';
 
   dataSourceReq: MatTableDataSource<Item>;
@@ -830,6 +841,94 @@ export class DialogNewItemFondo implements OnInit {
     }
   }
 
+async saveProvider() {
+    console.log('init saveProvider');
+
+    if (this.data['item'].ruc.length == 11) {
+        console.log('validate 11');
+        console.log(this.data['item']);
+
+        try {
+            const provl = await this.logisticaService.getProveedorByRuc(this.data['item'].ruc).toPromise();
+            console.log('provl', provl);
+
+            if (provl) {
+                this.toastr.success('Datos del proveedor actualizados correctamente');
+                this.actualProvider.razon_social = this.data['item'].raz_social;
+                this.actualProvider.direccion = this.data['item'].direccion;
+                this.actualProvider.cci = this.data['item'].num_cuenta;
+                this.actualProvider.ruc = this.data['item'].ruc;
+                this.actualProvider.estado = 'ACTIVE';
+
+                const updRes = await this.logisticaService.updateProvider(this.actualProvider).toPromise();
+                console.log('updRes', updRes);
+
+                return;
+            } else {
+              console.log(this.data['item'])
+                this.actualProvider.razon_social = this.data['item'].raz_social;
+                this.actualProvider.direccion = this.data['item'].direccion;
+                this.actualProvider.cci = this.data['item'].num_cuenta;
+                this.actualProvider.ruc = this.data['item'].ruc;
+                this.actualProvider.estado = 'ACTIVE';
+                this.toastr.success('Datos del proveedor subidos correctamente');
+                const addRes = await this.logisticaService.addProvider(this.actualProvider).toPromise();
+                console.log('addRes', addRes);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Manejar el error según sea necesario
+        }
+    }
+} 
+
+
+
+  changeRuc1(){
+    if(this.data['item'].ruc.length==11){
+      this.toastr.info('Consultando RUC En Base de datos');
+      this.logisticaService.getProveedorByRuc(this.data['item'].ruc).subscribe((provl:Proveedor)=>{
+    
+    
+        if(provl){
+          console.log(provl);
+          this.toastr.success('Datos obtenidos correctamente');
+          this.actualProvider=provl;
+          this.data['item'].raz_social=provl.razon_social;
+          this.data['item'].direccion=provl.direccion
+          this.data['item'].num_cuenta=provl.cci;
+          this.actualProvider=provl;
+          return;
+        
+        }
+        else{
+            this.toastr.warning('No se encontró coincidencia en la base de datos');
+            this.toastr.info('Consultando RUC En API');
+            this.logisticaService.getConsultaRUC(this.data['item'].ruc).subscribe(res=>{
+            if(res['success']){
+
+            console.log(res);
+            this.toastr.success('Datos obtenidos correctamente');
+            this.data['item'].raz_social=res['data']['nombre_o_razon_social'];
+            this.data['item'].direccion=res['data']['direccion_completa'];
+
+              }
+            else{
+            this.toastr.warning('No se obtuvieron datos');
+            this.data['item'].raz_social='';
+            this.data['item'].direccion='';
+            }
+          })
+
+
+        }
+       
+      })
+  
+    }
+
+  }
+  
   changeRuc(){
     if(this.data['item'].ruc.length==11){
       this.logisticaService.getConsultaRUC(this.data['item'].ruc).subscribe(res=>{
@@ -854,13 +953,38 @@ export class DialogNewItemFondo implements OnInit {
 
   }
 
-  save(){
+  validateSave(data:any){
+
+    if((this.data['item'].monto!=''&&this.data['item'].monto!=null)&&
+     (this.data['item'].serie!=''&&this.data['item'].serie!=null)&&
+     (this.data['item'].numero!=''&&this.data['item'].numero!=null)&&
+     (this.data['item'].ruc!=''&&this.data['item'].ruc!=null)&&
+     (this.data['item'].raz_social!=''&&this.data['item'].raz_social!=null)
+    ){
+
+      return true;
+    }
+    else {
+      this.toastr.warning('Rellene todos los campos');
+      return false; 
+    }
+
+  }
+  async save(){
+    await this.saveProvider();
     this.data['item'].monto=parseFloat(this.data['item'].monto).toFixed(2);
-    this.logisticaService.addFondoItem(this.data['item']).subscribe(res=>{
-      if(res){
-        this.dialogRef.close(this.data['item']);
-      }
-    })
+
+
+    if(this.validateSave(this.data)){
+      this.logisticaService.addFondoItem(this.data['item']).subscribe(res=>{
+        
+        if(res){
+          this.dialogRef.close(this.data['item']);
+        }
+      })  
+    }
+
+
   }
 
   dateChange(value){
