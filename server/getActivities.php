@@ -7,8 +7,16 @@ header("Access-Control-Allow-Origin: *");
 
 $bd = include_once "bdLogistica.php";
 
+$estado=$_GET['estado'];
 
-$sentencia = $bd->prepare("SELECT id, actividad, estado FROM activities");
+if($estado=='TODOS'){
+    $sentencia = $bd->prepare("SELECT id, actividad, estado FROM activities");
+}
+else{
+    $sentencia = $bd->prepare("SELECT id, actividad, estado FROM activities WHERE estado='".$estado."'");
+}
+
+
 
 
 
@@ -19,7 +27,7 @@ $sentencia = $bd->prepare("SELECT id, actividad, estado FROM activities");
 $sentencia -> execute();
 //[$fecha_cumple]
 //$mascotas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-$activity = $sentencia->fetchAll(PDO::FETCH_OBJ);
+$activities = $sentencia->fetchAll(PDO::FETCH_OBJ);
 //echo json_encode($mascotas);
 echo json_encode($activities);
 
