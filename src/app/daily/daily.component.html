@@ -7,11 +7,34 @@
       <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
       dark:bg-gray-800 dark:border-gray-700">
    
-       <a>
+       
+      
+      
+      <a>
            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
             ACTIVIDAD</h5>
        </a>
-            <div class="gap-3">
+
+       <!-- <div class="grid mb-8  rounded-lg
+       md:mb-12 md:grid-cols-2 bg-white dark:bg-gray-800 "> -->
+
+       
+    
+       <div class="mb-2 mx-3 w-full p-1  ">
+        <label for="Rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese fecha</label>
+       
+          <input type="date" id="default-input" class="bg-gray-50 border border-gray-300
+          text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+           dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+            dark:focus:border-blue-500"  #dp3 disabled="false" placeholder="fecha"
+            matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange()">
+        
+      </div> 
+        
+       
+       
+       
+       <div class="gap-3">
             <mat-form-field style="width:22%;" appearance="outline">
               <mat-label>Fecha:</mat-label>
               <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange()">
@@ -19,41 +42,86 @@
               <mat-datepicker #dp3 disabled="false"></mat-datepicker>
             </mat-form-field>
 
-        
-            <mat-form-field style="width:22%;" appearance="outline">
-              <mat-label>Hora Inicio:</mat-label>
-              <input matInput [(ngModel)]="reg.h_inicio" type="time" placeholder="start hour">
-            </mat-form-field>
-
-            <mat-form-field style="width:22%;" appearance="outline">
-              <mat-label>Hora Fin:</mat-label>
-              <input matInput [(ngModel)]="reg.h_fin" type="time" placeholder="end hour">
-            </mat-form-field>
-
+          
+               <div class="grid grid-cols-2">
+                
+                <div class="w-80 p-6 bg-white border border-gray-200 rounded-lg shadow
+                dark:bg-gray-800 dark:border-gray-700">
+              
+            
+                <div class="mx-auto w-full min-w-10 border-black border-black">
+                  <label>Hora Inicio:</label>
+                  <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                   focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"required
+                [(ngModel)]="reg.h_inicio" type="time" placeholder="start hour">
+                </div>
+              
+              
+              <div class="mx-auto w-full min-w-4  border-black border-black">
+                  <label>Hora Fin:</label>
+                  <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                  focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                   dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"required 
+                   [(ngModel)]="reg.h_fin" type="time" placeholder="end hour">
+                </div>
+            </div>
+            </div>
+            </div>  
+           
             <mat-form-field style="width:55%;" appearance="outline" >
               <mat-label>Actividad:</mat-label>
               <mat-select [(value)]="reg.actividad" >
                   <mat-option *ngFor="let ac of activities" [value]="ac.actividad">{{ac.actividad}}</mat-option>
               </mat-select>
             </mat-form-field>
-  
-            <mat-form-field style="width:70%;" appearance="outline">
+              
+            <div class="mb-2 mx-3 w-80  p-1  ">
+              <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Descripcion</label>
+              <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+               text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                 dark:focus:border-blue-500" placeholder="Descripcion :" [(ngModel)]="reg.descripcion" >
+                
+           
+           
+            <!-- <mat-form-field style="width:70%;" appearance="outline">
               <mat-label>Descripcion:</mat-label>
               <input matInput [(ngModel)]="reg.descripcion">
             </mat-form-field>
-            </div>
-       
-        <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
+            
+        -->
+        <hr class="h-px my-8 col-span-full bg-white border-0 dark:bg-white"> 
+
+            <div class="bg-center">
+              <button type="button" class="flex gap-2 text-white bg-gradient-to-r  from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 
+             focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 
+               py-2.5 text-center me-2 mb-2" (click)="regDaily()">Registrar
+                 <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 
+               2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 
+           2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1
+            .586-1.414Z"/>
+               </svg>
+
+              </button>
+      </div>
+            
+            
+            
+            
+            
+            <!-- <mat-card style="margin:10px" class="mat-elevation-z8 card-orden">
           <button mat-raised-button style="background-color: rgb(59, 145, 82); color:white" (click)="regDaily()" > 
             <mat-icon>add_task</mat-icon>
             Registrar
           </button>
           
-        </mat-card>
+        </mat-card> -->
 
       </div>
 
-    </mat-tab>
+   
     
     <mat-tab label="VER REGISTROS" class="tabWare">
 
@@ -114,7 +182,7 @@
       </div>
     </mat-tab>
   
-  </mat-tab-group>
+ 
 
 </div>
 

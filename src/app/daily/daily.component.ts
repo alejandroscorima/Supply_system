@@ -45,6 +45,7 @@ import { Collaborator } from '../collaborator';
   ],
 })
 export class DailyComponent implements OnInit {
+  [x: string]: any;
 
   user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
   colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
@@ -125,6 +126,7 @@ export class DailyComponent implements OnInit {
   ) { }
 
   regDaily(){
+    
     console.log(this.reg);
     this.reg.fecha=this.reg.fecha;
     this.reg.h_inicio=this.reg.h_inicio;
@@ -146,7 +148,7 @@ export class DailyComponent implements OnInit {
         this.dataSourceDaily.sort = this.sort.toArray()[0];
       });
     });
-
+    
   }
 
 

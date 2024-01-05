@@ -63,22 +63,74 @@ export class ActivitiesComponent implements OnInit {
       this.dataSourceActivities.paginator.firstPage();
     }
   }
+  save(){
 
 
-  regActivity(){
-    this.logisticaService.addActivity(this.acti).subscribe(res=>{
+
+ /*     this.logisticaService.getActivityById(this.acti.id).subscribe(res=>{
       if(res){
+       // this.dialogRef.close('true');
+      }
+    })
+ */
+  }
+
+regActivity(){ 
+  console.log('SE ha ingresad0')
+
+
+    if(this.acti.actividad!='' ){
+
+      console.log(' valor no es nulo o sea funciona', this.acti.actividad)
+
+      console.log(this.acti);
+
+        if(this.acti.id!=null){
+          this.logisticaService.getActivityById(this.acti.id).subscribe((actRes:Activity)=>{
+            this.update(actRes);
+            this.toastr.success('Atividad actualizada correctamente')
+          })
+          
+
+        }
+        else{
+          this.logisticaService.addActivity(this.acti).subscribe(res=>{
+            this.toastr.success('Atividad añadida correctamente')
+            this.logisticaService.getActivities('TODOS').subscribe((actList:Activity[])=>{
+              this.activities=actList;
+              this.dataSourceActivities = new MatTableDataSource(this.activities);
+              this.dataSourceActivities.paginator = this.paginator.toArray()[0];
+              this.dataSourceActivities.sort = this.sort.toArray()[0];
+              console.log(this.acti);
+              this.acti=new Activity('','');
+           })
+
+
+          }) 
+        }
+  }
+  else{
+    this.toastr.warning('Ingrese valor de descripción')
+  }
+}
+  
+  getItemsActivitySelected(ac:Activity){
+    this.acti=ac;
+
+   }
+
+  update(ac:Activity){
+    this.logisticaService.updateActivity(ac).subscribe(res=>{
         this.logisticaService.getActivities('TODOS').subscribe((actList:Activity[])=>{
           this.activities=actList;
           this.dataSourceActivities = new MatTableDataSource(this.activities);
           this.dataSourceActivities.paginator = this.paginator.toArray()[0];
           this.dataSourceActivities.sort = this.sort.toArray()[0];
         })
-        this.acti=new Activity('','');
-      }
     });
   }
 
+    
   eliminar(ac:Activity){
     this.logisticaService.deleteActivity(ac.id).subscribe(res=>{
       this.logisticaService.getActivities('TODOS').subscribe((actList:Activity[])=>{

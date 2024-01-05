@@ -2,7 +2,7 @@
 
 
   <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
-  dark:bg-gray-800 dark:border-gray-700">
+    dark:bg-gray-800 dark:border-gray-700">
 
 
 
@@ -10,7 +10,7 @@
   
   <a>
     <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-      NUEVO USUARIO</h5>
+      NUEVO ACTIVIDAD</h5>
 </a>
 
 
@@ -20,12 +20,20 @@
       </mat-card-title>
       <mat-card-content> -->
 
-      
+        <div class="mb-2 mx-3 w-full p-1 col-span-2 " flex justify-center="items-center" >
+          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Actividad</label>
+          <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+           text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+             dark:focus:border-blue-500" placeholder="Actividad:"   rmatInput [(ngModel)]="acti.actividad">
+            
+        </div>
+       
           
-         <mat-form-field style="width:70%;" appearance="outline">
+         <!-- <mat-form-field style="width:70%;" appearance="outline">
           <mat-label>Actividad:</mat-label>
           <input matInput [(ngModel)]="acti.actividad">
-        </mat-form-field> 
+        </mat-form-field>  -->
 
         <mat-form-field style="width:20%;" appearance="outline" >
           <mat-label>Estado:</mat-label>
@@ -33,22 +41,33 @@
               <mat-option *ngFor="let e of estados" [value]="e">{{e}}</mat-option>
           </mat-select>
         </mat-form-field>
-
  
-      <mat-card-actions>
+ 
+        <div class="">
+          <button type="button" class="flex gap-2 text-white bg-gradient-to-r  from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 
+         focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 
+           py-2.5 text-center me-2 mb-2" (click)="regActivity()">Registrar
+             <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 
+           2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 
+       2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1
+        .586-1.414Z"/>
+           </svg>
+
+          </button>
+  </div>
+
+     <!-- <mat-card-actions>
         <button mat-raised-button style="background-color: rgb(59, 145, 82); color:white" (click)="regActivity()" > 
           <mat-icon>add_task</mat-icon>
           Registrar
         </button>
-      </mat-card-actions>
-
-    </div>
-
+      </mat-card-actions>  -->
+  </div>
+  <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
 <!--caja-->
 <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
 dark:bg-gray-800 dark:border-gray-700">
-
-
 
 
 
@@ -89,6 +108,16 @@ dark:bg-gray-800 dark:border-gray-700">
               </ng-container>
 
 
+              <ng-container matColumnDef="update">
+                <th mat-header-cell *matHeaderCellDef >
+                  Actualizar
+                </th>
+                <td mat-cell *matCellDef="let a; let i=index">
+                  <button mat-icon-button color="accent" (click)="getItemsActivitySelected(a)"> 
+                    <mat-icon>edit</mat-icon> </button>&nbsp;
+                </td>
+              </ng-container>
+
               <ng-container matColumnDef="delete">
                 <th mat-header-cell *matHeaderCellDef >
                   ELIMINAR
@@ -101,8 +130,8 @@ dark:bg-gray-800 dark:border-gray-700">
 
 
 
-              <tr mat-header-row *matHeaderRowDef="['actividad','estado','delete'];"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['actividad','estado','delete'];"></tr>
+              <tr mat-header-row *matHeaderRowDef="['actividad','estado','update','delete'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['actividad','estado','update','delete'];"></tr>
 
 
 
@@ -115,5 +144,4 @@ dark:bg-gray-800 dark:border-gray-700">
         </div>
      
  
-</div>
 </div>
