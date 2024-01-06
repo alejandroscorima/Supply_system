@@ -26,7 +26,7 @@
 
   <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
     <mat-label>Monto:</mat-label>
-    <input matInput [(ngModel)]="mobility.monto">
+    <input appFloatPositive matInput [(ngModel)]="mobility.monto">
     <span matPrefix>S/.&nbsp;</span>
   </mat-form-field>
 

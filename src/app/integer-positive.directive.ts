@@ -17,3 +17,21 @@ export class IntegerPositiveDirective {
     }
   }
 }
+
+@Directive({
+  selector: '[appFloatPositive]'
+})
+export class FloatPositiveDirective {
+
+  constructor(private el: ElementRef) {}
+
+  @HostListener('input', ['$event']) onInput(event: any) {
+    const initialValue = this.el.nativeElement.value;
+   // this.el.nativeElement.value = initialValue.replace(/[^0-9]/g, ''); // Solo permite dígitos
+   this.el.nativeElement.value = initialValue.replace(/[^0-9,.]/g, '');
+    if (this.el.nativeElement.value !== initialValue) {
+      event.stopPropagation();
+     
+    }
+  }
+}

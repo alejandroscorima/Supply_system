@@ -19,8 +19,8 @@
     </mat-form-field>
 
     <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
-      <mat-label>Monto:</mat-label>
-      <input matInput [(ngModel)]="data['item'].monto">
+      <mat-label >Monto:</mat-label>
+      <input type="text" appFloatPositive matInput [(ngModel)]="data['item'].monto">
       <span matPrefix>S/.&nbsp;</span>
     </mat-form-field>
 
@@ -43,7 +43,7 @@
 
     <mat-form-field style="width:30%;" class="doc_id" appearance="outline">
       <mat-label>RUC:</mat-label>
-      <input matInput (keyup)="changeRuc1()" [(ngModel)]="data['item'].ruc">
+      <input  appIntegerPositive matInput (keyup)="changeRuc1()" [(ngModel)]="data['item'].ruc">
     </mat-form-field>
 
     <mat-form-field style="width:60%;" class="doc_id" appearance="outline">
