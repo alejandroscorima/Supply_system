@@ -124,7 +124,7 @@ export class OrdenComponent implements OnInit {
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
   aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
 
-  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,'','','','','',0,'18','NO','NO','OFICINA','');
+  ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,'','','','','','',0,'18','NO','NO','OFICINA','');
 
 
 
@@ -768,12 +768,14 @@ export class OrdenComponent implements OnInit {
             this.toastr.success('Datos obtenidos correctamente');
             this.ord.razon_social=res['data']['nombre_o_razon_social'];
             this.ord.direccion=res['data']['direccion_completa'];
+            this.ord.num_cuenta='';
 
               }
             else{
             this.toastr.warning('No se obtuvieron datos');
             this.ord.razon_social='';
             this.ord.direccion='';
+            this.ord.num_cuenta='';
          }
          })
 
@@ -933,6 +935,7 @@ export class OrdenComponent implements OnInit {
 
                 const updRes = await this.logisticaService.updateProvider(this.actualProvider).toPromise();
                 console.log('updRes', updRes);
+                console.log('provl', provl);
 
                 return;
             } else {
@@ -997,7 +1000,11 @@ export class OrdenComponent implements OnInit {
   isValidRow(row: any): boolean {
     // Validar que "cantidad" sea un entero positivo y "precio" un float positivo
     const isValidCantidad = Number.isInteger(row.cantidad) && row.cantidad > 0;
+    console.log('isValidCantidad',isValidCantidad);
+    console.log('cantidad',row.cantidad);
     const isValidPrecio = !isNaN(row.precio) && row.precio > 0;
+    console.log('isValidPrecio',isValidPrecio);
+    console.log('precio',row.precio);
 
     return isValidCantidad && isValidPrecio;
   }
@@ -1020,17 +1027,30 @@ export class OrdenComponent implements OnInit {
       /* selected the first sheet */
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+      console.log(ws);
 
 
       /* save data */
-      const data = XLSX.utils.sheet_to_json(ws); // to get 2d array pass 2nd parameter as object {header: 1}
+      const data = XLSX.utils.sheet_to_json(ws, { raw: true }); // to get 2d array pass 2nd parameter as object {header: 1}
 
       console.log(data); // Data will be logged in array format containing objects
 
-      XLSX.utils.sheet_to_json(ws, { raw: true }).forEach((row: any) => {
+      const normalizedData = data.map((item: any) => {
+        const normalizedItem: any = {};
+        for (const key in item) {
+          if (item.hasOwnProperty(key)) {
+            normalizedItem[key.toLowerCase()] = item[key];
+          }
+        }
+        return normalizedItem;
+      });
+
+      normalizedData.forEach((row: any) => {
+        console.log('row',row);
         // Crea una instancia de OrdItem y agrega al arreglo listOrd
 
         if(this.isValidRow(row)){
+          console.log('isValidrow',row);
           const ordItem = new OrdenItem('',0,'','','','','',false,'','','',false);
           ordItem.cantidad = row.cantidad;
           ordItem.descripcion = row.descripcion;
@@ -1181,7 +1201,8 @@ export class OrdenComponent implements OnInit {
 
 
 
-                  this.toastr.success('!Exito al generar orden')
+                  this.toastr.success('!Exito al generar orden');
+                  location.reload();
                 }
               });
             })
