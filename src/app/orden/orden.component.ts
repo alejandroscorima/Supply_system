@@ -78,6 +78,8 @@ export class OrdenComponent implements OnInit {
   areas = [];
   prioridades = [];
 
+  fileUploaded: File = null;
+
 
 
   docname;
@@ -313,6 +315,7 @@ export class OrdenComponent implements OnInit {
 
   increaseQuantityButton(){
     this.orden_item.cantidad++;
+    console.log('increase',this.orden_item.cantidad);
 
 
   }
@@ -321,6 +324,7 @@ export class OrdenComponent implements OnInit {
     this.orden_item.cantidad--;
 
     
+    console.log('decrease',this.orden_item.cantidad);
   }
   updateIgv(){
     if(this.igvActivated){
@@ -545,9 +549,7 @@ export class OrdenComponent implements OnInit {
     return o1.name === o2.name && o1.name === o2.name;
   }
 
-
-  ngOnInit() {
-
+  initConfig(){
     this.fecha= new Date();
 
     this.fechaRegister= new Date();
@@ -585,7 +587,7 @@ export class OrdenComponent implements OnInit {
                     this.logisticaService.getSignatureByUserId(this.user.user_id).subscribe((sig:Signature)=>{
 
                       this.signature=sig;
-                      console.log(this.signature)
+                      console.log('signature',this.signature)
 
                      // this.sello= this.signature.signature_url;
 
@@ -715,7 +717,12 @@ export class OrdenComponent implements OnInit {
     else{
       this.router.navigateByUrl('/login');
     }
+  }
 
+
+  ngOnInit() {
+
+    this.initConfig();
   }
 
 
@@ -1075,9 +1082,18 @@ export class OrdenComponent implements OnInit {
       data.splice(0,7);
       data.splice(data.length-1,1);
 
+      this.ord.subtotal='0.0';
+      this.listaOrd.forEach((oi:OrdenItem)=>{
+       this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(5);
+      })
+      this.ord.igv=(parseFloat(this.ord.subtotal)*(parseFloat(this.ord.igv_percent)/100)).toFixed(5);
+      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+      this.orden_item = new OrdenItem('',null,'','','','','',false,'','','',true);
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
 
       this.dataSourceOrd.sort = this.sort.toArray()[0];
+
+      this.fileUploaded=null;
 
 
 
@@ -1202,7 +1218,7 @@ export class OrdenComponent implements OnInit {
 
 
                   this.toastr.success('!Exito al generar orden');
-                  location.reload();
+                  this.initConfig();
                 }
               });
             })
@@ -1283,6 +1299,18 @@ export class OrdenComponent implements OnInit {
     this.listaOrd.forEach(m=>{
       pos_line+=6;
       pos_item+=6;
+      if(pos_line>240){
+        this.doc.line(10, pos_line, 200, pos_line, 'S');
+        this.doc.line(10, pos_line_start, 10, pos_line, 'S');
+        this.doc.line(34, pos_line_start, 34, pos_line, 'S');
+        this.doc.line(140, pos_line_start, 140, pos_line, 'S');
+        this.doc.line(174, pos_line_start, 174, pos_line, 'S');
+        this.doc.line(200, pos_line_start, 200, pos_line, 'S');
+        this.doc.addPage();
+        pos_line=15;
+        pos_line_start=pos_line;
+        pos_item=pos_line+4;
+      }
       this.doc.line(10, pos_line, 200, pos_line, 'S');
       this.doc.text(String(m.cantidad),22,pos_item,{align:'center'});
       //this.doc.text(m.descripcion,40,pos_item);
@@ -1358,13 +1386,13 @@ export class OrdenComponent implements OnInit {
     
     console.log(this.signature);
     
-    if(this.signature&&(this.signature.signatureURL!=null||this.signature.signatureURL!='')){
+    if(this.signature&&(this.signature.signatureURL!=null&&this.signature.signatureURL!='')){
    //this.sello.src = 'assets/selloVisionGames.png';
    this.sello.src = this.signature.signatureURL;
 
    
     console.log(this.signature.signatureURL)
-    this.doc.addImage( this.sello, 'png',this.doc.internal.pageSize.width - 60,this.doc.internal.pageSize.height -60,50,40,'','FAST',0);
+    this.doc.addImage( this.sello, 'png',this.doc.internal.pageSize.width/2 - 25,pos_line-30,50,40,'','FAST',0);
 
     }
 
@@ -1673,6 +1701,18 @@ export class OrdenComponent implements OnInit {
     this.listaOrdView.forEach(m=>{
       pos_line+=6;
       pos_item+=6;
+      if(pos_line>240){
+        this.docView.line(10, pos_line, 200, pos_line, 'S');
+        this.docView.line(10, pos_line_start, 10, pos_line, 'S');
+        this.docView.line(34, pos_line_start, 34, pos_line, 'S');
+        this.docView.line(140, pos_line_start, 140, pos_line, 'S');
+        this.docView.line(174, pos_line_start, 174, pos_line, 'S');
+        this.docView.line(200, pos_line_start, 200, pos_line, 'S');
+        this.docView.addPage();
+        pos_line=15;
+        pos_line_start=pos_line;
+        pos_item=pos_line+4;
+      }
       this.docView.line(10, pos_line, 200, pos_line, 'S');
       this.docView.text(String(m.cantidad),22,pos_item,{align:'center'});
       //this.doc.text(m.descripcion,40,pos_item);
@@ -1741,11 +1781,11 @@ export class OrdenComponent implements OnInit {
     this.docView.text(this.ordView.total,197,pos_line,{align:'right'});
 
 
-    if(this.signature.signatureURL!=null||this.signature.signatureURL!=''){
+    if( this.signature && this.signature.signatureURL!=null && this.signature.signatureURL!=''){
     this.sello.src = this.signature.signatureURL;
     //this.sello.src = 'assets/selloVisionGames.png';
 
-    this.docView.addImage( this.sello, 'png',this.docView.internal.pageSize.width - 60,this.docView.internal.pageSize.height -60,50,40,'','FAST',0);
+    this.docView.addImage( this.sello, 'png',this.docView.internal.pageSize.width/2 - 25,pos_line-30,50,40,'','FAST',0);
   }
     //console.log(this.doc.internal.getFontSize());
 

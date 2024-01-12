@@ -1001,6 +1001,10 @@ async saveProvider() {
     console.log(this.data['item']);
   }
 
+  cancel(){
+    this.dialogRef.close(false);
+  }
+
 
 
   ChangeCategory(){
