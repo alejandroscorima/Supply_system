@@ -340,31 +340,62 @@ export class NuevoComponent implements OnInit {
                 console.log(i.f_inicio);
                 console.log(i.h_inicio);
                 if(i.image){
-                  this.fileUploadService.upload(i.image).subscribe(res => {
+                  this.fileUploadService.upload(i.image).subscribe(resImageUpload => {
 
-                    if (res) {
+                    console.log('resImageUpload',resImageUpload);
 
-                      i.image_url = res;
+                    if (resImageUpload) {
+
+                      i.image_url = resImageUpload;
 
                     }
 
                     if(i.pdf){
-                      this.fileUploadService.upload(i.pdf).subscribe(resPDF => {
-                        if (resPDF) {
-                          i.pdf_url = resPDF;
+                      this.fileUploadService.upload(i.pdf).subscribe(resPDFUpload => {
+                        if (resPDFUpload) {
+                          i.pdf_url = resPDFUpload;
                         }
-                        this.logisticaService.addReqDet(i).subscribe(ress => {
-                          console.log(ress);
+                        this.logisticaService.addReqDet(i).subscribe(resImgOKPdfOK => {
+                          console.log('resImgOKPdfOK',resImgOKPdfOK);
+                        });
+                      },errorPDF=>{
+                        i.pdf_url = '';
+                        this.logisticaService.addReqDet(i).subscribe(resImgOKPdfErr => {
+                          console.log('resImgOKPdfErr',resImgOKPdfErr);
                         });
                       });
                     }
                     else{
                       i.pdf_url = '';
-                      this.logisticaService.addReqDet(i).subscribe(ress => {
-                        console.log(ress);
+                      this.logisticaService.addReqDet(i).subscribe(resImgOKPdfNo => {
+                        console.log('resImgOKPdfNo',resImgOKPdfNo);
                       });
                     }
 
+                  }, errorImg=>{
+                    console.log('errorImg',errorImg);
+                    i.image_url = '';
+                    if(i.pdf){
+                      this.fileUploadService.upload(i.pdf).subscribe(resPDFUpload => {
+                        if (resPDFUpload) {
+                          i.pdf_url = resPDFUpload;
+                        }
+                        this.logisticaService.addReqDet(i).subscribe(resImgErrPdfOk => {
+                          console.log('resImgErrPdfOk',resImgErrPdfOk);
+                        });
+                      },errorPDF=>{
+                        i.pdf_url = '';
+                        this.logisticaService.addReqDet(i).subscribe(resImgErrPdfErr => {
+                          console.log('resImgErrPdfErr',resImgErrPdfErr);
+                        });
+                      });
+                    }
+                    else{
+                      i.pdf_url = '';
+                      this.logisticaService.addReqDet(i).subscribe(resImgErrPdfNo => {
+                        console.log('resImgErrPdfNo',resImgErrPdfNo);
+                      });
+                    }
                   });
                 }
                 else{
@@ -376,6 +407,11 @@ export class NuevoComponent implements OnInit {
                       }
                       this.logisticaService.addReqDet(i).subscribe(ress => {
                         console.log(ress);
+                      });
+                    },errorPDF=>{
+                      i.pdf_url = '';
+                      this.logisticaService.addReqDet(i).subscribe(ress => {
+                        console.log('ressElse',ress);
                       });
                     });
                   }

@@ -14,12 +14,13 @@
       <div class="mb-8  rounded-lg md:mb-12  gap-2 grid md:grid-cols-3 bg-white dark:bg-gray-800 ">
 
       <div class=" m-4  w-full col-span-1">
-          <label for="Area" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Area:</label>
-          <select id="TiposSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
-          rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
-        dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-        dark:focus:border-blue-500"  (change)="areaChange($event)" >
+        <label for="Area" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Area:
+        </label>
+        <select id="TiposSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+        rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+      dark:focus:border-blue-500" [(ngModel)]="req.area"  (change)="areaChange($event)" >
         
           <option id="optionTipo"
             *ngFor="let a of areas" [value]="a['name']" >
@@ -28,7 +29,7 @@
           </option>
         
         </select>
-    </div>
+      </div>
 
 
     <div class=" m-4 w-full col-span-2">
@@ -44,9 +45,28 @@
     </div>
 
 
+    <div class=" m-4  w-full col-span-1">
+      <label for="Campus" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Sala:
+      </label>
+      <select id="Campus" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+      rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+    dark:focus:border-blue-500" [(ngModel)]="req.sala"  (change)="salaChange($event)" >
+      
+        <option id="optionTipo"
+          *ngFor="let c of campus" [value]="c['name']" >
+        <button type="button" (click)="(c)" >{{c['name']}}</button>
+        
+        </option>
+      
+      </select>
+    </div>
+
+
    
 
-    <div class=" m-4 w-full col-span-2">
+    <div class=" m-4 w-full col-span-1">
       <mat-form-field appearance="outline">
         <mat-label>Fecha:</mat-label>
         <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange(ref.value)">
@@ -65,28 +85,28 @@
       rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
     dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
     dark:focus:border-blue-500"  (change)="priorityChange($event)">
-      <option selected [hidden]="true">Prioridad</option>
-      <option id="optionTipo"
-      *ngFor="let p of prioridades" [value]="p['nivel']">
-      <button type="button" (click)="(p)" >{{p['nivel']}}</button>
-      
-      </option>
+        <option selected [hidden]="true">Prioridad</option>
+        <option id="optionTipo"
+          *ngFor="let p of prioridades" [value]="p['nivel']">
+          <button type="button" (click)="(p)" >{{p['nivel']}}</button>
+        
+        </option>
     
-    </select>
-  </div>
+      </select>
+    </div>
 
   
-  <div class=" m-4 w-full col-span-3">
-    <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-      Ingrese el motivo: </label>
-    <input type="text" id="default-input" class="w-full bg-gray-50 border border-gray-300
-    text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5
-    dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-    dark:focus:border-blue-500"
+    <div class=" m-4 w-full col-span-3">
+      <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Ingrese el motivo: </label>
+      <input type="text" id="default-input" class="w-full bg-gray-50 border border-gray-300
+      text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5
+      dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+      dark:focus:border-blue-500"
 
-    [(ngModel)]="req.motivo" placeholder="Motivo"
-    >
-  </div>
+      [(ngModel)]="req.motivo" placeholder="Motivo"
+      >
+    </div>
 
 
       </div>
@@ -155,7 +175,7 @@
         <form class="max-w-xs mb-6 mx-auto col-span-2 flex flex-col ">
           <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad:</label>
           <div class=" flex ">
-              <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input" class="bg-gray-100 dark:bg-gray-700
+              <button type="button" id="decrement-button" class="bg-gray-100 dark:bg-gray-700
               dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11
                 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
                 (click)="decreaseQuantityButton()"
@@ -164,14 +184,14 @@
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
                   </svg>
               </button>
-              <input type="text" appIntegerPositive id="quantity-input" data-input-counter aria-describedby="helper-text-explanation" 
+              <input type="text" appFloatPositive id="quantity-input" aria-describedby="helper-text-explanation" 
               class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500
               focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
             
               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0" required
               [(ngModel)]="item.cantidad" placeholder="Cantidad">
 
-              <button type="button" id="increment-button" data-input-counter-increment="quantity-input"
+              <button type="button" id="increment-button" 
               class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border
                border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
                (click)="increaseQuantityButton()">
