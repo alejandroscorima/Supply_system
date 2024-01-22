@@ -59,6 +59,7 @@ export class LogisticaService {
   addFondoItem(it: FondoItem) {
     return this.http.post(`${this.baseUrl}/postFondoItem.php`, it);
   }
+ 
 
   addFondoLiquidacion(liq: FondoLiquidacion) {
     return this.http.post(`${this.baseUrl}/postFondoLiquidacion.php`, liq);
@@ -266,6 +267,9 @@ export class LogisticaService {
   getFondoItems(sala: string, estado: string, user_id: number) {
     return this.http.get(`${this.baseUrl}/getFondoItems.php?sala=${sala}&estado=${estado}&user_id=${user_id}`);
   }
+  getEntregaItems(sala: string, estado: string, user_id: number) {
+    return this.http.get(`${this.baseUrl}/getFondoItems.php?sala=${sala}&estado=${estado}&user_id=${user_id}`);
+  }
 
   getFondoItemsByLiquidacionId(liq_id: string) {
     return this.http.get(`${this.baseUrl}/getFondoItemsByLiquidacionId.php?liq_id=${liq_id}`);
@@ -281,6 +285,10 @@ export class LogisticaService {
 
   getFondoLiquidacionesByCampus(campus: string) {
     return this.http.get(`${this.baseUrl}/getFondoLiquidacionesByCampus.php?campus=${campus}`);
+  }
+
+  getEntregaLiquidacionesByCampus(campus: string) {
+    return this.http.get(`${this.baseUrl}/getEntregaLiquidacionesByCampus.php?campus=${campus}`);
   }
 
   updateProvider(prov: Proveedor) {

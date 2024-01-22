@@ -1,0 +1,77 @@
+<div class="formRevalidar" #content>
+  <h1 mat-dialog-title>EDITAR ITEM</h1>
+
+  <div mat-dialog-content>
+
+
+    <mat-form-field style="width:28%;" appearance="outline">
+      <mat-label>Fecha:</mat-label>
+      <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="date" #ref (dateChange)="dateChange(ref.value)">
+      <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+      <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field style="width:28%;" class="sala" id="sala" appearance="outline" >
+      <mat-label>Categoria:</mat-label>
+      <mat-select [(value)]="data.categoria" (selectionChange)="ChangeCategory()">
+          <mat-option *ngFor="let c of categories" [value]="c['name']">{{c['name']}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+      <mat-label>Monto:</mat-label>
+      <input matInput [(ngModel)]="data.monto">
+      <span matPrefix>S/.&nbsp;</span>
+    </mat-form-field>
+
+    <mat-form-field style="width:28%;" appearance="outline" >
+      <mat-label>Tipo documento:</mat-label>
+      <mat-select [(value)]="data.tipo_doc">
+          <mat-option *ngFor="let d of docs" [value]="d">{{d}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+      <mat-label>Serie:</mat-label>
+      <input matInput [(ngModel)]="data.serie">
+    </mat-form-field>
+
+    <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+      <mat-label>Nº Documento:</mat-label>
+      <input matInput [(ngModel)]="data.numero">
+    </mat-form-field>
+
+    <mat-form-field style="width:30%;" class="doc_id" appearance="outline">
+      <mat-label>RUC:</mat-label>
+      <input matInput (keyup)="changeRuc()" [(ngModel)]="data.ruc">
+    </mat-form-field>
+
+    <mat-form-field style="width:60%;" class="doc_id" appearance="outline">
+      <mat-label>Razon Social:</mat-label>
+      <input matInput [(ngModel)]="data.raz_social">
+    </mat-form-field>
+
+ <!--    <mat-form-field style="width:29%;" class="sala" id="sala" appearance="outline" >
+      <mat-label>:</mat-label>
+      <mat-select [(value)]="ord.empresa" (selectionChange)="Change()">
+          <mat-option *ngFor="let e of empresas" [value]="e">{{e}}</mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+
+
+
+
+
+
+  </div>
+
+  <div mat-dialog-actions>
+
+    <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white;" (click)="save()"  ><mat-icon>save</mat-icon>Guardar</button>
+    <button mat-raised-button style="background-color:rgb(112, 14, 14); color: white;"  ><mat-icon></mat-icon>Cancelar</button>
+ <!--    <button mat-raised-button style="background-color:rgb(125, 29, 29); color: white;" (click)="btnRechazar()"><mat-icon>cancel</mat-icon>Rechazar</button> -->
+
+  </div>
+
+</div>

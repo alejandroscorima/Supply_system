@@ -70,6 +70,7 @@ import { ActivitiesComponent } from './activities/activities.component';
 import { DialogAddReceipt, DialogEditReceipt, DialogShowDocs, DialogNewDoc, DialogEditDoc } from './orden/orden.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { EntregaComponent,DialogEditItemEntrega,DialogNewItemEntrega,DialogConfirmEntrega } from './entrega/entrega.component';
 
 import { IntegerPositiveDirective } from './integer-positive.directive';
 import { FloatPositiveDirective } from './integer-positive.directive';
@@ -131,7 +132,11 @@ import { FloatPositiveDirective } from './integer-positive.directive';
         NavBarComponent,
         SideNavComponent,
         IntegerPositiveDirective,
-        FloatPositiveDirective
+        FloatPositiveDirective,
+        EntregaComponent,
+        DialogEditItemEntrega,
+        DialogNewItemEntrega,
+        DialogConfirmEntrega,
     ],
     imports: [
         BrowserModule,
