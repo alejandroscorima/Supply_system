@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
 
 
 
-$jsonFondoLiquidacion = json_decode(file_get_contents("php://input"));
+$jsonEntregaLiquidacion = json_decode(file_get_contents("php://input"));
 
 
 
@@ -24,8 +24,8 @@ $jsonFondoLiquidacion = json_decode(file_get_contents("php://input"));
 
 try {
     $link = mysqli_connect('localhost', 'root', 'Oscorpsvr', 'oscorp_supply');
-    mysqli_query($link, "INSERT INTO fondoliquidaciones (fecha,campus,campus_dir,numero,importe,personal, empresa, user_id, estado) 
-    VALUES ('".$jsonFondoLiquidacion->fecha."','".$jsonFondoLiquidacion->campus."','".$jsonFondoLiquidacion->campus_dir."','".$jsonFondoLiquidacion->numero."','".$jsonFondoLiquidacion->importe."','".$jsonFondoLiquidacion->personal."','".$jsonFondoLiquidacion->empresa."','".$jsonFondoLiquidacion->user_id."','".$jsonFondoLiquidacion->estado."')");
+    mysqli_query($link, "INSERT INTO entregaliquidaciones (fecha,campus,campus_dir,numero,importe,personal, empresa, user_id, estado) 
+    VALUES ('".$jsonEntregaLiquidacion->fecha."','".$jsonEntregaLiquidacion->campus."','".$jsonEntregaLiquidacion->campus_dir."','".$jsonEntregaLiquidacion->numero."','".$jsonEntregaLiquidacion->importe."','".$jsonEntregaLiquidacion->personal."','".$jsonEntregaLiquidacion->empresa."','".$jsonEntregaLiquidacion->user_id."','".$jsonEntregaLiquidacion->estado."')");
     $id = mysqli_insert_id($link);
     echo json_encode([
         "liq_id" => $id,

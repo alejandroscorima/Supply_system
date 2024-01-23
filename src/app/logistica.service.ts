@@ -332,6 +332,9 @@ export class LogisticaService {
   deleteFondoItem(item_id) {
     return this.http.delete(`${this.baseUrl}/deleteFondoItem.php?item_id=${item_id}`);
   }
+  deleteEntregaItem(item_id) {
+    return this.http.delete(`${this.baseUrl}/deleteEntregaItem.php?item_id=${item_id}`);
+  }
 
   deleteActivity(id) {
     return this.http.delete(`${this.baseUrl}/deleteActivity.php?id=${id}`);

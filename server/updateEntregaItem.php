@@ -12,6 +12,6 @@ if (!$jsonItem) {
     exit("No hay datos");
 }
 $bd = include_once "bdLogistica.php";
-$sentencia = $bd->prepare("UPDATE fondoitems SET liquidacion_id = ?, estado = ?, fecha = ?, tipo_doc = ?, serie = ?, numero = ?, ruc = ?, raz_social = ?, monto = ?, categoria = ? WHERE id = ?");
+$sentencia = $bd->prepare("UPDATE entregaitems SET liquidacion_id = ?, estado = ?, fecha = ?, tipo_doc = ?, serie = ?, numero = ?, ruc = ?, raz_social = ?, monto = ?, categoria = ? WHERE id = ?");
 $resultado = $sentencia->execute([$jsonItem->liquidacion_id, $jsonItem->estado, $jsonItem->fecha, $jsonItem->tipo_doc, $jsonItem->serie, $jsonItem->numero, $jsonItem->ruc, $jsonItem->raz_social, $jsonItem->monto, $jsonItem->categoria, $jsonItem->id]);
 echo json_encode($resultado);

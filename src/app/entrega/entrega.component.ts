@@ -140,7 +140,7 @@ export class EntregaComponent implements OnInit {
       dialogRef.afterClosed().subscribe(res => {
         if(res){
           console.log(it.id);
-          this.logisticaService.deleteFondoItem(it.id).subscribe(resi=>{
+          this.logisticaService.deleteEntregaItem(it.id).subscribe(resi=>{
             this.logisticaService.getEntregaItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:EntregaItem[])=>{
               this.entregaItems=res2;
               this.dataSourceEntregaItem = new MatTableDataSource(this.entregaItems);
@@ -152,7 +152,7 @@ export class EntregaComponent implements OnInit {
       })
     }
   
-    anular(fond: EntregaLiquidacion){
+    anular(entre: EntregaLiquidacion){
       var dialogRef;
       dialogRef=this.dialog.open(DialogConfirmEntrega,{
         data:"Segur@ que desea anular el Registro?",
@@ -160,9 +160,9 @@ export class EntregaComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(res => {
         if(res){
-          this.logisticaService.getEntregaItemsByLiquidacionId(String(fond.id)).subscribe((resi:EntregaItem[])=>{
-            fond.estado='ANULADO';
-            this.logisticaService.updateEntregaLiquidacion(fond).subscribe();
+          this.logisticaService.getEntregaItemsByLiquidacionId(String(entre.id)).subscribe((resi:EntregaItem[])=>{
+            entre.estado='ANULADO';
+            this.logisticaService.updateEntregaLiquidacion(entre).subscribe();
             resi.forEach((it,indi)=>{
               it.estado='ANULADO';
               this.logisticaService.updateEntregaItem(it).subscribe(a=>{
@@ -533,14 +533,14 @@ export class EntregaComponent implements OnInit {
         this.doc.text('LOGISTICA',175,33,{align:'center'});
         this.doc.setFontSize(9);
         this.doc.setTextColor(0,0,0);
-        this.doc.text('LIQUIDACION DE ENTREGA FIJO',175,26,{align:'center'});
+        this.doc.text('RENDICION DE ENTREGA',175,26,{align:'center'});
       }
       else{
         this.doc.rect(150, 28, 50, 14);
         this.doc.setFont("helvetica","normal");
         this.doc.setFontSize(10);
         this.doc.setTextColor(0,0,0);
-        this.doc.text('FONDO FIJO',175,26,{align:'center'});
+        this.doc.text('RENDICION DE ENTREGA',175,26,{align:'center'});
         this.doc.text('LIQUIDACION DE CHEQUE',175,33,{align:'center'});
       }
       this.doc.setFont("helvetica","normal");
@@ -977,7 +977,7 @@ async saveProvider() {
 
 
     if(this.validateSave(this.data)){
-      this.logisticaService.addFondoItem(this.data['item']).subscribe(res=>{
+      this.logisticaService.addEntregaItem(this.data['item']).subscribe(res=>{
         
         if(res){
           this.dialogRef.close(this.data['item']);

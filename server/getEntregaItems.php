@@ -13,7 +13,7 @@ $bd = include_once "bdLogistica.php";
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");
 //$sentencia = $bd->prepare("select * from actas.actas where estado= '".$estado."'");
 
-$sentencia = $bd->prepare("SELECT id, campus, fecha, tipo_doc, serie, numero, ruc, raz_social, monto, categoria, estado, liquidacion_id, user_id FROM fondoitems WHERE campus='".$sala."' AND estado='".$estado."' AND user_id='".$user_id."'");
+$sentencia = $bd->prepare("SELECT id, campus, fecha, tipo_doc, serie, numero, ruc, raz_social, monto, categoria, estado, liquidacion_id, user_id FROM entregaitems WHERE campus='".$sala."' AND estado='".$estado."' AND user_id='".$user_id."'");
 
 
 /* if($tipo_usuario=='ASISTENTE'){
@@ -25,8 +25,8 @@ $sentencia = $bd->prepare("SELECT id, campus, fecha, tipo_doc, serie, numero, ru
 $sentencia -> execute();
 //[$fecha_cumple]
 //$mascotas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-$fondoItems = $sentencia->fetchAll(PDO::FETCH_OBJ);
+$entregaItems = $sentencia->fetchAll(PDO::FETCH_OBJ);
 //echo json_encode($mascotas);
-echo json_encode($fondoItems);
+echo json_encode($entregaItems);
 
 ?>
