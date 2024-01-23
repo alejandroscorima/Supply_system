@@ -17,6 +17,8 @@ import { Mobility } from './mobility';
 import { Activity } from './activity';
 import { Campus } from './campus';
 import { Doc } from './doc';
+import { EntregaLiquidacion } from './entrega_liquidacion';
+import { EntregaItem } from './entrega_item';
 
 @Injectable({
   providedIn: 'root'
@@ -60,9 +62,14 @@ export class LogisticaService {
     return this.http.post(`${this.baseUrl}/postFondoItem.php`, it);
   }
  
-
+  addEntregaItem(it: EntregaItem) {
+    return this.http.post(`${this.baseUrl}/postEntregaItem.php`, it);
+  }
   addFondoLiquidacion(liq: FondoLiquidacion) {
     return this.http.post(`${this.baseUrl}/postFondoLiquidacion.php`, liq);
+  }
+  addEntregaLiquidacion(liq: EntregaLiquidacion) {
+    return this.http.post(`${this.baseUrl}/postEntregaLiquidacion.php`, liq);
   }
 
   addDaily(daily: Daily){
@@ -223,7 +230,9 @@ export class LogisticaService {
   getLastFondoLiquidacionNum(num: string,campus:string, empresa: string) {
     return this.http.get(`${this.baseUrl}/getLastFondoLiquidacionNum.php?num=${num}&campus=${campus}&empresa=${empresa}`);
   }
-
+  getLastEntregaLiquidacionNum(num: string,campus:string, empresa: string) {
+    return this.http.get(`${this.baseUrl}/getLastEntregaLiquidacionNum.php?num=${num}&campus=${campus}&empresa=${empresa}`);
+  }
   getLastFondoLiquidacionId() {
     return this.http.get(`${this.baseUrl}/getLastFondoLiquidacionId.php?`);
   }
@@ -268,11 +277,14 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getFondoItems.php?sala=${sala}&estado=${estado}&user_id=${user_id}`);
   }
   getEntregaItems(sala: string, estado: string, user_id: number) {
-    return this.http.get(`${this.baseUrl}/getFondoItems.php?sala=${sala}&estado=${estado}&user_id=${user_id}`);
+    return this.http.get(`${this.baseUrl}/getEntregaItems.php?sala=${sala}&estado=${estado}&user_id=${user_id}`);
   }
 
   getFondoItemsByLiquidacionId(liq_id: string) {
     return this.http.get(`${this.baseUrl}/getFondoItemsByLiquidacionId.php?liq_id=${liq_id}`);
+  }
+  getEntregaItemsByLiquidacionId(liq_id: string) {
+    return this.http.get(`${this.baseUrl}/getEntregaItemsByLiquidacionId.php?liq_id=${liq_id}`);
   }
 
   getFondoItemsByOrdenId(orden_id: string) {
@@ -306,9 +318,15 @@ export class LogisticaService {
   updateFondoItem(item: FondoItem) {
     return this.http.put(`${this.baseUrl}/updateFondoItem.php`, item);
   }
+  updateEntregaItem(item: FondoItem) {
+    return this.http.put(`${this.baseUrl}/updateEntregaItem.php`, item);
+  }
 
   updateFondoLiquidacion(liq: FondoLiquidacion) {
     return this.http.put(`${this.baseUrl}/updateFondoLiquidacion.php`, liq);
+  } 
+  updateEntregaLiquidacion(liq: EntregaLiquidacion) {
+    return this.http.put(`${this.baseUrl}/updateEntregaLiquidacion.php`, liq);
   } 
 
   deleteFondoItem(item_id) {

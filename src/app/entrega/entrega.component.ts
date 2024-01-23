@@ -141,7 +141,7 @@ export class EntregaComponent implements OnInit {
         if(res){
           console.log(it.id);
           this.logisticaService.deleteFondoItem(it.id).subscribe(resi=>{
-            this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:EntregaItem[])=>{
+            this.logisticaService.getEntregaItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:EntregaItem[])=>{
               this.entregaItems=res2;
               this.dataSourceEntregaItem = new MatTableDataSource(this.entregaItems);
               this.dataSourceEntregaItem.paginator = this.paginator.toArray()[0];
@@ -160,18 +160,18 @@ export class EntregaComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(res => {
         if(res){
-          this.logisticaService.getFondoItemsByLiquidacionId(String(fond.id)).subscribe((resi:EntregaItem[])=>{
+          this.logisticaService.getEntregaItemsByLiquidacionId(String(fond.id)).subscribe((resi:EntregaItem[])=>{
             fond.estado='ANULADO';
-            this.logisticaService.updateFondoLiquidacion(fond).subscribe();
+            this.logisticaService.updateEntregaLiquidacion(fond).subscribe();
             resi.forEach((it,indi)=>{
               it.estado='ANULADO';
-              this.logisticaService.updateFondoItem(it).subscribe(a=>{
+              this.logisticaService.updateEntregaItem(it).subscribe(a=>{
                 it.estado='PENDIENTE';
                 it.liquidacion_id=0;
-                this.logisticaService.addFondoItem(it).subscribe(m=>{
+                this.logisticaService.addEntregaItem(it).subscribe(m=>{
 
                   if(indi==resi.length-1){
-                    this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:EntregaItem[])=>{
+                    this.logisticaService.getEntregaItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:EntregaItem[])=>{
                       this.entregaItems=res2;
                       this.dataSourceEntregaItem = new MatTableDataSource(this.entregaItems);
                       this.dataSourceEntregaItem.paginator = this.paginator.toArray()[0];
@@ -245,7 +245,7 @@ export class EntregaComponent implements OnInit {
             this.dataSourceEntregaLiq.sort = this.sort.toArray()[1];
   
   
-            this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:EntregaItem[])=>{
+            this.logisticaService.getEntregaItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:EntregaItem[]|any)=>{
               this.entregaItems=res;
               this.dataSourceEntregaItem = new MatTableDataSource(this.entregaItems);
               this.dataSourceEntregaItem.paginator = this.paginator.toArray()[0];
@@ -283,7 +283,7 @@ export class EntregaComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(res => {
         if(res){
-          this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:EntregaItem[])=>{
+          this.logisticaService.getEntregaItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res2:EntregaItem[])=>{
             this.entregaItems=res2;
             this.dataSourceEntregaItem = new MatTableDataSource(this.entregaItems);
             this.dataSourceEntregaItem.paginator = this.paginator.toArray()[0];
@@ -295,6 +295,7 @@ export class EntregaComponent implements OnInit {
   
   
     addEntregaLiquidacion(){
+
       console.log(this.fechaStr);
       this.entregaLiquidacion.fecha=this.fechaStr;
 
@@ -305,7 +306,7 @@ export class EntregaComponent implements OnInit {
       this.entregaLiquidacion.estado='REGISTRADO';
 
   
-      this.logisticaService.getLastFondoLiquidacionNum(this.entregaLiquidacion.numero,this.entregaLiquidacion.campus,this.entregaLiquidacion.empresa).subscribe(resp=>{
+      this.logisticaService.getLastEntregaLiquidacionNum(this.entregaLiquidacion.numero,this.entregaLiquidacion.campus,this.entregaLiquidacion.empresa).subscribe(resp=>{
         if(resp['numero']){
           var numStr='';
           var numArray = String(resp['numero']).split('-');
@@ -332,14 +333,14 @@ export class EntregaComponent implements OnInit {
 
         console.log(this.entregaLiquidacion);
 
-        this.logisticaService.addFondoLiquidacion(this.entregaLiquidacion).subscribe(resss=>{
+        this.logisticaService.addEntregaLiquidacion(this.entregaLiquidacion).subscribe(resss=>{
           console.log(resss);
           console.log(resss['liq_id']);
           if(resss['liq_id']){
             this.selection.selected.forEach((i,ind)=>{
               i.liquidacion_id=resss['liq_id'];
               i.estado='REGISTRADO';
-              this.logisticaService.updateFondoItem(i).subscribe(resr=>{
+              this.logisticaService.updateEntregaItem(i).subscribe(resr=>{
                 if(ind==this.selection.selected.length-1&&resr){
                   console.log(this.entregaLiquidacion);
 
@@ -350,7 +351,7 @@ export class EntregaComponent implements OnInit {
                         this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
                           if(resi){
                             this.campus=resi;
-                            this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:EntregaLiquidacion[])=>{
+                            this.logisticaService.getEntregaLiquidacionesByCampus(this.sala).subscribe((liqs:EntregaLiquidacion[])=>{
                               this.entregaLiquidaciones=liqs;
                               this.dataSourceEntregaLiq = new MatTableDataSource(this.entregaLiquidaciones);
                               this.dataSourceEntregaLiq.paginator = this.paginator.toArray()[1];
@@ -358,7 +359,7 @@ export class EntregaComponent implements OnInit {
                               this.selection.clear();
 
 
-                              this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:EntregaItem[])=>{
+                              this.logisticaService.getEntregaItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:EntregaItem[])=>{
                                 this.entregaItems=res;
                                 this.dataSourceEntregaItem = new MatTableDataSource(this.entregaItems);
                                 this.dataSourceEntregaItem.paginator = this.paginator.toArray()[0];
@@ -408,7 +409,7 @@ export class EntregaComponent implements OnInit {
   
     reCreatePDF(fl:EntregaLiquidacion){
       this.selection.clear();
-      this.logisticaService.getFondoItemsByLiquidacionId(String(fl.id)).subscribe((res:EntregaItem[])=>{
+      this.logisticaService.getEntregaItemsByLiquidacionId(String(fl.id)).subscribe((res:EntregaItem[])=>{
         if(res.length>0){
           res.forEach(a=>{
             this.selection.select(a);
@@ -423,7 +424,7 @@ export class EntregaComponent implements OnInit {
       console.log(fl);
 
 
-      this.logisticaService.getFondoItemsByLiquidacionId(String(fl.id)).subscribe((res:EntregaItem[])=>{
+      this.logisticaService.getEntregaItemsByLiquidacionId(String(fl.id)).subscribe((res:EntregaItem[])=>{
         console.log(res);
         if(res.length>0){
           var dataTxt = '';
@@ -532,7 +533,7 @@ export class EntregaComponent implements OnInit {
         this.doc.text('LOGISTICA',175,33,{align:'center'});
         this.doc.setFontSize(9);
         this.doc.setTextColor(0,0,0);
-        this.doc.text('LIQUIDACION DE FONDO FIJO',175,26,{align:'center'});
+        this.doc.text('LIQUIDACION DE ENTREGA FIJO',175,26,{align:'center'});
       }
       else{
         this.doc.rect(150, 28, 50, 14);
@@ -700,13 +701,13 @@ export class EntregaComponent implements OnInit {
                       this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
                         if(resi){
                           this.campus=resi;
-                          this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:EntregaLiquidacion[])=>{
+                          this.logisticaService.getEntregaLiquidacionesByCampus(this.sala).subscribe((liqs:EntregaLiquidacion[])=>{
                             this.entregaLiquidaciones=liqs;
                             this.dataSourceEntregaLiq = new MatTableDataSource(this.entregaLiquidaciones);
                             this.dataSourceEntregaLiq.paginator = this.paginator.toArray()[0];
                             this.dataSourceEntregaLiq.sort = this.sort.toArray()[0];
   
-                            this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:EntregaItem[])=>{
+                            this.logisticaService.getEntregaItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:EntregaItem[])=>{
                               this.entregaItems=res;
                               this.dataSourceEntregaItem = new MatTableDataSource(this.entregaItems);
                               this.dataSourceEntregaItem.paginator = this.paginator.toArray()[1];
@@ -719,13 +720,13 @@ export class EntregaComponent implements OnInit {
                     }
   
                     if(this.user_role=='USUARIO AVANZADO'&&(this.colab.area_id==12||this.colab.area_id==13)){
-                      this.logisticaService.getFondoItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:EntregaItem[])=>{
+                      this.logisticaService.getEntregaItems(this.sala,'PENDIENTE',this.user.user_id).subscribe((res:EntregaItem[])=>{
                         this.entregaItems=res;
                         this.dataSourceEntregaItem = new MatTableDataSource(this.entregaItems);
                         this.dataSourceEntregaItem.paginator = this.paginator.toArray()[0];
                         this.dataSourceEntregaItem.sort = this.sort.toArray()[0];
   
-                        this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:EntregaLiquidacion[])=>{
+                        this.logisticaService.getEntregaLiquidacionesByCampus(this.sala).subscribe((liqs:EntregaLiquidacion[])=>{
                           this.entregaLiquidaciones=liqs;
                           this.dataSourceEntregaLiq = new MatTableDataSource(this.entregaLiquidaciones);
                           this.dataSourceEntregaLiq.paginator = this.paginator.toArray()[1];
@@ -1119,7 +1120,7 @@ export class DialogEditItemEntrega implements OnInit {
 
   save(){
     this.data.monto=parseFloat(this.data.monto).toFixed(2);
-    this.logisticaService.updateFondoItem(this.data).subscribe(res=>{
+    this.logisticaService.updateEntregaItem(this.data).subscribe(res=>{
       if(res){
         this.dialogRef.close(true);
       }

@@ -4,14 +4,14 @@
 header("Access-Control-Allow-Origin: *");
 //header("Access-Control-Allow-Origin: http://192.168.4.250");
 
-$campus=$_GET['campus'];
+$liq_id=$_GET['liq_id'];
 
 $bd = include_once "bdLogistica.php";
 
 //$sentencia = $bd->query("select id, nombre, raza, edad from mascotas");
 //$sentencia = $bd->prepare("select * from actas.actas where estado= '".$estado."'");
 
-$sentencia = $bd->prepare("SELECT id, fecha, campus, campus_dir, numero, importe, personal, empresa, user_id, estado FROM fondoliquidaciones WHERE campus='".$campus."' ORDER BY id DESC");
+$sentencia = $bd->prepare("SELECT id, campus, fecha, tipo_doc, serie, numero, ruc, raz_social, monto, categoria, estado, liquidacion_id, user_id FROM fondoitems WHERE liquidacion_id='".$liq_id."'");
 
 
 /* if($tipo_usuario=='ASISTENTE'){
@@ -23,8 +23,8 @@ $sentencia = $bd->prepare("SELECT id, fecha, campus, campus_dir, numero, importe
 $sentencia -> execute();
 //[$fecha_cumple]
 //$mascotas = $sentencia->fetchAll(PDO::FETCH_OBJ);
-$fondoItems = $sentencia->fetchAll(PDO::FETCH_OBJ);
+$entregaItems = $sentencia->fetchAll(PDO::FETCH_OBJ);
 //echo json_encode($mascotas);
-echo json_encode($fondoItems);
+echo json_encode($entregaItems);
 
 ?>
