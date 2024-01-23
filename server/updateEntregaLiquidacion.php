@@ -12,6 +12,6 @@ if (!$jsonLiq) {
     exit("No hay datos");
 }
 $bd = include_once "bdLogistica.php";
-$sentencia = $bd->prepare("UPDATE Entregaliquidaciones SET estado = ? WHERE id = ?");
+$sentencia = $bd->prepare("UPDATE entregaliquidaciones SET estado = ? WHERE id = ?");
 $resultado = $sentencia->execute([$jsonLiq->estado, $jsonLiq->id]);
 echo json_encode($resultado);

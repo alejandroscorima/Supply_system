@@ -342,6 +342,7 @@ export class EntregaComponent implements OnInit {
               i.estado='REGISTRADO';
               this.logisticaService.updateEntregaItem(i).subscribe(resr=>{
                 if(ind==this.selection.selected.length-1&&resr){
+                  
                   console.log(this.entregaLiquidacion);
 
 
