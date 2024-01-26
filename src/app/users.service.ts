@@ -70,6 +70,11 @@ export class UsersService {
   getUserByDocNew(doc_number) {
     return this.http.get(`${this.baseUrl}/getUserByDocNew.php?doc_number=${doc_number}`);
   }
+  
+  getUserLogin(doc_number:string,username:string, password:string) {
+    return this.http.get(`${this.baseUrl}/getUserLogin.php?doc_number=${doc_number}&username=${username}&password=${password}`);
+  }
+
 
 /*   getCollaboratorById(colab_id) {
     return this.http.get(`${this.baseUrl}/getCollaboratorById.php?colab_id=${colab_id}`);

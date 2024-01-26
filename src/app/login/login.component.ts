@@ -84,31 +84,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  login(){
-    if(this.password != '' && this.username != ''){
-      this.usersService.getUserByDocNew(this.username,this.password).subscribe((resLogin:User|any)=>{
-        document.getElementById('btnINGRESAR')?.click();
-        console.log(resLogin)
-        if(resLogin){
-          if(resLogin.hr_role!='NINGUNO'){
-            this.toastr.success('Inicio de sesion correcto');
-            this.cookiesService.set('user_id',resLogin.user_id);
-            this.cookiesService.set('user_role',resLogin.user_role);
-            window.location.reload();
-            const toast = document.getElementById('toast-success');           
-          }           
-        }else{
-          this.Toastr.error('ERROR AL INICIAR SESIÓN');
-        }          
-      })
-    } else{
-      this.Toastr.error('RELLENA LOS CAMPOS CORECTAMENTE');
-    } 
-    
-
-    
-
-  }
+ 
 
 
 
@@ -132,7 +108,7 @@ export class LoginComponent implements OnInit {
       else{
         this.username=this.username.trim();
         this.password=this.password.trim();
-        this.usersService.getUserNew(this.username,this.password).subscribe((res:User)=>{
+        this.usersService.getUserLogin(this.username,this.username,this.password).subscribe((res:User)=>{
           if(res){
             this.user=res;
     
