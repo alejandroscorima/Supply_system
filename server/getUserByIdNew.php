@@ -9,7 +9,7 @@ $bd = include_once "bdData.php";
 
 $user_id=$_GET['user_id'];
 
-$sentencia = $bd->prepare("SELECT user_id, colab_id, type_doc, doc_number, first_name, paternal_surname, maternal_surname, gender, birth_date, civil_status, profession, cel_number, address, district, province, region, username, supply_role, latitud, longitud, photo_url FROM oscorp_data.user2 WHERE user_id=".$user_id);
+$sentencia = $bd->prepare("SELECT user_id, colab_id, type_doc, doc_number, first_name, paternal_surname, maternal_surname, gender, birth_date, civil_status, profession, cel_number, address, district, province, region, username, supply_role,patrimony_role, latitud, longitud, photo_url FROM oscorp_data.user2 WHERE user_id=".$user_id);
 
 //$sentencia = $bd->prepare("select * from actas.actas where estado= '".$estado."'");
 //where birth_date like '%?%'

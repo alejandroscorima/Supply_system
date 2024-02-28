@@ -16,7 +16,7 @@ first_name, paternal_surname, maternal_surname, gender, birth_date, civil_status
  profession, cel_number, address, district, province, region, username, supply_role,
   latitud, longitud, photo_url 
   FROM oscorp_data.user2 
-  WHERE doc_number='".$doc_number."' OR  username='".$username."' AND password='".$password."';");
+  WHERE (doc_number='".$doc_number."' OR  username='".$username."') AND password='".$password."';");
 
 
 
