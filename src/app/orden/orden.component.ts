@@ -1299,14 +1299,31 @@ export class OrdenComponent implements OnInit {
     this.listaOrd.forEach(m=>{
       pos_line+=6;
       pos_item+=6;
-      if(pos_line>240){
+      if(pos_line>230){
         this.doc.line(10, pos_line, 200, pos_line, 'S');
         this.doc.line(10, pos_line_start, 10, pos_line, 'S');
         this.doc.line(34, pos_line_start, 34, pos_line, 'S');
         this.doc.line(140, pos_line_start, 140, pos_line, 'S');
         this.doc.line(174, pos_line_start, 174, pos_line, 'S');
         this.doc.line(200, pos_line_start, 200, pos_line, 'S');
+
+        ////AÑADIR LAS OBSERVACIONES AL PIE DE PAGINA     
+        this.ord.observacion='Prueba super obvservación uno';
+
+        this.doc.setFontSize(8);
+        this.doc.setFont("helvetica","italic");
+        this.doc.setTextColor(100,100,100);
+        this.doc.text('*Observación: '+this.ord.observacion.toUpperCase(),20,280);
+        this.doc.setFont("helvetica","normal");
+        this.doc.setFontSize(8);
+        this.doc.setTextColor(0,0,0);
+          ////
+
         this.doc.addPage();
+
+        
+   
+
         pos_line=15;
         pos_line_start=pos_line;
         pos_item=pos_line+4;
@@ -1395,6 +1412,20 @@ export class OrdenComponent implements OnInit {
     this.doc.addImage( this.sello, 'png',this.doc.internal.pageSize.width/2 - 25,pos_line-30,50,40,'','FAST',0);
 
     }
+    console.log('final',pos_line)
+
+    ////AÑADIR LAS OBSERVACIONES AL PIE DE PAGINA     
+    this.ord.observacion='Prueba super obvservación uno';
+    this.doc.setFontSize(8);
+    this.doc.setFont("helvetica","italic");
+    this.doc.setTextColor(100,100,100);
+    this.doc.text('*Observación: '+this.ord.observacion.toUpperCase(),20,280);
+    this.doc.setFont("helvetica","normal");
+    this.doc.setFontSize(8);
+    this.doc.setTextColor(0,0,0);
+      ////
+
+
 
     window.open(URL.createObjectURL(this.doc.output("blob")));
 
@@ -1701,14 +1732,28 @@ export class OrdenComponent implements OnInit {
     this.listaOrdView.forEach(m=>{
       pos_line+=6;
       pos_item+=6;
-      if(pos_line>240){
+      if(pos_line>230){
         this.docView.line(10, pos_line, 200, pos_line, 'S');
         this.docView.line(10, pos_line_start, 10, pos_line, 'S');
         this.docView.line(34, pos_line_start, 34, pos_line, 'S');
         this.docView.line(140, pos_line_start, 140, pos_line, 'S');
         this.docView.line(174, pos_line_start, 174, pos_line, 'S');
         this.docView.line(200, pos_line_start, 200, pos_line, 'S');
+          ////AÑADIR LAS OBSERVACIONES AL PIE DE PAGINA     
+          this.ordView.observacion='Prueba super obvservación uno'
+
+        this.docView.setFontSize(8);
+        this.docView.setFont("helvetica","italic");
+        this.docView.setTextColor(100,100,100);
+
+        this.docView.text('*Observación: '+this.ordView.observacion.toUpperCase(),20,280);
+
+        this.docView.setFont("helvetica","normal");
+        this.docView.setFontSize(8);
+        this.docView.setTextColor(0,0,0);
+          ////
         this.docView.addPage();
+        
         pos_line=15;
         pos_line_start=pos_line;
         pos_item=pos_line+4;
@@ -1757,6 +1802,7 @@ export class OrdenComponent implements OnInit {
     pos_line+=5;
     this.docView.setFontSize(8);
     this.docView.setTextColor(0,0,0);
+
     this.docView.roundedRect(140, pos_line, 60, 27, 2, 2, 'S');
     pos_line+=5;
     this.docView.text('SUBTOTAL',142,pos_line);
@@ -1790,6 +1836,19 @@ export class OrdenComponent implements OnInit {
     //console.log(this.doc.internal.getFontSize());
 
   /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */
+   ////AÑADIR LAS OBSERVACIONES AL PIE DE PAGINA     
+   this.ordView.observacion='Prueba super obvservación uno'
+
+   this.docView.setFontSize(8);
+   this.docView.setFont("helvetica","italic");
+   this.docView.setTextColor(100,100,100);
+
+   this.docView.text('*Observación: '+this.ordView.observacion.toUpperCase(),20,280);
+
+   this.docView.setFont("helvetica","normal");
+   this.docView.setFontSize(8);
+   this.docView.setTextColor(0,0,0);
+     ////
 
 
     window.open(URL.createObjectURL(this.docView.output("blob")));
