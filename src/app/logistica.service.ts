@@ -47,7 +47,8 @@ export class LogisticaService {
   }
 
   addOrd(ord: Orden) {
-    return this.http.post(`${this.baseUrl}/postOrden.php`, ord);
+    //return this.http.post(`${this.baseUrl}/postOrden.php`, ord);
+    return this.http.post(`${this.baseUrl}/postOrdenNew.php`, ord);
   }
 
   addDoc(doc: Doc) {
@@ -140,7 +141,8 @@ export class LogisticaService {
   }
 
   getAllOficinaOrders(user_id, user_role, destino) {
-    return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNew.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);
+    //return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNew.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);
+    return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNewObserva.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);   
   }
 
   getAllWarehouseOrders() {

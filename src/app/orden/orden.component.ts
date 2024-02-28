@@ -1310,8 +1310,7 @@ export class OrdenComponent implements OnInit {
         this.doc.line(200, pos_line_start, 200, pos_line, 'S');
 
         ////AÑADIR LAS OBSERVACIONES AL PIE DE PAGINA     
-        this.ord.observacion='Prueba super obvservación uno';
-
+       
         this.doc.setFontSize(8);
         this.doc.setFont("helvetica","italic");
         this.doc.setTextColor(100,100,100);
@@ -1417,7 +1416,7 @@ export class OrdenComponent implements OnInit {
     console.log('final',pos_line)
 
     ////AÑADIR LAS OBSERVACIONES AL PIE DE PAGINA     
-    this.ord.observacion='Prueba super obvservación uno';
+    //this.ord.observacion='Prueba super obvservación uno';
     this.doc.setFontSize(8);
     this.doc.setFont("helvetica","italic");
     this.doc.setTextColor(100,100,100);
@@ -1742,7 +1741,7 @@ export class OrdenComponent implements OnInit {
         this.docView.line(174, pos_line_start, 174, pos_line, 'S');
         this.docView.line(200, pos_line_start, 200, pos_line, 'S');
           ////AÑADIR LAS OBSERVACIONES AL PIE DE PAGINA     
-          this.ordView.observacion='Prueba super obvservación uno'
+          //this.ordView.observacion='Prueba super obvservación uno'
 
         this.docView.setFontSize(8);
         this.docView.setFont("helvetica","italic");
@@ -1839,11 +1838,10 @@ export class OrdenComponent implements OnInit {
 
   /*       this.doc.roundedRect(0, 100, 210, 10, 0, 0, 'S'); */
    ////AÑADIR LAS OBSERVACIONES AL PIE DE PAGINA     
-   this.ordView.observacion='Prueba super obvservación uno'
-
-   this.docView.setFontSize(8);
-   this.docView.setFont("helvetica","italic");
-   this.docView.setTextColor(100,100,100);
+  //this.ordView.observacion='Prueba super obvservación uno'
+  this.docView.setFontSize(8);
+  this.docView.setFont("helvetica","italic");
+  this.docView.setTextColor(100,100,100);
 
    this.docView.text('*Observación: '+this.ordView.observacion.toUpperCase(),20,280);
 
