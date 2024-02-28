@@ -346,7 +346,7 @@ export class NuevoComponent implements OnInit {
 
                     if (resImageUpload) {
 
-                      i.image_url = resImageUpload;
+                      i.image_url = resImageUpload.filePath;
 
                     }
 
