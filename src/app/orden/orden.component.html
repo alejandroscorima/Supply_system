@@ -270,106 +270,103 @@
      -->
 
 
-     <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
-     dark:bg-gray-800 dark:border-gray-700">
-     
-
-    
-      <a>
-          <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            NUEVO ITEM</h5>
-      </a>
-      <div class=" mb-8  rounded-lg
-      md:mb-12  grid md:grid-cols-9 gap-2 bg-white dark:bg-gray-800 " >
-     
+      <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+      dark:bg-gray-800 dark:border-gray-700">
+        <a>
+            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              NUEVO ITEM</h5>
+        </a>
+        <div class=" mb-8  rounded-lg
+        md:mb-12  grid md:grid-cols-9 gap-2 bg-white dark:bg-gray-800 " >
       
-        <form class="max-w-xs mb-6 mx-auto col-span-2 flex flex-col ">
-          <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad:</label>
-          <div class=" flex ">
-              <button type="button" id="decrement-button" class="bg-gray-100 dark:bg-gray-700
-               dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11
-                focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
-                (click)="decreaseQuantityButton()"
-                >
-                  <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                  </svg>
-              </button>
-              <input type="text"  appFloatPositive id="quantity-input" aria-describedby="helper-text-explanation" 
-              class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500
-               focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-               dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0" required
-               [(ngModel)]="orden_item.cantidad" placeholder="Cantidad"
-               >
-              <button type="button" id="increment-button"
-              class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border
-               border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
-               (click)="increaseQuantityButton()">
-                  <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                  </svg>
-              </button>
-          </div>
-         
-      </form>
-      
-<!-- 
-        <div class="mb-6 mx-2 w-full col-span-2">
-          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Cantidad</label>
-          <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
-          text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-full p-2.5
-          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-          dark:focus:border-blue-500"
-     
-          [(ngModel)]="orden_item.cantidad" placeholder="Cantidad"
-          >
-        </div> -->
-     
-        <div class="mb-6 w-full mx-auto  col-span-5 flex flex-col">
-          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese la descripción del producto</label>
-          <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
-          text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-7/12 p-2.5
-          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-          dark:focus:border-blue-500"
-     
-           [(ngModel)]="orden_item.descripcion" placeholder="Descripcion"
-          >
-        </div>
-     
-        <div class="mb-6 mx-auto  w-full col-span-2 flex flex-col">
-          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Precio</label>
-          <div class="flex">
-            <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-            <h1>{{prefijoMoney}}</h1>
-            </span>
-            <input type="text" appFloatPositive id="website-admin" class="rounded-none rounded-e-lg
-             bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 
-             focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700
-             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-              dark:focus:border-blue-500" placeholder="Precio"
-               [(ngModel)]="orden_item.unit_price" placeholder="Precio"
-              >
-          </div>
-
-        </div>  
-
-        </div>
-        <div class=" w-full text-right">
         
-          <button type="button" class= " object-right
-          text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl 
-          focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg 
-          text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 hover:bg-blue-800  inline-flex 
-          items-center  dark:bg-blue-600 dark:hover:bg-blue-700 "
-          (click)="addItem()">
-            <svg class="w-4 h-4 text-gray-800 dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-            </svg>
-              Añadir Item 
-            </button>
-        </div>
-       
-  
+          <form class="max-w-xs mb-6 mx-auto col-span-2 flex flex-col ">
+            <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad:</label>
+            <div class=" flex ">
+                <button type="button" id="decrement-button" class="bg-gray-100 dark:bg-gray-700
+                dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11
+                  focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                  (click)="decreaseQuantityButton()"
+                  >
+                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                    </svg>
+                </button>
+                <input type="text"  appFloatPositive id="quantity-input" aria-describedby="helper-text-explanation" 
+                class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500
+                focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0" required
+                [(ngModel)]="orden_item.cantidad" placeholder="Cantidad"
+                >
+                <button type="button" id="increment-button"
+                class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border
+                border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                (click)="increaseQuantityButton()">
+                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                    </svg>
+                </button>
+            </div>
+          
+        </form>
+        
+  <!-- 
+          <div class="mb-6 mx-2 w-full col-span-2">
+            <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Cantidad</label>
+            <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+            text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-full p-2.5
+            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+            dark:focus:border-blue-500"
+      
+            [(ngModel)]="orden_item.cantidad" placeholder="Cantidad"
+            >
+          </div> -->
+      
+          <div class="mb-6 w-full mx-auto  col-span-5 flex flex-col">
+            <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese la descripción del producto</label>
+            <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+            text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-7/12 p-2.5
+            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+            dark:focus:border-blue-500"
+      
+            [(ngModel)]="orden_item.descripcion" placeholder="Descripcion"
+            >
+          </div>
+      
+          <div class="mb-6 mx-auto  w-full col-span-2 flex flex-col">
+            <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Precio</label>
+            <div class="flex">
+              <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+              <h1>{{prefijoMoney}}</h1>
+              </span>
+              <input type="text" appFloatPositive id="website-admin" class="rounded-none rounded-e-lg
+              bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 
+              focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700
+              dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                dark:focus:border-blue-500" placeholder="Precio"
+                [(ngModel)]="orden_item.unit_price" placeholder="Precio"
+                >
+            </div>
+
+          </div>  
+
+          </div>
+          <div class=" w-full text-right">
+          
+            <button type="button" class= " object-right
+            text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl 
+            focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg 
+            text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 hover:bg-blue-800  inline-flex 
+            items-center  dark:bg-blue-600 dark:hover:bg-blue-700 "
+            (click)="addItem()">
+              <svg class="w-4 h-4 text-gray-800 dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+              </svg>
+                Añadir Item 
+              </button>
+          </div>
+        
+    
 
       </div>
 
@@ -409,7 +406,7 @@
 
 
 
-  <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+  <div class="w-full p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow
   *:dark:bg-gray-800 dark:border-gray-700 mt-4">
 
 
@@ -604,22 +601,7 @@
         </mat-form-field>
 
 
-        <div class=" my-1 h-12 w-1/4">
-             
-          <button type="button" class="justify-center w-full h-full flex gap-2 text-white bg-gradient-to-r 
-           from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 
-         focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg
-          shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 
-          py-3 text-center me-2 mb-2" (click)="generarOrden()">
-          <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 
-            2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 
-        2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1
-         .586-1.414Z"/>
-           </svg>
-           Generar Orden
-          </button>
-          </div>
+        
     <!--     <button mat-raised-button style="background-color:rgb(32, 142, 32); color: white; height:60px; width:25%"
         (click)="generarOrden()" >
           <mat-icon>check</mat-icon>Generar Orden
@@ -631,6 +613,7 @@
 
   </div>
 <!-- 
+
       <mat-card class="block max-w-full p-6 mt-7 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
       >
         <mat-card-title>Lista</mat-card-title>
@@ -825,7 +808,61 @@
       </mat-card>
 
  -->
-    </mat-tab>
+ 
+ 
+  <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+  dark:bg-gray-800 dark:border-gray-700">
+    <a>
+        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          Observaciones</h5>
+    </a>
+    <div class=" mb-8  rounded-lg md:mb-12  grid md:grid-cols-9 gap-2 bg-white dark:bg-gray-800 " >
+  
+  
+      <div class="mb-6 w-full mx-auto  col-span-5 flex flex-col">
+        <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese la observacion</label>
+        <!-- <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+        text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-7/12 p-2.5
+        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+        dark:focus:border-blue-500"
+  
+        [(ngModel)]="orden_item.descripcion" placeholder="Descripcion"
+        > -->
+        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900
+         bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700
+          dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+           dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Escribe aqui..."
+            [(ngModel)]="ord.observacion" placeholder="Descripcion"
+            ></textarea>
+         </div>
+         
+        
+      </div>
+      <div class=" w-full text-right">
+          
+        <button type="button" class="jobject-right
+      font-medium rounded-lg 
+        text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 gap-2 text-white bg-gradient-to-r 
+        from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 
+        focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg
+        shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 b-2" (click)="generarOrden()">
+        <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 
+          2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 
+      2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1
+       .586-1.414Z"/>
+         </svg>
+         Generar Orden
+        </button>
+      </div>
+    
+
+
+  </div>
+
+
+</mat-tab>
     
     <mat-tab label="VER ORDENES" class="tabWare">
 
