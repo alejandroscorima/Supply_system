@@ -33,6 +33,7 @@ import { Collaborator } from '../collaborator';
 
 import * as XLSX from 'xlsx';
 import { Signature } from '../signature';
+import { FLAGS } from 'html2canvas/dist/types/dom/element-container';
 
 @Component({
   selector: 'app-nuevo',
@@ -156,11 +157,17 @@ export class OrdenComponent implements OnInit {
   posTituloSala;
 
   igvActivated;
+
+  descActivated;
+
   retencionActivated;
   percepcionActivated;
 
   igvSlideChecked: boolean;
   igvSlideDisabled: boolean;
+
+  descSlideChecked: boolean;
+  descSlideDisabled: boolean;
 
   retencionSlideChecked: boolean;
   retencionSlideDisabled: boolean;
@@ -348,7 +355,20 @@ export class OrdenComponent implements OnInit {
           this.ord.subtotal=(parseFloat(this.ord.subtotal)+parseFloat(oi.subtotal)).toFixed(5);
           this.ord.igv=(parseFloat(this.ord.igv)+(oi.cantidad*(parseFloat(oi.unit_price_aux)-parseFloat(oi.unit_price)))).toFixed(5);
         })
-        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+        ///ACA SE CONSIGUE LA SUMA TOTAL
+
+
+        if((this.ord.descuento!=''&&this.ord.descuento!='0')&& this.descSlideChecked){
+          this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.descuento)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+        }
+        else{
+          this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+        }
+
+        ///
+
+
+
       }
       else{
         this.ord.subtotal=(0.0).toFixed(5);
@@ -368,15 +388,47 @@ export class OrdenComponent implements OnInit {
           this.ord.igv=(parseFloat(this.ord.igv)+parseFloat(oi.igv_unit)).toFixed(5);
         })
         //this.ord.igv=((parseFloat(this.ord.igv_percent)*parseFloat(this.ord.subtotal))/100).toFixed(5);
-        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+        
+        ///ACA SE CONSIGUE LA SUMA TOTAL
+
+
+        if((this.ord.descuento!=''&&this.ord.descuento!='0')&& this.descSlideChecked){
+          this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.descuento)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+        }
+        else{
+          this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+        }
+
+        ///
       }
     }
     else{
       this.igvSlideChecked=false;
       this.igvSlideDisabled=true;
       this.ord.igv=(0.0).toFixed(5);
-      this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+      ///ACA SE CONSIGUE LA SUMA TOTAL
+
+
+      if((this.ord.descuento!=''&&this.ord.descuento!='0')&& this.descSlideChecked){
+        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.descuento)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+      }
+      else{
+        this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)-parseFloat(this.ord.retencion)+parseFloat(this.ord.percepcion)).toFixed(2);
+      }
+
+      ///
     }
+
+
+
+
+
+
+
+
+
+
+
   }
 
   updateRetencion(){
@@ -450,6 +502,19 @@ export class OrdenComponent implements OnInit {
 
   }
 
+  changedesc(e){
+    console.log(e);
+    if(e.checked){
+      this.descSlideChecked=true;
+    }
+    if(!e.checked){
+      this.descSlideChecked=false;
+    }
+    console.log(this.descSlideChecked);
+
+    this.updateIgv();
+
+  }
 
   searchItem(){
 
@@ -599,6 +664,10 @@ export class OrdenComponent implements OnInit {
                     this.orden_item.cantidad=1;
                     this.igvActivated=true;
                     this.igvSlideDisabled=false;
+
+
+                    this.descActivated=true;
+                    this.descSlideDisabled=false;
 
                     this.prefijoMoney='';
                     this.ord.tipo='COMPRA'

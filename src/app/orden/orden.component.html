@@ -310,17 +310,7 @@
           
         </form>
         
-  <!-- 
-          <div class="mb-6 mx-2 w-full col-span-2">
-            <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Cantidad</label>
-            <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
-            text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-full p-2.5
-            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-            dark:focus:border-blue-500"
-      
-            [(ngModel)]="orden_item.cantidad" placeholder="Cantidad"
-            >
-          </div> -->
+
       
           <div class="mb-6 w-full mx-auto  col-span-5 flex flex-col">
             <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese la descripción del producto</label>
@@ -501,6 +491,23 @@
         </td>
       </ng-container>
 
+      <!-- DEscuento -->
+      <ng-container matColumnDef="desc_label">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          <mat-checkbox [(ngModel)]="descActivated" [disabled]="listaOrd.length==0"
+            (ngModelChange)="updateIgv()">
+          </mat-checkbox>
+          Descuento
+          <mat-form-field style="width: 100px; border-top:-15px; margin-bottom: -1.25em;" appearance="outline">
+            <input (keyup)="changeIgv()" [disabled]="!descActivated||(listaOrd.length==0) " matInput [(ngModel)]="ord.descuento">
+          </mat-form-field>
+          s/.
+        </td>
+      </ng-container>
+
+
+
+
       <ng-container matColumnDef="retencion_label">
         <td stye='text-align:right; align-content:right;' mat-footer-cell *matFooterCellDef colspan="1">
           <mat-checkbox [(ngModel)]="retencionActivated" [disabled]="listaOrd.length==0"
@@ -525,11 +532,22 @@
           </mat-form-field>
         </td>
       </ng-container>
+      
 
       <ng-container matColumnDef="igv_included">
         <td mat-footer-cell *matFooterCellDef colspan="2">
           <mat-slide-toggle [checked]="igvSlideChecked" [disabled]="igvSlideDisabled||listaOrd.length==0" (change)="change($event)">
             IGV incluido
+          </mat-slide-toggle>
+        </td>
+      </ng-container>
+
+      <!-- DESC ACTIVATE -->
+
+      <ng-container matColumnDef="desc_included">
+        <td mat-footer-cell *matFooterCellDef colspan="2">
+          <mat-slide-toggle [checked]="descSlideChecked" [disabled]="descSlideDisabled||listaOrd.length==0" (change)="changedesc($event)">
+            Descuento incluido
           </mat-slide-toggle>
         </td>
       </ng-container>
@@ -564,6 +582,12 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="descuento">
+        <td mat-footer-cell *matFooterCellDef colspan="1">
+          {{ord.descuento}}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="total">
         <td mat-footer-cell *matFooterCellDef colspan="1">
           {{ord.total}}
@@ -577,6 +601,10 @@
       <tr mat-footer-row *matFooterRowDef="['empty2','subtotalO_label','subtotalO','empty2']" style="font-weight: bold;" ></tr>
       <tr mat-footer-row *matFooterRowDef="['empty2','igv_label','igv','empty2']" style="font-weight: bold;" ></tr>
       <tr mat-footer-row *matFooterRowDef="['empty2','igv_included','empty2']" style="font-weight: bold;" ></tr>
+
+      <tr mat-footer-row *matFooterRowDef="['empty2','desc_label','descuento','empty2']" style="font-weight: bold;" ></tr>
+      <tr mat-footer-row *matFooterRowDef="['empty2','desc_included','empty2']" style="font-weight: bold;" ></tr>
+
       <tr mat-footer-row *matFooterRowDef="['empty2','retencion_label','retencion','empty2']" style="font-weight: bold;" ></tr>
       <tr mat-footer-row *matFooterRowDef="['empty2','percepcion_label','percepcion','empty2']" style="font-weight: bold;" ></tr>
       <tr mat-footer-row *matFooterRowDef="['empty2','total_label','total','empty2']" style="font-weight: bold;" ></tr>

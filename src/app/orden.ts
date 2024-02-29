@@ -33,6 +33,7 @@ export class Orden {
     public txt: string,
     public section: string,
     public comprobante: string,
+    public descuento?: string,
     public observacion?: string,
     public id?: number,
     public total_inicial?: string,
