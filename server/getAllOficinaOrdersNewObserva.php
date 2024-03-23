@@ -17,7 +17,7 @@ if($user_role=='SUPERVISOR'||$user_role=='ADMINISTRADOR'){
             SELECT ordenes.id, ordenes.req_id, ordenes.numero, ordenes.ruc, ordenes.razon_social, ordenes.direccion, 
             ordenes.subtotal, ordenes.igv, ordenes.total, ordenes.rebajado, ordenes.fecha, ordenes.destino, ordenes.tipo,
             ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area, ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta,
-            ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section, ordenes.observacion 
+            ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section, ordenes.status, ordenes.observacion 
             FROM oscorp_supply.ordenes WHERE ordenes.section='OFICINA' AND ordenes.user_id=".$user_id." ) a LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id ORDER BY a.id DESC;");
     }
 else{

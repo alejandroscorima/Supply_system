@@ -770,7 +770,7 @@ export class EntregaComponent implements OnInit {
 @Component({
   selector: 'dialog-newItemEntrega',
   templateUrl: './dialog-newItemEntrega.html',
-  styleUrls: ['./Entrega.component.css']
+  styleUrls: ['./entrega.component.css']
 })
 export class DialogNewItemEntrega implements OnInit {
 

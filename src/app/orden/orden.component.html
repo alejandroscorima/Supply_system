@@ -941,6 +941,11 @@
               <td mat-cell *matCellDef="let a"> {{a.destino}}</td>
             </ng-container>
 
+            <ng-container matColumnDef="observacion">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> OBSERVACIONES </th>
+              <td mat-cell *matCellDef="let a"> {{a.observacion}}</td>
+            </ng-container>
+
             <ng-container matColumnDef="ruc">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> PROVEEDOR </th>
               <td mat-cell *matCellDef="let a"> {{a.ruc}}</td>
