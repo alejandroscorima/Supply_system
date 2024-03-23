@@ -35,6 +35,9 @@ export class Orden {
     public comprobante: string,
     public descuento?: string,
     public observacion?: string,
+
+    public status?: string,
+    
     public id?: number,
     public total_inicial?: string,
   ) { }

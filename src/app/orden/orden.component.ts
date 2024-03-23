@@ -614,6 +614,15 @@ export class OrdenComponent implements OnInit {
     return o1.name === o2.name && o1.name === o2.name;
   }
 
+  validateButton(a:Orden,comand: string){
+    if(comand=='VALIDAR'){
+
+    }
+    if(comand=='RECHAZAR'){
+
+    }
+  }
+
   initConfig(){
     this.fecha= new Date();
 
@@ -630,7 +639,7 @@ export class OrdenComponent implements OnInit {
         this.columnsToShow=['fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs'];
       }
       if(this.user_role=='SUPERVISOR'){
-        this.columnsToShow=['fecha','empresa','destino','observacion','total','pdf','receipt','comprobante','docs'];
+        this.columnsToShow=['fecha','empresa','destino','observacion','total','pdf','receipt','comprobante','docs','validar'];
       }
       else{
         this.columnsToShow=['fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs'];
