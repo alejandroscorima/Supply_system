@@ -4,7 +4,7 @@
   <div mat-dialog-content class="newDocDialogContent">
 
     <p>
-      <input style="display:none" type="file" (change)="onDocChanged($event)" #docInput accept=".xls, .xlsx, .doc, .docx, .txt, .pdf, .jpg, .jpeg, .png">
+      <input style="display:none" type="file" name="file" (change)="onDocChanged($event)" #docInput accept=".xls, .xlsx, .doc, .docx, .txt, .pdf, .jpg, .jpeg, .png">
       <button mat-raised-button (click)="docInput.click()"><mat-icon>upload_file</mat-icon>SUBIR</button>&nbsp;
       <a *ngIf="doc">{{doc.name}} </a>
 

@@ -2473,7 +2473,7 @@ export class DialogNewDoc implements OnInit {
       this.fileUploadService.uploadDoc(this.doc).subscribe(res=>{
         if(res){
           this.toastr.info('CARGADO CORRECTAMENTE')
-          this.data.url=res;
+          this.data.url=res['filePath'];
 
           const currentDate = new Date();
           const day = currentDate.getDate().toString().padStart(2, '0');
