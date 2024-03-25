@@ -1044,16 +1044,26 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="validar">
-              <th mat-header-cell *matHeaderCellDef class=" items-center"> <p class="w-full h-full justify-center">VALIDAR</p> </th>
+              <th mat-header-cell *matHeaderCellDef class=" items-center">
+                <p *ngIf="(user_role!='SUPERVISOR')" class="w-full h-full justify-center">VALIDADO</p>
+                <p *ngIf="(user_role=='SUPERVISOR')"class="w-full h-full justify-center">VALIDAR</p>
+              </th>
               <td mat-cell *matCellDef="let a; let i=index">
-                <div  *ngIf="a.status=='PENDIENTE'">
+                <div *ngIf="(a.status=='PENDIENTE')&&(user_role!='SUPERVISOR')">
+                  {{a.status}}
+                </div>
+                <div *ngIf="(a.status!='PENDIENTE')">
+                  {{a.status}}
+                </div>
+                <div  *ngIf="(a.status=='PENDIENTE')&&(user_role=='SUPERVISOR')">
                   <button mat-button (click)="validateButton(a,'VALIDAR')">
                     <mat-icon class="text-lime-500">checked</mat-icon>
                   </button>
-                  <button mat-button (click)="validateButton(a,'RECHAZAR')">
+                  <button mat-button (click)="validateButton(a,'RECHAZADO')">
                     <mat-icon class="text-red-500">cancel</mat-icon>
                   </button>
                 </div>
+
               </td>
             </ng-container>
                 
@@ -1090,7 +1100,7 @@
 
                 <!-- Modal  POPUP toggle -->
         <button  id="PopUpButton" data-modal-target="popup-modal" data-modal-toggle="popup-modal" 
-        class="  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+        class=" hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
         focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
             V
         </button>
