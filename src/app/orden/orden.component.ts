@@ -34,6 +34,7 @@ import { Collaborator } from '../collaborator';
 import * as XLSX from 'xlsx';
 import { Signature } from '../signature';
 import { FLAGS } from 'html2canvas/dist/types/dom/element-container';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-nuevo',
@@ -223,6 +224,10 @@ export class OrdenComponent implements OnInit {
 
   columnsToShow=[];
   
+
+  //VALIDATE orden
+  isAccepting:string = '';
+  toValidateOrder:Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,'','','','','','',0,'18','NO','NO','OFICINA','');
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
@@ -614,15 +619,41 @@ export class OrdenComponent implements OnInit {
     return o1.name === o2.name && o1.name === o2.name;
   }
 
+//VALIDATE LOGIC
+//
+//
+//
   validateButton(a:Orden,comand: string){
     if(comand=='VALIDAR'){
-
+      this.isAccepting=comand
     }
     if(comand=='RECHAZAR'){
-
+      this.isAccepting=comand
     }
+
+    this.toValidateOrder=a;
+    console.log("miau",comand,this.isAccepting)
+    document.getElementById('PopUpButton')?.click();
+    this.isAccepting=comand
+  }
+  
+  changeStatus(statusChanger: string) {
+    this.toValidateOrder.status=this.isAccepting;
+    console.log(this.toValidateOrder.status)
+    this.logisticaService.updateOrd(this.toValidateOrder).subscribe((res:any)=>{
+      console.log(res);
+      if(res){
+        this.toastr.success("Actualizado corretamente")
+      }else{
+        this.toastr.error("Algo malio sal")
+      }
+    })
+
   }
 
+
+
+////
   initConfig(){
     this.fecha= new Date();
 
@@ -802,7 +833,7 @@ export class OrdenComponent implements OnInit {
 
 
   ngOnInit() {
-
+    initFlowbite();
     this.initConfig();
   }
 
