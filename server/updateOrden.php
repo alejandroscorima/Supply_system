@@ -13,5 +13,5 @@ if (!$jsonOrd) {
 }
 $bd = include_once "bdLogistica.php";
 $sentencia = $bd->prepare("UPDATE ordenes SET estado = ?, receipt = ?, txt = ?, status = ? WHERE id = ?");
-$resultado = $sentencia->execute([$jsonOrd->estado, $jsonOrd->receipt, $jsonOrd->txt, $jsonOrd->id, $jsonOrd->status]);
+$resultado = $sentencia->execute([$jsonOrd->estado, $jsonOrd->receipt, $jsonOrd->txt,$jsonOrd->status,$jsonOrd->id]);
 echo json_encode($resultado);
