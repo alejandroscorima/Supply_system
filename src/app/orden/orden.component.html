@@ -1055,7 +1055,7 @@
                 <div *ngIf="(a.status!='PENDIENTE')">
                   {{a.status}}
                 </div>
-                <div  *ngIf="(a.status=='PENDIENTE')&&(user_role=='SUPERVISOR')">
+                <div  *ngIf="(a.status=='PENDIENTE')&&(user_role=='SUPERVISOR')&&(setValidatorUser(a.destino,a.total))">
                   <button mat-button (click)="validateButton(a,'VALIDAR')">
                     <mat-icon class="text-lime-500">checked</mat-icon>
                   </button>

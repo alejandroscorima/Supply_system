@@ -1974,9 +1974,33 @@ export class OrdenComponent implements OnInit {
   onSubmitView() {
   }
 
-  setValidatorUser(){
-    
-  }
+  setValidatorUser(campus: string, monto: string): boolean {
+    let response = false;
+    for (const element of this.allCampus) {
+        console.log(element.name, campus);
+        if (element.name === campus) {
+            console.log('ENTRO', parseFloat(monto), this.user.username);
+            if (parseFloat(monto) >= 3000 && this.user.username === 'SMONTES') {
+                response = true;
+                console.log('PRIMER IF', response);
+                return response;
+            } else if (parseFloat(monto) < 3000 && parseFloat(monto) >= 2000) {
+                if (element.is_operative === 'ON' && this.user.username === 'INAVARRO') {
+                    response = true;
+                    console.log('segundo IF');
+                    return response;
+                } else if (element.is_operative !== 'ON' && this.user.username === 'SMONTES') {
+                    response = true;
+                    console.log('tercer IF');
+                    return response;
+                }
+            }
+        }
+    }
+    // Si no se cumple ninguna condición, se retorna false
+    return response;
+}
+
 
   anularView(orden: Orden){
     var dialogRef;
