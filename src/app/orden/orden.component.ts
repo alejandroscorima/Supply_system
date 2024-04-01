@@ -673,7 +673,7 @@ export class OrdenComponent implements OnInit {
         this.columnsToShow=['fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
       }
       if(this.user_role=='SUPERVISOR'){
-        this.columnsToShow=['fecha','empresa','destino','observacion','total','pdf','receipt','comprobante','docs','validar'];
+        this.columnsToShow=['fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
       }
       else{
         this.columnsToShow=['fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
