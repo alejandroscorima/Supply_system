@@ -70,6 +70,9 @@ export class OrdenComponent implements OnInit {
   ordenCampus: Campus = new Campus('','','','','','');
   ordenCampusView: Campus = new Campus('','','','','','');
 
+  allCampus: Campus[]=[];
+
+
   user_id: number = 0;
   user_role: string = '';
 
@@ -691,7 +694,8 @@ export class OrdenComponent implements OnInit {
                   this.campusToView= new Campus('NINGUNO','','','','','');
                   this.logisticaService.getAllCampus().subscribe((cs:Campus[])=>{
 
-
+                    this.allCampus=cs;
+                    console.log(this.allCampus);
                     this.logisticaService.getSignatureByUserId(this.user.user_id).subscribe((sig:Signature)=>{
 
                       this.signature=sig;
@@ -1968,6 +1972,10 @@ export class OrdenComponent implements OnInit {
   }
 
   onSubmitView() {
+  }
+
+  setValidatorUser(){
+    
   }
 
   anularView(orden: Orden){
