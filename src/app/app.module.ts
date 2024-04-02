@@ -1,6 +1,6 @@
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -74,6 +74,7 @@ import { EntregaComponent,DialogEditItemEntrega,DialogNewItemEntrega,DialogConfi
 
 import { IntegerPositiveDirective } from './integer-positive.directive';
 import { FloatPositiveDirective } from './integer-positive.directive';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -171,7 +172,13 @@ import { FloatPositiveDirective } from './integer-positive.directive';
         MatSlideToggleModule,
         MatTabsModule,
         MatProgressBarModule,
-        ToastrModule.forRoot(), // ToastrModule added
+        ToastrModule.forRoot(),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+          enabled: !isDevMode(),
+          // Register the ServiceWorker as soon as the application is stable
+          // or after 30 seconds (whichever comes first).
+          registrationStrategy: 'registerWhenStable:30000'
+        }), // ToastrModule added
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
       { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, CookieService],

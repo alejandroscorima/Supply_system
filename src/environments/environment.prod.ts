@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
+  production: false,
   baseUrl: "http://52.5.47.64/Logistica",
 };
