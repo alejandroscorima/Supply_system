@@ -4,8 +4,12 @@ header("Access-Control-Allow-Origin: *"); // Permite el acceso desde cualquier o
 // Incluir el archivo de conexión a la base de datos
 $bd = include_once "bdLogistica.php";
 
+$campus_id=$_GET['campus_id'];
+
+
 // Preparar la consulta SQL para seleccionar datos de la tabla orders_validations
-$sentencia = $bd->prepare("SELECT id, campus_id, user_id, amount FROM order_validation_rules");
+$sentencia = $bd->prepare("SELECT id, campus_id, user_id, amount FROM order_validation_rules
+WHERE campus_id=".$campus_id." ");
 
 // Ejecutar la consulta
 $sentencia->execute();
