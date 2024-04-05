@@ -1279,6 +1279,11 @@ export class OrdenComponent implements OnInit {
         }) */
 
         this.logisticaService.addOrd(this.ord).subscribe(resAddOrd=>{
+
+
+
+
+
           console.log(resAddOrd);
           if(resAddOrd['session_id']){
 
@@ -1353,6 +1358,12 @@ export class OrdenComponent implements OnInit {
 
 
   }
+
+  asignarOrden(){
+    
+  }
+
+
 
   generatePDF(){
 
