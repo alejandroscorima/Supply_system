@@ -5,7 +5,7 @@ header("Access-Control-Allow-Origin: *"); // Permite el acceso desde cualquier o
 $bd = include_once "bdLogistica.php";
 
 // Preparar la consulta SQL para seleccionar datos de la tabla orders_validations
-$sentencia = $bd->prepare("SELECT id, campus_id, user_id, amount FROM oscorp_data.order_validation_rules");
+$sentencia = $bd->prepare("SELECT id, campus_id, user_id, amount FROM order_validation_rules");
 
 // Ejecutar la consulta
 $sentencia->execute();
