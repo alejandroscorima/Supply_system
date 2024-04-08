@@ -36,6 +36,11 @@ export class Orden {
     public descuento?: string,
     public observacion?: string,
 
+    public id_validations ?: string,
+    public date ?: string,
+    public hour ?: string,
+    public state ?: string,
+    
     
 
     public status?: string,
