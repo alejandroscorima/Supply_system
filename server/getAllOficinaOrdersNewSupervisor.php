@@ -79,7 +79,8 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
     if ($user_role == 'SUPER ADMINISTRADOR') {
     if ($destino == 'NINGUNO') {
         $sentencia = $bd->prepare("SELECT * FROM oscorp_supply.ordenes WHERE ordenes.section='CASA';");
-    } else if($destino=='TODOS'){
+    } else {
+        if($destino=='TODOS'){
         $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante,
             c.id AS val_id,
             c.user_id AS val_user_id,
@@ -100,7 +101,7 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
             WHERE c.user_id = '".$user_id."' OR c.user_id IS NULL
             ORDER BY a.id DESC;");
         }
-    } else if($destino!='TODOS'&&$destino!='TODOS'){
+    else{
     $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante,
         c.id AS val_id,
         c.user_id AS val_user_id,
@@ -120,9 +121,13 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
         LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
         WHERE a.user_id = ".$user_id."
         ORDER BY a.id DESC;");
-}
+        }
+    }
 }
 $sentencia->execute();
 $orders = $sentencia->fetchAll(PDO::FETCH_OBJ);
 echo json_encode($orders);
 ?>
+
+
+
