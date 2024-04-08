@@ -2046,37 +2046,11 @@ export class OrdenComponent implements OnInit {
     })
   }
 
-  setValidatorUser(campus: string, monto: string): boolean {
+  setValidatorUser(order: Orden): boolean {
     let response = false;
-    for (const element of this.allCampus) {
-
-
-
-
-
-
-
-        /* console.log(element.name, campus);
-        if (element.name === campus) {
-            console.log('ENTRO', parseFloat(monto), this.user.username);
-            if (parseFloat(monto) >= 3000 && this.user.username === 'SMONTES') {
-                response = true;
-                console.log('PRIMER IF', response);
-                return response;
-            } else if (parseFloat(monto) < 3000 && parseFloat(monto) >= 2000) {
-                if (element.is_operative === 'ON' && this.user.username === 'INAVARRO') {
-                    response = true;
-                    console.log('segundo IF');
-                    return response;
-                } else if (element.is_operative !== 'ON' && this.user.username === 'SMONTES') {
-                    response = true;
-                    console.log('tercer IF');
-                    return response;
-                }
-            }
-        } */
-    }
-    // Si no se cumple ninguna condición, se retorna false
+      if(order.val_id!=null||order.val_id!=0){
+        
+      }
     return response;
 }
 
