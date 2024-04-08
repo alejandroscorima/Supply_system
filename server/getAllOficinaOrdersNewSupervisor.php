@@ -115,7 +115,7 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
                 ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area, ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta,
                 ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section, ordenes.status, ordenes.observacion 
                 FROM oscorp_supply.ordenes 
-                WHERE ordenes.section = 'OFICINA' AND ordenes.user_id = ".$user_id."
+                WHERE ordenes.section = 'OFICINA' AND ordenes.destino='".$destino."'
             ) a 
             LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
             LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
