@@ -36,6 +36,8 @@ export class Orden {
     public descuento?: string,
     public observacion?: string,
 
+    
+
     public status?: string,
     
     public id?: number,

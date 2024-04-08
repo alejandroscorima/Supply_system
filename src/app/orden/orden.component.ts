@@ -35,6 +35,9 @@ import * as XLSX from 'xlsx';
 import { Signature } from '../signature';
 import { FLAGS } from 'html2canvas/dist/types/dom/element-container';
 import { initFlowbite } from 'flowbite';
+import { OrdersValidation } from '../order_validation';
+import { OrdersValidationRules } from '../order_validation _rules';
+import { get } from 'http';
 
 @Component({
   selector: 'app-nuevo',
@@ -1242,6 +1245,7 @@ export class OrdenComponent implements OnInit {
     
     this.logisticaService.getLastOrdOficinaCode(this.ord.numero,this.ord.destino,this.ord.empresa).subscribe(resi=>{
       if(resi){
+        console.log(resi);
 
         var codeArray=String(resi['numero']).split('-');
         var numeracion = parseInt(codeArray[1])+1;
@@ -1280,11 +1284,11 @@ export class OrdenComponent implements OnInit {
 
         this.logisticaService.addOrd(this.ord).subscribe(resAddOrd=>{
 
+   
 
 
 
-
-          console.log(resAddOrd);
+          console.log('resAddOrd',resAddOrd);
           if(resAddOrd['session_id']){
 
             this.listaOrd.forEach((p:OrdenItem,ind)=>{
@@ -1297,7 +1301,13 @@ export class OrdenComponent implements OnInit {
                 if(ind==this.listaOrd.length-1){
 
                   //this.saveProvider();
-
+                  console.log("si debería entrar");
+                  this.logisticaService.getSalaByName(this.ord.destino).subscribe((resCampByName:Campus)=>{
+                    console.log('resCampByName',resCampByName)
+                    var temCampus=resCampByName;
+                    console.log(parseInt(p.ord_codigo),temCampus.campus_id)
+                    this.asignarOrden(parseInt(p.ord_codigo),temCampus.campus_id)
+                  })
                   this.generatePDF();
 
                   var anio = this.fecha.getFullYear();
@@ -1317,7 +1327,7 @@ export class OrdenComponent implements OnInit {
                   this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
-                  this.igvActivated=true;
+                  this.igvActivated=true;   
                   this.prefijoMoney='';
                   this.ord.moneda='SOLES';
                   this.prefijoMoney='S/.';
@@ -1358,9 +1368,57 @@ export class OrdenComponent implements OnInit {
 
 
   }
+  obtenerFechaActual(): string {
+    const fechaActual = new Date();
+    const year = fechaActual.getFullYear();
+    const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0'); // Sumar 1 al mes y asegurar dos dígitos
+    const day = fechaActual.getDate().toString().padStart(2, '0'); // Asegurar dos dígitos para el día
 
-  asignarOrden(){
-    
+    return `${year}-${month}-${day}`;
+  }
+
+  obtenerHoraActual(): string {
+    const horaActual = new Date();
+    let hours = horaActual.getHours();
+    const minutes = horaActual.getMinutes().toString().padStart(2, '0'); // Asegurar dos dígitos para los minutos
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    // Convertir horas al formato de 12 horas y manejar el caso de medianoche (0 AM)
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Si hours es 0, mostrar 12 en lugar de 0
+
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
+    return formattedTime;
+  }
+
+  asignarOrden( orden_id:number,campus_id: number){
+  
+
+    var getOrdValRules: OrdersValidationRules [];
+    this.logisticaService.getOrderValidationRules(campus_id).subscribe((res:any)=>{
+      getOrdValRules=res;
+
+      ///////GENERAR LAS VALIDACIONES
+      /////VALIDACION 1:
+
+      var OrdvalToPost: OrdersValidation = new OrdersValidation(0,0,'','','PENDIENTE');
+      OrdvalToPost.user_id=getOrdValRules[0].user_id;
+      OrdvalToPost.order_id= orden_id;
+      OrdvalToPost.date= this.obtenerFechaActual();
+      OrdvalToPost.hour= this.obtenerHoraActual();
+      console.log(OrdvalToPost)
+      this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res1=>{
+        console.log(res1)
+      });
+       /////VALIDACION 2:
+      OrdvalToPost.user_id=getOrdValRules[1].user_id;
+      this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res2=>{
+        console.log(res2)
+        console.log("esperemos que haya funcionado")
+      });
+
+    })
+   
   }
 
 
@@ -1982,13 +2040,23 @@ export class OrdenComponent implements OnInit {
 
   }
 
-  onSubmitView() {
+  viewValidationsOrder(order_id:number){
+    this.logisticaService.getOrdersValidations(order_id).subscribe((resGet:any)=>{
+      return resGet;
+    })
   }
 
   setValidatorUser(campus: string, monto: string): boolean {
     let response = false;
     for (const element of this.allCampus) {
-        console.log(element.name, campus);
+
+
+
+
+
+
+
+        /* console.log(element.name, campus);
         if (element.name === campus) {
             console.log('ENTRO', parseFloat(monto), this.user.username);
             if (parseFloat(monto) >= 3000 && this.user.username === 'SMONTES') {
@@ -2006,7 +2074,7 @@ export class OrdenComponent implements OnInit {
                     return response;
                 }
             }
-        }
+        } */
     }
     // Si no se cumple ninguna condición, se retorna false
     return response;

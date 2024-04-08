@@ -19,6 +19,7 @@ import { Campus } from './campus';
 import { Doc } from './doc';
 import { EntregaLiquidacion } from './entrega_liquidacion';
 import { EntregaItem } from './entrega_item';
+import { OrdersValidation } from './order_validation';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,23 @@ export class LogisticaService {
     //return this.http.post(`${this.baseUrl}/postOrden.php`, ord);
     return this.http.post(`${this.baseUrl}/postOrdenNew.php`, ord);
   }
+
+  getOrdersValidations(order_id:number){
+    return this.http.get(`${this.baseUrl}/getOrdersValidations.php?order_id=${order_id}`);
+  }
+
+  getOrderValidationRules(campus_id:number){
+    return this.http.get(`${this.baseUrl}/getOrderValidationRules.php?campus_id=${campus_id}`);
+  }
+
+  addOrderValidation(ordVal: OrdersValidation) {
+    return this.http.post(`${this.baseUrl}/postOrdersValidations.php`, ordVal);
+  }
+
+  updateOrderValidation(ordVal: OrdersValidation) {
+    return this.http.put(`${this.baseUrl}/updateOrdersValidations.php`, ordVal);
+  }
+
 
   addDoc(doc: Doc) {
     return this.http.post(`${this.baseUrl}/postDoc.php`, doc);
