@@ -123,6 +123,18 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
             ORDER BY a.id DESC;");
             }
         }
+    } else{
+        $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante
+        FROM (SELECT ordenes.id, ordenes.req_id, ordenes.numero, ordenes.ruc, ordenes.razon_social,
+        ordenes.direccion, ordenes.subtotal, ordenes.igv, ordenes.total, ordenes.rebajado, ordenes.fecha,
+        ordenes.destino, ordenes.tipo, ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area,
+        ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta, ordenes.retencion, ordenes.retencion_percent, 
+        ordenes.percepcion, ordenes.receipt, ordenes.txt,  ordenes.section, ordenes.status, ordenes.observacion 
+        FROM oscorp_supply.ordenes WHERE  ordenes.section='OFICINA' AND ordenes.user_id=".$user_id." ) a 
+        LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
+        LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
+        WHERE a.user_id = ".$user_id."
+        ORDER BY a.id DESC;");
     }
 }
 $sentencia->execute();
