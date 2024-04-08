@@ -77,10 +77,31 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
     }
 }else{
     if ($user_role == 'SUPER ADMINISTRADOR') {
-    if ($destino == 'NINGUNO') {
-        $sentencia = $bd->prepare("SELECT * FROM oscorp_supply.ordenes WHERE ordenes.section='CASA';");
-    } else {
-        if($destino=='TODOS'){
+        if ($destino == 'NINGUNO') {
+            $sentencia = $bd->prepare("SELECT * FROM oscorp_supply.ordenes WHERE ordenes.section='CASA';");
+        } else {
+            if($destino=='TODOS'){
+            $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante,
+                c.id AS val_id,
+                c.user_id AS val_user_id,
+                c.order_id AS val_order_id,
+                c.date AS val_date,
+                c.hour AS val_hour,
+                c.state AS val_state
+                FROM (
+                    SELECT ordenes.id, ordenes.req_id, ordenes.numero, ordenes.ruc, ordenes.razon_social, ordenes.direccion, 
+                    ordenes.subtotal, ordenes.igv, ordenes.total, ordenes.rebajado, ordenes.fecha, ordenes.destino, ordenes.tipo,
+                    ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area, ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta,
+                    ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section, ordenes.status, ordenes.observacion 
+                    FROM oscorp_supply.ordenes 
+                    WHERE ordenes.section = 'OFICINA'
+                ) a 
+                LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
+                LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
+                WHERE c.user_id = '".$user_id."' OR c.user_id IS NULL
+                ORDER BY a.id DESC;");
+            }
+        else{
         $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante,
             c.id AS val_id,
             c.user_id AS val_user_id,
@@ -94,33 +115,13 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
                 ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area, ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta,
                 ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section, ordenes.status, ordenes.observacion 
                 FROM oscorp_supply.ordenes 
-                WHERE ordenes.section = 'OFICINA'
+                WHERE ordenes.section = 'OFICINA' AND ordenes.user_id = ".$user_id."
             ) a 
             LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
             LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-            WHERE c.user_id = '".$user_id."' OR c.user_id IS NULL
+            WHERE a.user_id = ".$user_id."
             ORDER BY a.id DESC;");
-        }
-    else{
-    $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante,
-        c.id AS val_id,
-        c.user_id AS val_user_id,
-        c.order_id AS val_order_id,
-        c.date AS val_date,
-        c.hour AS val_hour,
-        c.state AS val_state
-        FROM (
-            SELECT ordenes.id, ordenes.req_id, ordenes.numero, ordenes.ruc, ordenes.razon_social, ordenes.direccion, 
-            ordenes.subtotal, ordenes.igv, ordenes.total, ordenes.rebajado, ordenes.fecha, ordenes.destino, ordenes.tipo,
-            ordenes.estado, ordenes.empresa, ordenes.moneda, ordenes.area, ordenes.destino_dir, ordenes.tipo_pago, ordenes.num_cuenta,
-            ordenes.retencion, ordenes.retencion_percent, ordenes.percepcion, ordenes.receipt, ordenes.txt, ordenes.section, ordenes.status, ordenes.observacion 
-            FROM oscorp_supply.ordenes 
-            WHERE ordenes.section = 'OFICINA' AND ordenes.user_id = ".$user_id."
-        ) a 
-        LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
-        LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-        WHERE a.user_id = ".$user_id."
-        ORDER BY a.id DESC;");
+            }
         }
     }
 }
@@ -128,6 +129,3 @@ $sentencia->execute();
 $orders = $sentencia->fetchAll(PDO::FETCH_OBJ);
 echo json_encode($orders);
 ?>
-
-
-
