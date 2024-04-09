@@ -658,64 +658,75 @@ export class OrdenComponent implements OnInit {
   // LOGIDA DE VERIFICAR TODAS LAS VALIDACIONES PARA SETEAR ESTO:
 /*     this.toValidateOrder.status=this.isAccepting;
     console.log(this.toValidateOrder.status) */
-
-    var validationsOrd:OrdersValidation[];
-    this.logisticaService.getOrdersValidations(this.toValidateOrder.id).subscribe((resValsOrd:any)=>{
-      validationsOrd=resValsOrd;
-    })
-  
-    var counter=0;
-    var max_ord=validationsOrd.length;
-    var acceptedCounter=0;
-    var rejectedCounter=0;
-
-    validationsOrd.forEach(element => {
-      if(element.state!="PENDIENTE"){
-        if(element.state=="ACEPTADO"){
-          acceptedCounter++;
-        }
-        if(element.state=="RECHAZADO"){
-          rejectedCounter++;
-        }
-        counter++;
-      }
-    });
-
-    if(counter==max_ord){
-      ///VALIDADOR DEL ESTADO DE LA ORDEN:
-        var ordAcceptingString:string
-        if(rejectedCounter=0){
-          this.toValidateOrder.status="ACEPTADO";
-        }
-        if(acceptedCounter=0){
-          this.toValidateOrder.status="RECHAZADO";
-        }
-        if(rejectedCounter>0&&acceptedCounter>0){
-          this.toValidateOrder.status="CONFLICTO";
-        }
-
-
-      this.logisticaService.updateOrd(this.toValidateOrder).subscribe((res:any)=>{
-        console.log(res);
-        if(res){
+      this.logisticaService.updateOrderValidation(this.ordValidationToPost).subscribe((resVal:any)=>{
+        console.log(resVal);
+        if(resVal){
           this.toastr.success("Actualizado corretamente")
         }else{
           this.toastr.error("Algo malio sal")
         }
-      })
+
+
+        var validationsOrd:OrdersValidation[]= [];
+        this.logisticaService.getOrdersValidations(this.toValidateOrder.id).subscribe((resValsOrd:any)=>{
+          validationsOrd=resValsOrd;
+        var counter=0;
+        var max_ord=validationsOrd.length;
+        var acceptedCounter=0;
+        var rejectedCounter=0;
+        
+
+        validationsOrd.forEach(element => {
+          if(element.state!="PENDIENTE"){
+            if(element.state=="ACEPTADO"){
+              acceptedCounter++;
+            }
+            if(element.state=="RECHAZADO"){
+              rejectedCounter++;
+            }
+            counter++;
+          }
+        });
+        console.log("counter:",counter,"length:",max_ord)
+        console.log("rejectedCounter:",rejectedCounter,"acceptedCounter:",acceptedCounter)
+        if(counter==max_ord){
+          ///VALIDADOR DEL ESTADO DE LA ORDEN:
+            var ordAcceptingString:string
+            if(rejectedCounter==0){
+              this.toValidateOrder.status="ACEPTADO";
+            }
+            if(acceptedCounter==0){
+              this.toValidateOrder.status="RECHAZADO";
+            }
+            if(rejectedCounter>0&&acceptedCounter>0){
+              this.toValidateOrder.status="CONFLICTO";
+            }
+    
+            console.log(this.toValidateOrder.status);
+          this.logisticaService.updateOrd(this.toValidateOrder).subscribe((res:any)=>{
+            console.log(this.toValidateOrder);
+            
+            if(res){
+              this.toastr.success("Actualizado corretamente")
+            }else{
+              this.toastr.error("Algo malio sal")
+            }
+          })
+      
+        }
+    
+        })
+      
+
+
+      });
+
+
+
   
-    }
 
 
 
-  this.logisticaService.updateOrderValidation(this.ordValidationToPost).subscribe((resVal:any)=>{
-    console.log(resVal);
-    if(resVal){
-      this.toastr.success("Actualizado corretamente")
-    }else{
-      this.toastr.error("Algo malio sal")
-    }
-  });
 }
 
 
