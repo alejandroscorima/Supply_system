@@ -232,6 +232,9 @@ export class OrdenComponent implements OnInit {
   
 
   //VALIDATE orden
+
+  ordValidationToPost:OrdersValidation;
+
   isAccepting:string = '';
   toValidateOrder:Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,'','','','','','',0,'18','NO','NO','OFICINA','');
 
@@ -631,31 +634,89 @@ export class OrdenComponent implements OnInit {
 //
   validateButton(a:Orden,comand: string){
     if(comand=='VALIDAR'){
-      this.isAccepting=comand
+      this.isAccepting='ACEPTADO'
     }
     if(comand=='RECHAZADO'){
       this.isAccepting=comand
     }
 
+
+   
     this.toValidateOrder=a;
+
+    this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,'','',this.isAccepting,a.val_id)
+
     console.log("miau",comand,this.isAccepting)
     document.getElementById('PopUpButton')?.click();
     this.isAccepting=comand
   }
   
   changeStatus(statusChanger: string) {
-    this.toValidateOrder.status=this.isAccepting;
-    console.log(this.toValidateOrder.status)
-    this.logisticaService.updateOrd(this.toValidateOrder).subscribe((res:any)=>{
-      console.log(res);
-      if(res){
-        this.toastr.success("Actualizado corretamente")
-      }else{
-        this.toastr.error("Algo malio sal")
-      }
-    })
 
-  }
+
+
+  // LOGIDA DE VERIFICAR TODAS LAS VALIDACIONES PARA SETEAR ESTO:
+/*     this.toValidateOrder.status=this.isAccepting;
+    console.log(this.toValidateOrder.status) */
+
+    var validationsOrd:OrdersValidation[];
+    this.logisticaService.getOrdersValidations(this.toValidateOrder.id).subscribe((resValsOrd:any)=>{
+      validationsOrd=resValsOrd;
+    })
+  
+    var counter=0;
+    var max_ord=validationsOrd.length;
+    var acceptedCounter=0;
+    var rejectedCounter=0;
+
+    validationsOrd.forEach(element => {
+      if(element.state!="PENDIENTE"){
+        if(element.state=="ACEPTADO"){
+          acceptedCounter++;
+        }
+        if(element.state=="RECHAZADO"){
+          rejectedCounter++;
+        }
+        counter++;
+      }
+    });
+
+    if(counter==max_ord){
+      ///VALIDADOR DEL ESTADO DE LA ORDEN:
+        var ordAcceptingString:string
+        if(rejectedCounter=0){
+          this.toValidateOrder.status="ACEPTADO";
+        }
+        if(acceptedCounter=0){
+          this.toValidateOrder.status="RECHAZADO";
+        }
+        if(rejectedCounter>0&&acceptedCounter>0){
+          this.toValidateOrder.status="CONFLICTO";
+        }
+
+
+      this.logisticaService.updateOrd(this.toValidateOrder).subscribe((res:any)=>{
+        console.log(res);
+        if(res){
+          this.toastr.success("Actualizado corretamente")
+        }else{
+          this.toastr.error("Algo malio sal")
+        }
+      })
+  
+    }
+
+
+
+  this.logisticaService.updateOrderValidation(this.ordValidationToPost).subscribe((resVal:any)=>{
+    console.log(resVal);
+    if(resVal){
+      this.toastr.success("Actualizado corretamente")
+    }else{
+      this.toastr.error("Algo malio sal")
+    }
+  });
+}
 
 
 
@@ -2049,7 +2110,7 @@ export class OrdenComponent implements OnInit {
   setValidatorUser(order: Orden): boolean {
     let response = false;
       if(order.val_id!=null||order.val_id!=0){
-        
+        response = true;
       }
     return response;
 }
