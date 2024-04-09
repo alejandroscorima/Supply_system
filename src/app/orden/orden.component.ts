@@ -633,19 +633,22 @@ export class OrdenComponent implements OnInit {
 //
 //
   validateButton(a:Orden,comand: string){
+
+   
     if(comand=='VALIDAR'){
       this.isAccepting='ACEPTADO'
     }
     if(comand=='RECHAZADO'){
       this.isAccepting=comand
     }
+    this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,'','',this.isAccepting,a.val_id)
 
+    a.val_state=this.ordValidationToPost.state
 
    
     this.toValidateOrder=a;
 
-    this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,'','',this.isAccepting,a.val_id)
-
+ 
     console.log("miau",comand,this.isAccepting)
     document.getElementById('PopUpButton')?.click();
     this.isAccepting=comand

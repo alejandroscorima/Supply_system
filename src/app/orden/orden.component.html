@@ -1052,8 +1052,8 @@
                 <div *ngIf="(a.status=='PENDIENTE')&&(user_role!='SUPERVISOR')">
                   {{a.status}}
                 </div>
-                <div *ngIf="(a.status!='PENDIENTE')">
-                  {{a.status}}
+                <div *ngIf="(a.val_state!='PENDIENTE')">
+                  {{a.val_state}}
                 </div>
                 <div  *ngIf="(a.val_state=='PENDIENTE')&&(user_role=='SUPERVISOR')&&(setValidatorUser(a))&&(a.val_state!='ANULADO')">
                   <button mat-button (click)="validateButton(a,'VALIDAR')">
