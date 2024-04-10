@@ -8,7 +8,8 @@ $bd = include_once "bdLogistica.php";
 $order_id = $_GET['order_id'];
 
 // Preparar la consulta SQL para seleccionar datos de la tabla orders_validations filtrando por campus_id
-$sentencia = $bd->prepare("SELECT id, user_id, order_id, date, hour, state  FROM orders_validations WHERE order_id = ".$order_id." ");
+$sentencia = $bd->prepare("SELECT a.*, b.first_name, b.paternal_surname  FROM oscorp_supply.orders_validations a 
+Inner Join oscorp_data.user2 b ON a.user_id=b.user_id WHERE order_id = ".$order_id." ");
 
 // Ejecutar la consulta
 $sentencia->execute();

@@ -233,6 +233,12 @@ export class OrdenComponent implements OnInit {
 
   //VALIDATE orden
 
+
+
+  validationsOrd:OrdersValidation[]= [];
+
+
+
   ordValidationToPost:OrdersValidation;
 
   isAccepting:string = '';
@@ -632,6 +638,13 @@ export class OrdenComponent implements OnInit {
 //
 //
 //
+
+  viewStatusButton(a:Orden){
+    document.getElementById('viewModalButton')?.click();
+    this.logisticaService.getOrdersValidations(a.id).subscribe((resValsOrd:any)=>{
+      this.validationsOrd= resValsOrd
+    })
+  }
   validateButton(a:Orden,comand: string){
 
    
@@ -670,16 +683,16 @@ export class OrdenComponent implements OnInit {
         }
 
 
-        var validationsOrd:OrdersValidation[]= [];
+       
         this.logisticaService.getOrdersValidations(this.toValidateOrder.id).subscribe((resValsOrd:any)=>{
-          validationsOrd=resValsOrd;
+          this.validationsOrd=resValsOrd;
         var counter=0;
-        var max_ord=validationsOrd.length;
+        var max_ord=this.validationsOrd.length;
         var acceptedCounter=0;
         var rejectedCounter=0;
         
 
-        validationsOrd.forEach(element => {
+        this.validationsOrd.forEach(element => {
           if(element.state!="PENDIENTE"){
             if(element.state=="ACEPTADO"){
               acceptedCounter++;
@@ -694,7 +707,7 @@ export class OrdenComponent implements OnInit {
         console.log("rejectedCounter:",rejectedCounter,"acceptedCounter:",acceptedCounter)
         if(counter==max_ord){
           ///VALIDADOR DEL ESTADO DE LA ORDEN:
-            var ordAcceptingString:string
+          
             if(rejectedCounter==0){
               this.toValidateOrder.status="ACEPTADO";
             }
