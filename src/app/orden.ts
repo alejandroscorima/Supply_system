@@ -43,11 +43,13 @@ export class Orden {
     public val_hour ?: string,
     public val_state ?: string,
     
-
+    public isChecked?: boolean ,
 
     public status?: string,
     
     public id?: number,
     public total_inicial?: string,
-  ) { }
+  ) { 
+    isChecked=false;
+  }
 }

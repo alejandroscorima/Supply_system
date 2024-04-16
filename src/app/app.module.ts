@@ -76,6 +76,7 @@ import { IntegerPositiveDirective } from './integer-positive.directive';
 import { FloatPositiveDirective } from './integer-positive.directive';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
     declarations: [
@@ -172,6 +173,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         MatSlideToggleModule,
         MatTabsModule,
         MatProgressBarModule,
+        DragDropModule,
         ToastrModule.forRoot(),
         ServiceWorkerModule.register('ngsw-worker.js', {
           enabled: !isDevMode(),

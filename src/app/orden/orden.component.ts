@@ -38,6 +38,7 @@ import { initFlowbite } from 'flowbite';
 import { OrdersValidation } from '../order_validation';
 import { OrdersValidationRules } from '../order_validation _rules';
 import { get } from 'http';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-nuevo',
@@ -654,7 +655,7 @@ export class OrdenComponent implements OnInit {
     if(comand=='RECHAZADO'){
       this.isAccepting=comand
     }
-    this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,'','',this.isAccepting,a.val_id)
+    this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,'','','','',this.isAccepting,a.val_id)
 
     a.val_state=this.ordValidationToPost.state
 
@@ -761,13 +762,13 @@ export class OrdenComponent implements OnInit {
       this.user_role = this.cookiesService.getToken('user_role');
       console.log(this.user_role);
       if(this.user_role=='SUPER ADMINISTRADOR'){
-        this.columnsToShow=['fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShow=['check','fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
       }
       if(this.user_role=='SUPERVISOR'){
         this.columnsToShow=['fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
       }
       else{
-        this.columnsToShow=['fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShow=['check','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
       }
       this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
         this.user=u;
@@ -2134,6 +2135,30 @@ export class OrdenComponent implements OnInit {
     })
   }
 
+  toggleCheckbox( a:Orden): void {
+    a.isChecked = !a.isChecked;
+  }
+
+  onDrop(event) {
+    const files = event.dataTransfer?.files;
+    console.log(files)
+  
+    if (event.isPointerOverContainer) {
+      const file =  files[0];
+      this.openDialogNewDoc(file);
+    }
+  }
+  openDialogNewDoc(file: File) {
+      const dialogRef = this.dialog.open(DialogNewDoc, {
+        data: { doc: file }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Dialog closed with: ', result);
+        }
+      });
+    }
   setValidatorUser(order: Orden): boolean {
     let response = false;
       if(order.val_id!=null||order.val_id!=0){
