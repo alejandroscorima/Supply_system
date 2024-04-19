@@ -77,6 +77,7 @@ import { FloatPositiveDirective } from './integer-positive.directive';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OrdenV2Component } from './orden-v2/orden-v2.component';
 
 @NgModule({
     declarations: [
@@ -139,6 +140,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         DialogEditItemEntrega,
         DialogNewItemEntrega,
         DialogConfirmEntrega,
+        OrdenV2Component
     ],
     imports: [
         BrowserModule,

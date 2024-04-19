@@ -17,6 +17,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { DailyComponent } from './daily/daily.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { EntregaComponent } from './entrega/entrega.component';
+import { OrdenV2Component } from './orden-v2/orden-v2.component';
 
 const routes: Routes = [
   { path: "", component: InicioComponent },
@@ -35,6 +36,8 @@ const routes: Routes = [
   { path: "daily", component: DailyComponent},
   { path: "activities", component: ActivitiesComponent},
   { path: "entrega", component: EntregaComponent},
+  { path: "ordenv2", component: OrdenV2Component},
+  
 
   //{ path: "", redirectTo: "/clientes", pathMatch: "full" },// Cuando es la raíz
   //{ path: "**", redirectTo: "/clientes" }

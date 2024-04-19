@@ -3,7 +3,6 @@
 header("Access-Control-Allow-Origin: *");
 //header("Access-Control-Allow-Origin: http://192.168.4.250");
 
-
 $bd = include_once "bdLogistica.php";
 
 $user_id = $_GET['user_id'];
