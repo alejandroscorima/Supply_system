@@ -9,6 +9,15 @@ $user_id = $_GET['user_id'];
 $user_role = $_GET['user_role'];
 $destino = $_GET['destino'];
 
+$status = $_GET['status'];
+
+if($status == 'PENDIENTE'){
+
+}
+if($status != 'PENDIENTE'){
+    
+}
+
 if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
     if ($destino == 'NINGUNO') {
         $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante,
@@ -139,6 +148,10 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
         ORDER BY a.id DESC;");
     }
 }
+
+
+
+
 $sentencia->execute();
 $orders = $sentencia->fetchAll(PDO::FETCH_OBJ);
 echo json_encode($orders);

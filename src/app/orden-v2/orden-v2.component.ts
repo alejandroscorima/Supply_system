@@ -211,10 +211,14 @@ export class OrdenV2Component implements OnInit {
   itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
 
   listaOrdersView: Orden[]= [];
+  listaOrdChangeStep: Orden[] =[]
+
 
   listaOrdView: OrdenItem[]= [];
 
   dataSourceOrdersView: MatTableDataSource<Orden>;
+
+  dataSourceOrdersViewAproved: MatTableDataSource<Orden>;
 
   docView = new jsPDF();
 
@@ -949,7 +953,7 @@ export class OrdenV2Component implements OnInit {
   }
 
   changeDestinoView(){
-    this.logisticaService.getAllOficinaOrders(this.user_id, this.user_role, this.campusToView.name).subscribe((resOrds:Orden[])=>{
+    this.logisticaService.getOrdersByStepStatus(this.user_id, this.user_role, this.campusToView.name).subscribe((resOrds:Orden[])=>{
       console.log(resOrds);
       console.log(this.listaOrdersView);
       this.listaOrdersView=resOrds;
@@ -2141,6 +2145,20 @@ export class OrdenV2Component implements OnInit {
 
   toggleCheckbox( a:Orden): void {
     a.isChecked = !a.isChecked;
+  }
+
+  //Exportación de los documentos y cambio de fase
+  exportFilesToFolder(){
+
+    this.listaOrdersView.forEach(element => {
+      if(element.isChecked){
+        this.listaOrdChangeStep.push(element);
+      }
+    });
+    
+    
+
+
   }
 
   onDrop(event) {
