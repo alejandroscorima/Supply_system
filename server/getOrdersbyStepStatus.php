@@ -12,7 +12,7 @@ $destino = $_GET['destino'];
 $status = $_GET['status'];
 $status_set;
 if($status == 'PENDIENTE'){
-    $status_set=" AND a.step_status<>'PENDIENTE'";
+    $status_set=" AND a.step_status='PENDIENTE'";
 }
 if($status != 'PENDIENTE'){
     $status_set=" AND a.step_status<>'PENDIENTE'";

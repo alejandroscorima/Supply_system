@@ -162,7 +162,7 @@ export class LogisticaService {
     //return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNew.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);
     return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNewSupervisor.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);   
   }
-  getOrdersByStepStatus(user_id, user_role, destino) {
+  getOrdersByStepStatus(user_id, user_role, destino, status) {
     //return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNew.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);
     return this.http.get(`${this.baseUrl}/getOrdersByStepStatus.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);   
   } 

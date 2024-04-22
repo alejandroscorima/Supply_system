@@ -953,7 +953,7 @@ export class OrdenV2Component implements OnInit {
   }
 
   changeDestinoView(){
-    this.logisticaService.getOrdersByStepStatus(this.user_id, this.user_role, this.campusToView.name).subscribe((resOrds:Orden[])=>{
+    this.logisticaService.getOrdersByStepStatus(this.user_id, this.user_role, this.campusToView.name,'TODOS').subscribe((resOrds:Orden[])=>{
       console.log(resOrds);
       console.log(this.listaOrdersView);
       this.listaOrdersView=resOrds;
@@ -2154,7 +2154,7 @@ export class OrdenV2Component implements OnInit {
       if(element.isChecked){
         this.listaOrdChangeStep.push(element);
       }
-      
+
     });
     
     
