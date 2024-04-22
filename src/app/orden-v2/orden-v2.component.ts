@@ -2154,6 +2154,7 @@ export class OrdenV2Component implements OnInit {
       if(element.isChecked){
         this.listaOrdChangeStep.push(element);
       }
+      
     });
     
     

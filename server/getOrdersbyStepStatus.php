@@ -10,12 +10,12 @@ $user_role = $_GET['user_role'];
 $destino = $_GET['destino'];
 
 $status = $_GET['status'];
-
+$status_set;
 if($status == 'PENDIENTE'){
-
+    $status_set=" AND a.step_status<>'PENDIENTE'";
 }
 if($status != 'PENDIENTE'){
-    
+    $status_set=" AND a.step_status<>'PENDIENTE'";
 }
 
 if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
@@ -108,7 +108,7 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
                 ) a 
                 LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                 LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-				WHERE a.step = 'STEP_1' AND a.step_status='PENDIENTE'
+				WHERE a.step = 'STEP_1' ".$status_set."
                 ORDER BY a.id DESC;");
             }
             else{
@@ -130,7 +130,7 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
             ) a 
             LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
             LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-            WHERE a.step = 'STEP_1' AND a.step_status='PENDIENTE'
+            WHERE a.step = 'STEP_1'".$status_set."
             ORDER BY a.id DESC;");
             }
         }
