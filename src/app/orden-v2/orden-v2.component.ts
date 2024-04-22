@@ -210,14 +210,16 @@ export class OrdenV2Component implements OnInit {
 
   itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
 
-  listaOrdersView: Orden[]= [];
-  listaOrdChangeStep: Orden[] =[]
+
+  listaOrdersPendantView:Orden[] = [];
+  listaOrdersView: Orden[] = [];
+  listaOrdChangeStep: Orden[] = [];
 
 
   listaOrdView: OrdenItem[]= [];
 
   dataSourceOrdersView: MatTableDataSource<Orden>;
-
+  dataSourceOrdersPendant: MatTableDataSource<Orden>;
   dataSourceOrdersViewAproved: MatTableDataSource<Orden>;
 
   docView = new jsPDF();
@@ -803,6 +805,21 @@ export class OrdenV2Component implements OnInit {
 
                     })
 
+                    if(this.user_role=='SUPER ADMINISTRADOR'){
+                      this.logisticaService.getOrdersByStepStatus(this.user_id, this.user_role, 'TODOS','PENDIENTE').subscribe((resOrdPend:Orden[])=>{
+                        console.log(resOrdPend);
+                        console.log(this.listaOrdersPendantView);
+                        this.listaOrdersPendantView=resOrdPend;
+                        console.log(this.listaOrdersPendantView);
+                        this.dataSourceOrdersPendant = new MatTableDataSource(this.listaOrdersPendantView);
+                        this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
+                        this.dataSourceOrdersPendant.sort = this.sort.toArray()[0];
+                      })
+                    }
+
+
+
+
                     this.campus=cs;
                     this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'18','NO','NO','OFICINA','');
                     this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
@@ -913,9 +930,10 @@ export class OrdenV2Component implements OnInit {
                         this.listaOrdersView=resOrds;
                         console.log(this.listaOrdersView);
                         this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
-                        this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];
-                        this.dataSourceOrdersView.sort = this.sort.toArray()[0];
+                        this.dataSourceOrdersView.paginator = this.paginator.toArray()[1];
+                        this.dataSourceOrdersView.sort = this.sort.toArray()[1];
                       })
+                    
                     })
                   })
 
@@ -959,8 +977,8 @@ export class OrdenV2Component implements OnInit {
       this.listaOrdersView=resOrds;
       console.log(this.listaOrdersView);
       this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
-      this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];
-      this.dataSourceOrdersView.sort = this.sort.toArray()[0];
+      this.dataSourceOrdersView.paginator = this.paginator.toArray()[1];
+      this.dataSourceOrdersView.sort = this.sort.toArray()[1];
     })
   }
 

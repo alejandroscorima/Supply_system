@@ -1120,7 +1120,7 @@
         <button mat-raised-button *ngIf="user_role=='SUPER ADMINISTRADOR'" (click)="exporter.exportTable('xlsx',{fileName:'Ordenes compra/servicio'})"> EXPORTAR A EXCEL</button>
   
         <div class="mat-elevation-z8" style="width:100%;">
-            <table mat-table style="width:100%;" [dataSource]="dataSourceOrdersView" matSort multiTemplateDataRows matTableExporter #exporter="matTableExporter" [hiddenColumns]="[16,17,18,20,21]">
+            <table mat-table style="width:100%;" [dataSource]="dataSourceOrdersPendant" matSort multiTemplateDataRows matTableExporter #exporter="matTableExporter" [hiddenColumns]="[16,17,18,20,21]">
   
   
               <ng-container matColumnDef="check">
