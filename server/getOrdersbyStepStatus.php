@@ -79,7 +79,7 @@ if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
                 ) a 
                 LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                 LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-                AND c.user_id = ".$user_id."
+                AND c.user_id = ".$user_id." AND a.step = 'STEP_1' ".$status_set."
                 ORDER BY a.id DESC;");
             
         }
