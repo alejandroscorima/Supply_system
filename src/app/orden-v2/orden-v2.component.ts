@@ -805,17 +805,7 @@ export class OrdenV2Component implements OnInit {
 
                     })
 
-                    if(this.user_role=='SUPER ADMINISTRADOR'){
-                      this.logisticaService.getOrdersByStepStatus(this.user_id, this.user_role, 'TODOS','PENDIENTE').subscribe((resOrdPend:Orden[])=>{
-                        console.log(resOrdPend);
-                        console.log(this.listaOrdersPendantView);
-                        this.listaOrdersPendantView=resOrdPend;
-                        console.log(this.listaOrdersPendantView);
-                        this.dataSourceOrdersPendant = new MatTableDataSource(this.listaOrdersPendantView);
-                        this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
-                        this.dataSourceOrdersPendant.sort = this.sort.toArray()[0];
-                      })
-                    }
+                
 
 
 
@@ -924,16 +914,26 @@ export class OrdenV2Component implements OnInit {
                       }
 
                       ///////////////////////////////CAMBIAR AL NUEVO PHP
-                      this.logisticaService.getAllOficinaOrders(this.user_id, this.user_role, this.campusToView.name).subscribe((resOrds:Orden[])=>{
-                        console.log(resOrds);
-                        console.log(this.listaOrdersView);
-                        this.listaOrdersView=resOrds;
-                        console.log(this.listaOrdersView);
-                        this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
-                        this.dataSourceOrdersView.paginator = this.paginator.toArray()[1];
-                        this.dataSourceOrdersView.sort = this.sort.toArray()[1];
-                      })
-                    
+                      // this.logisticaService.getAllOficinaOrders(this.user_id, this.user_role, this.campusToView.name).subscribe((resOrds:Orden[])=>{
+                      //   console.log(resOrds);
+                      //   console.log(this.listaOrdersView);
+                      //   this.listaOrdersView=resOrds;
+                      //   console.log(this.listaOrdersView);
+                      //   this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
+                      //   this.dataSourceOrdersView.paginator = this.paginator.toArray()[1];
+                      //   this.dataSourceOrdersView.sort = this.sort.toArray()[1];
+                      // })
+                      if(this.user_role=='SUPER ADMINISTRADOR'){
+                        this.logisticaService.getOrdersByStepStatus(this.user_id, this.user_role, 'TODOS','PENDIENTE').subscribe((resOrdPend:Orden[])=>{
+                          console.log(resOrdPend);
+                          console.log(this.listaOrdersPendantView);
+                          this.listaOrdersPendantView=resOrdPend;
+                          console.log(this.listaOrdersPendantView);
+                          this.dataSourceOrdersPendant = new MatTableDataSource(this.listaOrdersPendantView);
+                          this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
+                          this.dataSourceOrdersPendant.sort = this.sort.toArray()[0];
+                        })
+                      }
                     })
                   })
 

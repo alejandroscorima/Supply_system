@@ -9,7 +9,7 @@ $user_id = $_GET['user_id'];
 $user_role = $_GET['user_role'];
 $destino = $_GET['destino'];
 
-$status = $_GET['status'];
+$status = $_GET['step_status'];
 $status_set = '';
 if($status === 'PENDIENTE'){
     $status_set=" AND a.step_status='PENDIENTE'";
