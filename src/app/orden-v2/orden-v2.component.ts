@@ -2168,13 +2168,21 @@ export class OrdenV2Component implements OnInit {
   //Exportación de los documentos y cambio de fase
   exportFilesToFolder(){
 
-    this.listaOrdersView.forEach(element => {
+
+
+
+    this.listaOrdersPendantView.forEach(element => {
+      var folderToPush
       if(element.isChecked){
         this.listaOrdChangeStep.push(element);
+
+        this.logisticaService.addFolder()
+        
       }
 
     });
     
+    console.log(this.listaOrdChangeStep);
     
 
 

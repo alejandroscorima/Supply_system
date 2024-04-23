@@ -20,11 +20,18 @@ if (!$jsonFolder) {
 // Incluir la conexión a la base de datos
 $bd = include_once "bdPaperLess.php";
 
-// Preparar la consulta de inserción en la tabla `folder`
-$sentencia = $bd->prepare("INSERT INTO folder (name, description, isShared) VALUES (?, ?, ?)");
+// Preparar la consulta de inserción en la tabla `folder` con todos los campos
+$sentencia = $bd->prepare("INSERT INTO folder (name, description, isShared, user_parent_id, user_id, step) VALUES (?, ?, ?, ?, ?, ?)");
 
 // Ejecutar la consulta con los datos recibidos
-$resultado = $sentencia->execute([$jsonData->name, $jsonData->description, $jsonData->isShared]);
+$resultado = $sentencia->execute([
+    $jsonFolder->name,
+    $jsonFolder->description,
+    $jsonFolder->isShared,
+    $jsonFolder->user_parent_id,
+    $jsonFolder->user_id,
+    $jsonFolder->step
+]);
 
 // Preparar la respuesta en formato JSON
 $response = [
@@ -33,3 +40,4 @@ $response = [
 
 // Devolver la respuesta como JSON
 echo json_encode($response);
+?>

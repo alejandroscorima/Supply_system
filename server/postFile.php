@@ -24,7 +24,8 @@ $bd = include_once "bdPaperLess.php";
 $sentencia = $bd->prepare("INSERT INTO file (name, url, description, extension, date, hour) VALUES (?, ?, ?, ?, ?, ?)");
 
 // Ejecutar la consulta con los datos recibidos
-$resultado = $sentencia->execute([$jsonData->name, $jsonData->url, $jsonData->description, $jsonData->extension, $jsonData->date, $jsonData->hour]);
+$resultado = $sentencia->execute([$jsonData->name, $jsonData->url, $jsonData->description,
+ $jsonData->extension, $jsonData->date, $jsonData->hour,$jsonData->folder_id]);
 
 // Preparar la respuesta en formato JSON
 $response = [
