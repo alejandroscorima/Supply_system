@@ -40,6 +40,7 @@ import { OrdersValidationRules } from '../order_validation _rules';
 import { get } from 'http';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DialogAddReceipt, DialogConfirmOrden, DialogEditReceipt, DialogNewDoc, DialogShowDocs } from '../orden/orden.component';
+import { Folder } from '../folder';
 
 @Component({
   selector: 'app-nuevo',
@@ -1423,7 +1424,7 @@ export class OrdenV2Component implements OnInit {
                     console.log(parseInt(p.ord_codigo),temCampus.campus_id)
                     this.asignarOrden(parseInt(p.ord_codigo),temCampus.campus_id)
                   })
-                  this.generatePDF();
+                  this.generatePDF(true);
 
                   var anio = this.fecha.getFullYear();
                   var mes = this.fecha.getMonth()+1;
@@ -1537,8 +1538,8 @@ export class OrdenV2Component implements OnInit {
   }
 
 
-
-  generatePDF(){
+//isGenerating Menciona si se usa para generar la vista(true) o solo para generar el pdf(false)
+  generatePDF(isGenerating:boolean){
 
     this.doc = new jsPDF();
 
@@ -1727,9 +1728,12 @@ export class OrdenV2Component implements OnInit {
       ////
 
 
-
-    window.open(URL.createObjectURL(this.doc.output("blob")));
-
+    if(isGenerating==true){
+      window.open(URL.createObjectURL(this.doc.output("blob")));
+    }else{
+      this.doc.save(this.ord.numero+'.pdf')
+      return this.doc.output('blob')
+    }
 
   }
 
@@ -2172,11 +2176,16 @@ export class OrdenV2Component implements OnInit {
 
 
     this.listaOrdersPendantView.forEach(element => {
-      var folderToPush
+      var folderToPush = new Folder('test','desctest',true,1230,1230,'STEP_1')
       if(element.isChecked){
         this.listaOrdChangeStep.push(element);
 
-        this.logisticaService.addFolder()
+        this.logisticaService.addFolder(folderToPush).subscribe((res:any)=>{
+          var pdfToPost= this.generatePDF(false);
+          console.log(pdfToPost);
+          
+          console.log(res)
+        })
         
       }
 

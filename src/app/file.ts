@@ -1,17 +1,13 @@
-
-export class Product {
+export class File {
   constructor(
-    public codigo: string,
-    public descripcion: string,
-    public val_sis: string,
-    public um_sis: string,
-    public val_prov: string,
-    public um_prov: string,
-    public provider: string,
-    public unit_price: string,
-    public exonerado: string,
-    public exonerado_slide: boolean,
+  
+    public name: string,
+    public url: string,
+    public description: string,
+    public extension: string,
+    public date: string,
+    public hour: string,
+    public folder_id: number,
     public id?: number,
-  ) { }
-
+  ) {}
 }
