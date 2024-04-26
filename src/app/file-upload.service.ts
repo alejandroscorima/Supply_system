@@ -42,10 +42,12 @@ export class FileUploadService {
 
 
 
-  uploadDoc(file):Observable<any> {
-
+  uploadDoc(file:File):Observable<any> {
+    console.log(file)
     const originalName = file.name;
+    console.log(originalName)
     const extension = originalName.split('.').pop().toLowerCase();
+
     var dateNum = String(Date.now());
     const newName = dateNum+`.${extension}`;
 
@@ -63,4 +65,16 @@ export class FileUploadService {
 
 
   }
+
+  uploadDocWithName(formData):Observable<any> {
+
+  
+
+    // Make http post request over api
+    // with formData as req
+    return this.http.post(this.baseApiDocsUrl, formData)
+
+
+  }
+
 }

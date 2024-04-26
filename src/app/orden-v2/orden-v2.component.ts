@@ -41,6 +41,7 @@ import { get } from 'http';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DialogAddReceipt, DialogConfirmOrden, DialogEditReceipt, DialogNewDoc, DialogShowDocs } from '../orden/orden.component';
 import { Folder } from '../folder';
+import { Filep } from '../file';
 
 @Component({
   selector: 'app-nuevo',
@@ -238,7 +239,7 @@ export class OrdenV2Component implements OnInit {
   public demo1TabIndex = 1;
 
   columnsToShow=[];
-  
+  columnsToShowTb2=[];
 
   //VALIDATE orden
 
@@ -252,6 +253,12 @@ export class OrdenV2Component implements OnInit {
 
   isAccepting:string = '';
   toValidateOrder:Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,'','','','','','',0,'18','NO','NO','OFICINA','');
+
+
+  ///SAVE FILES TO FOLDER:
+  docToPost: Doc= new Doc('','','',0)
+  fileToPost: Filep = new Filep('','','','','','',0,0);
+
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
@@ -756,6 +763,34 @@ export class OrdenV2Component implements OnInit {
 }
 
 
+save( docToSave){
+  console.log(docToSave);
+  if(docToSave){
+    this.fileUploadService.uploadDoc(docToSave).subscribe(res=>{
+      if(res){
+        this.toastr.info('CARGADO CORRECTAMENTE')
+        this.docToPost.url=res['filePath'];
+
+        const currentDate = new Date();
+        const day = currentDate.getDate().toString().padStart(2, '0');
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+        const year = currentDate.getFullYear().toString();
+        const hours = currentDate.getHours().toString().padStart(2, '0');
+        const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+
+        this.docToPost.date=`${day}-${month}-${year} ${hours}:${minutes}`;
+        this.docToPost.name=docToSave.name;
+      
+      }
+      else{
+        this.toastr.warning('Error al cargar archivo');
+      }
+    })
+  }
+  else{
+    this.toastr.warning('No hay documento valido');
+  }
+}
 
 ////
   initConfig(){
@@ -772,12 +807,17 @@ export class OrdenV2Component implements OnInit {
       console.log(this.user_role);
       if(this.user_role=='SUPER ADMINISTRADOR'){
         this.columnsToShow=['check','fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShowTb2=['fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
+      
       }
       if(this.user_role=='SUPERVISOR'){
         this.columnsToShow=['fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
+        this.columnsToShowTb2=[];
       }
       else{
         this.columnsToShow=['check','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShowTb2=['fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
+
       }
       this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
         this.user=u;
@@ -1784,7 +1824,9 @@ export class OrdenV2Component implements OnInit {
         this.listaOrdView=res;
         this.logisticaService.getSalaByName(this.ordView.destino).subscribe((res5:Campus)=>{
           this.ordenCampusView=res5;
-          this.generatePDFView();
+        
+          this.generatePDFView(true);
+          
         })
       }
     })
@@ -1975,7 +2017,7 @@ export class OrdenV2Component implements OnInit {
   }
 
 
-  generatePDFView(){
+  generatePDFView(isGenerating:boolean){
 
     this.docView = new jsPDF();
     
@@ -2155,7 +2197,15 @@ export class OrdenV2Component implements OnInit {
      ////
 
 
-    window.open(URL.createObjectURL(this.docView.output("blob")));
+   
+    if(isGenerating==true){
+      window.open(URL.createObjectURL(this.docView.output("blob")));
+    }else{
+      console.log('SIENTRA martin mentiroso')
+      //this.doc.save(this.ord.numero+'.pdf')
+      return new File([this.docView.output('blob')], 'mypdf.pdf', { type: 'application/pdf' });
+      //this.docView.output('blob')
+    }
 
   }
 
@@ -2173,17 +2223,19 @@ export class OrdenV2Component implements OnInit {
   exportFilesToFolder(){
 
 
-
-
     this.listaOrdersPendantView.forEach(element => {
       var folderToPush = new Folder('test','desctest',true,1230,1230,'STEP_1')
       if(element.isChecked){
         this.listaOrdChangeStep.push(element);
-
+        this.ord=element;
         this.logisticaService.addFolder(folderToPush).subscribe((res:any)=>{
-          var pdfToPost= this.generatePDF(false);
-          console.log(pdfToPost);
-          
+          this.reCreatePDFView(element);
+          var pdfToPostBlob= this.generatePDFView(false);
+          console.log(pdfToPostBlob);
+          const formData = new FormData();
+          formData.append('file', pdfToPostBlob, element.numero+'.pdf');
+        
+          this.save(pdfToPostBlob)
           console.log(res)
         })
         

@@ -2585,6 +2585,25 @@ export class DialogShowDocs implements OnInit {
             })
           }
         })
+
+        this.logisticaService.addFile(this.newDoc).subscribe(confirm=>{
+          if(confirm){
+            this.toastr.success('DOCUMENTO AGREGADO')
+            this.logisticaService.getDocsByOrdenId(this.data.id).subscribe((docsL:Doc[])=>{
+              if(docsL){
+                this.docsList=docsL;
+                this.dataSourceDocs = new MatTableDataSource(this.docsList);
+                this.dataSourceDocs.paginator = this.paginator.toArray()[0];
+                this.dataSourceDocs.sort = this.sort.toArray()[0];
+              }
+        
+            })
+          }
+        })
+
+
+
+
       }
     })
   }
