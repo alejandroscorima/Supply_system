@@ -257,7 +257,7 @@ export class OrdenV2Component implements OnInit {
 
   ///SAVE FILES TO FOLDER:
   docToPost: Doc= new Doc('','','',0)
-  fileToPost: Filep = new Filep('','','','','','',0,0);
+  fileToPost: Filep;
   folderPostedId:number;
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
