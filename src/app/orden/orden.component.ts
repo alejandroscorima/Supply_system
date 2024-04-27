@@ -672,11 +672,6 @@ export class OrdenComponent implements OnInit {
   
   changeStatus(statusChanger: string) {
 
-
-
-  // LOGIDA DE VERIFICAR TODAS LAS VALIDACIONES PARA SETEAR ESTO:
-/*     this.toValidateOrder.status=this.isAccepting;
-    console.log(this.toValidateOrder.status) */
       this.logisticaService.updateOrderValidation(this.ordValidationToPost).subscribe((resVal:any)=>{
         console.log(resVal);
         if(resVal){
@@ -1358,7 +1353,10 @@ export class OrdenComponent implements OnInit {
       else{
         this.ord.numero+='-0001';
       }
-
+      //VALIDAR SI EL Monto es menor a 2000 para insertar: no APLICA
+      if(parseFloat(this.ord.total)<=2000){
+        this.ord.status='NO APLICA'
+      }
 
 
       if(this.ord.moneda!=''&&this.ord.empresa!=''&&this.ord.ruc!=''&&this.ord.razon_social!=''&&
@@ -1367,18 +1365,7 @@ export class OrdenComponent implements OnInit {
 
         this.moneyText=this.numToText9Cifras(parseInt(this.ord.total))+' CON '+String(Math.ceil((parseFloat(this.ord.total)*100.0)%100))+'/100 ' + this.ord.moneda;
 
-
-
-  /*       this.logisticaService.getLastOrdCode(this.ord.destino).subscribe(resp=>{
-
-        }) */
-
         this.logisticaService.addOrd(this.ord).subscribe(resAddOrd=>{
-
-   
-
-
-
           console.log('resAddOrd',resAddOrd);
           if(resAddOrd['session_id']){
 
@@ -1386,8 +1373,6 @@ export class OrdenComponent implements OnInit {
               p.ord_codigo=resAddOrd['session_id'];
               p.estado='REGISTRADO'
               this.logisticaService.addOrdDet(p).subscribe(resAddOrdDet=>{
-
-              
 
                 if(ind==this.listaOrd.length-1){
 

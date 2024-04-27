@@ -817,6 +817,14 @@ postFilesToFoler(fileToPost:Filep){
   }
 }
 
+updateAsociatedFilesFolderId(){
+  var asociatedFiles: Filep[];
+    
+
+}
+
+
+
 ////
   initConfig(){
     this.fecha= new Date();
