@@ -258,7 +258,7 @@ export class OrdenV2Component implements OnInit {
   ///SAVE FILES TO FOLDER:
   docToPost: Doc= new Doc('','','',0)
   fileToPost: Filep = new Filep('','','','','','',0,0);
-
+  folderPostedId:number;
 
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
@@ -763,7 +763,7 @@ export class OrdenV2Component implements OnInit {
 }
 
 
-save( docToSave){
+saveFiles( docToSave,ord_id){
   console.log(docToSave);
   if(docToSave){
     this.fileUploadService.uploadDoc(docToSave).subscribe(res=>{
@@ -780,7 +780,17 @@ save( docToSave){
 
         this.docToPost.date=`${day}-${month}-${year} ${hours}:${minutes}`;
         this.docToPost.name=docToSave.name;
-      
+        this.fileToPost=new Filep(
+          this.docToPost.name,
+          this.docToPost.url,
+          'Descripción predeterminada', 
+          'pdf', 
+          this.docToPost.date,
+          '00:00', 
+          ord_id, 
+          this.folderPostedId, 
+        );
+        this.postFilesToFoler(this.fileToPost);
       }
       else{
         this.toastr.warning('Error al cargar archivo');
@@ -789,6 +799,21 @@ save( docToSave){
   }
   else{
     this.toastr.warning('No hay documento valido');
+  }
+}
+
+postFilesToFoler(fileToPost:Filep){
+  if(this.folderPostedId!=null||this.folderPostedId!=0){
+    fileToPost.folder_id = this.folderPostedId;
+    console.log(fileToPost)
+    this.logisticaService.addFile(fileToPost).subscribe((res:any)=>{
+      console.log(res)
+      /* this.logisticaService.addDoc(fileToPost.).subscribe((resDoc:any)=>{
+        console.log(resDoc)
+      }) */
+    })
+  }else{
+    this.toastr.error('Ocurrió un error al agregar un file a Un FOLDER')
   }
 }
 
@@ -2203,7 +2228,7 @@ save( docToSave){
     }else{
       console.log('SIENTRA martin mentiroso')
       //this.doc.save(this.ord.numero+'.pdf')
-      return new File([this.docView.output('blob')], 'mypdf.pdf', { type: 'application/pdf' });
+      return new File([this.docView.output('blob')], this.ord.numero+'.pdf', { type: 'application/pdf' });
       //this.docView.output('blob')
     }
 
@@ -2229,14 +2254,21 @@ save( docToSave){
         this.listaOrdChangeStep.push(element);
         this.ord=element;
         this.logisticaService.addFolder(folderToPush).subscribe((res:any)=>{
+          this.folderPostedId = res.folderId;
           this.reCreatePDFView(element);
           var pdfToPostBlob= this.generatePDFView(false);
+
+          ////////SETEO DE VALORES DE PDFTOPOSTBLOB4
+          
+
+
+
           console.log(pdfToPostBlob);
           const formData = new FormData();
           formData.append('file', pdfToPostBlob, element.numero+'.pdf');
         
-          this.save(pdfToPostBlob)
-          console.log(res)
+          this.saveFiles(pdfToPostBlob,element.id)
+          console.log(res, res.folderId)
         })
         
       }
