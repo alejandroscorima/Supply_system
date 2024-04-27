@@ -21,6 +21,7 @@ import { EntregaLiquidacion } from './entrega_liquidacion';
 import { EntregaItem } from './entrega_item';
 import { OrdersValidation } from './order_validation';
 import { Folder } from './folder';
+import { Filep } from './file';
 
 @Injectable({
   providedIn: 'root'
@@ -57,8 +58,8 @@ export class LogisticaService {
     return this.http.post(`${this.baseUrl}/postFolder.php`, folder);
   }
 
-  addFile(file){
-    return this.http.post(`${this.baseUrl}/postFile.php`, file);
+  addFile(filep:Filep){
+    return this.http.post(`${this.baseUrl}/postFile.php`, filep);
   }
   
   

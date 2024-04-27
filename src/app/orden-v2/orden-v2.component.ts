@@ -2253,8 +2253,10 @@ postFilesToFoler(fileToPost:Filep){
       if(element.isChecked){
         this.listaOrdChangeStep.push(element);
         this.ord=element;
+        console.log(folderToPush)
         this.logisticaService.addFolder(folderToPush).subscribe((res:any)=>{
           this.folderPostedId = res.folderId;
+          console.log(res, res.folderId)
           this.reCreatePDFView(element);
           var pdfToPostBlob= this.generatePDFView(false);
 
@@ -2268,7 +2270,7 @@ postFilesToFoler(fileToPost:Filep){
           formData.append('file', pdfToPostBlob, element.numero+'.pdf');
         
           this.saveFiles(pdfToPostBlob,element.id)
-          console.log(res, res.folderId)
+        
         })
         
       }

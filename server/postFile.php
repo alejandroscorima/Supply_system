@@ -21,11 +21,11 @@ if (!$jsonData) {
 $bd = include_once "bdPaperLess.php";
 
 // Preparar la consulta de inserción en la tabla `file`
-$sentencia = $bd->prepare("INSERT INTO file (name, url, description, extention, date, hour, order_id,  folder_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$sentencia = $bd->prepare("INSERT INTO file (name, url, description, extension, date, hour, order_id,  folder_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 // Ejecutar la consulta con los datos recibidos
 $resultado = $sentencia->execute([$jsonData->name, $jsonData->url, $jsonData->description,
- $jsonData->extention, $jsonData->date, $jsonData->hour,$jsonData->order_id,$jsonData->folder_id]);
+$jsonData->extension, $jsonData->date, $jsonData->hour,$jsonData->order_id,$jsonData->folder_id]);
 
 // Preparar la respuesta en formato JSON
 $response = [

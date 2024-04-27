@@ -9,7 +9,7 @@ export class Filep {
     public date: string,
     public hour: string,
     public order_id: number,
-    public folder_id: number,
+    public folder_id?: number,
     public id?: number,
   ) {}
 }

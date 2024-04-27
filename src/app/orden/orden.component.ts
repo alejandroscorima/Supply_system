@@ -39,6 +39,7 @@ import { OrdersValidation } from '../order_validation';
 import { OrdersValidationRules } from '../order_validation _rules';
 import { get } from 'http';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Filep } from '../file';
 
 @Component({
   selector: 'app-nuevo',
@@ -2533,7 +2534,7 @@ export class DialogShowDocs implements OnInit {
 
   docsList: Doc[]=[];
   newDoc: Doc = new Doc('','','',0);
-
+  fileToPost: Filep;
   constructor(
     public dialogRef: MatDialogRef<DialogShowDocs>,
     @Inject(MAT_DIALOG_DATA) public data:Orden,
@@ -2586,7 +2587,17 @@ export class DialogShowDocs implements OnInit {
           }
         })
 
-        this.logisticaService.addFile(this.newDoc).subscribe(confirm=>{
+        ///PARSEO
+        this.fileToPost=new Filep(
+          this.newDoc.name,
+          this.newDoc.url,
+          'Descripción predeterminada', 
+          'pdf', 
+          this.newDoc.date,
+          '00:00', 
+          this.newDoc.orden_id, 
+        );
+        this.logisticaService.addFile(this.fileToPost).subscribe(confirm=>{
           if(confirm){
             this.toastr.success('DOCUMENTO AGREGADO')
             this.logisticaService.getDocsByOrdenId(this.data.id).subscribe((docsL:Doc[])=>{
