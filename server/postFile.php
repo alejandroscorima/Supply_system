@@ -21,16 +21,11 @@ if (!$jsonData) {
 $bd = include_once "bdPaperLess.php";
 
 // Preparar la consulta de inserción en la tabla `file`
-$sentencia = $bd->prepare("INSERT INTO file (name, url, description, extension, date, hour, folder_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$sentencia = $bd->prepare("INSERT INTO file (name, url, description, extention, date, hour, order_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
 // Ejecutar la consulta con los datos recibidos
-$resultado = $sentencia->execute([$jsonData->name, $jsonData->url, $jsonData->description, $jsonData->extension, $jsonData->date, $jsonData->hour, $jsonData->folder_id]);
-
-// Verificar si hubo algún error durante la ejecución de la consulta
-if ($resultado === false) {
-    $errorInfo = $sentencia->errorInfo();
-    exit("Error al insertar en la base de datos: " . $errorInfo[2]);
-}
+$resultado = $sentencia->execute([$jsonData->name, $jsonData->url, $jsonData->description,
+ $jsonData->extention, $jsonData->date, $jsonData->hour,$jsonData->order_id,$jsonData->folder_id]);
 
 // Preparar la respuesta en formato JSON
 $response = [
@@ -39,4 +34,3 @@ $response = [
 
 // Devolver la respuesta como JSON
 echo json_encode($response);
-?>
