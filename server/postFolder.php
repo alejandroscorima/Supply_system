@@ -33,9 +33,13 @@ $resultado = $sentencia->execute([
     $jsonFolder->step
 ]);
 
+// Obtener el ID del folder insertado
+$folderId = $bd->lastInsertId();
+
 // Preparar la respuesta en formato JSON
 $response = [
     "resultado" => $resultado,
+    "folderId" => $folderId
 ];
 
 // Devolver la respuesta como JSON
