@@ -87,6 +87,9 @@ export class LogisticaService {
   getDocsByOrdenId(orden_id: number) {
     return this.http.get(`${this.baseUrl}/getDocsByOrdenId.php?orden_id=${orden_id}`);
   }
+  getFilesByOrdenId(orden_id: number) {
+    return this.http.get(`${this.baseUrl}/getFilesByOrdenId.php?orden_id=${orden_id}`);
+  }
 
   addFondoItem(it: FondoItem) {
     return this.http.post(`${this.baseUrl}/postFondoItem.php`, it);
@@ -116,6 +119,10 @@ export class LogisticaService {
 
   updateOrd(ord: Orden) {
     return this.http.put(`${this.baseUrl}/updateOrden.php`, ord);
+  }
+
+  updateFile(file: Filep) {
+    return this.http.put(`${this.baseUrl}/updateFile.php`, file);
   }
 
 

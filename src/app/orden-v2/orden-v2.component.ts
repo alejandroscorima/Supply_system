@@ -790,7 +790,7 @@ saveFiles( docToSave,ord_id){
           ord_id, 
           this.folderPostedId, 
         );
-        this.postFilesToFoler(this.fileToPost);
+        this.postFilesToFoler(this.fileToPost,ord_id);
       }
       else{
         this.toastr.warning('Error al cargar archivo');
@@ -802,7 +802,7 @@ saveFiles( docToSave,ord_id){
   }
 }
 
-postFilesToFoler(fileToPost:Filep){
+postFilesToFoler(fileToPost:Filep,ord_id:number){
   if(this.folderPostedId!=null||this.folderPostedId!=0){
     fileToPost.folder_id = this.folderPostedId;
     console.log(fileToPost)
@@ -812,14 +812,22 @@ postFilesToFoler(fileToPost:Filep){
         console.log(resDoc)
       }) */
     })
+    this.updateAsociatedFilesFolderId(ord_id);
+
   }else{
     this.toastr.error('Ocurrió un error al agregar un file a Un FOLDER')
   }
 }
 
-updateAsociatedFilesFolderId(){
+updateAsociatedFilesFolderId(orden_id){
   var asociatedFiles: Filep[];
-    
+  this.logisticaService.getFilesByOrdenId(orden_id).subscribe((res:Filep[])=>{
+    asociatedFiles = res
+  })
+  asociatedFiles.forEach(element => {
+    element.folder_id=this.folderPostedId;
+    this.logisticaService.updateFile(element);
+  });
 
 }
 
