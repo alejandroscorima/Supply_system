@@ -2263,14 +2263,19 @@ updateAsociatedFilesFolderId(orden_id){
   //Exportación de los documentos y cambio de fase
 
   ///MEJORAR CON LA ESCALABILIDAD
-  phaseChanger(){
-    
+  phaseChanger(Ord:Orden){
+    Ord.step_id=2;
+    Ord.step="STEP_2",
+    Ord.folder_id=this.folderPostedId;
+    this.logisticaService.updateOrdStepStatus(Ord).subscribe((resUpdate:any)=>{
+      console.log(resUpdate);
+    });
   }
   exportFilesToFolder(){
 
 
     this.listaOrdersPendantView.forEach(element => {
-      var folderToPush = new Folder('test','desctest',true,1230,1230,'STEP_1')
+      var folderToPush = new Folder('test','desctest',true,1230,1230)
       if(element.isChecked){
         this.listaOrdChangeStep.push(element);
         this.ord=element;
@@ -2281,10 +2286,10 @@ updateAsociatedFilesFolderId(orden_id){
           this.reCreatePDFView(element);
           var pdfToPostBlob= this.generatePDFView(false);
 
+          ///Cambio de Fase:
+          this.phaseChanger(element);
+
           ////////SETEO DE VALORES DE PDFTOPOSTBLOB4
-          
-
-
 
           console.log(pdfToPostBlob);
           const formData = new FormData();

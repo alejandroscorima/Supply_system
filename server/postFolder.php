@@ -21,7 +21,7 @@ if (!$jsonFolder) {
 $bd = include_once "bdPaperLess.php";
 
 // Preparar la consulta de inserción en la tabla `folder` con todos los campos
-$sentencia = $bd->prepare("INSERT INTO folder (name, description, isShared, user_parent_id, user_id, step) VALUES (?, ?, ?, ?, ?, ?)");
+$sentencia = $bd->prepare("INSERT INTO folder (name, description, isShared, user_parent_id, user_id) VALUES (?, ?, ?, ?, ?)");
 
 // Ejecutar la consulta con los datos recibidos
 $resultado = $sentencia->execute([
@@ -30,7 +30,6 @@ $resultado = $sentencia->execute([
     $jsonFolder->isShared,
     $jsonFolder->user_parent_id,
     $jsonFolder->user_id,
-    $jsonFolder->step
 ]);
 
 // Obtener el ID del folder insertado

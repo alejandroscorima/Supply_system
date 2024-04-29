@@ -5,7 +5,7 @@ export class Folder {
     public isShared: boolean,
     public folder_parent_id: number,
     public user_id: number,
-    public step: string,
+
     public id?: number
   ) {}
 }
