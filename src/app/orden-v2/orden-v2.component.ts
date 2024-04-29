@@ -823,12 +823,20 @@ updateAsociatedFilesFolderId(orden_id){
   var asociatedFiles: Filep[];
   this.logisticaService.getFilesByOrdenId(orden_id).subscribe((res:Filep[])=>{
     asociatedFiles = res
-  })
-  asociatedFiles.forEach(element => {
-    element.folder_id=this.folderPostedId;
-    this.logisticaService.updateFile(element);
-  });
+    console.log(asociatedFiles);
+    console.log(res);
 
+    asociatedFiles.forEach(element => {
+      
+      console.log('folderId',this.folderPostedId)
+      console.log(element)
+      this.logisticaService.updateFile(element).subscribe((updateRes:any)=>{
+        console.log(updateRes)
+      });
+    });
+  
+  })
+  
 }
 
 

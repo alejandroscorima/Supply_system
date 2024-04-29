@@ -15,7 +15,7 @@ if (!$jsonFile) {
 
 $bd = include_once "bdPaperLess.php";
 
-$sentencia = $bd->prepare("UPDATE file SET name = ?, url = ?, description = ?, extention = ?, date = ?, hour = ?, order_id = ?, folder_id = ? WHERE id = ?");
+$sentencia = $bd->prepare("UPDATE oscorp_paperless.file SET name = ?, url = ?, description = ?, extension = ?, date = ?, hour = ?, order_id = ?, folder_id = ? WHERE id = ?");
 
 $resultado = $sentencia->execute([$jsonFile->name, $jsonFile->url, $jsonFile->description, $jsonFile->extension, $jsonFile->date, $jsonFile->hour, $jsonFile->order_id, $jsonFile->folder_id, $jsonFile->id]);
 
