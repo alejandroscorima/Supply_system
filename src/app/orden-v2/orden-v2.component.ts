@@ -1077,8 +1077,6 @@ updateAsociatedFilesFolderId(orden_id){
     if(this.ord.ruc.length==11){
       this.toastr.info('Consultando RUC En Base de datos');
       this.logisticaService.getProveedorByRuc(this.ord.ruc).subscribe((provl:Proveedor)=>{
-     
-    
         if(provl){
           console.log(provl);
           this.toastr.success('Datos obtenidos correctamente');
@@ -1089,35 +1087,28 @@ updateAsociatedFilesFolderId(orden_id){
           this.actualProvider=provl;
           return;
         
-        }
-        else{
+        }else{
             this.toastr.warning('No se encontró coincidencia en la base de datos');
             this.toastr.info('Consultando RUC En API');
             this.logisticaService.getConsultaRUC(this.ord.ruc).subscribe(res=>{
             if(res['success']){
- 
-            console.log(res);
-            this.toastr.success('Datos obtenidos correctamente');
-            this.ord.razon_social=res['data']['nombre_o_razon_social'];
-            this.ord.direccion=res['data']['direccion_completa'];
-            this.ord.num_cuenta='';
+              console.log(res);
+              this.toastr.success('Datos obtenidos correctamente');
+              this.ord.razon_social=res['data']['nombre_o_razon_social'];
+              this.ord.direccion=res['data']['direccion_completa'];
+              this.ord.num_cuenta='';
 
-              }
+            }
             else{
-            this.toastr.warning('No se obtuvieron datos');
-            this.ord.razon_social='';
-            this.ord.direccion='';
-            this.ord.num_cuenta='';
-         }
-         })
-
-
+              this.toastr.warning('No se obtuvieron datos');
+              this.ord.razon_social='';
+              this.ord.direccion='';
+              this.ord.num_cuenta='';
+            }
+          })
         }
-       
       })
-  
     }
-
   }
 
   changeRazSoc(){
@@ -2270,6 +2261,11 @@ updateAsociatedFilesFolderId(orden_id){
   }
 
   //Exportación de los documentos y cambio de fase
+
+  ///MEJORAR CON LA ESCALABILIDAD
+  phaseChanger(){
+    
+  }
   exportFilesToFolder(){
 
 

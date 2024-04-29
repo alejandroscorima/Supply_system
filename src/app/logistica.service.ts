@@ -120,7 +120,9 @@ export class LogisticaService {
   updateOrd(ord: Orden) {
     return this.http.put(`${this.baseUrl}/updateOrden.php`, ord);
   }
-
+  updateOrdStepStatus(ord: Orden) {
+    return this.http.put(`${this.baseUrl}/updateOrdenStepStatus.php`, ord);
+  }
   updateFile(file: Filep) {
     return this.http.put(`${this.baseUrl}/updateFile.php`, file);
   }
