@@ -827,7 +827,8 @@ updateAsociatedFilesFolderId(orden_id){
     console.log(res);
 
     asociatedFiles.forEach(element => {
-      
+      console.log(element)
+      element.folder_id=(this.folderPostedId);
       console.log('folderId',this.folderPostedId)
       console.log(element)
       this.logisticaService.updateFile(element).subscribe((updateRes:any)=>{
