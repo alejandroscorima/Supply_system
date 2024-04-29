@@ -36,6 +36,13 @@ export class Orden {
     public descuento?: string,
     public observacion?: string,
 
+    ///Paperless
+    public step ?: string,
+    public step_id ?: number,
+    public folder_id ?: number,
+
+    //validator
+
     public val_id ?: number,
     public val_user_id ?: number,
     public val_order_id ?: number,
