@@ -652,12 +652,12 @@ export class OrdenComponent implements OnInit {
 
    
     if(comand=='VALIDAR'){
-      this.isAccepting='ACEPTADO'
+      this.isAccepting='APROBADO'
     }
     if(comand=='RECHAZADO'){
       this.isAccepting=comand
     }
-    this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,'','','','',this.isAccepting,a.val_id)
+    this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,a.val_date,a.val_hour,this.isAccepting,'','',a.val_id)
 
     a.val_state=this.ordValidationToPost.state
 
@@ -692,7 +692,7 @@ export class OrdenComponent implements OnInit {
 
         this.validationsOrd.forEach(element => {
           if(element.state!="PENDIENTE"){
-            if(element.state=="ACEPTADO"){
+            if(element.state=="APROBADO"){
               acceptedCounter++;
             }
             if(element.state=="RECHAZADO"){
@@ -707,7 +707,7 @@ export class OrdenComponent implements OnInit {
           ///VALIDADOR DEL ESTADO DE LA ORDEN:
           
             if(rejectedCounter==0){
-              this.toValidateOrder.status="ACEPTADO";
+              this.toValidateOrder.status="APROBADO";
             }
             if(acceptedCounter==0){
               this.toValidateOrder.status="RECHAZADO";
@@ -759,13 +759,13 @@ export class OrdenComponent implements OnInit {
       this.user_role = this.cookiesService.getToken('user_role');
       console.log(this.user_role);
       if(this.user_role=='SUPER ADMINISTRADOR'){
-        this.columnsToShow=['check','fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShow=['indicator','check','fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
       }
       if(this.user_role=='SUPERVISOR'){
-        this.columnsToShow=['fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
+        this.columnsToShow=['indicator','fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
       }
       else{
-        this.columnsToShow=['check','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShow=['indicator','check','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
       }
       this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
         this.user=u;
@@ -1354,7 +1354,7 @@ export class OrdenComponent implements OnInit {
         this.ord.numero+='-0001';
       }
       //VALIDAR SI EL Monto es menor a 2000 para insertar: no APLICA
-      if(parseFloat(this.ord.total)<=2000){
+      if(parseFloat(this.ord.total)<2000){
         this.ord.status='NO APLICA'
       }
 
@@ -1472,29 +1472,39 @@ export class OrdenComponent implements OnInit {
 
     var getOrdValRules: OrdersValidationRules [];
     this.logisticaService.getOrderValidationRules(campus_id).subscribe((res:any)=>{
-      getOrdValRules=res;
 
-      ///////GENERAR LAS VALIDACIONES
-      /////VALIDACION 1:
+      if(res&&Array.isArray(res)&&res.length>0){
+        getOrdValRules=res;
 
-      var OrdvalToPost: OrdersValidation = new OrdersValidation(0,0,'','','PENDIENTE');
-      OrdvalToPost.user_id=getOrdValRules[0].user_id;
-      OrdvalToPost.order_id= orden_id;
-      OrdvalToPost.date= this.obtenerFechaActual();
-      OrdvalToPost.hour= this.obtenerHoraActual();
-      console.log(OrdvalToPost)
-      this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res1=>{
-        console.log(res1)
-      });
-       /////VALIDACION 2:
-      OrdvalToPost.user_id=getOrdValRules[1].user_id;
-      this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res2=>{
-        console.log(res2)
-        console.log("esperemos que haya funcionado")
-      });
+        ///////GENERAR LAS VALIDACIONES
+        /////VALIDACION 1:
+  
+        var OrdvalToPost: OrdersValidation = new OrdersValidation(0,0,'','','PENDIENTE');
+        OrdvalToPost.user_id=getOrdValRules[0].user_id;
+        OrdvalToPost.order_id= orden_id;
+        OrdvalToPost.date= this.obtenerFechaActual();
+        OrdvalToPost.hour= this.obtenerHoraActual();
+        console.log(OrdvalToPost)
+        if(parseFloat(this.ord.total)>=parseFloat(getOrdValRules[0].amount)){
+          this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res1=>{
+            console.log(res1)
+          });
+        }
+  
+         /////VALIDACION 2:
+        OrdvalToPost.user_id=getOrdValRules[1].user_id;
+        if(parseFloat(this.ord.total)>=parseFloat(getOrdValRules[1].amount)){
+          this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res2=>{
+            console.log(res2)
+            console.log("esperemos que haya funcionado")
+          });
+        }
+      }
+      else{
+
+      }
 
     })
-   
   }
 
 
