@@ -2260,12 +2260,18 @@ updateAsociatedFilesFolderId(orden_id){
     a.isChecked = !a.isChecked;
   }
 
+
   //Exportación de los documentos y cambio de fase
 
+  //REFRESHER
+  refreshPageIfNeeded(){
+    window.location.reload();
+  }
   ///MEJORAR CON LA ESCALABILIDAD
   phaseChanger(Ord:Orden){
     Ord.step_id=2;
     Ord.step="STEP_2",
+    Ord.status="Aprovado"
     Ord.folder_id=this.folderPostedId;
     this.logisticaService.updateOrdStepStatus(Ord).subscribe((resUpdate:any)=>{
       console.log(resUpdate);
@@ -2296,7 +2302,7 @@ updateAsociatedFilesFolderId(orden_id){
           formData.append('file', pdfToPostBlob, element.numero+'.pdf');
         
           this.saveFiles(pdfToPostBlob,element.id)
-        
+          this.refreshPageIfNeeded();
         })
         
       }
