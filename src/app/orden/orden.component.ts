@@ -1471,7 +1471,7 @@ export class OrdenComponent implements OnInit {
   
 
     var getOrdValRules: OrdersValidationRules [];
-    this.logisticaService.getOrderValidationRules(campus_id).subscribe((res:any)=>{
+    this.logisticaService.getOrderValidationRules(campus_id,parseFloat(this.ord.total)).subscribe((res:any)=>{
 
       if(res&&Array.isArray(res)&&res.length>0){
         getOrdValRules=res;

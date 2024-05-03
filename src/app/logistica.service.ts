@@ -71,8 +71,8 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getOrdersValidations.php?order_id=${order_id}`);
   }
 
-  getOrderValidationRules(campus_id:number){
-    return this.http.get(`${this.baseUrl}/getOrderValidationRules.php?campus_id=${campus_id}`);
+  getOrderValidationRules(campus_id:number,monto: number){
+    return this.http.get(`${this.baseUrl}/getOrderValidationRules.php?campus_id=${campus_id}&monto=${monto}`);
   }
 
   addOrderValidation(ordVal: OrdersValidation) {

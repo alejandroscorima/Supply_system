@@ -1406,6 +1406,10 @@ updateAsociatedFilesFolderId(orden_id){
       })
       this.ord.igv=(parseFloat(this.ord.subtotal)*(parseFloat(this.ord.igv_percent)/100)).toFixed(5);
       this.ord.total=(parseFloat(this.ord.subtotal)+parseFloat(this.ord.igv)).toFixed(2);
+      
+
+
+
       this.orden_item = new OrdenItem('',null,'','','','','',false,'','','',true);
       this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
 
@@ -1481,9 +1485,9 @@ updateAsociatedFilesFolderId(orden_id){
 
       
       
-      console.log("length",this.ordValRules.length)
+     // console.log("length",this.ordValRules.length)
       console.log("cositoosdfijsoifs",this.ordValRules)
-      if(!this.ordValRules){
+      if(!this.ordValRules[0]){
         this.ord.status='NO APLICA'
       }
         // console.log("si debería entrar");
@@ -1612,7 +1616,7 @@ updateAsociatedFilesFolderId(orden_id){
       console.log('resCampByName', resCampByName);
        this.campusToValidate = resCampByName;
   
-      var res: any = await this.logisticaService.getOrderValidationRules(resCampByName.campus_id).toPromise();
+      var res: any = await this.logisticaService.getOrderValidationRules(resCampByName.campus_id,parseFloat(this.ord.total)).toPromise();
       this.ordValRules = res;
       console.log(res)
       

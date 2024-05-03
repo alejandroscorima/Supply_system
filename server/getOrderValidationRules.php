@@ -18,10 +18,8 @@ $sentencia->execute(['campus_id' => $campus_id, 'monto' => $monto]);
 $resultados = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
 // Si no hay resultados, devolver "NO HAY DATOS"
-if (empty($resultados)) {
-    echo "NO HAY DATOS";
-} else {
+
     // Devolver los resultados como respuesta en formato JSON
     echo json_encode($resultados);
-}
+
 ?>
