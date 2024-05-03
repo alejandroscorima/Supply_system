@@ -21,7 +21,7 @@ try {
     .$jsonOrd->destino."','".$jsonOrd->tipo."','".$jsonOrd->estado."','".$jsonOrd->empresa."','".$jsonOrd->moneda."','"
     .$jsonOrd->area."','".$jsonOrd->destino_dir."','".$jsonOrd->tipo_pago."','".$jsonOrd->num_cuenta."','".$jsonOrd->retencion."','"
     .$jsonOrd->retencion_percent."','".$jsonOrd->percepcion."','".$jsonOrd->receipt."','".$jsonOrd->txt."','".$jsonOrd->section."','"
-    .$jsonOrd->user_id."','".$jsonOrd->observacion."', '".$jsonOrd->observacion."')");
+    .$jsonOrd->user_id."','".$jsonOrd->observacion."', '".$jsonOrd->status."')");
 
     $id = mysqli_insert_id($link);
     echo json_encode([
