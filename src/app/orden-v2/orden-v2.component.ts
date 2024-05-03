@@ -1482,7 +1482,8 @@ updateAsociatedFilesFolderId(orden_id){
       
       
       console.log("length",this.ordValRules.length)
-      if(!this.ordValRules.length){
+      console.log("cositoosdfijsoifs",this.ordValRules)
+      if(!this.ordValRules){
         this.ord.status='NO APLICA'
       }
         // console.log("si debería entrar");
