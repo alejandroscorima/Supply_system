@@ -14,7 +14,7 @@ try {
     $razSoc = mysqli_real_escape_string($link, $jsonOrd->razon_social);
     
     // Verificar si se proporciona un valor para "status"
-    $status = isset($jsonOrd->status) ? $jsonOrd->status : 'pendiente';
+    $status = isset($jsonOrd->status) ? $jsonOrd->status : 'PENDIENTE';
     
     mysqli_query($link, "INSERT INTO ordenes (req_id, numero, ruc, razon_social, direccion,
     subtotal, igv, total, rebajado, fecha, destino, tipo, estado, empresa, moneda, area,
