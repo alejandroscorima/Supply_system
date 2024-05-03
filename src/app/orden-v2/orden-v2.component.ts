@@ -243,6 +243,8 @@ export class OrdenV2Component implements OnInit {
 
   //VALIDATE orden
 
+  campusToValidate:Campus;
+  ordValRules:OrdersValidationRules[];
 
 
   validationsOrd:OrdersValidation[]= [];
@@ -1424,6 +1426,7 @@ updateAsociatedFilesFolderId(orden_id){
   
   async generarOrden(){
     await this.saveProvider();
+    await this.getOrdValRules()
     this.ord.area=this.user_area.name;
     if(this.ord.rebajado==''){
       this.ord.rebajado=(0.0).toFixed(5);
@@ -1439,7 +1442,8 @@ updateAsociatedFilesFolderId(orden_id){
 
     this.ord.razon_social=this.ord.razon_social.toUpperCase();
     this.ord.direccion=this.ord.direccion.toUpperCase();
-    
+    this.ord.step_id=1;
+
     this.logisticaService.getLastOrdOficinaCode(this.ord.numero,this.ord.destino,this.ord.empresa).subscribe(resi=>{
       if(resi){
         console.log(resi);
@@ -1475,14 +1479,25 @@ updateAsociatedFilesFolderId(orden_id){
 
 
 
-  /*       this.logisticaService.getLastOrdCode(this.ord.destino).subscribe(resp=>{
+      
+      
+      console.log("length",this.ordValRules.length)
+      if(!this.ordValRules.length){
+        this.ord.status='NO APLICA'
+      }
+        // console.log("si debería entrar");
+        // this.logisticaService.getSalaByName(this.ord.destino).subscribe((resCampByName:Campus)=>{
+        //   console.log('resCampByName',resCampByName)
+        //   var temCampus=resCampByName;
+        //   //console.log(parseInt(p.ord_codigo),temCampus.campus_id)
+        // })
+        // await this.getOrdValRules()
 
-        }) */
-
-        this.logisticaService.addOrd(this.ord).subscribe(resAddOrd=>{
-
-   
-
+          this.logisticaService.addOrd(this.ord).subscribe(resAddOrd=>{
+            console.log()
+            if(this.ordValRules.length>0){
+              this.asignarOrden(resAddOrd['session_id'],this.campusToValidate.campus_id, parseFloat(this.ord.total))
+            }
 
 
           console.log('resAddOrd',resAddOrd);
@@ -1503,8 +1518,9 @@ updateAsociatedFilesFolderId(orden_id){
                     console.log('resCampByName',resCampByName)
                     var temCampus=resCampByName;
                     console.log(parseInt(p.ord_codigo),temCampus.campus_id)
-                    this.asignarOrden(parseInt(p.ord_codigo),temCampus.campus_id)
+                    //this.asignarOrden(parseInt(p.ord_codigo),temCampus.campus_id, parseInt(this.ord.total))
                   })
+
                   this.generatePDF(true);
 
                   var anio = this.fecha.getFullYear();
@@ -1522,6 +1538,7 @@ updateAsociatedFilesFolderId(orden_id){
 
                   this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA','');
                   this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
+                
                   this.listaOrd=[];
                   this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
                   this.igvActivated=true;   
@@ -1588,33 +1605,65 @@ updateAsociatedFilesFolderId(orden_id){
     return formattedTime;
   }
 
-  asignarOrden( orden_id:number,campus_id: number){
+  async getOrdValRules() {
+    try {
+      var resCampByName: any = await this.logisticaService.getSalaByName(this.ord.destino).toPromise();
+      console.log('resCampByName', resCampByName);
+       this.campusToValidate = resCampByName;
+  
+      var res: any = await this.logisticaService.getOrderValidationRules(resCampByName.campus_id).toPromise();
+      this.ordValRules = res;
+      console.log(res)
+      
+      // Aquí puedes hacer cualquier otra cosa que necesites con ordValRules
+    } catch (error) {
+      // Manejo de errores
+    }
+  }
+  
+  asignarOrden( orden_id:number,campus_id: number,total: number){
+    
   
 
-    var getOrdValRules: OrdersValidationRules [];
-    this.logisticaService.getOrderValidationRules(campus_id).subscribe((res:any)=>{
-      getOrdValRules=res;
+    // var getOrdValRules: OrdersValidationRules [];
+    // this.logisticaService.getOrderValidationRules(campus_id).subscribe((res:any)=>{
+    //   getOrdValRules=res;
 
       ///////GENERAR LAS VALIDACIONES
       /////VALIDACION 1:
+    var OrdvalToPost: OrdersValidation = new OrdersValidation(0,0,'','','PENDIENTE');
+   
+    OrdvalToPost.order_id= orden_id;
+    OrdvalToPost.date= this.obtenerFechaActual();
+    OrdvalToPost.hour= this.obtenerHoraActual();
+    console.log(OrdvalToPost)
+    
+    var counterOfValidators = 0;
+    this.ordValRules.forEach(element => {
+       //OrdvalToPost.user_id=getOrdValRules[0].user_id;
+      if(parseFloat(element.amount)<=total){
+        OrdvalToPost.user_id=element.user_id;
+        counterOfValidators++;
+        this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res1=>{
+          console.log(res1)
+        });
+      }
 
-      var OrdvalToPost: OrdersValidation = new OrdersValidation(0,0,'','','PENDIENTE');
-      OrdvalToPost.user_id=getOrdValRules[0].user_id;
-      OrdvalToPost.order_id= orden_id;
-      OrdvalToPost.date= this.obtenerFechaActual();
-      OrdvalToPost.hour= this.obtenerHoraActual();
-      console.log(OrdvalToPost)
-      this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res1=>{
-        console.log(res1)
-      });
-       /////VALIDACION 2:
-      OrdvalToPost.user_id=getOrdValRules[1].user_id;
-      this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res2=>{
-        console.log(res2)
-        console.log("esperemos que haya funcionado")
-      });
 
-    })
+    });
+
+     
+      // this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res1=>{
+      //   console.log(res1)
+      // });
+      //  /////VALIDACION 2:
+      // OrdvalToPost.user_id=getOrdValRules[1].user_id;
+      // this.logisticaService.addOrderValidation(OrdvalToPost).subscribe(res2=>{
+      //   console.log(res2)
+      //   console.log("esperemos que haya funcionado")
+      // });
+
+    // })
    
   }
 

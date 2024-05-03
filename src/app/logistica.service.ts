@@ -49,11 +49,15 @@ export class LogisticaService {
     return this.http.post(`${this.baseUrl}/postProduct.php`, prod);
   }
 
+  // addOrd(ord: Orden) {
+  //   //return this.http.post(`${this.baseUrl}/postOrden.php`, ord);
+  //   return this.http.post(`${this.baseUrl}/postOrdenNew.php`, ord);
+  // }
+  
   addOrd(ord: Orden) {
     //return this.http.post(`${this.baseUrl}/postOrden.php`, ord);
-    return this.http.post(`${this.baseUrl}/postOrdenNew.php`, ord);
+    return this.http.post(`${this.baseUrl}/postOrdenNewStatusStp.php`, ord);
   }
-
   addFolder(folder:Folder){
     return this.http.post(`${this.baseUrl}/postFolder.php`, folder);
   }
