@@ -8,8 +8,8 @@ $campus_id = $_GET['campus_id'];
 $monto = $_GET['monto']; // Nueva variable externa para el monto
 
 // Preparar la consulta SQL para seleccionar datos de la tabla order_validation_rules
-$sentencia = $bd->prepare("SELECT id, campus_id, user_id, amount FROM order_validation_rules
-WHERE campus_id = :campus_id AND amount < :monto");
+$sentencia = $bd->prepare("SELECT id, campus_id, user_id, amount FROM oscorp_supply.order_validation_rules
+WHERE campus_id = :campus_id AND amount <= :monto");
 
 // Ejecutar la consulta
 $sentencia->execute(['campus_id' => $campus_id, 'monto' => $monto]);

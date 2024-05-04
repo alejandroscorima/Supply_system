@@ -66,7 +66,6 @@ export class LogisticaService {
     return this.http.post(`${this.baseUrl}/postFile.php`, filep);
   }
   
-  
   getOrdersValidations(order_id:number){
     return this.http.get(`${this.baseUrl}/getOrdersValidations.php?order_id=${order_id}`);
   }

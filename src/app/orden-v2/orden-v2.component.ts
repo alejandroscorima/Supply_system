@@ -42,6 +42,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DialogAddReceipt, DialogConfirmOrden, DialogEditReceipt, DialogNewDoc, DialogShowDocs } from '../orden/orden.component';
 import { Folder } from '../folder';
 import { Filep } from '../file';
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-nuevo',
@@ -244,7 +245,7 @@ export class OrdenV2Component implements OnInit {
   //VALIDATE orden
 
   campusToValidate:Campus;
-  ordValRules:OrdersValidationRules[];
+  ordValRules:OrdersValidationRules[]= [];
 
 
   validationsOrd:OrdersValidation[]= [];
@@ -858,17 +859,17 @@ updateAsociatedFilesFolderId(orden_id){
       this.user_role = this.cookiesService.getToken('user_role');
       console.log(this.user_role);
       if(this.user_role=='SUPER ADMINISTRADOR'){
-        this.columnsToShow=['check','fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
-        this.columnsToShowTb2=['fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShow=['indicator','check','fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShowTb2=['indicator','fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
       
       }
       if(this.user_role=='SUPERVISOR'){
-        this.columnsToShow=['fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
+        this.columnsToShow=['indicator','fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
         this.columnsToShowTb2=[];
       }
       else{
-        this.columnsToShow=['check','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
-        this.columnsToShowTb2=['fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShow=['indicator','check','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
+        this.columnsToShowTb2=['indicator','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
 
       }
       this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
@@ -1487,7 +1488,7 @@ updateAsociatedFilesFolderId(orden_id){
       
      // console.log("length",this.ordValRules.length)
       console.log("cositoosdfijsoifs",this.ordValRules)
-      if(!this.ordValRules[0]){
+      if(this.ordValRules==null||!this.ordValRules[0]){
         this.ord.status='NO APLICA'
       }
         // console.log("si debería entrar");
@@ -1614,11 +1615,15 @@ updateAsociatedFilesFolderId(orden_id){
     try {
       var resCampByName: any = await this.logisticaService.getSalaByName(this.ord.destino).toPromise();
       console.log('resCampByName', resCampByName);
-       this.campusToValidate = resCampByName;
+      this.campusToValidate = resCampByName;
   
       var res: any = await this.logisticaService.getOrderValidationRules(resCampByName.campus_id,parseFloat(this.ord.total)).toPromise();
-      this.ordValRules = res;
-      console.log(res)
+      if(res=='NO HAY DATOS'){
+        this.ordValRules = null;
+      }else{
+        this.ordValRules = res;
+      }
+      console.log('ordValRules',res)
       
       // Aquí puedes hacer cualquier otra cosa que necesites con ordValRules
     } catch (error) {
@@ -1627,7 +1632,7 @@ updateAsociatedFilesFolderId(orden_id){
   }
   
   asignarOrden( orden_id:number,campus_id: number,total: number){
-    
+    console.log('Asignar Orden TOTAL',total)
   
 
     // var getOrdValRules: OrdersValidationRules [];
