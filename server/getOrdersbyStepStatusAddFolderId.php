@@ -21,7 +21,7 @@ try {
     $user_role = $_GET['user_role'];
     $destino = $_GET['destino'];
     $status = $_GET['step_status'];
-    $status_set = '';
+    $status_set = " ";
     $step_id = $_GET['step_id']; // Nueva variable para el ID del paso
     
     // Determina el valor de $status_set según el estado

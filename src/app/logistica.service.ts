@@ -189,7 +189,7 @@ export class LogisticaService {
   //   //return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNew.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);
   //   return this.http.get(`${this.baseUrl}/getOrdersByStepStatus.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}&step_status=${step_status}`);   
   // } 
-  getOrdersbyStepStatusAddFolderId(user_id, user_role, destino, step_status,step_id) {
+  getOrdersbyStepStatusAddFolderId(user_id, user_role, destino, step_status:string,step_id:number) {
     //return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNew.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);
     return this.http.get(`${this.baseUrl}/getOrdersbyStepStatusAddFolderId.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}&step_status=${step_status}&step_id=${step_id}`);   
   } 
