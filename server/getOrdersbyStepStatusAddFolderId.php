@@ -174,10 +174,11 @@ try {
                 ORDER BY a.id DESC;");
         }
     }
-
+    echo "Consulta SQL: " . $sentencia . "<br>";
+    
     $sentencia->execute();
     $orders = $sentencia->fetchAll(PDO::FETCH_OBJ);
-    echo  "Consulta SQL: ".$sentencia;
+    
     echo json_encode($orders);
 } catch (Exception $e) {
     // Captura cualquier excepción que se produzca durante la ejecución del código
