@@ -27,6 +27,8 @@ try {
     // Determina el valor de $status_set según el estado
     if ($status === 'PENDIENTE') {
         $status_set = " AND a.step_status='PENDIENTE'";
+    } else if($status === 'TODOS'){
+        $status_set = " ";
     } else {
         $status_set = " AND a.step_status<>'PENDIENTE'";
     }
