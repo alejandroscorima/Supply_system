@@ -53,7 +53,7 @@ try {
                 LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                 LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
                 AND c.user_id = '".$user_id."' OR c.user_id IS NULL
-                WHERE a.step_id = ".$step_id.$status_set."
+                WHERE a.step_id = ".$step_id."".$status_set."
                 GROUP BY a.id
                 ORDER BY a.id DESC;");
         } else {
@@ -77,7 +77,7 @@ try {
                 LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                 LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
                 AND c.user_id = '".$user_id."' 
-                WHERE a.step_id = ".$step_id.$status_set."
+                WHERE a.step_id = ".$step_id."".$status_set."
                 GROUP BY a.id
                 ORDER BY a.id DESC;");
             }else{
@@ -99,7 +99,7 @@ try {
                     ) a 
                     LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                     LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-                    AND c.user_id = ".$user_id." AND a.step_id = ".$step_id.$status_set."
+                    AND c.user_id = ".$user_id." AND a.step_id = ".$step_id."".$status_set."
                     GROUP BY a.id
                     ORDER BY a.id DESC;");
             }
@@ -129,7 +129,7 @@ try {
                         ) a 
                         LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                         LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-                        WHERE a.step_id = ".$step_id.$status_set."
+                        WHERE a.step_id = ".$step_id."".$status_set."
                         GROUP BY a.id
                         ORDER BY a.id DESC;");
                 } else {
@@ -152,7 +152,7 @@ try {
                         ) a 
                         LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                         LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-                        WHERE a.step_id = ".$step_id.$status_set."
+                        WHERE a.step_id = ".$step_id." ".$status_set."
                         GROUP BY a.id
                         ORDER BY a.id DESC;");
                 }
@@ -169,12 +169,11 @@ try {
                 WHERE  ordenes.section='OFICINA' AND ordenes.user_id=".$user_id." ) a 
                 LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                 LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-                WHERE a.step_id = ".$step_id.$status_set."
+                WHERE a.step_id = ".$step_id."".$status_set."
                 GROUP BY a.id
                 ORDER BY a.id DESC;");
         }
     }
-    echo "Consulta SQL: " . $sentencia . "<br>";
     
     $sentencia->execute();
     $orders = $sentencia->fetchAll(PDO::FETCH_OBJ);
