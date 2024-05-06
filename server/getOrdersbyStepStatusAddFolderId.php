@@ -22,12 +22,16 @@ try {
     $destino = $_GET['destino'];
     $status = $_GET['step_status'];
     $status_set = '';
+    $step_id = $_GET['step_id']; // Nueva variable para el ID del paso
+    
+    // Determina el valor de $status_set según el estado
     if ($status === 'PENDIENTE') {
         $status_set = " AND a.step_status='PENDIENTE'";
     } else {
         $status_set = " AND a.step_status<>'PENDIENTE'";
     }
 
+    // Consulta SQL modificada con la variable $step_id
     if ($user_role == 'SUPERVISOR' || $user_role == 'ADMINISTRADOR') {
         if ($destino == 'NINGUNO') {
             $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante,
@@ -49,6 +53,7 @@ try {
                 LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                 LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
                 AND c.user_id = '".$user_id."' OR c.user_id IS NULL
+                WHERE a.step_id = ".$step_id.$status_set."
                 GROUP BY a.id
                 ORDER BY a.id DESC;");
         } else {
@@ -72,6 +77,7 @@ try {
                 LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                 LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
                 AND c.user_id = '".$user_id."' 
+                WHERE a.step_id = ".$step_id.$status_set."
                 GROUP BY a.id
                 ORDER BY a.id DESC;");
             }else{
@@ -93,7 +99,7 @@ try {
                     ) a 
                     LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                     LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-                    AND c.user_id = ".$user_id." AND a.step_id = 1 ".$status_set."
+                    AND c.user_id = ".$user_id." AND a.step_id = ".$step_id.$status_set."
                     GROUP BY a.id
                     ORDER BY a.id DESC;");
             }
@@ -123,7 +129,7 @@ try {
                         ) a 
                         LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                         LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-                        WHERE a.step_id = 1 ".$status_set."
+                        WHERE a.step_id = ".$step_id.$status_set."
                         GROUP BY a.id
                         ORDER BY a.id DESC;");
                 } else {
@@ -146,7 +152,7 @@ try {
                         ) a 
                         LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                         LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-                        WHERE a.step_id = 1 ".$status_set."
+                        WHERE a.step_id = ".$step_id.$status_set."
                         GROUP BY a.id
                         ORDER BY a.id DESC;");
                 }
@@ -163,7 +169,7 @@ try {
                 WHERE  ordenes.section='OFICINA' AND ordenes.user_id=".$user_id." ) a 
                 LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
                 LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
-                WHERE a.step_id = 1 ".$status_set."
+                WHERE a.step_id = ".$step_id.$status_set."
                 GROUP BY a.id
                 ORDER BY a.id DESC;");
         }

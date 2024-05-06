@@ -1018,7 +1018,7 @@ updateAsociatedFilesFolderId(orden_id){
                       //   this.dataSourceOrdersView.sort = this.sort.toArray()[1];
                       // })
                       if(this.user_role=='SUPER ADMINISTRADOR'){
-                        this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, 'TODOS','PENDIENTE').subscribe((resOrdPend:Orden[])=>{
+                        this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, 'TODOS','PENDIENTE',1).subscribe((resOrdPend:Orden[])=>{
                           console.log(resOrdPend);
                           console.log(this.listaOrdersPendantView);
                           this.listaOrdersPendantView=resOrdPend;
@@ -1065,7 +1065,7 @@ updateAsociatedFilesFolderId(orden_id){
   }
 
   changeDestinoView(){
-    this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, this.campusToView.name,'TODOS').subscribe((resOrds:Orden[])=>{
+    this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, this.campusToView.name,'TODOS',2).subscribe((resOrds:Orden[])=>{
       console.log(resOrds);
       console.log(this.listaOrdersView);
       this.listaOrdersView=resOrds;
@@ -2362,6 +2362,8 @@ updateAsociatedFilesFolderId(orden_id){
         
           this.saveFiles(pdfToPostBlob,element.id)
          // this.refreshPageIfNeeded();
+
+        
         })
         
       }
@@ -2369,9 +2371,21 @@ updateAsociatedFilesFolderId(orden_id){
     });
     
     console.log(this.listaOrdChangeStep);
-    
+  
+    this.getPendantOrds();
+    this.changeDestinoView();
 
-
+  }
+  getPendantOrds(){
+    this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, 'TODOS','PENDIENTE',1).subscribe((resOrdPend:Orden[])=>{
+      console.log(resOrdPend);
+      console.log(this.listaOrdersPendantView);
+      this.listaOrdersPendantView=resOrdPend;
+      console.log(this.dataSourceOrdersPendant);
+      this.dataSourceOrdersPendant = new MatTableDataSource(this.listaOrdersPendantView);
+      this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
+      this.dataSourceOrdersPendant.sort = this.sort.toArray()[0];
+    })
   }
 
   onDrop(event) {
