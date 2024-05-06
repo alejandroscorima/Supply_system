@@ -2340,7 +2340,7 @@ updateAsociatedFilesFolderId(orden_id){
 
 
     this.listaOrdersPendantView.forEach(element => {
-      var folderToPush = new Folder('test','desctest',true,1230,1230)
+      var folderToPush = new Folder('test','desctest',true,0,1230)
       if(element.isChecked){
         this.listaOrdChangeStep.push(element);
         this.ord=element;
@@ -2361,7 +2361,7 @@ updateAsociatedFilesFolderId(orden_id){
           formData.append('file', pdfToPostBlob, element.numero+'.pdf');
         
           this.saveFiles(pdfToPostBlob,element.id)
-          this.refreshPageIfNeeded();
+         // this.refreshPageIfNeeded();
         })
         
       }

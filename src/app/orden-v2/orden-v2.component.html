@@ -966,7 +966,7 @@
   
               <ng-container matColumnDef="ruc">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> PROVEEDOR </th>
-                <td mat-cell *matCellDef="let a" class="w-full md:w-5 sm:w-3"> {{a.ruc}}</td>
+                <td mat-cell *matCellDef="let a" class="mx-2"> {{a.ruc}}</td>
               </ng-container>
   
               <ng-container matColumnDef="razon_social">
@@ -994,9 +994,9 @@
                 <td mat-cell *matCellDef="let a"> {{a.igv}}</td>
               </ng-container>
   
-              <ng-container matColumnDef="total">
+              <ng-container matColumnDef="total"class="mx-2">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> TOTAL </th>
-                <td mat-cell *matCellDef="let a"> {{a.total}}</td>
+                <td mat-cell *matCellDef="let a" class="mx-2"> {{a.total}}</td>
               </ng-container>
   
               <ng-container matColumnDef="rebajado">
