@@ -864,8 +864,8 @@ updateAsociatedFilesFolderId(orden_id){
       
       }
       if(this.user_role=='SUPERVISOR'){
-        this.columnsToShow=['indicator','fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
-        this.columnsToShowTb2=[];
+        this.columnsToShowTb2=['indicator','fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
+        this.columnsToShow=[];
       }
       else{
         this.columnsToShow=['indicator','check','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
