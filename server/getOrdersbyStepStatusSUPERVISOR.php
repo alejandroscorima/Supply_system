@@ -41,7 +41,7 @@ try {
     }
 
     // Consulta SQL modificada con la variable $step_id
-    if($user_role=='SUPERVISOR'){
+
         $sentencia = $bd->prepare("SELECT a.*, COALESCE(CONCAT(b.serie, '-', b.numero), 'SN') AS comprobante,
     c.id AS val_id,
     c.user_id AS val_user_id,
@@ -65,7 +65,7 @@ try {
     WHERE TRUE ".$status_set."
     GROUP BY a.id
     ORDER BY a.id DESC;");
-    }
+    
 
 
 
