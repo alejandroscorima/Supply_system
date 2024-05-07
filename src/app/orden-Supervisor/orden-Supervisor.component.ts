@@ -670,7 +670,7 @@ updateAsociatedFilesFolderId(orden_id){
   
                       }
 
-                      this
+                      this.getPendantOrds();
                   
                     })
                   })
