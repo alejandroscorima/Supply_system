@@ -35,8 +35,6 @@ try {
     if ($status === 'PENDIENTE') {
         $status_set = " AND a.status='PENDIENTE'";
     } else if($status === 'TODOS'){
-        $status_set = " ";
-    } else {
         $status_set = " AND a.status<>'PENDIENTE'";
     }
 
