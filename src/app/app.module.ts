@@ -78,6 +78,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OrdenV2Component } from './orden-v2/orden-v2.component';
+import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
 
 @NgModule({
     declarations: [
@@ -140,7 +141,8 @@ import { OrdenV2Component } from './orden-v2/orden-v2.component';
         DialogEditItemEntrega,
         DialogNewItemEntrega,
         DialogConfirmEntrega,
-        OrdenV2Component
+        OrdenV2Component,
+        OrdenSupervisor
     ],
     imports: [
         BrowserModule,

@@ -12,7 +12,7 @@ try {
     }
 
     // Verifica si los parámetros GET requeridos están presentes
-    if (!isset($_GET['user_id']) || !isset($_GET['user_role']) || !isset($_GET['destino']) || !isset($_GET['step_status'])) {
+    if (!isset($_GET['user_id']) || !isset($_GET['user_role']) || !isset($_GET['destino']) || !isset($_GET['status'])) {
         throw new Exception("Faltan parámetros GET requeridos");
     }
 

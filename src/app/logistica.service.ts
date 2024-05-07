@@ -195,7 +195,7 @@ export class LogisticaService {
   } 
   getOrdersbyStepStatusSUPERVISOR(user_id, user_role, destino, status:string) {
     //return this.http.get(`${this.baseUrl}/getAllOficinaOrdersNew.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}`);
-    return this.http.get(`${this.baseUrl}/getOrdersbyStepStatusSUPERVISOR.php.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}&status=${status}`);   
+    return this.http.get(`${this.baseUrl}/getOrdersbyStepStatusSUPERVISOR.php?user_id=${user_id}&user_role=${user_role}&destino=${destino}&status=${status}`);   
   } 
 
   getAllWarehouseOrders() {
