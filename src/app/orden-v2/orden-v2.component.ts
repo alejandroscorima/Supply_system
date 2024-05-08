@@ -703,7 +703,7 @@ export class OrdenV2Component implements OnInit {
         }
 
 
-       
+
         this.logisticaService.getOrdersValidations(this.toValidateOrder.id).subscribe((resValsOrd:any)=>{
           this.validationsOrd=resValsOrd;
         var counter=0;
@@ -1477,7 +1477,9 @@ updateAsociatedFilesFolderId(orden_id){
 
 
       if(this.ord.moneda!=''&&this.ord.empresa!=''&&this.ord.ruc!=''&&this.ord.razon_social!=''&&
-      this.ord.direccion!=''&&this.ord.destino!=''&&this.ord.rebajado!=''&&this.ord.fecha!=''&&this.ord.observacion!=''){
+      this.ord.direccion!=''&&this.ord.destino!=''&&this.ord.rebajado!=''&&this.ord.fecha!=''&&this.ord.observacion!=''
+      &&(this.listaOrd.length>0)
+      ){
 
 
         this.moneyText=this.numToText9Cifras(parseInt(this.ord.total))+' CON '+String(Math.ceil((parseFloat(this.ord.total)*100.0)%100))+'/100 ' + this.ord.moneda;
@@ -1488,7 +1490,7 @@ updateAsociatedFilesFolderId(orden_id){
       
      // console.log("length",this.ordValRules.length)
       console.log("cositoosdfijsoifs",this.ordValRules)
-      if(this.ordValRules==null||!this.ordValRules[0]){
+      if(this.ordValRules==null||!(this.ordValRules.length>0)){
         this.ord.status='NO APLICA'
       }
         // console.log("si debería entrar");

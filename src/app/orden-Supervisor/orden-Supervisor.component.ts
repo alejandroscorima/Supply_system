@@ -346,8 +346,8 @@ export class OrdenSupervisor implements OnInit {
     if(comand=='RECHAZADO'){
       this.isAccepting=comand
     }
-    this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,'','','','',this.isAccepting,a.val_id)
-
+    this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,a.val_date,a.val_hour,this.isAccepting,null,null,a.val_id)
+    console.log('ord_val' ,this.ordValidationToPost)
     a.val_state=this.ordValidationToPost.state
 
    
