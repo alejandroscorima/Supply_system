@@ -5,11 +5,11 @@ header("Access-Control-Allow-Origin: *"); // Permite el acceso desde cualquier o
 $bd = include_once "bdLogistica.php";
 
 $campus_id = $_GET['campus_id'];
-$monto = $_GET['monto']; // Nueva variable externa para el monto
+$monto = floatval($_GET['monto']); // Convertir monto a float
 
 // Preparar la consulta SQL para seleccionar datos de la tabla order_validation_rules
-$sentencia = $bd->prepare("SELECT id, campus_id, user_id, amount FROM oscorp_supply.order_validation_rules
-WHERE campus_id = :campus_id AND amount <= :monto");
+$sentencia = $bd->prepare("SELECT id, campus_id, user_id, CAST(amount AS FLOAT) AS amount FROM oscorp_supply.order_validation_rules
+WHERE campus_id = :campus_id AND CAST(amount AS FLOAT) <= :monto");
 
 // Ejecutar la consulta
 $sentencia->execute(['campus_id' => $campus_id, 'monto' => $monto]);
