@@ -671,8 +671,8 @@ export class OrdenV2Component implements OnInit {
     if(comand=='VALIDAR'){
       this.isAccepting='ACEPTADO'
     }
-    if(comand=='RECHAZADO'){
-      this.isAccepting=comand
+    if(comand=='RECHAZAR'){
+      this.isAccepting='RECHAZADO'
     }
     this.ordValidationToPost = new OrdersValidation(a.val_user_id,a.val_order_id,'','','','',this.isAccepting,a.val_id)
 
@@ -2329,16 +2329,15 @@ updateAsociatedFilesFolderId(orden_id){
     window.location.reload();
   }
   ///MEJORAR CON LA ESCALABILIDAD
-  phaseChanger(Ord:Orden){
+  async phaseChanger(Ord:Orden){
     Ord.step_id=2;
     Ord.step="STEP_2",
     Ord.status="Aprovado"
     Ord.folder_id=this.folderPostedId;
-    this.logisticaService.updateOrdStepStatus(Ord).subscribe((resUpdate:any)=>{
-      console.log(resUpdate);
-    });
+    console.log('Iniciando cambio de status de orden')
+    var resUpdt= await this.logisticaService.updateOrdStepStatus(Ord).toPromise();
   }
-  exportFilesToFolder(){
+ /*  exportFilesToFolder(){
 
 
     this.listaOrdersPendantView.forEach(element => {
@@ -2365,7 +2364,9 @@ updateAsociatedFilesFolderId(orden_id){
           this.saveFiles(pdfToPostBlob,element.id)
          // this.refreshPageIfNeeded();
 
-        
+          this.getPendantOrds();
+
+          this.changeDestinoView();
         })
         
       }
@@ -2374,11 +2375,51 @@ updateAsociatedFilesFolderId(orden_id){
     
     console.log(this.listaOrdChangeStep);
   
-    this.getPendantOrds();
-    this.changeDestinoView();
+    
 
+  } */
+  async exportFilesToFolder() {
+    try {
+      for (const element of this.listaOrdersPendantView) {
+        var folderToPush = new Folder('test','desctest',true,0,1230);
+        if (element.isChecked) {
+          this.listaOrdChangeStep.push(element);
+          this.ord = element;
+          console.log('Creando el folder',folderToPush);
+          const res: any = await this.logisticaService.addFolder(folderToPush).toPromise();
+          console.log('folder creado');
+          this.folderPostedId = res.folderId;
+          console.log(res, res.folderId);
+          this.reCreatePDFView(element);
+          var pdfToPostBlob = this.generatePDFView(false);
+  
+          // Cambio de Fase:
+          await this.phaseChanger(element);
+  
+          ////////SETEO DE VALORES DE PDFTOPOSTBLOB4
+  
+          console.log(pdfToPostBlob);
+          const formData = new FormData();
+          formData.append('file', pdfToPostBlob, element.numero+'.pdf');
+          console.log('Iniciando saveFiles asociados')
+          await this.saveFiles(pdfToPostBlob, element.id);
+          console.log('files asociados guardados ')
+        }
+      }
+  
+      console.log(this.listaOrdChangeStep);
+      console.log('Iniciadno consulta de pendients')
+      await this.getPendantOrds();
+      console.log('resultado de consulta obtenida')
+      this.changeDestinoView();
+    } catch (error) {
+      // Manejo de errores
+      console.error("Ocurrió un error:", error);
+    }
   }
-  getPendantOrds(){
+  
+  
+  /*   getPendantOrds(){
     this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, 'TODOS','PENDIENTE',1).subscribe((resOrdPend:Orden[])=>{
       console.log(resOrdPend);
       console.log(this.listaOrdersPendantView);
@@ -2388,8 +2429,23 @@ updateAsociatedFilesFolderId(orden_id){
       this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
       this.dataSourceOrdersPendant.sort = this.sort.toArray()[0];
     })
+  } */
+  async getPendantOrds() {
+    try {
+      const resOrdPend: any = await this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, 'TODOS','PENDIENTE',1).toPromise();
+      console.log(resOrdPend);
+      console.log(this.listaOrdersPendantView);
+      this.listaOrdersPendantView = resOrdPend;
+      console.log(this.dataSourceOrdersPendant);
+      this.dataSourceOrdersPendant = new MatTableDataSource(this.listaOrdersPendantView);
+      this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
+      this.dataSourceOrdersPendant.sort = this.sort.toArray()[0];
+    } catch (error) {
+      // Manejo de errores
+      console.error("Ocurrió un error:", error);
+    }
   }
-
+  
   onDrop(event) {
     const files = event.dataTransfer?.files;
     console.log(files)

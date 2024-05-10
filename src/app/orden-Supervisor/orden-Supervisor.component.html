@@ -6,12 +6,7 @@
       <mat-tab label="VER ORDENES SUPERVISOR" class="tabWare">
 
 
-        <button type="button" class=" my-3 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4
-        focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-        me-2 mb-2" (click)="exportFilesToFolder()">
-        ENVIAR A FOLDER</button>
-
-
+       
         <div class="mat-elevation-z8" style="width:100%;">
           <table mat-table style="width:100%;" [dataSource]="dataSourceOrdersPendant" matSort multiTemplateDataRows matTableExporter #exporter="matTableExporter" [hiddenColumns]="[16,17,18,20,21]">
   
@@ -378,32 +373,39 @@
                 </div>
               </td>
             </ng-container>
+           
             <ng-container matColumnDef="validar">
               <th mat-header-cell *matHeaderCellDef class=" items-center">
                 <p *ngIf="(user_role!='SUPERVISOR')" class="w-full h-full justify-center">VALIDADO</p>
                 <p *ngIf="(user_role=='SUPERVISOR')"class="w-full h-full justify-center">VALIDAR</p>
               </th>
               <td mat-cell *matCellDef="let a; let i=index">
-                <div *ngIf="(a.status!='PENDIENTE')&&(user_role!='SUPERVISOR')">
+
+
+            
+                <div *ngIf="((a.total>2000) && user_role!='SUPERVISOR')">
                   {{a.status}}
                 </div>
-                <div *ngIf="(a.val_state!='PENDIENTE')">
-                  {{a.val_state}}
+                <div *ngIf="((a.status=='NO APLICA') && user_role!='SUPERVISOR')">
+                  NO APLICA
                 </div>
-                <div  *ngIf="(a.val_state=='PENDIENTE')&&(user_role=='SUPERVISOR')&&(setValidatorUser(a))&&(a.val_state!='ANULADO')">
-                  <button mat-button (click)="validateButton(a,'VALIDAR')">
+        
+
+                <div  *ngIf=" (a.val_state=='PENDIENTE')&&(user_role=='SUPERVISOR')&&(setValidatorUser(a))&&(a.val_state!='ANULADO')">
+                  <button mat-icon-button (click)="validateButton(a,'VALIDAR')">
                     <mat-icon class="text-lime-500">checked</mat-icon>
                   </button>
-                  <button mat-button (click)="validateButton(a,'RECHAZADO')">
+                  <button mat-icon-button (click)="validateButton(a,'RECHAZADO')">
                     <mat-icon class="text-red-500">cancel</mat-icon>
                   </button>
                 </div>
-                <div>
-                  <button (click)="viewStatusButton(a)"> <mat-icon class="text-red-500">search</mat-icon> sts</button>
+                <div *ngIf=" (a.total>2000)">
+                  <button (click)="viewStatusButton(a)"> <mat-icon class="text-red-500"><span class="text-sm">search</span></mat-icon> Detalle</button>
                 </div>
 
               </td>
             </ng-container>
+
                 
             <tr mat-header-row *matHeaderRowDef="columnsToShowTb2"></tr>
             <tr mat-row *matRowDef="let row; columns: columnsToShowTb2;"></tr>
