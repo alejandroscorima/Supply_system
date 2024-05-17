@@ -43,6 +43,8 @@ import { DialogAddReceipt, DialogConfirmOrden, DialogEditReceipt, DialogNewDoc, 
 import { Folder } from '../folder';
 import { Filep } from '../file';
 import { EMPTY } from 'rxjs';
+import { PushNotificationService } from '../push-notification.service';
+
 
 @Component({
   selector: 'app-nuevo',
@@ -69,6 +71,9 @@ import { EMPTY } from 'rxjs';
   ],
 })
 export class OrdenV2Component implements OnInit {
+
+  appFirebase;
+  analyticsFirebase;
 
   user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
   colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
@@ -277,7 +282,10 @@ export class OrdenV2Component implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private fileUploadService: FileUploadService,
+    private pushService: PushNotificationService
   ) { }
+
+
 /////Block
   setActualType(event: any) {
     const selectedValue = event.target.value;
@@ -669,7 +677,7 @@ export class OrdenV2Component implements OnInit {
 
    
     if(comand=='VALIDAR'){
-      this.isAccepting='ACEPTADO'
+      this.isAccepting='APROBADO'
     }
     if(comand=='RECHAZAR'){
       this.isAccepting='RECHAZADO'
@@ -714,7 +722,7 @@ export class OrdenV2Component implements OnInit {
 
         this.validationsOrd.forEach(element => {
           if(element.state!="PENDIENTE"){
-            if(element.state=="ACEPTADO"){
+            if(element.state=="APROBADO"){
               acceptedCounter++;
             }
             if(element.state=="RECHAZADO"){
@@ -729,7 +737,7 @@ export class OrdenV2Component implements OnInit {
           ///VALIDADOR DEL ESTADO DE LA ORDEN:
           
             if(rejectedCounter==0){
-              this.toValidateOrder.status="ACEPTADO";
+              this.toValidateOrder.status="APROBADO";
             }
             if(acceptedCounter==0){
               this.toValidateOrder.status="RECHAZADO";

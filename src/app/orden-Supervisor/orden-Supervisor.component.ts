@@ -341,7 +341,7 @@ export class OrdenSupervisor implements OnInit {
 
    
     if(comand=='VALIDAR'){
-      this.isAccepting='ACEPTADO'
+      this.isAccepting='APROBADO'
     }
     if(comand=='RECHAZADO'){
       this.isAccepting=comand
@@ -386,7 +386,7 @@ export class OrdenSupervisor implements OnInit {
 
         this.validationsOrd.forEach(element => {
           if(element.state!="PENDIENTE"){
-            if(element.state=="ACEPTADO"){
+            if(element.state=="APROBADO"){
               acceptedCounter++;
             }
             if(element.state=="RECHAZADO"){
@@ -401,7 +401,7 @@ export class OrdenSupervisor implements OnInit {
           ///VALIDADOR DEL ESTADO DE LA ORDEN:
           
             if(rejectedCounter==0){
-              this.toValidateOrder.status="ACEPTADO";
+              this.toValidateOrder.status="APROBADO";
             }
             if(acceptedCounter==0){
               this.toValidateOrder.status="RECHAZADO";

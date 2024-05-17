@@ -1,197 +1,157 @@
- 
-
-  <div class="px-5 pb-5">
-    
-      <div class="flex items-center mt-2.5 mb-5">
-          <div class="flex items-center space-x-1 rtl:space-x-reverse">
-              
-             
-          </div>
+<div class="w-full h-full flex flex-col">
+  <div class="px-5 pb-4 w-full items-center text-center h-fit flex-none">
+    <button mat-raised-button (click)="exporter.exportTable('xlsx',{fileName:'Requerimientos'})">EXPORTAR EXCEL</button>
+  
+    <div class="mat-elevation-0" style="width:0%; justify-content: center;" hidden>
+      <table mat-table style="width:0%;" [dataSource]="dataSourceReqs" matSort matTableExporter #exporter="matTableExporter">
+  
+        <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO </th>
+          <td mat-cell *matCellDef="let a"> {{a.codigo}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="area">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> AREA </th>
+          <td mat-cell *matCellDef="let a"> {{a.area}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="encargado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ENCARGADO </th>
+          <td mat-cell *matCellDef="let a"> {{a.encargado}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+          <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
+          <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="motivo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> MOTIVO </th>
+          <td mat-cell *matCellDef="let a"> {{a.motivo}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="prioridad">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> PRIORIDAD </th>
+          <td mat-cell *matCellDef="let a"> {{a.prioridad}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="sala">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> SALA </th>
+          <td mat-cell *matCellDef="let a"> {{a.sala}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="empty2">
+          <td mat-footer-cell *matFooterCellDef colspan="2">
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="empty1">
+          <td mat-footer-cell *matFooterCellDef colspan="1">
+          </td>
+        </ng-container>
+  
+  
+  
+  
+        <tr mat-header-row *matHeaderRowDef="['codigo','fecha','sala','area','prioridad','encargado','motivo','estado'];"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['codigo','fecha','sala','area','prioridad','encargado','motivo','estado'];"></tr>
+  
+  
+  
+  
+        <tr class="mat-row" *matNoDataRow>
           
-      <div class="flex items-center justify-between">
-          <span class="text-3xl font-bold text-gray-900 dark:text-white justify-content: center;"></span>
-      </div>
+        </tr>
+      </table>
+  
+      <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
+    </div>
   </div>
 
-        
-        <button mat-raised-button (click)="exporter.exportTable('xlsx',{fileName:'Requerimientos'})">EXPORTAR EXCEL</button>
+  <div class="grid grid-cols-1 sm:grid-cols-3 grid-rows-3 sm:grid-rows-1 h-auto w-full overflow-hidden flex-1">
 
-  
-        <div class="mat-elevation-0" style="width:0%; justify-content: center;" hidden  >
-          <table mat-table style="width:0%;" [dataSource]="dataSourceReqs" matSort matTableExporter #exporter="matTableExporter">
-  
-            <ng-container matColumnDef="codigo">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> CODIGO </th>
-              <td mat-cell *matCellDef="let a"> {{a.codigo}}</td>
-            </ng-container>
-  
-            <ng-container matColumnDef="area">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> AREA </th>
-              <td mat-cell *matCellDef="let a"> {{a.area}}</td>
-            </ng-container>
-  
-            <ng-container matColumnDef="encargado">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> ENCARGADO </th>
-              <td mat-cell *matCellDef="let a"> {{a.encargado}}</td>
-            </ng-container>
-  
-            <ng-container matColumnDef="estado">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
-              <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
-            </ng-container>
-  
-            <ng-container matColumnDef="fecha">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
-              <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
-            </ng-container>
-  
-            <ng-container matColumnDef="motivo">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> MOTIVO </th>
-              <td mat-cell *matCellDef="let a"> {{a.motivo}}</td>
-            </ng-container>
-  
-            <ng-container matColumnDef="prioridad">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> PRIORIDAD </th>
-              <td mat-cell *matCellDef="let a"> {{a.prioridad}}</td>
-            </ng-container>
-  
-            <ng-container matColumnDef="sala">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> SALA </th>
-              <td mat-cell *matCellDef="let a"> {{a.sala}}</td>
-            </ng-container>
-  
-  
-  
-  
-  
-  
-            <ng-container matColumnDef="empty2">
-              <td mat-footer-cell *matFooterCellDef colspan="2">
-              </td>
-            </ng-container>
-  
-            <ng-container matColumnDef="empty1">
-              <td mat-footer-cell *matFooterCellDef colspan="1">
-              </td>
-            </ng-container>
-  
-  
-  
-  
-            <tr mat-header-row *matHeaderRowDef="['codigo','fecha','sala','area','prioridad','encargado','motivo','estado'];"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['codigo','fecha','sala','area','prioridad','encargado','motivo','estado'];"></tr>
-  
-  
-  
-  
-            <tr class="mat-row" *matNoDataRow>
-             
-            </tr>
-          </table>
-  
-          <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
-        </div>
-  </div>
-  <div class="row">
-    <div class="column" *ngIf="user_role!='ADMINISTRADOR'&&user_role!='ASISTENTE'">
-      <h3 style="text-align:left">
-      
+    <div class="col-span-1 h-full overflow-hidden w-full flex flex-col">
+      <h3 style="text-align:left" class="w-full flex-none">
         PENDIENTES: {{cont_pend}} 
       </h3>
+      <div class="overflow-y-scroll flex-1 w-full px-2">
+        <mat-card *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="card w-full my-2 p-0" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
+          <mat-card-header class="headerPendiente">
+            {{r.codigo}}-{{r.area}}
+  
+          </mat-card-header>
+          <mat-card-content >
+            <p>
+              <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
+            </p>
+            <p>
+              <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
+            </p>
+            <p>
+              <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
 
-    <div class="column">
-      <h3 style="text-align:left;" *ngIf="user_role!='ASISTENTE'&&user_role!='ADMINISTRADOR'">
+    <div class="col-span-1 h-full overflow-hidden w-full flex flex-col">
+      <h3 style="text-align:left;" class="w-full flex-none" *ngIf="user_role!='ASISTENTE'&&user_role!='ADMINISTRADOR'">
         PROCESO: {{cont_asig}}
       </h3>
-      <h3 style="text-align:left;" *ngIf="user_role=='ASISTENTE'||user_role=='ADMINISTRADOR'">
+      <h3 style="text-align:left;" class="w-full flex-none" *ngIf="user_role=='ASISTENTE'||user_role=='ADMINISTRADOR'">
         ASIGNADO : {{cont_asig}}
       </h3>
-
+      <div class="overflow-y-scroll flex-1 w-full px-2">
+        <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card w-full my-2 p-0" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
+          <mat-card-header class="headerProceso">
+            {{r.codigo}}-{{r.area}}
+  
+          </mat-card-header>
+          <mat-card-content >
+            <p>
+              <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
+            </p>
+            <p>
+              <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
+            </p>
+            <p>
+              <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
 
-    <div class="column"> 
-      <h3 style="text-align:left">
-      
+    <div class="col-span-1 h-full overflow-hidden w-full flex flex-col">
+      <h3 style="text-align:left" class="w-full flex-none">
         FINALIZADO: {{cont_fina}} 
       </h3>
+      <div class="overflow-y-scroll flex-1 w-full px-1">
+        <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card w-full my-2 p-0" [ngClass]="{'fin':'a'=='a'}">
+          <mat-card-header >
+            {{r.codigo}}-{{r.area}}
+  
+          </mat-card-header>
+          <mat-card-content >
+            <p>
+              <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
+            </p>
+            <p>
+              <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
+            </p>
+            <p>
+              <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
-
-
 
   </div>
-  <div class="row">
-    <div class="column" style="height: 80vh; overflow: scroll;" *ngIf="user_role!='ADMINISTRADOR'&&user_role!='ASISTENTE'">
-      
-      
-      <mat-card *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
-        <mat-card-header class="headerPendiente">
-          {{r.codigo}}-{{r.area}}
-
-        </mat-card-header>
-        <mat-card-content style="padding:5px;">
-          <p>
-            <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
-          </p>
-          <p>
-            <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
-          </p>
-          <p>
-            <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="column" style="height: 80vh; overflow: scroll;">
-   
-      <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
-        <mat-card-header class="headerProceso">
-          {{r.codigo}}-{{r.area}}
-
-        </mat-card-header>
-        <mat-card-content style="padding:5px;">
-          <p>
-            <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
-          </p>
-          <p>
-            <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
-          </p>
-          <p>
-            <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="column" style="height: 80vh; overflow: scroll;">
-      
-
-      <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card" [ngClass]="{'fin':'a'=='a'}">
-        <mat-card-header >
-          {{r.codigo}}-{{r.area}}
-
-        </mat-card-header>
-        <mat-card-content style="padding:5px;">
-          <p>
-            <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
-          </p>
-          <p>
-            <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
-          </p>
-          <p>
-            <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  
-
-
-  
-
-
-
-
-
-
-
-
+</div>

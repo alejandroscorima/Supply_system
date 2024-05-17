@@ -80,6 +80,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OrdenV2Component } from './orden-v2/orden-v2.component';
 import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
 
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { PushNotificationService } from './push-notification.service';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -184,10 +188,10 @@ import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
           // Register the ServiceWorker as soon as the application is stable
           // or after 30 seconds (whichever comes first).
           registrationStrategy: 'registerWhenStable:30000'
-        }), // ToastrModule added
+        }),
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
-      { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, CookieService],
+      { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, CookieService,PushNotificationService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
