@@ -9,30 +9,30 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatInputModule } from '@angular/material/input';
 import { DialogCreateOrden, InicioComponent } from './inicio/inicio.component';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatLegacySelectModule as MatSelectModule} from '@angular/material/legacy-select';
+import { MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 //import { DialogRevisar } from './lista-activos/lista-activos.component';
 import { DialogDetalleReqAdm } from './inicio/inicio.component';
 import { DialogDetalleReqAsist } from './inicio/inicio.component';
 import { DialogDetalleReqUsr } from './inicio/inicio.component';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -54,14 +54,14 @@ import { CategoriesComponent, DialogNewCategory, DialogEditCategory } from './ca
 import { CampusComponent, DialogNewCampus, DialogEditCampus } from './campus/campus.component';
 import { AreasComponent, DialogNewArea, DialogEditArea } from './areas/areas.component';
 import { ProvidersComponent, DialogNewProvider, DialogEditProvider, DialogNewProduct, DialogEditProduct } from './providers/providers.component';
-import { MatLegacySlideToggleModule as MatSlideToggleModule} from '@angular/material/legacy-slide-toggle';
+import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { DialogAddReceiptWarehouse, DialogEditReceiptWarehouse, WarehouseComponent } from './warehouse/warehouse.component';
-import { MatLegacyTabsModule as MatTabsModule} from '@angular/material/legacy-tabs';
+import { MatTabsModule} from '@angular/material/tabs';
 import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, DialogEditItemMobility} from './mobility/mobility.component';
 
 import { AnalyticsComponent } from './analytics/analytics.component';
-import { MatLegacyProgressBarModule as MatProgressBarModule} from '@angular/material/legacy-progress-bar';
+import { MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { DailyComponent, DialogConfirmDaily } from './daily/daily.component';
 
@@ -82,7 +82,7 @@ import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
 
 
 import { PushNotificationService } from './push-notification.service';
-import { initializeApp as initializeApp_alias, provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp , provideFirebaseApp } from '@angular/fire/app';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 
 @NgModule({

@@ -1,21 +1,7 @@
 
 
-
-mat-form-field {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right:10px;
-  margin-left:10px;
-  border-radius: 20px;
-}
-
 .column {
-  float: left;
-  margin-left: 0px;
-  margin-right: 0px;
-  width: 33%;
-  min-width: 240px;
-  align-content: center;
+
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
@@ -24,12 +10,6 @@ mat-form-field {
   display: none;
 }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
 
 .card{
   padding: 0px;
@@ -39,6 +19,8 @@ mat-form-field {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 0px;
 }
+
+
 
 .headerPendiente{
  background: -o-linear-gradient(45deg, #4d0000, #b82121);
@@ -107,9 +89,6 @@ mat-form-field {
   background: -moz-linear-gradient(0deg, #ffef89,#d1bc00 );
 }
 
-.navItem{
-  color: whitesmoke;
-}
 
 .mat-cell{
   padding: 5px 5px 5px 5px;
@@ -129,8 +108,4 @@ mat-form-field {
   background: -moz-linear-gradient(0deg, #f3f3f3, #f3f3f3);
 
   background: linear-gradient(0deg, #f3f3f3,);
-}
-
-.lbl_description{
-  /* color: rgb(255, 255, 255); */
 }
