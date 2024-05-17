@@ -80,9 +80,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OrdenV2Component } from './orden-v2/orden-v2.component';
 import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
 
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+
 import { PushNotificationService } from './push-notification.service';
+import { initializeApp as initializeApp_alias, provideFirebaseApp } from '@angular/fire/app';
+import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 
 @NgModule({
     declarations: [
@@ -191,7 +192,7 @@ import { PushNotificationService } from './push-notification.service';
         }),
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
-      { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, CookieService,PushNotificationService],
+      { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, CookieService,PushNotificationService, provideFirebaseApp(() => initializeApp({"projectId":"supply-system-28cf8","appId":"1:849089768541:web:d10602bca031a24cbd31b4","storageBucket":"supply-system-28cf8.appspot.com","apiKey":"AIzaSyADHEkrK_lk0sXAmLykuOXh1RuLm7B83Kw","authDomain":"supply-system-28cf8.firebaseapp.com","messagingSenderId":"849089768541","measurementId":"G-VK4M6BQRYW"})), provideMessaging(() => getMessaging())],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

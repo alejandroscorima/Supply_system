@@ -5,3 +5,7 @@ dist/
 /dist
 dist/Logistica
 .idea
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
