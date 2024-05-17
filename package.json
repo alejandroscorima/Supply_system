@@ -33,7 +33,7 @@
     "mat-table-exporter": "^10.2.4",
     "material-icons": "^1.11.1",
     "ngx-cookie-service": "^14.0.1",
-    "ngx-toastr": "^14.2.3",
+    "ngx-toastr": "^18.0.0",
     "pdfjs-dist": "^2.14.305",
     "prisma": "^3.12.0",
     "rxjs": "~6.6.7",
