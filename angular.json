@@ -78,7 +78,10 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "crud-angular-php-mysql:build"
+            "buildTarget": "crud-angular-php-mysql:build",
+            "ssl": true,
+            "sslKey": "key.pem",
+            "sslCert": "cert.pem"
           },
           "configurations": {
             "production": {
@@ -102,7 +105,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/firebase-messaging-sw.js"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

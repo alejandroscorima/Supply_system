@@ -23,6 +23,7 @@ import { Area } from '../area';
 import { Campus } from '../campus';
 import { Collaborator } from '../collaborator';
 import { Payment } from '../payment';
+import { PushNotificationService } from '../push-notification.service';
 
 
 @Component({
@@ -68,7 +69,10 @@ export class LoginComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private toastr: ToastrService,
-  ) { }
+
+  ) {
+
+   }
 
   searchItem(){
 
@@ -152,6 +156,8 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit() {
+
+
 
     if(this.cookiesService.checkToken('user_id')){
 

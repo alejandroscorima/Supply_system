@@ -1,36 +1,40 @@
 import { Injectable } from '@angular/core';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import firebase from 'firebase';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PushNotificationService {
 
+  messagingFirebase: firebase.messaging.Messaging;
+
   constructor() {
-    const messaging = getMessaging();
-    this.requestPermission(messaging);
-    this.listen(messaging);
+    firebase.initializeApp(environment.firebaseConfig);
+    this.messagingFirebase=firebase.messaging();
   }
 
-  requestPermission(messaging) {
-    getToken(messaging, { vapidKey: 'tu-vapid-key' })
-      .then((currentToken) => {
-        if (currentToken) {
-          console.log('Token de notificación push:', currentToken);
-          // Envía el token al servidor y actualiza la interfaz de usuario si es necesario
-        } else {
-          console.log('No se pudo obtener el token de notificación push. Solicita permiso para generar uno.');
-        }
-      }).catch((err) => {
-        console.log('Ocurrió un error al obtener el token de notificación push', err);
-      });
+  requestPermission=()=>{
+    return new Promise(async (resolve,reject)=>{
+      const permission = await Notification.requestPermission();
+      if(permission==="granted"){
+        const tokenFirebase = await this.messagingFirebase.getToken();
+      }
+      else{
+        reject(new Error("No se otorgaron los permisos"));
+      }
+    })
   }
 
-  listen(messaging) {
-    onMessage(messaging, (payload) => {
-      console.log('Mensaje recibido:', payload);
-      // Maneja el mensaje recibido
+  private messagingObservable =  new Observable(observe=>{
+    this.messagingFirebase.onMessage(payload=>{
+      observe.next(payload);
     });
+  })
+
+  receiveMessage(){
+    return this.messagingObservable;
   }
 
 }

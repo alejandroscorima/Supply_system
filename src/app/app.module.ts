@@ -82,8 +82,6 @@ import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
 
 
 import { PushNotificationService } from './push-notification.service';
-import { initializeApp , provideFirebaseApp } from '@angular/fire/app';
-import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 
 @NgModule({
     declarations: [
@@ -192,7 +190,7 @@ import { getMessaging, provideMessaging } from '@angular/fire/messaging';
         }),
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
-      { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, CookieService,PushNotificationService, provideFirebaseApp(() => initializeApp({"projectId":"supply-system-28cf8","appId":"1:849089768541:web:d10602bca031a24cbd31b4","storageBucket":"supply-system-28cf8.appspot.com","apiKey":"AIzaSyADHEkrK_lk0sXAmLykuOXh1RuLm7B83Kw","authDomain":"supply-system-28cf8.firebaseapp.com","messagingSenderId":"849089768541","measurementId":"G-VK4M6BQRYW"})), provideMessaging(() => getMessaging())],
+      { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, CookieService,PushNotificationService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

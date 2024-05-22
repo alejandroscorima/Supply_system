@@ -2,7 +2,7 @@
   <div class="h-14 flex-none"></div>
   <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-clip">
     <div class="px-5 pb-4 w-full items-center text-center flex-none">
-      <button mat-raised-button (click)="exporter.exportTable('xlsx',{fileName:'Requerimientos'})">EXPORTAR EXCEL</button>
+      <button class="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" (click)="exporter.exportTable('xlsx',{fileName:'Requerimientos'})">EXPORTAR EXCEL</button>
     
       <div class="mat-elevation-0" style="width:0%; justify-content: center;" hidden>
         <table mat-table style="width:0%;" [dataSource]="dataSourceReqs" matSort matTableExporter #exporter="matTableExporter">
@@ -88,15 +88,15 @@
     
             </mat-card-header>
             <mat-card-content >
-              <a class="block break-all flex items-center">
+              <p class="   items-center">
                 <mat-icon class="w-2">person</mat-icon>&nbsp;{{r.encargado}}
-              </a>
-              <a class="block break-all flex items-center">
+              </p>
+              <p class="   items-center">
                 <mat-icon class="w-2">description</mat-icon>&nbsp;{{r.motivo}}
-              </a>
-              <a class="block break-all flex items-center">
+              </p>
+              <p class="   items-center">
                 <mat-icon class="w-2">calendar_month</mat-icon>&nbsp;{{r.fecha}}
-              </a>
+              </p>
             </mat-card-content>
           </mat-card>
         </div>
@@ -110,19 +110,19 @@
           ASIGNADO : {{cont_asig}}
         </h3>
         <div class="overflow-y-scroll flex-1 w-full px-2 min-h-0">
-          <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card w-full my-2 p-0" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
+          <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card w-full my-2 p-1 text-sm" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
             <mat-card-header class="headerProceso">
               {{r.codigo}}-{{r.area}}
     
             </mat-card-header>
             <mat-card-content >
-              <p>
+              <p class="  items-center">
                 <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
               </p>
-              <p>
+              <p class="   items-center">
                 <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
               </p>
-              <p>
+              <p class="   items-center">
                 <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
               </p>
             </mat-card-content>
@@ -135,19 +135,19 @@
           FINALIZADO: {{cont_fina}} 
         </h3>
         <div class="overflow-y-scroll flex-1 w-full px-1 min-h-0">
-          <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card w-full my-2 p-0" [ngClass]="{'fin':'a'=='a'}">
+          <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card w-full my-2 p-1 text-sm" [ngClass]="{'fin':'a'=='a'}">
             <mat-card-header >
               {{r.codigo}}-{{r.area}}
     
             </mat-card-header>
             <mat-card-content >
-              <p>
+              <p class="   items-center">
                 <mat-icon>person</mat-icon>&nbsp;{{r.encargado}}
               </p>
-              <p>
+              <p class="   items-center">
                 <mat-icon>description</mat-icon>&nbsp;{{r.motivo}}
               </p>
-              <p>
+              <p class="   items-center">
                 <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
               </p>
             </mat-card-content>
@@ -159,3 +159,4 @@
   </div>
 </div>
 
+ 
