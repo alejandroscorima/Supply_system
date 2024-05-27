@@ -272,6 +272,7 @@ export class NuevoComponent implements OnInit {
     this.req.items=this.listaReq
     this.req.id_asignado='0';
     this.req.user_id=this.user.user_id;
+    this.req.validation='PENDIENTE';
     if(this.req.area!=''&&this.req.fecha!=''&&this.req.encargado!=''&&this.req.sala!=''&&this.req.prioridad!=''&&this.req.motivo!=''&&this.req.items.length!=0){
       if(this.listaReq.length!=0){
         this.req.motivo=this.req.motivo.toUpperCase();
@@ -330,9 +331,10 @@ export class NuevoComponent implements OnInit {
           }
 
           this.logisticaService.addReq(this.req).subscribe(res=>{
-            if(res){
+            if(res['resultado']){
               var reqItems: Item[]=this.req.items;
               reqItems.forEach(i=>{
+                i.req_id=res['id'];
                 i.req_codigo=this.req.codigo;
                 i.f_inicio=this.f_inicio;
                 i.h_inicio=this.h_inicio;

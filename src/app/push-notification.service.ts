@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
-import firebase from 'firebase';
-import { Observable } from 'rxjs';
+import * as firebase from 'firebase';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PushNotificationService {
-
-  messagingFirebase: firebase.messaging.Messaging;
+  messaging: firebase.messaging.Messaging;
 
   constructor() {
     firebase.initializeApp(environment.firebaseConfig);
-    this.messagingFirebase=firebase.messaging();
+    this.messaging=firebase.messaging();
   }
 
   requestPermission=()=>{
-    return new Promise(async (resolve,reject)=>{
+    return new Promise(async(resolve, reject)=>{
       const permission = await Notification.requestPermission();
       if(permission==="granted"){
-        const tokenFirebase = await this.messagingFirebase.getToken();
+        const tokenFirebase = await this.messaging.getToken();
+        resolve(tokenFirebase);
       }
       else{
         reject(new Error("No se otorgaron los permisos"));
@@ -27,14 +27,13 @@ export class PushNotificationService {
     })
   }
 
-  private messagingObservable =  new Observable(observe=>{
-    this.messagingFirebase.onMessage(payload=>{
+  private messagingObservable = new Observable(observe=>{
+    this.messaging.onMessage(payload=>{
       observe.next(payload);
-    });
+    })
   })
 
   receiveMessage(){
     return this.messagingObservable;
   }
-
 }

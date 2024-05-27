@@ -28,6 +28,7 @@ import { FileUploadService } from '../file-upload.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatStepper } from '@angular/material/stepper';
 import { Collaborator } from '../collaborator';
+import { initFlowbite } from 'flowbite';
 
 
 @Component({
@@ -35,7 +36,7 @@ import { Collaborator } from '../collaborator';
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent implements OnInit {
+export class InicioComponent implements OnInit, AfterViewInit {
 
 
   @ViewChild("content",{static:true}) content:ElementRef;
@@ -55,6 +56,9 @@ export class InicioComponent implements OnInit {
   colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
+
+  reqSelected: Requerimiento = new Requerimiento('','','','','','','',[],'','',0);
+  reqSelectedDetails: Item[] = [new Item('code',1,'descripcion de prueba','compra','PENDIENTE','image_url',null,'','','','','','','','','','','','',null)]
 
   user_id: number = 0;
   user_role: string ='';
@@ -90,6 +94,10 @@ export class InicioComponent implements OnInit {
     private toastr: ToastrService,
     ) { }
 
+  ngAfterViewInit(): void {
+    initFlowbite();
+  }
+
 
 
   applyFilterCompra(event: Event) {
@@ -113,6 +121,18 @@ export class InicioComponent implements OnInit {
 
 
   showReqDetails(req:Requerimiento){
+
+    this.reqSelected= req;
+
+    this.logisticaService.getReqDetailsByCode(this.reqSelected.codigo).subscribe((respu:Item[])=>{
+      respu.forEach(h=>{
+        this.usersService.getUserByIdNew(h.id_asignado).subscribe((resi:User)=>{
+          h.name_asignado=resi.first_name+' '+resi.paternal_surname+' '+resi.maternal_surname;
+        })
+      })
+      this.reqSelectedDetails=respu;
+    })
+    
     var dialogRef;
 
     if(this.user_role=='SUPER USUARIO'||this.user_role=='SUPER ADMINISTRADOR'||this.user_role=='SUPERVISOR'){

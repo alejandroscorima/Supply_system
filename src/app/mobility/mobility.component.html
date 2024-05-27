@@ -1,153 +1,160 @@
-<div class=" bg-amber-100 m-3 p-9" style="margin:20px; max-height:100%;" >
-    
-  <h3 style="text-align:left;">
-    RENDICION DE MOVILIDAD
-  </h3>
-
-  <mat-form-field *ngIf="user_role=='ADMINISTRADOR'||user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ASISTENTE'||user_role=='SUPERVISOR'" style="width:30%;" class="sala" id="sala" appearance="outline" >
-    <mat-label>Sala:</mat-label>
-    <mat-select [(value)]="sala" (selectionChange)="salaChange()">
-        <mat-option *ngFor="let c of campus" [value]="c['name']">{{c['name']}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+<div class="p-4 sm:ml-64 dark:bg-gray-900 h-screen flex flex-col">
+  <div class="h-14 flex-none"></div>
+  <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-clip">
 
 
-  <mat-form-field style="width:40%;" appearance="outline">
-    <mat-label>Fecha:</mat-label>
+    <div class=" bg-amber-100 m-3 p-9" style="margin:20px; max-height:100%;" >
+        
+      <h3 style="text-align:left;">
+        RENDICION DE MOVILIDAD
+      </h3>
+
+      <mat-form-field *ngIf="user_role=='ADMINISTRADOR'||user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ASISTENTE'||user_role=='SUPERVISOR'" style="width:30%;" class="sala" id="sala" appearance="outline" >
+        <mat-label>Sala:</mat-label>
+        <mat-select [(value)]="sala" (selectionChange)="salaChange()">
+            <mat-option *ngFor="let c of campus" [value]="c['name']">{{c['name']}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
 
-    <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate [(ngModel)]="fechaStart" placeholder="Desde">
-      <input matEndDate [(ngModel)]="fechaEnd" placeholder="Hasta">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
-
-  <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
-    <mat-label>Monto:</mat-label>
-    <input appFloatPositive matInput [(ngModel)]="mobility.monto">
-    <span matPrefix>S/.&nbsp;</span>
-  </mat-form-field>
-
-  
-
-  <div>
-  
-  
-  
-  <div clappearance="standard" >
-    <button *ngIf="(colab.area_id==13&&user_role=='USUARIO AVANZADO')||user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'" mat-raised-button style="background-color: green; color:white" (click)="addMobility()">
-      <mat-icon>check</mat-icon>REGISTRAR MOVILIDAD
-    </button>
-    &nbsp;
-    
-  </div>
-
-  <div>
-    <mat-form-field appearance="standard" style="display:display-inline">
-      <mat-label>Búsqueda</mat-label>
-      <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
-    </mat-form-field>
+      <mat-form-field style="width:40%;" appearance="outline">
+        <mat-label>Fecha:</mat-label>
 
 
-    <div class="mat-elevation-z8" style="width:100%;">
-        <table mat-table style="width:100%;" [dataSource]="dataSourceMobility" matSort multiTemplateDataRows>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate [(ngModel)]="fechaStart" placeholder="Desde">
+          <input matEndDate [(ngModel)]="fechaEnd" placeholder="Hasta">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
 
-          <ng-container matColumnDef="numero">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> NUMERO </th>
-            <td mat-cell *matCellDef="let a"> {{a.numero}}</td>
-          </ng-container>
+      <mat-form-field style="width:28%;" class="doc_id" appearance="outline">
+        <mat-label>Monto:</mat-label>
+        <input appFloatPositive matInput [(ngModel)]="mobility.monto">
+        <span matPrefix>S/.&nbsp;</span>
+      </mat-form-field>
 
-          <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
-            <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
-          </ng-container>
+      
 
-          <ng-container matColumnDef="sala">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> SALA </th>
-            <td mat-cell *matCellDef="let a"> {{a.campus}}</td>
-          </ng-container>
+      <div>
+      
+      
+      
+      <div clappearance="outline" >
+        <button *ngIf="(colab.area_id==13&&user_role=='USUARIO AVANZADO')||user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'" mat-raised-button style="background-color: green; color:white" (click)="addMobility()">
+          <mat-icon>check</mat-icon>REGISTRAR MOVILIDAD
+        </button>
+        &nbsp;
+        
+      </div>
 
-          <ng-container matColumnDef="monto">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> MONTO </th>
-            <td mat-cell *matCellDef="let a"> S/.{{' '+a.monto}}</td>
-          </ng-container>
-
-<!--               <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
-            <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
-          </ng-container> -->
-
-          <!-- <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> RENDIR </th>
-            <td mat-cell *matCellDef="let a; let i=index">
-              <mat-checkbox class="example-margin" (change)="$event ? selection.toggle(a) : null"
-              [checked]="selection.isSelected(a)"></mat-checkbox>
-            </td>
-          </ng-container> -->
-
-          <ng-container matColumnDef="pdf">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> PDF </th>
-            <td mat-cell *matCellDef="let a; let i=index">
-              <button mat-icon-button color="primary" (click)="reCreatePDF(a)">
-                <mat-icon> description</mat-icon>
-              </button>
-<!--                   <button mat-icon-button color="primary" (click)="editItem(a)">
-                <mat-icon> edit</mat-icon>
-              </button> -->
-<!--                   <button mat-icon-button color="warn" (click)="delItem(a)">
-                <mat-icon> delete</mat-icon>
-              </button> -->
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="del">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ELIMINAR </th>
-            <td mat-cell *matCellDef="let a; let i=index">
-              <button mat-icon-button color="warn" (click)="delItem(a)">
-                <mat-icon> delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-<!--              <ng-container matColumnDef="void1">
-            <td mat-footer-cell *matFooterCellDef colspan="5">
-
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="total" >
-            <td mat-footer-cell *matFooterCellDef colspan="1">
-              TOTAL:
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="total_amount">
-            <td mat-footer-cell *matFooterCellDef colspan="1">
-              S/.{{total_amount}}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="void2">
-            <td mat-footer-cell *matFooterCellDef colspan="3">
-
-            </td>
-          </ng-container> -->
-
-          <tr mat-header-row *matHeaderRowDef="['numero','fecha','sala','monto','pdf'];"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['numero','fecha','sala','monto','pdf'];"></tr>
-          <!-- <tr mat-footer-row *matFooterRowDef="['void1','total','total_amount','void2'];" ></tr> -->
+      <div>
+        <mat-form-field appearance="outline" style="display:display-inline">
+          <mat-label>Búsqueda</mat-label>
+          <input matInput (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1>
+        </mat-form-field>
 
 
+        <div class="mat-elevation-z8" style="width:100%;">
+            <table mat-table style="width:100%;" [dataSource]="dataSourceMobility" matSort multiTemplateDataRows>
 
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="10">No se encontró "{{input1.value}}"</td>
-          </tr>
-        </table>
+              <ng-container matColumnDef="numero">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> NUMERO </th>
+                <td mat-cell *matCellDef="let a"> {{a.numero}}</td>
+              </ng-container>
 
-        <mat-paginator [pageSizeOptions]="[20, 40, 70, 100]" aria-label="Página"></mat-paginator>
+              <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
+                <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="sala">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> SALA </th>
+                <td mat-cell *matCellDef="let a"> {{a.campus}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="monto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> MONTO </th>
+                <td mat-cell *matCellDef="let a"> S/.{{' '+a.monto}}</td>
+              </ng-container>
+
+    <!--               <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+                <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
+              </ng-container> -->
+
+              <!-- <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> RENDIR </th>
+                <td mat-cell *matCellDef="let a; let i=index">
+                  <mat-checkbox class="example-margin" (change)="$event ? selection.toggle(a) : null"
+                  [checked]="selection.isSelected(a)"></mat-checkbox>
+                </td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="pdf">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> PDF </th>
+                <td mat-cell *matCellDef="let a; let i=index">
+                  <button mat-icon-button color="primary" (click)="reCreatePDF(a)">
+                    <mat-icon> description</mat-icon>
+                  </button>
+    <!--                   <button mat-icon-button color="primary" (click)="editItem(a)">
+                    <mat-icon> edit</mat-icon>
+                  </button> -->
+    <!--                   <button mat-icon-button color="warn" (click)="delItem(a)">
+                    <mat-icon> delete</mat-icon>
+                  </button> -->
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="del">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ELIMINAR </th>
+                <td mat-cell *matCellDef="let a; let i=index">
+                  <button mat-icon-button color="warn" (click)="delItem(a)">
+                    <mat-icon> delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+    <!--              <ng-container matColumnDef="void1">
+                <td mat-footer-cell *matFooterCellDef colspan="5">
+
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="total" >
+                <td mat-footer-cell *matFooterCellDef colspan="1">
+                  TOTAL:
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="total_amount">
+                <td mat-footer-cell *matFooterCellDef colspan="1">
+                  S/.{{total_amount}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="void2">
+                <td mat-footer-cell *matFooterCellDef colspan="3">
+
+                </td>
+              </ng-container> -->
+
+              <tr mat-header-row *matHeaderRowDef="['numero','fecha','sala','monto','pdf'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['numero','fecha','sala','monto','pdf'];"></tr>
+              <!-- <tr mat-footer-row *matFooterRowDef="['void1','total','total_amount','void2'];" ></tr> -->
+
+
+
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="10">No se encontró "{{input1.value}}"</td>
+              </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[20, 40, 70, 100]" aria-label="Página"></mat-paginator>
+        </div>
+      </div>
+      
     </div>
   </div>
-  
 </div>

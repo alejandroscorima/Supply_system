@@ -21,6 +21,9 @@ export class Item {
     public h_final:string,
     public pdf_url: string,
     public pdf: File,
+    public req_id?: number,
+    public unit_budget?: string,
+    public subtotal_budget?: string,
     public id?: number,
   ) { }
 }

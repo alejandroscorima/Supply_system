@@ -13,6 +13,8 @@ export class Requerimiento {
     public id_asignado: string,
     public estado: string,
     public user_id:number,
+    public validation?: string,
+    public total_budget?: string,
     public id?: number,
   ) { }
 }

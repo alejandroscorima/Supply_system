@@ -11,7 +11,5 @@ if (environment.production) {
   enableProdMode();
 }
 
-const app = initializeApp(environment.firebaseConfig);
-
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+.catch(err => console.error(err));

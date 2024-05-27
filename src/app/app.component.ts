@@ -47,9 +47,10 @@ export class AppComponent implements OnInit {
               private toastr: ToastrService,
               private pushNotificationService: PushNotificationService,
             ){
-                pushNotificationService.requestPermission().then(token=>{
-                  console.log(token);
-                })
+              pushNotificationService.requestPermission().then(token=>{
+                console.log(token);
+              }
+              )
               }
 
   logout(){
@@ -72,9 +73,9 @@ export class AppComponent implements OnInit {
  }
   ngOnInit() {
 
-    this.pushNotificationService.receiveMessage().subscribe(payload=>{
-      console.log(payload);
-    })
+    this.pushNotificationService.receiveMessage().subscribe(payload => {
+      console.log('Message received:', payload);
+    });
 
 
     initFlowbite();

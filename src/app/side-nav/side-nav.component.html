@@ -1,4 +1,4 @@
-<nav class="fixed top-0 z-50 w-full border-b border-bl bg-white dark:bg-blue-500 dark:border-blue-500">
+<nav class="fixed top-0 z-40 w-full border-b border-bl bg-white dark:bg-blue-500 dark:border-blue-500">
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center justify-start rtl:justify-end">
@@ -53,9 +53,9 @@
 </nav>
 
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-30 w-64 h-screen pt-20 
 transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
- bg-white dark:bg-gray-800 dark:border-blue-500 overflow-scroll" aria-label="Sidebar">
+ bg-white dark:bg-gray-800 dark:border-blue-500 overflow-y-auto" aria-label="Sidebar">
     <div class="h-full px-3 pb-4  dark:bg-gray-800">
 
  
@@ -113,7 +113,7 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
               (user_role=='USUARIO AVANZADO'&&colab.area_id==13))" >
                 <div  id="accordion-collapse" data-accordion="collapse">
                 
-                    <h2 id="test-heading-1" class="w-0 h-0">
+<!--                     <h2 id="test-heading-1" class="w-0 h-0">
                         <button type="button" 
                         data-accordion-target="#test-body-1" 
                         aria-expanded="true"
@@ -123,7 +123,7 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
 
                         <div id="test-body-1"
                         class="hidden" aria-labelledby="accordion-3-heading-1"></div> 
-                        </h2>
+                        </h2> -->
 
 
                     <h2 id="accordion-collapse-heading-1">
@@ -135,7 +135,7 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
                       <svg class=" w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                         <path d="M17 11h-2.722L8 17.278a5.512 5.512 0 0 1-.9.722H17a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1ZM6 0H1a1 1 0 0 0-1 1v13.5a3.5 3.5 0 1 0 7 0V1a1 1 0 0 0-1-1ZM3.5 15.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2ZM16.132 4.9 12.6 1.368a1 1 0 0 0-1.414 0L9 3.55v9.9l7.132-7.132a1 1 0 0 0 0-1.418Z"/>
                       </svg> 
-                      <p class="pl-7 text-base  text-gray-900 dark:text-white">Ordenes </p> 
+                      <p class="pl-4 text-base  text-gray-900 dark:text-white">Ordenes </p> 
                         <svg data-accordion-icon class="w-4 h-3 
                         rotate-180 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
@@ -143,27 +143,27 @@ transition-transform -translate-x-full border-r border-y-white sm:translate-x-0
                       </button>
                     </h2>
                     <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
-                      <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                      <div class="py-1 pl-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
 
-                        <a class="flex items-center p-2 text-black rounded-lg
+                        <a class="flex items-center p-1 text-black rounded-lg
                         dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/orden-supervisor"
                         *ngIf="(user_role=='SUPERVISOR')"                        >
-                          <p class="pl-7 text-base  text-gray-900 dark:text-white">Orden SUPERVISOR</p>
+                          <p class="pl-8 text-base  text-gray-900 dark:text-white">Orden SUPERVISOR</p>
                         </a>
 
-                        <a class="flex items-center p-2 text-black rounded-lg
+                        <a class="flex items-center p-1 text-black rounded-lg
                         dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/orden"
                         *ngIf="(user_role!='SUPERVISOR')"  >                         
-                          <p class="pl-7 text-base  text-gray-900 dark:text-white"
+                          <p class="pl-8 text-base  text-gray-900 dark:text-white"
                         >Orden</p>
                         </a>
-                        <a *ngIf="(user_role!='SUPERVISOR')" class="flex items-center p-2 text-black rounded-lg
+                        <a *ngIf="(user_role!='SUPERVISOR')" class="flex items-center p-1 text-black rounded-lg
                         dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/warehouse" >                        
-                          <p class="pl-7 text-base  text-gray-900 dark:text-white">Almacen</p>
+                          <p class="pl-8 text-base  text-gray-900 dark:text-white">Almacen</p>
                         </a>
-                        <a *ngIf="(user_role!='SUPERVISOR')" class="flex items-center p-2 text-black rounded-lg
+                        <a *ngIf="(user_role!='SUPERVISOR')" class="flex items-center p-1 text-black rounded-lg
                         dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/ordenv2">                         
-                          <p class="pl-7 text-base  text-gray-900 dark:text-white">Orden V2</p>
+                          <p class="pl-8 text-base  text-gray-900 dark:text-white">Orden V2</p>
                         </a>
                       </div>
                     </div>                 

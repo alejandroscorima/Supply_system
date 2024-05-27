@@ -1,6 +1,6 @@
 <div class="p-4 sm:ml-64 dark:bg-gray-900 h-screen flex flex-col">
   <div class="h-14 flex-none"></div>
-  <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-clip">
+  <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-clip">
     <div class="px-5 pb-4 w-full items-center text-center flex-none">
       <button class="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" (click)="exporter.exportTable('xlsx',{fileName:'Requerimientos'})">EXPORTAR EXCEL</button>
     
@@ -159,4 +159,281 @@
   </div>
 </div>
 
- 
+<div class="p-4 sm:ml-64 ">
+  <!-- Modal toggle -->
+  <button data-modal-target="static-modal" data-modal-toggle="static-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    Toggle modal
+  </button>
+
+  <!-- Main modal -->
+  <div id="static-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-2xl max-h-full">
+          <!-- Modal content -->
+          <div class="relative bg-gray-50 bg-opacity-70 backdrop-blur-lg border-1 rounded-xl shadow dark:bg-gray-700">
+              <!-- Modal header -->
+              <div class="flex items-center justify-between p-4 md:p-5 rounded-t dark:border-gray-600">
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                      Detalles del requerimiento
+                  </h3>
+                  <button type="button" class="text-gray-600 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="static-modal">
+                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg>
+                      <span class="sr-only">Close modal</span>
+                  </button>
+              </div>
+              <!-- Modal body -->
+              <div class="px-4 md:p-4 space-y-1">
+
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                  <div class="flex w-full col-span-full">
+                    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                      <svg class="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                      </svg>
+                      <span>RESPONSABLE</span>
+                    </span>
+                    <input [(ngModel)]="reqSelected.encargado" type="text" id="website-admin" class="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  </div>
+                  <div class="flex w-full col-span-1">
+                    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                      <svg class="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 22">
+                        <path d="M5 3a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5Zm0 12a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H5Zm12 0a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-2Zm0-12a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2Z"/>
+                        <path fill-rule="evenodd" d="M10 6.5a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1ZM10 18a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1Zm-4-4a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1Zm12 0a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1Z" clip-rule="evenodd"/>
+                      </svg>                      
+                      <span>AREA</span>
+                    </span>
+                    <input [(ngModel)]="reqSelected.area" type="text" id="website-admin" class="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  </div>
+                  <div class="flex w-full col-span-1">
+                    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                      <svg class="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 22">
+                        <path fill-rule="evenodd" d="M5.535 7.677c.313-.98.687-2.023.926-2.677H17.46c.253.63.646 1.64.977 2.61.166.487.312.953.416 1.347.11.42.148.675.148.779 0 .18-.032.355-.09.515-.06.161-.144.3-.243.412-.1.111-.21.192-.324.245a.809.809 0 0 1-.686 0 1.004 1.004 0 0 1-.324-.245c-.1-.112-.183-.25-.242-.412a1.473 1.473 0 0 1-.091-.515 1 1 0 1 0-2 0 1.4 1.4 0 0 1-.333.927.896.896 0 0 1-.667.323.896.896 0 0 1-.667-.323A1.401 1.401 0 0 1 13 9.736a1 1 0 1 0-2 0 1.4 1.4 0 0 1-.333.927.896.896 0 0 1-.667.323.896.896 0 0 1-.667-.323A1.4 1.4 0 0 1 9 9.74v-.008a1 1 0 0 0-2 .003v.008a1.504 1.504 0 0 1-.18.712 1.22 1.22 0 0 1-.146.209l-.007.007a1.01 1.01 0 0 1-.325.248.82.82 0 0 1-.316.08.973.973 0 0 1-.563-.256 1.224 1.224 0 0 1-.102-.103A1.518 1.518 0 0 1 5 9.724v-.006a2.543 2.543 0 0 1 .029-.207c.024-.132.06-.296.11-.49.098-.385.237-.85.395-1.344ZM4 12.112a3.521 3.521 0 0 1-1-2.376c0-.349.098-.8.202-1.208.112-.441.264-.95.428-1.46.327-1.024.715-2.104.958-2.767A1.985 1.985 0 0 1 6.456 3h11.01c.803 0 1.539.481 1.844 1.243.258.641.67 1.697 1.019 2.72a22.3 22.3 0 0 1 .457 1.487c.114.433.214.903.214 1.286 0 .412-.072.821-.214 1.207A3.288 3.288 0 0 1 20 12.16V19a2 2 0 0 1-2 2h-6a1 1 0 0 1-1-1v-4H8v4a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2v-6.888ZM13 15a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2Z" clip-rule="evenodd"/>
+                      </svg>            
+                      <span>SEDE</span>
+                    </span>
+                    <input [(ngModel)]="reqSelected.sala" type="text" id="website-admin" class="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  </div>
+                  <div class="flex w-full col-span-1">
+                    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                      <svg class="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 22">
+                        <path fill-rule="evenodd" d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" clip-rule="evenodd"/>
+                      </svg>
+                      <span>FECHA</span>
+                    </span>
+                    <input [(ngModel)]="reqSelected.fecha" type="date" id="website-admin" class="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  </div>
+                  <div class="flex w-full col-span-1">
+                    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                      <svg class="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 22">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                      </svg>                    
+                      <span>PRIORIDAD</span>
+                    </span>
+                    <input [(ngModel)]="reqSelected.prioridad" type="text" id="website-admin" class="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  </div>
+                  <div class="flex w-full col-span-full">
+                    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                      <svg class="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 22">
+                        <path fill-rule="evenodd" d="M5.617 2.076a1 1 0 0 1 1.09.217L8 3.586l1.293-1.293a1 1 0 0 1 1.414 0L12 3.586l1.293-1.293a1 1 0 0 1 1.414 0L16 3.586l1.293-1.293A1 1 0 0 1 19 3v18a1 1 0 0 1-1.707.707L16 20.414l-1.293 1.293a1 1 0 0 1-1.414 0L12 20.414l-1.293 1.293a1 1 0 0 1-1.414 0L8 20.414l-1.293 1.293A1 1 0 0 1 5 21V3a1 1 0 0 1 .617-.924ZM9 7a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2H9Zm0 4a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H9Zm0 4a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H9Z" clip-rule="evenodd"/>
+                      </svg>
+                      <span>MOTIVO</span>
+                    </span>
+                    <textarea [(ngModel)]="reqSelected.motivo" type="text" id="website-admin" class="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </textarea>
+                  </div>
+                </div>
+
+
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                          <tr>
+                            <th scope="col" class="p-4">
+                                <div class="flex items-center">
+                                    <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Validacion
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Atencion
+                            </th>
+                            <th scope="col" class="px-6 py-3 w-1/3">
+                              Descripcion
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Cantidad
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Tipo
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Imagen
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Documento
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Accion
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Encargado
+                            </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let reqIt of reqSelectedDetails" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                              <td class="w-4 p-4">
+                                  <div class="flex items-center">
+                                      <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                      <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                  </div>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>  
+                                <svg class="w-6 h-6 text-green-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+                                <svg class="w-6 h-6 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>                                
+                                                              
+                              </td>
+                              <td class="px-6 py-4 withespace-nowrap">
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>    
+                                <svg class="w-6 h-6 text-gray-800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M10 3.25C7.65279 3.25 5.75 5.15279 5.75 7.5C5.75 9.84721 7.65279 11.75 10 11.75C12.3472 11.75 14.25 9.84721 14.25 7.5C14.25 5.15279 12.3472 3.25 10 3.25ZM7.25 7.5C7.25 5.98122 8.48122 4.75 10 4.75C11.5188 4.75 12.75 5.98122 12.75 7.5C12.75 9.01878 11.5188 10.25 10 10.25C8.48122 10.25 7.25 9.01878 7.25 7.5Z" fill="#000000"></path> <path d="M3.75 17C3.75 15.7574 4.75736 14.75 6 14.75H6.34087C6.36722 14.75 6.39342 14.7542 6.41847 14.7623L7.28398 15.045C7.96351 15.2669 8.66343 15.4033 9.36804 15.4543C9.51632 15.4651 9.64645 15.3609 9.67996 15.2161C9.75553 14.8894 9.85397 14.5714 9.97351 14.264C10.0263 14.1283 9.92712 13.9783 9.78158 13.9739C9.09499 13.9532 8.41064 13.8349 7.74959 13.6191L6.88407 13.3364C6.70869 13.2792 6.52536 13.25 6.34087 13.25H6C3.92893 13.25 2.25 14.9289 2.25 17V18.1883C2.25 18.9415 2.79588 19.5837 3.53927 19.7051C5.69742 20.0575 7.87718 20.2321 10.0568 20.229C10.2088 20.2288 10.3044 20.0645 10.2363 19.9285C10.0895 19.6351 9.96263 19.3299 9.8576 19.0147C9.80142 18.8462 9.64688 18.7278 9.46922 18.7254C7.56646 18.6992 5.66516 18.5323 3.78097 18.2247C3.76311 18.2218 3.75 18.2064 3.75 18.1883V17Z" fill="#000000"></path> <path d="M17.25 15.3C17.25 14.8857 16.9142 14.55 16.5 14.55C16.0858 14.55 15.75 14.8857 15.75 15.3V17.0727C15.75 17.3126 15.8648 17.5381 16.0589 17.6792L17.0589 18.4065C17.3939 18.6501 17.8629 18.5761 18.1066 18.2411C18.3502 17.9061 18.2761 17.437 17.9411 17.1934L17.25 16.6908V15.3Z" fill="#000000"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 22.3C19.5376 22.3 22 19.8375 22 16.8C22 13.7624 19.5376 11.3 16.5 11.3C13.4624 11.3 11 13.7624 11 16.8C11 19.8375 13.4624 22.3 16.5 22.3ZM16.5 20.8C18.7091 20.8 20.5 19.0091 20.5 16.8C20.5 14.5908 18.7091 12.8 16.5 12.8C14.2909 12.8 12.5 14.5908 12.5 16.8C12.5 19.0091 14.2909 20.8 16.5 20.8Z" fill="#000000"></path> </g>
+                                </svg>
+                                <svg class="w-6 h-6 text-gray-800" fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.002 512.002" xml:space="preserve">
+                                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M128.257,392.533h-0.085c-4.71,0-8.491,3.823-8.491,8.533s3.866,8.533,8.576,8.533s8.533-3.823,8.533-8.533 S132.967,392.533,128.257,392.533z"></path> <path d="M179.457,392.533h-0.085c-4.71,0-8.491,3.823-8.491,8.533s3.866,8.533,8.576,8.533s8.533-3.823,8.533-8.533 S184.167,392.533,179.457,392.533z"></path> <path d="M247.468,273.067h-68.267c-4.719,0-8.533,3.823-8.533,8.533s3.814,8.533,8.533,8.533h68.267 c4.719,0,8.533-3.823,8.533-8.533S252.187,273.067,247.468,273.067z"></path> <path d="M213.334,324.267h-34.133c-4.719,0-8.533,3.823-8.533,8.533c0,4.71,3.814,8.533,8.533,8.533h34.133 c4.719,0,8.533-3.823,8.533-8.533C221.868,328.09,218.053,324.267,213.334,324.267z"></path> <path d="M358.401,298.667c-9.412,0-17.067-7.654-17.067-17.067c0-4.71-3.814-8.533-8.533-8.533s-8.533,3.823-8.533,8.533 c0,15.855,10.914,29.107,25.6,32.922v1.212c0,4.71,3.814,8.533,8.533,8.533c4.719,0,8.533-3.823,8.533-8.533v-1.212 c14.686-3.814,25.6-17.067,25.6-32.922c0-18.825-15.309-34.133-34.133-34.133c-9.412,0-17.067-7.654-17.067-17.067 c0-9.412,7.654-17.067,17.067-17.067c9.412,0,17.067,7.654,17.067,17.067c0,4.71,3.814,8.533,8.533,8.533 s8.533-3.823,8.533-8.533c0-15.855-10.914-29.107-25.6-32.922v-1.212c0-4.71-3.814-8.533-8.533-8.533 c-4.719,0-8.533,3.823-8.533,8.533v1.212c-14.686,3.814-25.6,17.067-25.6,32.922c0,18.825,15.309,34.133,34.133,34.133 c9.412,0,17.067,7.654,17.067,17.067C375.468,291.012,367.813,298.667,358.401,298.667z"></path> <path d="M333.057,392.533h-0.085c-4.71,0-8.491,3.823-8.491,8.533s3.866,8.533,8.576,8.533c4.71,0,8.533-3.823,8.533-8.533 S337.768,392.533,333.057,392.533z"></path> <path d="M435.457,409.6c4.71,0,8.533-3.823,8.533-8.533s-3.823-8.533-8.533-8.533h-0.085c-4.71,0-8.491,3.823-8.491,8.533 S430.747,409.6,435.457,409.6z"></path> <path d="M384.257,392.533h-0.085c-4.71,0-8.491,3.823-8.491,8.533s3.866,8.533,8.576,8.533c4.71,0,8.533-3.823,8.533-8.533 S388.968,392.533,384.257,392.533z"></path> <path d="M349.868,102.4h34.133c4.719,0,8.533-3.823,8.533-8.533c0-4.71-3.814-8.533-8.533-8.533h-34.133 c-4.719,0-8.533,3.823-8.533,8.533C341.334,98.577,345.149,102.4,349.868,102.4z"></path> <path d="M230.657,392.533h-0.085c-4.71,0-8.491,3.823-8.491,8.533s3.866,8.533,8.576,8.533s8.533-3.823,8.533-8.533 S235.367,392.533,230.657,392.533z"></path> <path d="M128.001,290.133h17.067c4.719,0,8.533-3.823,8.533-8.533s-3.814-8.533-8.533-8.533h-17.067 c-4.719,0-8.533,3.823-8.533,8.533S123.282,290.133,128.001,290.133z"></path> <path d="M128.001,341.333h17.067c4.719,0,8.533-3.823,8.533-8.533c0-4.71-3.814-8.533-8.533-8.533h-17.067 c-4.719,0-8.533,3.823-8.533,8.533C119.468,337.51,123.282,341.333,128.001,341.333z"></path> <path d="M469.334,0H42.668c-4.719,0-8.533,3.823-8.533,8.533v494.933c0,3.447,2.074,6.562,5.265,7.885 c1.058,0.435,2.167,0.648,3.268,0.648c2.219,0,4.403-0.87,6.033-2.5l45.167-45.167l45.167,45.167 c3.337,3.337,8.73,3.337,12.066,0l28.1-28.1l28.1,28.1c3.337,3.337,8.73,3.337,12.066,0l28.1-28.1l11.034,11.034 c3.337,3.336,8.73,3.336,12.066,0l28.1-28.1l28.1,28.1c3.337,3.336,8.73,3.336,12.066,0l19.567-19.567l19.567,19.567 c3.337,3.336,8.73,3.336,12.066,0l45.167-45.167l28.1,28.1c0.171,0.179,0.35,0.341,0.538,0.495c0,0.009,0.008,0.009,0.008,0.009 v0.009c1.399,1.169,3.174,1.894,5.112,1.98c0.316,0.009,0.631,0.009,0.964-0.009h0.009c1.724-0.128,3.311-0.751,4.599-1.749 c0.461-0.35,0.879-0.751,1.254-1.186c1.289-1.493,2.074-3.43,2.082-5.564v-0.017V8.533C477.868,3.823,474.053,0,469.334,0z M460.801,448.734l-19.567-19.567c-3.337-3.336-8.73-3.336-12.066,0l-45.167,45.167l-19.567-19.567 c-3.336-3.337-8.73-3.337-12.066,0l-19.567,19.567l-28.1-28.1c-3.336-3.337-8.73-3.337-12.066,0l-28.1,28.1L253.501,463.3 c-3.337-3.337-8.73-3.337-12.066,0l-28.1,28.1l-28.1-28.1c-1.664-1.664-3.849-2.5-6.033-2.5c-2.185,0-4.369,0.836-6.033,2.5 l-28.1,28.1l-45.167-45.167c-3.337-3.337-8.73-3.337-12.066,0l-36.634,36.634V17.067h409.6V448.734z"></path> <path d="M77.057,409.6c4.71,0,8.533-3.823,8.533-8.533s-3.823-8.533-8.533-8.533h-0.085c-4.71,0-8.491,3.823-8.491,8.533 S72.347,409.6,77.057,409.6z"></path> <path d="M128.001,238.933h17.067c4.719,0,8.533-3.823,8.533-8.533s-3.814-8.533-8.533-8.533h-17.067 c-4.719,0-8.533,3.823-8.533,8.533S123.282,238.933,128.001,238.933z"></path> <path d="M281.857,409.6c4.71,0,8.533-3.823,8.533-8.533s-3.823-8.533-8.533-8.533h-0.085c-4.71,0-8.491,3.823-8.491,8.533 S277.147,409.6,281.857,409.6z"></path> <path d="M179.201,187.733h51.2c4.719,0,8.533-3.823,8.533-8.533s-3.814-8.533-8.533-8.533h-51.2 c-4.719,0-8.533,3.823-8.533,8.533S174.482,187.733,179.201,187.733z"></path> <path d="M128.001,187.733h17.067c4.719,0,8.533-3.823,8.533-8.533s-3.814-8.533-8.533-8.533h-17.067 c-4.719,0-8.533,3.823-8.533,8.533S123.282,187.733,128.001,187.733z"></path> <path d="M264.534,221.867h-85.333c-4.719,0-8.533,3.823-8.533,8.533s3.814,8.533,8.533,8.533h85.333 c4.719,0,8.533-3.823,8.533-8.533S269.253,221.867,264.534,221.867z"></path> <path d="M128.001,102.4h136.533c4.719,0,8.533-3.823,8.533-8.533c0-4.71-3.814-8.533-8.533-8.533H128.001 c-4.719,0-8.533,3.823-8.533,8.533C119.468,98.577,123.282,102.4,128.001,102.4z"></path> </g> </g> </g> </g>
+                                </svg>
+                                <svg class="w-6 h-6 text-gray-800" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-61.2 -61.2 734.40 734.40" xml:space="preserve" stroke="#000000" stroke-width="0.0061200000000000004">
+                                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M580.592,135.703L497.33,98.681L234.478,222.254v79.353l-45.854-20.389v-79.353L451.477,78.293l-88.287-39.256 c-11.822-5.256-31.166-5.256-42.987,0l-217.401,96.666c-17.319,7.701-31.453,29.51-31.409,48.464l0.339,143.238 c13.628-4.385,28.128-6.806,43.195-6.806c77.949,0,141.373,63.424,141.373,141.382c0,20.36-4.413,39.682-12.196,57.188 l76.764,32.815c11.436,4.888,30.146,4.889,41.583,0.002l216.905-92.694c17.614-7.527,32.062-29.357,32.107-48.513L612,184.166 C612.044,165.212,597.911,143.403,580.592,135.703z M496.655,300.16l29.458-62.149c2.974-6.273,10.429-9.892,13.413-6.49 l30.229,34.461c3.019,3.441-0.812,11.277-6.869,14.087l-12.724,5.903l-0.257,89.528c-0.012,3.912-3.467,8.569-7.708,10.399 l-19.049,8.223c-4.176,1.803-7.554,0.132-7.556-3.729l-0.064-88.354l-12.325,5.718C497.407,310.446,493.778,306.23,496.655,300.16z M388.039,350.943l26.773-59.078c2.7-5.959,9.604-9.312,12.422-6.012l28.532,33.423c2.85,3.336-0.628,10.779-6.237,13.381 l-11.782,5.466l0.76,85.727c0.033,3.749-3.135,8.163-7.066,9.86l-17.664,7.625c-3.873,1.672-7.042,0.025-7.087-3.675l-1.035-84.647 l-11.429,5.302C388.852,360.808,385.422,356.718,388.039,350.943z M583.911,399.271c-0.014,1.967-1.781,4.298-3.946,5.208 l-201.751,84.757c-1.883,0.791-3.432-0.037-3.459-1.851l-0.155-9.861c-0.028-1.817,1.476-3.942,3.361-4.745l202.111-86.097 c2.17-0.924,3.92-0.075,3.908,1.896L583.911,399.271z M114.925,347.054C51.454,347.054,0,398.508,0,461.979 c0,63.472,51.454,114.926,114.925,114.926s114.925-51.454,114.925-114.926C229.851,398.508,178.396,347.054,114.925,347.054z M190.021,438.367l-70.724,79.563c-3.484,3.919-8.335,5.932-13.221,5.932c-3.881,0-7.783-1.27-11.038-3.877l-44.202-35.361 c-7.624-6.095-8.862-17.223-2.759-24.846c6.095-7.632,17.228-8.867,24.851-2.763l31.093,24.872l59.574-67.02 c6.479-7.295,17.659-7.959,24.958-1.468C195.853,419.893,196.509,431.063,190.021,438.367z"></path> </g> </g>
+                                </svg>
+                                {{reqIt.estado}}                            
+                              </td>
+                              <td class="px-6 py-4">
+                                {{reqIt.cantidad}}
+                              </td>
+                              <th class="px-6 py-4 text-gray-900 dark:text-white font-semibold w-1/3 min-w-[200px]">
+                                {{reqIt.descripcion}}
+                              </th>
+                              <td class="px-6 py-4">
+                                {{reqIt.tipo}}
+                              </td>
+                              <td class="px-6 py-4">
+                                <!-- Modal toggle -->
+                                <a type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                  <svg class="w-6 h-6 text-gray-800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2639 15.9375L12.5958 14.2834C11.7909 13.4851 11.3884 13.086 10.9266 12.9401C10.5204 12.8118 10.0838 12.8165 9.68048 12.9536C9.22188 13.1095 8.82814 13.5172 8.04068 14.3326L4.04409 18.2801M14.2639 15.9375L14.6053 15.599C15.4112 14.7998 15.8141 14.4002 16.2765 14.2543C16.6831 14.126 17.12 14.1311 17.5236 14.2687C17.9824 14.4251 18.3761 14.8339 19.1634 15.6514L20 16.4934M14.2639 15.9375L18.275 19.9565M18.275 19.9565C17.9176 20 17.4543 20 16.8 20H7.2C6.07989 20 5.51984 20 5.09202 19.782C4.71569 19.5903 4.40973 19.2843 4.21799 18.908C4.12796 18.7313 4.07512 18.5321 4.04409 18.2801M18.275 19.9565C18.5293 19.9256 18.7301 19.8727 18.908 19.782C19.2843 19.5903 19.5903 19.2843 19.782 18.908C20 18.4802 20 17.9201 20 16.8V16.4934M4.04409 18.2801C4 17.9221 4 17.4575 4 16.8V7.2C4 6.0799 4 5.51984 4.21799 5.09202C4.40973 4.71569 4.71569 4.40973 5.09202 4.21799C5.51984 4 6.07989 4 7.2 4H16.8C17.9201 4 18.4802 4 18.908 4.21799C19.2843 4.40973 19.5903 4.71569 19.782 5.09202C20 5.51984 20 6.0799 20 7.2V16.4934M17 8.99989C17 10.1045 16.1046 10.9999 15 10.9999C13.8954 10.9999 13 10.1045 13 8.99989C13 7.89532 13.8954 6.99989 15 6.99989C16.1046 6.99989 17 7.89532 17 8.99989Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g>
+                                  </svg>
+                                </a>
+                              </td>
+                              <td class="px-6 py-4">
+                                <!-- Modal toggle -->
+                                <a type="button" target="_blank" href="{{reqIt.pdf_url}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                  <svg class="w-6 h-6 text-gray-800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M9.29289 1.29289C9.48043 1.10536 9.73478 1 10 1H18C19.6569 1 21 2.34315 21 4V20C21 21.6569 19.6569 23 18 23H6C4.34315 23 3 21.6569 3 20V8C3 7.73478 3.10536 7.48043 3.29289 7.29289L9.29289 1.29289ZM18 3H11V8C11 8.55228 10.5523 9 10 9H5V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V4C19 3.44772 18.5523 3 18 3ZM6.41421 7H9V4.41421L6.41421 7ZM7 13C7 12.4477 7.44772 12 8 12H16C16.5523 12 17 12.4477 17 13C17 13.5523 16.5523 14 16 14H8C7.44772 14 7 13.5523 7 13ZM7 17C7 16.4477 7.44772 16 8 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H8C7.44772 18 7 17.5523 7 17Z" fill="#000000"></path> </g>
+                                  </svg>
+                                </a>
+                              </td>
+                              <td class="px-6 py-4">
+                                //ACCION
+                                  <!-- Modal toggle -->
+                                  <a type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                              </td>
+                              <td class="px-6 py-4">
+                                //ENCARGADO
+                                  <!-- Modal toggle -->
+                                  <a type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <!-- Edit user modal -->
+                  <div id="editUserModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                      <div class="relative w-full max-w-2xl max-h-full">
+                          <!-- Modal content -->
+                          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                              <!-- Modal header -->
+                              <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                      Edit user
+                                  </h3>
+                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editUserModal">
+                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                  </svg>
+                                  <span class="sr-only">Close modal</span>
+                              </button>
+                              </div>
+                              <!-- Modal body -->
+                              <div class="p-6 space-y-6">
+                                  <div class="grid grid-cols-6 gap-6">
+                                      <div class="col-span-6 sm:col-span-3">
+                                          <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                                          <input type="text" name="first-name" id="first-name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bonnie" required="">
+                                      </div>
+                                      <div class="col-span-6 sm:col-span-3">
+                                          <label for="last-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                                          <input type="text" name="last-name" id="last-name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Green" required="">
+                                      </div>
+                                      <div class="col-span-6 sm:col-span-3">
+                                          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                          <input type="email" name="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@company.com" required="">
+                                      </div>
+                                      <div class="col-span-6 sm:col-span-3">
+                                          <label for="phone-number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+                                          <input type="number" name="phone-number" id="phone-number" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g. +(12)3456 789" required="">
+                                      </div>
+                                      <div class="col-span-6 sm:col-span-3">
+                                          <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                                          <input type="text" name="department" id="department" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Development" required="">
+                                      </div>
+                                      <div class="col-span-6 sm:col-span-3">
+                                          <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
+                                          <input type="number" name="company" id="company" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="123456" required="">
+                                      </div>
+                                      <div class="col-span-6 sm:col-span-3">
+                                          <label for="current-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Password</label>
+                                          <input type="password" name="current-password" id="current-password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required="">
+                                      </div>
+                                      <div class="col-span-6 sm:col-span-3">
+                                          <label for="new-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>
+                                          <input type="password" name="new-password" id="new-password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required="">
+                                      </div>
+                                  </div>
+                              </div>
+                              <!-- Modal footer -->
+                              <div class="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
+                                  <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save all</button>
+                              </div>
+                            </div>
+                      </div>
+                  </div>
+                </div>
+
+
+                  <p class="text-base leading-relaxed text-gray-600 dark:text-gray-400">
+                      With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
+                  </p>
+                  <p class="text-base leading-relaxed text-gray-600 dark:text-gray-400">
+                      The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
+                  </p>
+              </div>
+              <!-- Modal footer -->
+              <div class="flex items-center p-4 md:p-5 border-t border-gray-500 rounded-b dark:border-gray-600">
+                  <button data-modal-hide="static-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+                  <button data-modal-hide="static-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> 

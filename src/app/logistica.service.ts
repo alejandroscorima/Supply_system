@@ -34,7 +34,7 @@ export class LogisticaService {
   constructor(private http: HttpClient) { }
 
   addReq(req: Requerimiento) {
-    return this.http.post(`${this.baseUrl}/postRequerimiento.php`, req);
+    return this.http.post(`${this.baseUrl}/postRequerimientoNew.php`, req);
   }
 
   addActivity(ac: Activity) {

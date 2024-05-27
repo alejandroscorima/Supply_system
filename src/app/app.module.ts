@@ -82,6 +82,7 @@ import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
 
 
 import { PushNotificationService } from './push-notification.service';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
     declarations: [
