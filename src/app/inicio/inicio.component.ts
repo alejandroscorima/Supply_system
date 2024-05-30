@@ -124,7 +124,7 @@ export class InicioComponent implements OnInit, AfterViewInit {
 
     this.reqSelected= req;
 
-    this.logisticaService.getReqDetailsByCode(this.reqSelected.codigo).subscribe((respu:Item[])=>{
+    this.logisticaService.getReqDetailsGeneral(this.reqSelected.codigo,this.reqSelected.id,this.reqSelected.estado).subscribe((respu:Item[])=>{
       respu.forEach(h=>{
         this.usersService.getUserByIdNew(h.id_asignado).subscribe((resi:User)=>{
           h.name_asignado=resi.first_name+' '+resi.paternal_surname+' '+resi.maternal_surname;
@@ -280,7 +280,8 @@ export class InicioComponent implements OnInit, AfterViewInit {
           })
         }
         else{
-          this.logisticaService.getReqsPendientesNew(this.user_role,String(this.user.user_id),this.user.user_id,[]).subscribe((res:Requerimiento[])=>{
+          //this.logisticaService.getReqsPendientesNew(this.user_role,String(this.user.user_id),this.user.user_id,[]).subscribe((res:Requerimiento[])=>{
+          this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PENDIENTE',[]).subscribe((res:Requerimiento[])=>{
             this.reqPendientes=res;
             this.reqTotal.push(...this.reqPendientes);
             this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
@@ -296,7 +297,8 @@ export class InicioComponent implements OnInit, AfterViewInit {
 
 
 
-          this.logisticaService.getReqsProcesoNew(this.user_role,String(u.user_id),this.user.user_id,[]).subscribe((res:Requerimiento[])=>{
+          //this.logisticaService.getReqsProcesoNew(this.user_role,String(u.user_id),this.user.user_id,[]).subscribe((res:Requerimiento[])=>{
+          this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PROCESO',[]).subscribe((res:Requerimiento[])=>{
             this.reqProceso=res;
             this.reqTotal.push(...this.reqProceso);
             this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
@@ -323,7 +325,8 @@ export class InicioComponent implements OnInit, AfterViewInit {
             } */
           })
   
-          this.logisticaService.getReqsFinNew(this.user_role,String(u.user_id),this.user.user_id,[]).subscribe((res:Requerimiento[])=>{
+          //this.logisticaService.getReqsFinNew(this.user_role,String(u.user_id),this.user.user_id,[]).subscribe((res:Requerimiento[])=>{
+          this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'FINALIZADO',[]).subscribe((res:Requerimiento[])=>{
             this.reqFin=res;
             this.reqTotal.push(...this.reqFin);
             this.dataSourceReqs = new MatTableDataSource(this.reqTotal);

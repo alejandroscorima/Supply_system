@@ -22,6 +22,7 @@ import { Area } from '../area';
 import { Campus } from '../campus';
 import { FileUploadService } from '../file-upload.service';
 import { Collaborator } from '../collaborator';
+import { ReqValidation } from '../req_validation';
 
 
 @Component({
@@ -57,6 +58,8 @@ export class NuevoComponent implements OnInit {
 
   user_id: number = 0;
   user_role: string = '';
+
+  selectedCampus: Campus = new Campus('','','','','','');
 
   req: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
 
@@ -174,14 +177,17 @@ export class NuevoComponent implements OnInit {
 
   addItem(){
     this.item.req_codigo = this.req.codigo;
-    if(this.item.cantidad!=null&&this.item.descripcion!=null&&this.item.tipo!=null){
+    if(this.item.cantidad!=null&&this.item.descripcion!=null&&this.item.tipo!=null&&this.item.unit_budget!=''&&this.item.unit_budget){
       this.item.image=this.file;
       this.file=null;
       this.item.pdf=this.pdf;
       this.pdf=null;
       this.item.req_codigo=this.req.codigo;
       this.item.descripcion=this.item.descripcion.toUpperCase();
+      this.item.unit_budget=parseFloat(this.item.unit_budget).toFixed(2);
+      this.item.subtotal_budget=(parseFloat(this.item.unit_budget)*this.item.cantidad).toFixed(2);
       this.listaReq.push(this.item);
+      this.req.total_budget = this.listaReq.reduce((tot,it)=>tot+parseFloat(it.subtotal_budget),0).toFixed(2);
       this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
       this.dataSourceReq = new MatTableDataSource(this.listaReq);
       this.dataSourceReq.paginator = this.paginator.toArray()[0];
@@ -194,6 +200,7 @@ export class NuevoComponent implements OnInit {
 
   deleteItem(indice){
     this.listaReq.splice(indice,1);
+    this.req.total_budget = this.listaReq.reduce((tot,it)=>tot+parseFloat(it.subtotal_budget),0).toFixed(2);
     this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
     this.dataSourceReq = new MatTableDataSource(this.listaReq);
     this.dataSourceReq.paginator = this.paginator.toArray()[0];
@@ -242,215 +249,159 @@ export class NuevoComponent implements OnInit {
   salaChange(event:any){
 
     const selectedValue = event.target.value;
-    this.req.sala=selectedValue;
-
+    console.log(event.target.value);
+    console.log(this.selectedCampus);
+    this.req.sala=this.selectedCampus.name;
+    this.req.campus_id=this.selectedCampus.campus_id;
 
   }
 
-  saveReq(){
-  //get Date
-    this.hora=new Date();
-    this.hour = this.hora.getHours();
-    this.minutes = this.hora.getMinutes();
-    this.seconds = this.hora.getSeconds();
-    if(this.hour<10){
-      this.hour='0'+this.hour;
+  async uploadFile(file: File): Promise<string> {
+    try {
+      const res = await this.fileUploadService.upload(file).toPromise();
+      return res.filePath || '';
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      return '';
     }
-    if(this.minutes<10){
-      this.minutes='0'+this.minutes;
+  }
+  
+  async processItem(i: any): Promise<void> {
+    if (i.image) {
+      i.image_url = await this.uploadFile(i.image);
+    } else {
+      i.image_url = '';
     }
-    if(this.seconds<10){
-      this.seconds='0'+this.seconds;
+  
+    if (i.pdf) {
+      i.pdf_url = await this.uploadFile(i.pdf);
+    } else {
+      i.pdf_url = '';
     }
-    this.hora_string=this.hour+':'+this.minutes+':'+this.seconds;
-    //
-    this.h_inicio=this.hora_string;
-    this.f_inicio=this.req.fecha;
-    console.log(' fecha de inicio: '+this.f_inicio);
-    console.log(' hora de inicio '+this.h_inicio);
-
-    this.req.items=this.listaReq
-    this.req.id_asignado='0';
-    this.req.user_id=this.user.user_id;
-    this.req.validation='PENDIENTE';
-    if(this.req.area!=''&&this.req.fecha!=''&&this.req.encargado!=''&&this.req.sala!=''&&this.req.prioridad!=''&&this.req.motivo!=''&&this.req.items.length!=0){
-      if(this.listaReq.length!=0){
-        this.req.motivo=this.req.motivo.toUpperCase();
-        this.req.encargado=this.req.encargado.toUpperCase();
-
-        var dateCode = new Date();
-        var yearCode = dateCode.getFullYear();
-        var monthCode: any = dateCode.getMonth()+1;
-        var dayCode: any = dateCode.getDate();
-
-        if(monthCode<10){
-          monthCode = '0'+ monthCode;
-        }
-
-        if(dayCode<10){
-          dayCode = '0'+ dayCode;
-        }
-
-        var dateStr='';
-
-        this.campus.forEach(c=>{
-          if(c['name']==this.req.sala){
-            dateStr+=c.supply_req_suffix;
+  
+    try {
+      const res = await this.logisticaService.addReqDet(i).toPromise();
+      console.log('Response:', res);
+    } catch (error) {
+      console.error('Error adding req det:', error);
+    }
+  }
+  
+  async saveReq(): Promise<void> {
+    // Get Date
+    const hora = new Date();
+    const hour = String(hora.getHours()).padStart(2, '0');
+    const minutes = String(hora.getMinutes()).padStart(2, '0');
+    const seconds = String(hora.getSeconds()).padStart(2, '0');
+    const hora_string = `${hour}:${minutes}:${seconds}`;
+  
+    this.h_inicio = hora_string;
+    this.f_inicio = this.req.fecha;
+    console.log('fecha de inicio:', this.f_inicio);
+    console.log('hora de inicio', this.h_inicio);
+  
+    this.req.items = this.listaReq;
+    this.req.id_asignado = '0';
+    this.req.user_id = this.user.user_id;
+    this.req.validation = 'PENDIENTE';
+  
+    if (this.req.area && this.req.fecha && this.req.encargado && this.req.sala && this.req.prioridad && this.req.motivo && this.req.items.length) {
+      if (this.listaReq.length) {
+        this.req.motivo = this.req.motivo.toUpperCase();
+        this.req.encargado = this.req.encargado.toUpperCase();
+  
+        const dateCode = new Date();
+        const yearCode = dateCode.getFullYear();
+        let monthCode = String(dateCode.getMonth() + 1).padStart(2, '0');
+        let dayCode = String(dateCode.getDate()).padStart(2, '0');
+        let dateStr = '';
+  
+        this.campus.forEach(c => {
+          if (c['name'] === this.req.sala) {
+            dateStr += c.supply_req_suffix;
           }
-        })
-
-        dateStr+=monthCode;
-        dateStr+='-';
-
-        this.logisticaService.getLastReqCode(dateStr).subscribe(resp=>{
+        });
+  
+        dateStr += monthCode + '-';
+  
+        try {
+          const resp = await this.logisticaService.getLastReqCode(dateStr).toPromise();
           console.log(resp);
-          if(resp){
-            var respArray=String(resp['codigo']).split('-');
-            console.log(respArray);
-            var code;
-            if(parseInt(respArray[1])+1<10){
-              code='000'+String(parseInt(respArray[1])+1);
+          if (resp) {
+            const respArray = String(resp['codigo']).split('-');
+            const code = String(parseInt(respArray[1]) + 1).padStart(4, '0');
+            this.req.codigo = dateStr + code;
+          } else {
+            this.req.codigo = dateStr + '0001';
+          }
+  
+          const res = await this.logisticaService.addReq(this.req).toPromise();
+          if (res['resultado']) {
+            const reqItems: Item[] = this.req.items;
+            for (const i of reqItems) {
+              i.req_id = res['id'];
+              i.req_codigo = this.req.codigo;
+              i.f_inicio = this.f_inicio;
+              i.h_inicio = this.h_inicio;
+              console.log(i.req_codigo, i.f_inicio, i.h_inicio);
+  
+              await this.processItem(i);
             }
-            else{
-              if(parseInt(respArray[1])+1<100){
-                code='00'+String(parseInt(respArray[1])+1);
+
+            // Obtener y procesar reglas de validación
+            const reqValidationRules = await this.logisticaService.getReqValidationRules(this.req.campus_id, this.req.total_budget).toPromise();
+            if(Array.isArray(reqValidationRules)){
+              if(reqValidationRules.length>1){
+                for (const rule of reqValidationRules) {
+                  var valToPost:ReqValidation = new ReqValidation(rule.user_id,res['id'],this.getCurrentDate(),this.getCurrentHour(),'PENDIENTE');
+                  console.log(valToPost);
+                  await this.logisticaService.addReqValidation(valToPost).toPromise();
+                }
               }
               else{
-                if(parseInt(respArray[1])+1<1000){
-                  code='0'+String(parseInt(respArray[1])+1);
-                }
-                else{
-                  code=String(parseInt(respArray[1])+1);
-                }
+                var valToPost:ReqValidation = new ReqValidation(0,res['id'],this.getCurrentDate(),this.getCurrentHour(),'APROBADO');
+                console.log(valToPost);
+                await this.logisticaService.addReqValidation(valToPost).toPromise();
               }
             }
-            this.req.codigo=dateStr+code;
+
+  
+            this.listaReq = [];
+            this.dataSourceReq = new MatTableDataSource(this.listaReq);
+            this.dataSourceReq.paginator = this.paginator.toArray()[0];
+            this.dataSourceReq.sort = this.sort.toArray()[0];
+            this.req.items = [];
+            this.toastr.success('Requerimiento agregado!');
           }
-          else{
-            this.req.codigo = dateStr+'0001' ;
-          }
-
-          this.logisticaService.addReq(this.req).subscribe(res=>{
-            if(res['resultado']){
-              var reqItems: Item[]=this.req.items;
-              reqItems.forEach(i=>{
-                i.req_id=res['id'];
-                i.req_codigo=this.req.codigo;
-                i.f_inicio=this.f_inicio;
-                i.h_inicio=this.h_inicio;
-                console.log(i.req_codigo);
-                console.log(i.f_inicio);
-                console.log(i.h_inicio);
-                if(i.image){
-                  this.fileUploadService.upload(i.image).subscribe(resImageUpload => {
-
-                    console.log('resImageUpload',resImageUpload);
-
-                    if (resImageUpload) {
-
-                      i.image_url = resImageUpload.filePath;
-
-                    }
-
-                    if(i.pdf){
-                      this.fileUploadService.upload(i.pdf).subscribe(resPDFUpload => {
-                        if (resPDFUpload) {
-                          i.pdf_url = resPDFUpload;
-                        }
-                        this.logisticaService.addReqDet(i).subscribe(resImgOKPdfOK => {
-                          console.log('resImgOKPdfOK',resImgOKPdfOK);
-                        });
-                      },errorPDF=>{
-                        i.pdf_url = '';
-                        this.logisticaService.addReqDet(i).subscribe(resImgOKPdfErr => {
-                          console.log('resImgOKPdfErr',resImgOKPdfErr);
-                        });
-                      });
-                    }
-                    else{
-                      i.pdf_url = '';
-                      this.logisticaService.addReqDet(i).subscribe(resImgOKPdfNo => {
-                        console.log('resImgOKPdfNo',resImgOKPdfNo);
-                      });
-                    }
-
-                  }, errorImg=>{
-                    console.log('errorImg',errorImg);
-                    i.image_url = '';
-                    if(i.pdf){
-                      this.fileUploadService.upload(i.pdf).subscribe(resPDFUpload => {
-                        if (resPDFUpload) {
-                          i.pdf_url = resPDFUpload;
-                        }
-                        this.logisticaService.addReqDet(i).subscribe(resImgErrPdfOk => {
-                          console.log('resImgErrPdfOk',resImgErrPdfOk);
-                        });
-                      },errorPDF=>{
-                        i.pdf_url = '';
-                        this.logisticaService.addReqDet(i).subscribe(resImgErrPdfErr => {
-                          console.log('resImgErrPdfErr',resImgErrPdfErr);
-                        });
-                      });
-                    }
-                    else{
-                      i.pdf_url = '';
-                      this.logisticaService.addReqDet(i).subscribe(resImgErrPdfNo => {
-                        console.log('resImgErrPdfNo',resImgErrPdfNo);
-                      });
-                    }
-                  });
-                }
-                else{
-                  i.image_url = '';
-                  if(i.pdf){
-                    this.fileUploadService.upload(i.pdf).subscribe(resPDF => {
-                      if (resPDF) {
-                        i.pdf_url = resPDF;
-                      }
-                      this.logisticaService.addReqDet(i).subscribe(ress => {
-                        console.log(ress);
-                      });
-                    },errorPDF=>{
-                      i.pdf_url = '';
-                      this.logisticaService.addReqDet(i).subscribe(ress => {
-                        console.log('ressElse',ress);
-                      });
-                    });
-                  }
-                  else{
-                    i.pdf_url = '';
-                    this.logisticaService.addReqDet(i).subscribe(ress => {
-                      console.log(ress);
-                    });
-                  }
-                }
-
-
-              })
-              this.listaReq=[];
-              this.dataSourceReq = new MatTableDataSource(this.listaReq);
-              this.dataSourceReq.paginator = this.paginator.toArray()[0];
-              this.dataSourceReq.sort = this.sort.toArray()[0];
-              this.req.items=[];
-              this.listaReq=[];
-              this.toastr.success('Requerimiento agregado!');
-
-            }
-          })
-
-
-        })
-
-
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      } else {
+        this.toastr.warning('No hay ningún item agregado');
       }
-      else{
-        this.toastr.warning('No hay nigun item agregado');
-      }
-    }
-    else{
+    } else {
       this.toastr.warning("Rellena todos los campos!");
     }
   }
+
+  getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const day = now.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+  
+  getCurrentHour() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
+  }
+  
 
   saveCheck(){
 
@@ -507,6 +458,8 @@ export class NuevoComponent implements OnInit {
                     console.log(this.user_campus.name);
                     this.req.area=String(this.user_area.name);
                     this.req.sala=String(this.user_campus.name);
+                    //nuevo
+                    this.req.campus_id=this.user_campus.campus_id;
   
                     this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
                       if(as){
@@ -515,6 +468,7 @@ export class NuevoComponent implements OnInit {
                       this.logisticaService.getAllCampus().subscribe((ac:Campus[])=>{
                         if(ac){
                           this.campus=ac;
+                          this.selectedCampus = this.campus.find(a=>a.campus_id==this.user_campus.campus_id);
                         }
   
                         this.logisticaService.getPrioridad().subscribe((res3:string[])=>{

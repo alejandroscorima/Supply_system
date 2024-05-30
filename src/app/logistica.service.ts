@@ -22,6 +22,7 @@ import { EntregaItem } from './entrega_item';
 import { OrdersValidation } from './order_validation';
 import { Folder } from './folder';
 import { Filep } from './file';
+import { ReqValidation } from './req_validation';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class LogisticaService {
   constructor(private http: HttpClient) { }
 
   addReq(req: Requerimiento) {
-    return this.http.post(`${this.baseUrl}/postRequerimientoNew.php`, req);
+    return this.http.post(`${this.baseUrl}/postRequirementNew.php`, req);
   }
 
   addActivity(ac: Activity) {
@@ -64,6 +65,14 @@ export class LogisticaService {
 
   addFile(filep:Filep){
     return this.http.post(`${this.baseUrl}/postFile.php`, filep);
+  }
+
+  getReqValidationRules(campus_id:number,total_budget:string){
+    return this.http.get(`${this.baseUrl}/getReqValidationRules.php?campus_id=${campus_id}&total_budget=${total_budget}`);
+  }
+
+  addReqValidation(reqVal: ReqValidation){
+    return this.http.post(`${this.baseUrl}/postReqValidation.php`, reqVal);
   }
   
   getOrdersValidations(order_id:number){
@@ -215,7 +224,7 @@ export class LogisticaService {
   }
 
   addReqDet(item: Item) {
-    return this.http.post(`${this.baseUrl}/postReqDetalle.php`, item);
+    return this.http.post(`${this.baseUrl}/postReqDetailNew.php`, item);
   }
 
   addOrdDet(ordItem: OrdenItem) {
@@ -252,6 +261,14 @@ export class LogisticaService {
 
   getReqsFinNew(tipo_usuario: string, id_asignado:string, user_id:number, salas:string[]) {
     return this.http.get(`${this.baseUrl}/getReqsFinNew.php?tipo_usuario=${tipo_usuario}&id_asignado=${id_asignado}&user_id=${user_id}&salas=${salas}`);
+  }
+
+  getReqsGeneral(user_role: string, user_id:number, status:string, salas:string[]) {
+    return this.http.get(`${this.baseUrl}/getReqsGeneralNew.php?user_role=${user_role}&user_id=${user_id}&status=${status}&salas=${salas}`);
+  }
+
+  getReqDetailsGeneral(req_code: string, req_id: number, status: string) {
+    return this.http.get(`${this.baseUrl}/getReqDetailsGeneral.php?req_code=${req_code}&req_id=${req_id}&status=${status}`);
   }
 
   getSalaByName(campus_name: string) {
