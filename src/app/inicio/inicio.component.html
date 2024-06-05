@@ -82,7 +82,65 @@
           PENDIENTES: {{cont_pend}} 
         </h3>
         <div class="overflow-y-scroll flex-1 w-full px-2 min-h-0">
-          <mat-card *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="card w-full my-2 p-1 text-sm" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
+          <div *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+            <span class="w-full relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+              <div class="w-full text-center">
+                {{r.codigo}}
+              </div>
+              <div class="inline-flex items-center justify-center w-full">
+                <hr class="w-full h-px my-2.5 bg-gray-500 group-hover:bg-gray-300 border-0 dark:bg-gray-700">
+                <div class="text-center items-center justify-center inline-flex absolute px-1 -translate-x-1/2 bg-white rounded-md left-1/2 dark:bg-gray-900">
+                  <svg *ngIf="r.validation=='PENDIENTE'" class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>  
+                  <svg *ngIf="r.validation=='APROBADO'" class="w-5 h-5 text-green-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>
+                  <svg *ngIf="r.validation=='RECHAZADO'" class="w-5 h-5 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>
+                  
+                  <svg *ngIf="r.prioridad=='BAJA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#4CAF50"></path><path d="M512 712.533333L362.666667 533.333333h298.666666z" fill="#FFEB3B"></path><path d="M469.333333 315.733333h85.333334v262.4h-85.333334z" fill="#FFEB3B"></path></g>
+                  </svg>
+                  <svg *ngIf="r.prioridad=='MEDIA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#FFC107"></path><path d="M512 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 0 1 0-85.333334 0Z" fill="#37474F"></path><path d="M682.666667 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path><path d="M341.333333 512m-42.666666 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path></g>
+                  </svg>
+                  <svg *ngIf="r.prioridad=='ALTA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#F44336"></path><path d="M460.8 697.6c0-6.4 2.133333-12.8 4.266667-19.2 2.133333-6.4 6.4-10.666667 10.666666-14.933333 4.266667-4.266667 10.666667-8.533333 17.066667-10.666667s12.8-4.266667 21.333333-4.266667 14.933333 2.133333 21.333334 4.266667c6.4 2.133333 12.8 6.4 17.066666 10.666667 4.266667 4.266667 8.533333 8.533333 10.666667 14.933333 2.133333 6.4 4.266667 12.8 4.266667 19.2s-2.133333 12.8-4.266667 19.2-6.4 10.666667-10.666667 14.933333c-4.266667 4.266667-10.666667 8.533333-17.066666 10.666667-6.4 2.133333-12.8 4.266667-21.333334 4.266667s-14.933333-2.133333-21.333333-4.266667-10.666667-6.4-17.066667-10.666667c-4.266667-4.266667-8.533333-8.533333-10.666666-14.933333s-4.266667-10.666667-4.266667-19.2z m89.6-98.133333h-76.8L462.933333 277.333333h98.133334l-10.666667 322.133334z" fill="#FFFFFF"></path></g>
+                  </svg>
+                </div>
+              </div>
+              <!-- <hr class="h-px my-1 bg-gray-500 group-hover:bg-gray-300 border-0 dark:bg-gray-700"> -->
+              <div class="w-full text-center items-center justify-center inline-flex">
+                {{r.area}}
+                <!-- <svg *ngIf="r.validation=='PENDIENTE'" class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>  
+                <svg *ngIf="r.validation=='APROBADO'" class="w-5 h-5 text-green-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+                <svg *ngIf="r.validation=='RECHAZADO'" class="w-5 h-5 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+                
+                <svg *ngIf="r.prioridad=='BAJA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#4CAF50"></path><path d="M512 712.533333L362.666667 533.333333h298.666666z" fill="#FFEB3B"></path><path d="M469.333333 315.733333h85.333334v262.4h-85.333334z" fill="#FFEB3B"></path></g>
+                </svg>
+                <svg *ngIf="r.prioridad=='MEDIA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#FFC107"></path><path d="M512 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 0 1 0-85.333334 0Z" fill="#37474F"></path><path d="M682.666667 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path><path d="M341.333333 512m-42.666666 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path></g>
+                </svg>
+                <svg *ngIf="r.prioridad=='ALTA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#F44336"></path><path d="M460.8 697.6c0-6.4 2.133333-12.8 4.266667-19.2 2.133333-6.4 6.4-10.666667 10.666666-14.933333 4.266667-4.266667 10.666667-8.533333 17.066667-10.666667s12.8-4.266667 21.333333-4.266667 14.933333 2.133333 21.333334 4.266667c6.4 2.133333 12.8 6.4 17.066666 10.666667 4.266667 4.266667 8.533333 8.533333 10.666667 14.933333 2.133333 6.4 4.266667 12.8 4.266667 19.2s-2.133333 12.8-4.266667 19.2-6.4 10.666667-10.666667 14.933333c-4.266667 4.266667-10.666667 8.533333-17.066666 10.666667-6.4 2.133333-12.8 4.266667-21.333334 4.266667s-14.933333-2.133333-21.333333-4.266667-10.666667-6.4-17.066667-10.666667c-4.266667-4.266667-8.533333-8.533333-10.666666-14.933333s-4.266667-10.666667-4.266667-19.2z m89.6-98.133333h-76.8L462.933333 277.333333h98.133334l-10.666667 322.133334z" fill="#FFFFFF"></path></g>
+                </svg> -->
+              </div>
+              <hr class="h-px my-1 bg-gray-500 group-hover:bg-gray-300 border-0 dark:bg-gray-700">
+              <p class="   items-center">
+                <mat-icon class="w-2">person</mat-icon>&nbsp;{{r.encargado}}
+              </p>
+              <p class="   items-center">
+                <mat-icon class="w-2">description</mat-icon>&nbsp;{{r.motivo}}
+              </p>
+              <p class="   items-center">
+                <mat-icon class="w-2">calendar_month</mat-icon>&nbsp;{{r.fecha}}
+              </p>
+            </span>
+          </div>
+<!--           <mat-card *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="card w-full my-2 p-1 text-sm" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
             <mat-card-header class="headerPendiente">
               {{r.codigo}}-{{r.area}}
     
@@ -98,7 +156,7 @@
                 <mat-icon class="w-2">calendar_month</mat-icon>&nbsp;{{r.fecha}}
               </p>
             </mat-card-content>
-          </mat-card>
+          </mat-card> -->
         </div>
       </div>
   
@@ -110,7 +168,65 @@
           ASIGNADO : {{cont_asig}}
         </h3>
         <div class="overflow-y-scroll flex-1 w-full px-2 min-h-0">
-          <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card w-full my-2 p-1 text-sm" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
+          <div *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+            <span class="w-full relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+              <div class="w-full text-center">
+                {{r.codigo}}
+              </div>
+              <div class="inline-flex items-center justify-center w-full">
+                <hr class="w-full h-px my-2.5 bg-gray-500 group-hover:bg-gray-300 border-0 dark:bg-gray-700">
+                <div class="text-center items-center justify-center inline-flex absolute px-1 -translate-x-1/2 bg-white rounded-md left-1/2 dark:bg-gray-900">
+                  <svg *ngIf="r.validation=='PENDIENTE'" class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>  
+                  <svg *ngIf="r.validation=='APROBADO'" class="w-5 h-5 text-green-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>
+                  <svg *ngIf="r.validation=='RECHAZADO'" class="w-5 h-5 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>
+                  
+                  <svg *ngIf="r.prioridad=='BAJA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#4CAF50"></path><path d="M512 712.533333L362.666667 533.333333h298.666666z" fill="#FFEB3B"></path><path d="M469.333333 315.733333h85.333334v262.4h-85.333334z" fill="#FFEB3B"></path></g>
+                  </svg>
+                  <svg *ngIf="r.prioridad=='MEDIA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#FFC107"></path><path d="M512 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 0 1 0-85.333334 0Z" fill="#37474F"></path><path d="M682.666667 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path><path d="M341.333333 512m-42.666666 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path></g>
+                  </svg>
+                  <svg *ngIf="r.prioridad=='ALTA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#F44336"></path><path d="M460.8 697.6c0-6.4 2.133333-12.8 4.266667-19.2 2.133333-6.4 6.4-10.666667 10.666666-14.933333 4.266667-4.266667 10.666667-8.533333 17.066667-10.666667s12.8-4.266667 21.333333-4.266667 14.933333 2.133333 21.333334 4.266667c6.4 2.133333 12.8 6.4 17.066666 10.666667 4.266667 4.266667 8.533333 8.533333 10.666667 14.933333 2.133333 6.4 4.266667 12.8 4.266667 19.2s-2.133333 12.8-4.266667 19.2-6.4 10.666667-10.666667 14.933333c-4.266667 4.266667-10.666667 8.533333-17.066666 10.666667-6.4 2.133333-12.8 4.266667-21.333334 4.266667s-14.933333-2.133333-21.333333-4.266667-10.666667-6.4-17.066667-10.666667c-4.266667-4.266667-8.533333-8.533333-10.666666-14.933333s-4.266667-10.666667-4.266667-19.2z m89.6-98.133333h-76.8L462.933333 277.333333h98.133334l-10.666667 322.133334z" fill="#FFFFFF"></path></g>
+                  </svg>
+                </div>
+              </div>
+              <!-- <hr class="h-px my-1 bg-gray-500 group-hover:bg-gray-300 border-0 dark:bg-gray-700"> -->
+              <div class="w-full text-center items-center justify-center inline-flex">
+                {{r.area}}
+                <!-- <svg *ngIf="r.validation=='PENDIENTE'" class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>  
+                <svg *ngIf="r.validation=='APROBADO'" class="w-5 h-5 text-green-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+                <svg *ngIf="r.validation=='RECHAZADO'" class="w-5 h-5 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+                
+                <svg *ngIf="r.prioridad=='BAJA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#4CAF50"></path><path d="M512 712.533333L362.666667 533.333333h298.666666z" fill="#FFEB3B"></path><path d="M469.333333 315.733333h85.333334v262.4h-85.333334z" fill="#FFEB3B"></path></g>
+                </svg>
+                <svg *ngIf="r.prioridad=='MEDIA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#FFC107"></path><path d="M512 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 0 1 0-85.333334 0Z" fill="#37474F"></path><path d="M682.666667 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path><path d="M341.333333 512m-42.666666 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path></g>
+                </svg>
+                <svg *ngIf="r.prioridad=='ALTA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#F44336"></path><path d="M460.8 697.6c0-6.4 2.133333-12.8 4.266667-19.2 2.133333-6.4 6.4-10.666667 10.666666-14.933333 4.266667-4.266667 10.666667-8.533333 17.066667-10.666667s12.8-4.266667 21.333333-4.266667 14.933333 2.133333 21.333334 4.266667c6.4 2.133333 12.8 6.4 17.066666 10.666667 4.266667 4.266667 8.533333 8.533333 10.666667 14.933333 2.133333 6.4 4.266667 12.8 4.266667 19.2s-2.133333 12.8-4.266667 19.2-6.4 10.666667-10.666667 14.933333c-4.266667 4.266667-10.666667 8.533333-17.066666 10.666667-6.4 2.133333-12.8 4.266667-21.333334 4.266667s-14.933333-2.133333-21.333333-4.266667-10.666667-6.4-17.066667-10.666667c-4.266667-4.266667-8.533333-8.533333-10.666666-14.933333s-4.266667-10.666667-4.266667-19.2z m89.6-98.133333h-76.8L462.933333 277.333333h98.133334l-10.666667 322.133334z" fill="#FFFFFF"></path></g>
+                </svg> -->
+              </div>
+              <hr class="h-px my-1 bg-gray-500 group-hover:bg-gray-300 border-0 dark:bg-gray-700">
+              <p class="   items-center">
+                <mat-icon class="w-2">person</mat-icon>&nbsp;{{r.encargado}}
+              </p>
+              <p class="   items-center">
+                <mat-icon class="w-2">description</mat-icon>&nbsp;{{r.motivo}}
+              </p>
+              <p class="   items-center">
+                <mat-icon class="w-2">calendar_month</mat-icon>&nbsp;{{r.fecha}}
+              </p>
+            </span>
+          </div>
+<!--           <mat-card *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="card w-full my-2 p-1 text-sm" [ngClass]="{'alta':r.prioridad=='ALTA','media':r.prioridad=='MEDIA','baja':r.prioridad=='BAJA'}">
             <mat-card-header class="headerProceso">
               {{r.codigo}}-{{r.area}}
     
@@ -126,7 +242,7 @@
                 <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
               </p>
             </mat-card-content>
-          </mat-card>
+          </mat-card> -->
         </div>
       </div>
   
@@ -135,7 +251,65 @@
           FINALIZADO: {{cont_fina}} 
         </h3>
         <div class="overflow-y-scroll flex-1 w-full px-1 min-h-0">
-          <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card w-full my-2 p-1 text-sm" [ngClass]="{'fin':'a'=='a'}">
+          <div *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+            <span class="w-full relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+              <div class="w-full text-center">
+                {{r.codigo}}
+              </div>
+              <div class="inline-flex items-center justify-center w-full">
+                <hr class="w-full h-px my-2.5 bg-gray-500 group-hover:bg-gray-300 border-0 dark:bg-gray-700">
+                <div class="text-center items-center justify-center inline-flex absolute px-1 -translate-x-1/2 bg-white rounded-md left-1/2 dark:bg-gray-900">
+                  <svg *ngIf="r.validation=='PENDIENTE'" class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>  
+                  <svg *ngIf="r.validation=='APROBADO'" class="w-5 h-5 text-green-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>
+                  <svg *ngIf="r.validation=='RECHAZADO'" class="w-5 h-5 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>
+                  
+                  <svg *ngIf="r.prioridad=='BAJA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#4CAF50"></path><path d="M512 712.533333L362.666667 533.333333h298.666666z" fill="#FFEB3B"></path><path d="M469.333333 315.733333h85.333334v262.4h-85.333334z" fill="#FFEB3B"></path></g>
+                  </svg>
+                  <svg *ngIf="r.prioridad=='MEDIA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#FFC107"></path><path d="M512 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 0 1 0-85.333334 0Z" fill="#37474F"></path><path d="M682.666667 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path><path d="M341.333333 512m-42.666666 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path></g>
+                  </svg>
+                  <svg *ngIf="r.prioridad=='ALTA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#F44336"></path><path d="M460.8 697.6c0-6.4 2.133333-12.8 4.266667-19.2 2.133333-6.4 6.4-10.666667 10.666666-14.933333 4.266667-4.266667 10.666667-8.533333 17.066667-10.666667s12.8-4.266667 21.333333-4.266667 14.933333 2.133333 21.333334 4.266667c6.4 2.133333 12.8 6.4 17.066666 10.666667 4.266667 4.266667 8.533333 8.533333 10.666667 14.933333 2.133333 6.4 4.266667 12.8 4.266667 19.2s-2.133333 12.8-4.266667 19.2-6.4 10.666667-10.666667 14.933333c-4.266667 4.266667-10.666667 8.533333-17.066666 10.666667-6.4 2.133333-12.8 4.266667-21.333334 4.266667s-14.933333-2.133333-21.333333-4.266667-10.666667-6.4-17.066667-10.666667c-4.266667-4.266667-8.533333-8.533333-10.666666-14.933333s-4.266667-10.666667-4.266667-19.2z m89.6-98.133333h-76.8L462.933333 277.333333h98.133334l-10.666667 322.133334z" fill="#FFFFFF"></path></g>
+                  </svg>
+                </div>
+              </div>
+              <!-- <hr class="h-px my-1 bg-gray-500 group-hover:bg-gray-300 border-0 dark:bg-gray-700"> -->
+              <div class="w-full text-center items-center justify-center inline-flex">
+                {{r.area}}
+                <!-- <svg *ngIf="r.validation=='PENDIENTE'" class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>  
+                <svg *ngIf="r.validation=='APROBADO'" class="w-5 h-5 text-green-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+                <svg *ngIf="r.validation=='RECHAZADO'" class="w-5 h-5 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+                
+                <svg *ngIf="r.prioridad=='BAJA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#4CAF50"></path><path d="M512 712.533333L362.666667 533.333333h298.666666z" fill="#FFEB3B"></path><path d="M469.333333 315.733333h85.333334v262.4h-85.333334z" fill="#FFEB3B"></path></g>
+                </svg>
+                <svg *ngIf="r.prioridad=='MEDIA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#FFC107"></path><path d="M512 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 0 1 0-85.333334 0Z" fill="#37474F"></path><path d="M682.666667 512m-42.666667 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path><path d="M341.333333 512m-42.666666 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#37474F"></path></g>
+                </svg>
+                <svg *ngIf="r.prioridad=='ALTA'" width="20" height="20" class="w-5 h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M452.266667 955.733333l-384-384c-34.133333-34.133333-34.133333-87.466667 0-121.6l384-384c34.133333-34.133333 87.466667-34.133333 121.6 0l384 384c34.133333 34.133333 34.133333 87.466667 0 121.6l-384 384c-34.133333 34.133333-89.6 34.133333-121.6 0z" fill="#F44336"></path><path d="M460.8 697.6c0-6.4 2.133333-12.8 4.266667-19.2 2.133333-6.4 6.4-10.666667 10.666666-14.933333 4.266667-4.266667 10.666667-8.533333 17.066667-10.666667s12.8-4.266667 21.333333-4.266667 14.933333 2.133333 21.333334 4.266667c6.4 2.133333 12.8 6.4 17.066666 10.666667 4.266667 4.266667 8.533333 8.533333 10.666667 14.933333 2.133333 6.4 4.266667 12.8 4.266667 19.2s-2.133333 12.8-4.266667 19.2-6.4 10.666667-10.666667 14.933333c-4.266667 4.266667-10.666667 8.533333-17.066666 10.666667-6.4 2.133333-12.8 4.266667-21.333334 4.266667s-14.933333-2.133333-21.333333-4.266667-10.666667-6.4-17.066667-10.666667c-4.266667-4.266667-8.533333-8.533333-10.666666-14.933333s-4.266667-10.666667-4.266667-19.2z m89.6-98.133333h-76.8L462.933333 277.333333h98.133334l-10.666667 322.133334z" fill="#FFFFFF"></path></g>
+                </svg> -->
+              </div>
+              <hr class="h-px my-1 bg-gray-500 group-hover:bg-gray-300 border-0 dark:bg-gray-700">
+              <p class="   items-center">
+                <mat-icon class="w-2">person</mat-icon>&nbsp;{{r.encargado}}
+              </p>
+              <p class="   items-center">
+                <mat-icon class="w-2">description</mat-icon>&nbsp;{{r.motivo}}
+              </p>
+              <p class="   items-center">
+                <mat-icon class="w-2">calendar_month</mat-icon>&nbsp;{{r.fecha}}
+              </p>
+            </span>
+          </div>
+<!--           <mat-card *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="card w-full my-2 p-1 text-sm" [ngClass]="{'fin':'a'=='a'}">
             <mat-card-header >
               {{r.codigo}}-{{r.area}}
     
@@ -151,7 +325,7 @@
                 <mat-icon>calendar_month</mat-icon>&nbsp;{{r.fecha}}
               </p>
             </mat-card-content>
-          </mat-card>
+          </mat-card> -->
         </div>
       </div>
   
@@ -438,6 +612,11 @@
         </div>
         <!-- Modal footer -->
         <div class="flex items-center p-4 md:p-5 border-t border-gray-500 rounded-b dark:border-gray-600">
+            <select>
+              <option>
+
+              </option>
+            </select>
             <button data-modal-hide="static-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
             <button data-modal-hide="static-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
         </div>

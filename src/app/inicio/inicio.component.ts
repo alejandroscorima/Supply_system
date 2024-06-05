@@ -78,6 +78,8 @@ export class InicioComponent implements OnInit, AfterViewInit {
   cont_asig;
   cont_fina;
 
+  personal;
+
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
 
@@ -123,6 +125,10 @@ export class InicioComponent implements OnInit, AfterViewInit {
   showReqDetails(req:Requerimiento){
 
     this.reqSelected= req;
+
+    this.usersService.getPersonalNew(1).subscribe((pers:User[])=>{
+      this.personal=pers;
+    })
 
     this.logisticaService.getReqDetailsGeneral(this.reqSelected.codigo,this.reqSelected.id,this.reqSelected.estado).subscribe((respu:Item[])=>{
       respu.forEach(h=>{

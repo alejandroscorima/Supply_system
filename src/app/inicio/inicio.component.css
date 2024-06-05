@@ -1,12 +1,12 @@
-
+/* 
 
 .column {
 
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
 }
 
-.column::-webkit-scrollbar{  /* Chrome & Safari*/
+.column::-webkit-scrollbar{  
   display: none;
 }
 
@@ -19,8 +19,6 @@
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 0px;
 }
-
-
 
 .headerPendiente{
  background: -o-linear-gradient(45deg, #4d0000, #b82121);
@@ -109,3 +107,10 @@
 
   background: linear-gradient(0deg, #f3f3f3,);
 }
+
+
+
+
+
+ */
+
