@@ -135,11 +135,26 @@ export class InicioComponent implements OnInit, AfterViewInit {
     }
   }
 
+  btnComprado(it: Item){
+    it.estado='COMPRADO';
+    it.f_compra=this.getCurrentDate();
+    it.h_compra=this.getCurrentHour();
+    this.logisticaService.updateReqDet(it).subscribe(a=>{})
+  }
 
+  btnEntregado(it:Item){
+    it.estado='ENTREGADO';
+    it.f_final=this.getCurrentDate();
+    it.h_final=this.getCurrentHour();
+    this.logisticaService.updateReqDet(it).subscribe(a=>{
+    })
+  }
 
   showReqDetails(req:Requerimiento){
 
     this.reqSelected= req;
+    this.reqSelected.id_asignado='0';
+    console.log(this.reqSelected);
 
     this.usersService.getPersonalNew(1).subscribe((pers:User[])=>{
       this.personal=pers;
@@ -147,11 +162,14 @@ export class InicioComponent implements OnInit, AfterViewInit {
 
     this.logisticaService.getReqDetailsGeneral(this.reqSelected.codigo,this.reqSelected.id,this.reqSelected.estado).subscribe((respu:Item[])=>{
       respu.forEach(h=>{
+        h.checked=false;
         this.usersService.getUserByIdNew(h.id_asignado).subscribe((resi:User)=>{
           h.name_asignado=resi.first_name+' '+resi.paternal_surname+' '+resi.maternal_surname;
         })
       })
       this.reqSelectedDetails=respu;
+
+      document.getElementById('btnModalReqDetail').click();
     })
     
     var dialogRef;
