@@ -82,7 +82,7 @@
           PENDIENTES: {{cont_pend}} 
         </h3>
         <div class="overflow-y-scroll flex-1 w-full px-2 min-h-0">
-          <div *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+          <div *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="w-full cursor-pointer relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             <span class="w-full relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               <div class="w-full text-center">
                 {{r.codigo}}
@@ -168,7 +168,7 @@
           ASIGNADO : {{cont_asig}}
         </h3>
         <div class="overflow-y-scroll flex-1 w-full px-2 min-h-0">
-          <div *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+          <div *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="w-full cursor-pointer relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             <span class="w-full relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               <div class="w-full text-center">
                 {{r.codigo}}
@@ -251,7 +251,7 @@
           FINALIZADO: {{cont_fina}} 
         </h3>
         <div class="overflow-y-scroll flex-1 w-full px-1 min-h-0">
-          <div *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="w-full relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+          <div *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="w-full cursor-pointer relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             <span class="w-full relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               <div class="w-full text-center">
                 {{r.codigo}}
@@ -440,7 +440,7 @@
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" class="p-4">
+                  <th scope="col" class="p-1">
                       <div class="flex items-center">
                           <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                           <label for="checkbox-all-search" class="sr-only">checkbox</label>
@@ -449,35 +449,35 @@
                   <!-- <th scope="col" class="px-3 py-3">
                     Validacion
                   </th> -->
-                  <th scope="col" class="px-3 py-2">
+                  <th scope="col" class="px-2 py-1">
                     Atencion
                   </th>
-                  <th scope="col" class="px-3 py-2">
+                  <th scope="col" class="px-2 py-1">
                     Cant.
                   </th>
-                  <th scope="col" class="px-3 py-2 min-w-[200px]">
+                  <th scope="col" class="px-2 py-1 min-w-[200px]">
                     Descripcion
                   </th>
-                  <th scope="col" class="px-3 py-2">
+                  <th scope="col" class="px-2 py-1">
                     Tipo
                   </th>
-                  <th scope="col" class="px-3 py-2">
+                  <th scope="col" class="px-2 py-1">
                     Img
                   </th>
-                  <th scope="col" class="px-3 py-2">
+                  <th scope="col" class="px-2 py-1">
                     Doc
                   </th>
-                  <th scope="col" class="px-3 py-2">
+                  <th scope="col" class="px-2 py-1">
                     Accion
                   </th>
-                  <th scope="col" class="px-3 py-2">
+                  <th scope="col" class="px-2 py-1">
                     Encargado
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let reqIt of reqSelectedDetails" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td class="w-4 p-2">
+                  <td class="p-1">
                       <div class="flex items-center">
                           <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                           <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
@@ -495,7 +495,7 @@
                     </svg>                                
                                                   
                   </td> -->
-                  <td class="px-3 py-2 withespace-nowrap text-center">
+                  <td class="px-2 py-1 withespace-nowrap text-center">
                     <svg *ngIf="reqIt.estado=='PENDIENTE'" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                     </svg>    
@@ -507,19 +507,18 @@
                     </svg>
                     <svg *ngIf="reqIt.estado=='ENTREGADO'" class="w-6 h-6 text-gray-800" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-61.2 -61.2 734.40 734.40" xml:space="preserve" stroke="#000000" stroke-width="0.0061200000000000004">
                       <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M580.592,135.703L497.33,98.681L234.478,222.254v79.353l-45.854-20.389v-79.353L451.477,78.293l-88.287-39.256 c-11.822-5.256-31.166-5.256-42.987,0l-217.401,96.666c-17.319,7.701-31.453,29.51-31.409,48.464l0.339,143.238 c13.628-4.385,28.128-6.806,43.195-6.806c77.949,0,141.373,63.424,141.373,141.382c0,20.36-4.413,39.682-12.196,57.188 l76.764,32.815c11.436,4.888,30.146,4.889,41.583,0.002l216.905-92.694c17.614-7.527,32.062-29.357,32.107-48.513L612,184.166 C612.044,165.212,597.911,143.403,580.592,135.703z M496.655,300.16l29.458-62.149c2.974-6.273,10.429-9.892,13.413-6.49 l30.229,34.461c3.019,3.441-0.812,11.277-6.869,14.087l-12.724,5.903l-0.257,89.528c-0.012,3.912-3.467,8.569-7.708,10.399 l-19.049,8.223c-4.176,1.803-7.554,0.132-7.556-3.729l-0.064-88.354l-12.325,5.718C497.407,310.446,493.778,306.23,496.655,300.16z M388.039,350.943l26.773-59.078c2.7-5.959,9.604-9.312,12.422-6.012l28.532,33.423c2.85,3.336-0.628,10.779-6.237,13.381 l-11.782,5.466l0.76,85.727c0.033,3.749-3.135,8.163-7.066,9.86l-17.664,7.625c-3.873,1.672-7.042,0.025-7.087-3.675l-1.035-84.647 l-11.429,5.302C388.852,360.808,385.422,356.718,388.039,350.943z M583.911,399.271c-0.014,1.967-1.781,4.298-3.946,5.208 l-201.751,84.757c-1.883,0.791-3.432-0.037-3.459-1.851l-0.155-9.861c-0.028-1.817,1.476-3.942,3.361-4.745l202.111-86.097 c2.17-0.924,3.92-0.075,3.908,1.896L583.911,399.271z M114.925,347.054C51.454,347.054,0,398.508,0,461.979 c0,63.472,51.454,114.926,114.925,114.926s114.925-51.454,114.925-114.926C229.851,398.508,178.396,347.054,114.925,347.054z M190.021,438.367l-70.724,79.563c-3.484,3.919-8.335,5.932-13.221,5.932c-3.881,0-7.783-1.27-11.038-3.877l-44.202-35.361 c-7.624-6.095-8.862-17.223-2.759-24.846c6.095-7.632,17.228-8.867,24.851-2.763l31.093,24.872l59.574-67.02 c6.479-7.295,17.659-7.959,24.958-1.468C195.853,419.893,196.509,431.063,190.021,438.367z"></path> </g> </g>
-                    </svg>
-                    {{reqIt.estado}}                            
+                    </svg>                          
                   </td>
-                  <td class="px-3 py-2">
+                  <td class="px-2 py-1">
                     {{reqIt.cantidad}}
                   </td>
-                  <th class="px-3 py-2 text-gray-900 dark:text-white font-semibold w-1/3 min-w-[200px]">
+                  <th class="px-2 py-1 text-gray-900 dark:text-white font-semibold min-w-[200px]">
                     {{reqIt.descripcion}}
                   </th>
-                  <td class="px-3 py-2">
+                  <td class="px-2 py-1">
                     {{reqIt.tipo}}
                   </td>
-                  <td class="px-3 py-2">
+                  <td class="px-2 py-1">
                     <!-- Modal toggle -->
                     <a type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                       <svg class="w-6 h-6 text-gray-800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -527,7 +526,7 @@
                       </svg>
                     </a>
                   </td>
-                  <td class="px-3 py-2">
+                  <td class="px-2 py-1">
                     <!-- Modal toggle -->
                     <a type="button" target="_blank" href="{{reqIt.pdf_url}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                       <svg class="w-6 h-6 text-gray-800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -535,12 +534,12 @@
                       </svg>
                     </a>
                   </td>
-                  <td class="px-3 py-2">
+                  <td class="px-2 py-1">
                     //ACCION
                       <!-- Modal toggle -->
                       <a type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
                   </td>
-                  <td class="px-3 py-2 whitespace-nowrap">
+                  <td class="px-2 py-1 whitespace-nowrap">
                     {{reqIt.name_asignado}}
                   </td>
                 </tr>
