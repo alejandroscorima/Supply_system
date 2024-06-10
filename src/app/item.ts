@@ -24,6 +24,7 @@ export class Item {
     public req_id?: number,
     public unit_budget?: string,
     public subtotal_budget?: string,
+    public checked?: boolean,
     public id?: number,
   ) { }
 }

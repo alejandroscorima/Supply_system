@@ -100,6 +100,21 @@ export class InicioComponent implements OnInit, AfterViewInit {
     initFlowbite();
   }
 
+  getCurrentDate(): string {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Añadir 1 al mes porque getMonth() devuelve meses 0-indexados
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  }
+
+  getCurrentHour(): string {
+    const date = new Date();
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+    return `${hours}:${minutes}:${seconds}`;
+  }  
 
 
   applyFilterCompra(event: Event) {
@@ -187,6 +202,32 @@ export class InicioComponent implements OnInit, AfterViewInit {
     this.cookiesService.deleteToken('user_role');
     location.reload();
   
+  }
+
+  asigChange(){
+    console.log('verELIdAsignado',this.reqSelected.id_asignado);
+  }
+
+  btnAsignar(){
+    if(this.reqSelected.id_asignado!='0'){
+      this.reqSelectedDetails.forEach((b,indi)=>{
+        if(b.checked){
+          b.estado='ASIGNADO';
+          b.f_atencion=this.getCurrentDate();
+          b.h_atencion=this.getCurrentHour();
+          b.id_asignado=this.reqSelected.id_asignado;
+          console.log(b);
+          this.logisticaService.updateReqDet(b).subscribe(resq=>{
+            if(indi==this.reqSelectedDetails.length-1){
+              this.toastr.success('Asignado correctamente');
+            }
+          });
+        }
+      })
+    }
+    else{
+      this.toastr.warning('Selecciona a alguien para asignar');
+    }
   }
 
 
