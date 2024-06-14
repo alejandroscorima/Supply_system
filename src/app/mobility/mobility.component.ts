@@ -604,7 +604,7 @@ export class DialogNewItemMobility implements OnInit {
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   listaReq: Item[]= [];
@@ -729,7 +729,7 @@ export class DialogEditItemMobility implements OnInit {
 
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   listaReq: Item[]= [];

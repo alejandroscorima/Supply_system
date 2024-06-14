@@ -205,10 +205,10 @@ export class OrdenComponent implements OnInit {
   user_areaView: Area = new Area('',null);
   user_campusView: Campus = new Campus('','','','','','');
 
-  reqView: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
+  reqView: Requerimiento = new Requerimiento('','','','','','','',[],0,'PENDIENTE',null);
   ordView: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA','');
 
-  itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+  itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
 
   listaOrdersView: Orden[]= [];
 

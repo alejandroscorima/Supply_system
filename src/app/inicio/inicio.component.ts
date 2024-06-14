@@ -57,8 +57,8 @@ export class InicioComponent implements OnInit, AfterViewInit {
   user_area: Area = new Area('',null);
   user_campus: Campus = new Campus('','','','','','');
 
-  reqSelected: Requerimiento = new Requerimiento('','','','','','','',[],'','',0);
-  reqSelectedDetails: Item[] = [new Item('code',1,'descripcion de prueba','compra','PENDIENTE','image_url',null,'','','','','','','','','','','','',null)]
+  reqSelected: Requerimiento = new Requerimiento('','','','','','','',[],0,'',0);
+  reqSelectedDetails: Item[] = [new Item('code',1,'descripcion de prueba','compra','PENDIENTE','image_url',null,0,'','','','','','','','','','','',null)]
 
   user_id: number = 0;
   user_role: string ='';
@@ -153,7 +153,7 @@ export class InicioComponent implements OnInit, AfterViewInit {
   showReqDetails(req:Requerimiento){
 
     this.reqSelected= req;
-    this.reqSelected.id_asignado='0';
+    this.reqSelected.id_asignado=0;
     console.log(this.reqSelected);
 
     this.usersService.getPersonalNew(1).subscribe((pers:User[])=>{
@@ -227,7 +227,7 @@ export class InicioComponent implements OnInit, AfterViewInit {
   }
 
   btnAsignar(){
-    if(this.reqSelected.id_asignado!='0'){
+    if(this.reqSelected.id_asignado!=0){
       this.reqSelectedDetails.forEach((b,indi)=>{
         if(b.checked){
           b.estado='ASIGNADO';
@@ -442,13 +442,12 @@ export class DialogDetalleReqAdm implements OnInit {
   minutes;
   seconds;
 
-  id_selected='';
 
   personal: User[]= [];
 
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
 
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA','');
 
@@ -502,7 +501,7 @@ export class DialogDetalleReqAdm implements OnInit {
     console.log(this.req);
 
     if(false){
-      this.logisticaService.getReqDetailsAprobByCode(this.req.codigo,String(this.data['user_id'])).subscribe((respu:Item[])=>{
+      this.logisticaService.getReqDetailsAprobByCode(this.req.codigo,this.data['user_id']).subscribe((respu:Item[])=>{
         this.req.items=respu;
         this.dataSourceReq = new MatTableDataSource(this.req.items);
         this.dataSourceReq.paginator = this.paginator2.toArray()[0];
@@ -538,10 +537,10 @@ export class DialogDetalleReqAdm implements OnInit {
   }
 
   asigChange(){
-    if(this.req.id_asignado=='0'){
-      this.req.id_asignado='';
+    if(this.req.id_asignado==0){
+      this.req.id_asignado=0;
     }
-    this.req.id_asignado=this.req.id_asignado+'U'+this.id_selected+',';
+    this.req.id_asignado;
   }
 
   btnAsignar(){
@@ -573,14 +572,14 @@ export class DialogDetalleReqAdm implements OnInit {
     console.log(' fecha de asignación: '+this.anio+'-'+this.mes+'-'+this.dia);
     console.log(' hora de asignación: '+this.hour+':'+this.minutes+':'+this.seconds);
 
-    if(this.req.id_asignado!='0'){
+    if(this.req.id_asignado!=0){
       this.selection.selected.forEach((a,indi)=>{
         this.req.items.forEach(b=>{
           if(a.id==b.id){
             b.estado='ASIGNADO';
             b.f_atencion=this.anio+'-'+this.mes+'-'+this.dia;
             b.h_atencion=this.hour+':'+this.minutes+':'+this.seconds;
-            b.id_asignado=String(this.id_selected);
+            b.id_asignado=this.req.id_asignado;
             console.log(b);
             this.logisticaService.updateReqDet(b).subscribe(resq=>{
               if(indi==this.selection.selected.length-1){
@@ -771,7 +770,7 @@ export class DialogDetalleReqAsist implements OnInit {
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA','');
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   dataSourceReq: MatTableDataSource<Item>;
@@ -900,7 +899,7 @@ export class DialogDetalleReqAsist implements OnInit {
 
     this.req=this.data['req'];
 
-    this.logisticaService.getReqDetailsAprobByCode(this.req.codigo,String(this.data['user_id'])).subscribe((respu:Item[])=>{
+    this.logisticaService.getReqDetailsAprobByCode(this.req.codigo,this.data['user_id']).subscribe((respu:Item[])=>{
       this.req.items=respu;
       this.dataSourceReq = new MatTableDataSource(this.req.items);
       this.dataSourceReq.paginator = this.paginator2.toArray()[0];
@@ -1000,7 +999,7 @@ export class DialogDetalleReqUsr implements OnInit {
 
   req: Requerimiento = new Requerimiento('bbb',null,null,null,null,null,null,[],null,'PENDIENTE',null);
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
 
   listaReq: Item[]= [];
 
@@ -1320,7 +1319,7 @@ export class DialogDetalleReqUsr implements OnInit {
   }
 
   btnAsignar(){
-    if(this.req.id_asignado!='0'){
+    if(this.req.id_asignado!=0){
       this.req.estado='ASIGNADO';
       this.logisticaService.updateReq(this.req).subscribe(resUR=>{
         if(resUR){
@@ -1410,7 +1409,7 @@ export class DialogCreateOrden implements OnInit {
   req: Requerimiento = new Requerimiento(null,null,null,null,null,null,null,[],null,'PENDIENTE',null);
   ord: Orden = new Orden(null,null,null,null,null,null,null,null,null,null,null,null,[],'PENDIENTE',null,null,null,null,null,null,null,null,null,null,null,null,'','NO','NO','OFICINA','');
 
-  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+  item: Item = new Item(null,null,null,'COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
   orden_item: OrdenItem = new OrdenItem(null,null,null,null,null,null,null,false,'','','',true);
 
   listaReq: Item[]= [];

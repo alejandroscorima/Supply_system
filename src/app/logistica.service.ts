@@ -313,7 +313,7 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getReqDetailsResumeByUser.php`);
   }
 
-  getReqDetailsPendByCode(codigo: string, id_asignado: string) {
+  getReqDetailsPendByCode(codigo: string, id_asignado: number) {
     return this.http.get(`${this.baseUrl}/getReqDetailsPendByCode.php?codigo=${codigo}&id_asignado=${id_asignado}`);
   }
 
@@ -321,7 +321,7 @@ export class LogisticaService {
     return this.http.get(`${this.baseUrl}/getReqDetailsByCode.php?codigo=${codigo}`);
   }
 
-  getReqDetailsAprobByCode(codigo: string, id_asignado: string) {
+  getReqDetailsAprobByCode(codigo: string, id_asignado: number) {
     return this.http.get(`${this.baseUrl}/getReqDetailsAprobByCode.php?codigo=${codigo}&id_asignado=${id_asignado}`);
   }
 

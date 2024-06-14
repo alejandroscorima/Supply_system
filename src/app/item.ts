@@ -8,7 +8,7 @@ export class Item {
     public estado: string,
     public image_url: string,
     public image: File,
-    public id_asignado: string,
+    public id_asignado: number,
     public name_asignado: string,
     public obs:string,
     public f_inicio:string,

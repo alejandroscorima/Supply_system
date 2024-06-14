@@ -24,7 +24,7 @@ else{
   $statusStr=" estado='".$status."' ";
 }
 
-$sentencia = $bd->prepare("SELECT id, req_codigo, cantidad, descripcion, tipo, estado, image_url, pdf_url, id_asignado, obs, f_inicio, h_inicio, f_atencion, h_atencion, f_compra, h_compra, f_final, h_final, req_id FROM req_detalles WHERE (req_codigo='".$req_code."' OR req_id=".$req_id.") AND ".$statusStr."");
+$sentencia = $bd->prepare("SELECT id, req_codigo, cantidad, descripcion, tipo, estado, image_url, pdf_url, id_asignado, obs, f_inicio, h_inicio, f_atencion, h_atencion, f_compra, h_compra, f_final, h_final, req_id, unit_budget, subtotal_budget FROM req_detalles WHERE (req_codigo='".$req_code."' OR req_id=".$req_id.") AND ".$statusStr."");
 
 
 /* if($tipo_usuario=='ASISTENTE'){

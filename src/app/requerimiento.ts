@@ -10,7 +10,7 @@ export class Requerimiento {
     public prioridad: string,
     public motivo: string,
     public items: Item[],
-    public id_asignado: string,
+    public id_asignado: number,
     public estado: string,
     public user_id:number,
     public validation?: string,

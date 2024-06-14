@@ -61,9 +61,9 @@ export class NuevoComponent implements OnInit {
 
   selectedCampus: Campus = new Campus('','','','','','');
 
-  req: Requerimiento = new Requerimiento('','','','','','','',[],'0','PENDIENTE',null);
+  req: Requerimiento = new Requerimiento('','','','','','','',[],0,'PENDIENTE',null);
 
-  item: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+  item: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
 
   listaReq: Item[]= [];
 
@@ -188,7 +188,7 @@ export class NuevoComponent implements OnInit {
       this.item.subtotal_budget=(parseFloat(this.item.unit_budget)*this.item.cantidad).toFixed(2);
       this.listaReq.push(this.item);
       this.req.total_budget = this.listaReq.reduce((tot,it)=>tot+parseFloat(it.subtotal_budget),0).toFixed(2);
-      this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+      this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
       this.dataSourceReq = new MatTableDataSource(this.listaReq);
       this.dataSourceReq.paginator = this.paginator.toArray()[0];
       this.dataSourceReq.sort = this.sort.toArray()[0];
@@ -201,7 +201,7 @@ export class NuevoComponent implements OnInit {
   deleteItem(indice){
     this.listaReq.splice(indice,1);
     this.req.total_budget = this.listaReq.reduce((tot,it)=>tot+parseFloat(it.subtotal_budget),0).toFixed(2);
-    this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,'0','','','','','','','','','','','',null);
+    this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
     this.dataSourceReq = new MatTableDataSource(this.listaReq);
     this.dataSourceReq.paginator = this.paginator.toArray()[0];
     this.dataSourceReq.sort = this.sort.toArray()[0];
@@ -301,7 +301,7 @@ export class NuevoComponent implements OnInit {
     console.log('hora de inicio', this.h_inicio);
   
     this.req.items = this.listaReq;
-    this.req.id_asignado = '0';
+    this.req.id_asignado = 0;
     this.req.user_id = this.user.user_id;
     this.req.validation = 'PENDIENTE';
   

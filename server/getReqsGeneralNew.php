@@ -60,6 +60,7 @@ SELECT * FROM
     a.prioridad, 
     a.motivo, 
     a.id_asignado, 
+    a.total_budget,
     rd.id as rd_id,
     COALESCE(b.state,
     CASE
