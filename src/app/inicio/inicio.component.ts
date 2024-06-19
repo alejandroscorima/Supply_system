@@ -284,11 +284,12 @@ export class InicioComponent implements OnInit, AfterViewInit {
               resCampBySup.forEach(cbs=>{
                 this.supervised_campus.push(cbs.name);
               })
+              this.supervised_campus=[];
 
 
               console.log(this.supervised_campus);
 
-              this.logisticaService.getReqsPendientesNew(this.user_role,String(this.user.user_id),this.user.user_id, this.supervised_campus).subscribe((res:Requerimiento[])=>{
+              this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PENDIENTE', this.supervised_campus).subscribe((res:Requerimiento[])=>{
                 this.reqPendientes=res;
                 this.reqTotal.push(...this.reqPendientes);
                 this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
@@ -303,7 +304,7 @@ export class InicioComponent implements OnInit, AfterViewInit {
               })
 
 
-              this.logisticaService.getReqsProcesoNew(this.user_role,String(u.user_id),this.user.user_id, this.supervised_campus).subscribe((res:Requerimiento[])=>{
+              this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PROCESO', this.supervised_campus).subscribe((res:Requerimiento[])=>{
                 this.reqProceso=res;
                 this.reqTotal.push(...this.reqProceso);
                 this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
@@ -330,7 +331,7 @@ export class InicioComponent implements OnInit, AfterViewInit {
                 } */
               })
       
-              this.logisticaService.getReqsFinNew(this.user_role,String(u.user_id),this.user.user_id, this.supervised_campus).subscribe((res:Requerimiento[])=>{
+              this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'FINALIZADO', this.supervised_campus).subscribe((res:Requerimiento[])=>{
                 this.reqFin=res;
                 this.reqTotal.push(...this.reqFin);
                 this.dataSourceReqs = new MatTableDataSource(this.reqTotal);

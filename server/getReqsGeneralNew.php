@@ -84,7 +84,7 @@ LEFT JOIN
     req_detalles rd ON a.codigo = rd.req_codigo
 WHERE 
     TRUE
-    " . $extraString . "
+    ".$extraString."
 GROUP BY rd.id
 ORDER BY 
     a.id DESC) t
