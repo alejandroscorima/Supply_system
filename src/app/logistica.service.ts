@@ -383,6 +383,14 @@ export class LogisticaService {
     return this.http.put(`${this.baseUrl}/updateActivity.php`, act);
   }
 
+  updateReqValidation(validation_id: number, status: String) {
+    let validation = {
+      validation_id: validation_id,
+      status: status
+    }
+    return this.http.put(`${this.baseUrl}/updateReqValidation.php`, validation);
+  }
+
   updateProduct(prod: Product) {
     return this.http.put(`${this.baseUrl}/updateProduct.php`, prod);
   }

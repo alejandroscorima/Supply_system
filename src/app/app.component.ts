@@ -15,6 +15,7 @@ import { Collaborator } from './collaborator';
 import { Payment } from './payment';
 import { initFlowbite } from 'flowbite';
 import { PushNotificationService } from './push-notification.service';
+import { ThemeService } from './theme.service';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,8 @@ import { PushNotificationService } from './push-notification.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
+  isDarkMode: boolean;
 
   user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
   colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
@@ -46,12 +49,18 @@ export class AppComponent implements OnInit {
               private cookies:CookiesService,
               private toastr: ToastrService,
               private pushNotificationService: PushNotificationService,
-            ){
-              pushNotificationService.requestPermission().then(token=>{
-                console.log(token);
-              }
-              )
-              }
+              private themeService: ThemeService)
+  {
+    pushNotificationService.requestPermission().then(token=>{
+      console.log(token);
+    })
+    this.isDarkMode = document.documentElement.classList.contains('dark');
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
+    this.isDarkMode = !this.isDarkMode;
+  }
 
   logout(){
     this.cookiesService.deleteToken('user_id');

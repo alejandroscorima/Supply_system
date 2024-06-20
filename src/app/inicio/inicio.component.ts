@@ -135,6 +135,16 @@ export class InicioComponent implements OnInit, AfterViewInit {
     }
   }
 
+  attendReqValidation(validation_id:number, status:String){
+    this.logisticaService.updateReqValidation(validation_id, status).subscribe(resUpdateValidation=>{
+      if(resUpdateValidation){
+        this.toastr.success('Requerimiento atendido!');
+        document.getElementById('btnModalReqDetail').click();
+        this.getReqs();
+      }
+    });
+  }
+
   btnComprado(it: Item){
     it.estado='COMPRADO';
     it.f_compra=this.getCurrentDate();
@@ -155,6 +165,8 @@ export class InicioComponent implements OnInit, AfterViewInit {
     this.reqSelected= req;
     this.reqSelected.id_asignado=0;
     console.log(this.reqSelected);
+
+    console.log('reqValidationId',this.reqSelected.validation_id);
 
     this.usersService.getPersonalNew(1).subscribe((pers:User[])=>{
       this.personal=pers;
@@ -248,6 +260,33 @@ export class InicioComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getReqs(){
+    this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PENDIENTE',[]).subscribe((res:Requerimiento[])=>{
+      this.reqPendientes=res;
+      this.reqTotal.push(...this.reqPendientes);
+      this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
+      this.dataSourceReqs.paginator = this.paginator.toArray()[0];
+      this.dataSourceReqs.sort = this.sort.toArray()[0];
+      this.cont_pend =this.reqPendientes.length;
+    })
+    this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PROCESO',[]).subscribe((res:Requerimiento[])=>{
+      this.reqProceso=res;
+      this.reqTotal.push(...this.reqProceso);
+      this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
+      this.dataSourceReqs.paginator = this.paginator.toArray()[0];
+      this.dataSourceReqs.sort = this.sort.toArray()[0];
+      this.cont_asig =this.reqProceso.length;
+    })
+    this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'FINALIZADO',[]).subscribe((res:Requerimiento[])=>{
+      this.reqFin=res;
+      this.reqTotal.push(...this.reqFin);
+      this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
+      this.dataSourceReqs.paginator = this.paginator.toArray()[0];
+      this.dataSourceReqs.sort = this.sort.toArray()[0];
+      this.cont_fina =this.reqFin.length;
+    })
+  }
+
 
 
 
@@ -286,124 +325,18 @@ export class InicioComponent implements OnInit, AfterViewInit {
               })
               this.supervised_campus=[];
 
-
               console.log(this.supervised_campus);
 
-              this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PENDIENTE', this.supervised_campus).subscribe((res:Requerimiento[])=>{
-                this.reqPendientes=res;
-                this.reqTotal.push(...this.reqPendientes);
-                this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
-                this.dataSourceReqs.paginator = this.paginator.toArray()[0];
-                this.dataSourceReqs.sort = this.sort.toArray()[0];
-                this.cont_pend =this.reqPendientes.length;
-                /* res.forEach(res => {
-                  console.log(res+"req pendiente"+conta)
-                  conta = conta + 1
-                });
-                console.log(res+'fin'+conta); */ //Se observa cómo se obtiene cada req
-              })
-
-
-              this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PROCESO', this.supervised_campus).subscribe((res:Requerimiento[])=>{
-                this.reqProceso=res;
-                this.reqTotal.push(...this.reqProceso);
-                this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
-                this.dataSourceReqs.paginator = this.paginator.toArray()[0];
-                this.dataSourceReqs.sort = this.sort.toArray()[0];
-                this.cont_asig =this.reqProceso.length;
-      /*           if(this.user_role=='ASISTENTE'||this.user_role=='ADMINISTRADOR'){
-                  this.reqProceso.forEach((rp:Requerimiento,ind)=>{
-                    this.logisticaService.getReqDetailsAprobByCode(rp.codigo,String(this.user.user_id)).subscribe((rpt:Item[])=>{
-                      var cantFin=0;
-                      rpt.forEach(m=>{
-                        if(m.estado=='ENTREGADO'){
-                          cantFin+=1;
-                        }
-                      })
-                      if(cantFin==rpt.length){
-                        this.reqProceso.splice(ind,1);
-                        setTimeout(()=>{
-                          this.reqFin.push(rp);
-                        },500)
-                      }
-                    })
-                  })
-                } */
-              })
-      
-              this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'FINALIZADO', this.supervised_campus).subscribe((res:Requerimiento[])=>{
-                this.reqFin=res;
-                this.reqTotal.push(...this.reqFin);
-                this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
-                this.dataSourceReqs.paginator = this.paginator.toArray()[0];
-                this.dataSourceReqs.sort = this.sort.toArray()[0];
-                this.cont_fina =this.reqFin.length;
-              })
-
+              this.getReqs();
 
             }
 
           })
         }
         else{
-          //this.logisticaService.getReqsPendientesNew(this.user_role,String(this.user.user_id),this.user.user_id,[]).subscribe((res:Requerimiento[])=>{
-          this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PENDIENTE',[]).subscribe((res:Requerimiento[])=>{
-            this.reqPendientes=res;
-            this.reqTotal.push(...this.reqPendientes);
-            this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
-            this.dataSourceReqs.paginator = this.paginator.toArray()[0];
-            this.dataSourceReqs.sort = this.sort.toArray()[0];
-            this.cont_pend =this.reqPendientes.length;
-            /* res.forEach(res => {
-              console.log(res+"req pendiente"+conta)
-              conta = conta + 1
-            });
-            console.log(res+'fin'+conta); */ //Se observa cómo se obtiene cada req
-          })
-
-
-
-          //this.logisticaService.getReqsProcesoNew(this.user_role,String(u.user_id),this.user.user_id,[]).subscribe((res:Requerimiento[])=>{
-          this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PROCESO',[]).subscribe((res:Requerimiento[])=>{
-            this.reqProceso=res;
-            this.reqTotal.push(...this.reqProceso);
-            this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
-            this.dataSourceReqs.paginator = this.paginator.toArray()[0];
-            this.dataSourceReqs.sort = this.sort.toArray()[0];
-            this.cont_asig =this.reqProceso.length;
-  /*           if(this.user_role=='ASISTENTE'||this.user_role=='ADMINISTRADOR'){
-              this.reqProceso.forEach((rp:Requerimiento,ind)=>{
-                this.logisticaService.getReqDetailsAprobByCode(rp.codigo,String(this.user.user_id)).subscribe((rpt:Item[])=>{
-                  var cantFin=0;
-                  rpt.forEach(m=>{
-                    if(m.estado=='ENTREGADO'){
-                      cantFin+=1;
-                    }
-                  })
-                  if(cantFin==rpt.length){
-                    this.reqProceso.splice(ind,1);
-                    setTimeout(()=>{
-                      this.reqFin.push(rp);
-                    },500)
-                  }
-                })
-              })
-            } */
-          })
-  
-          //this.logisticaService.getReqsFinNew(this.user_role,String(u.user_id),this.user.user_id,[]).subscribe((res:Requerimiento[])=>{
-          this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'FINALIZADO',[]).subscribe((res:Requerimiento[])=>{
-            this.reqFin=res;
-            this.reqTotal.push(...this.reqFin);
-            this.dataSourceReqs = new MatTableDataSource(this.reqTotal);
-            this.dataSourceReqs.paginator = this.paginator.toArray()[0];
-            this.dataSourceReqs.sort = this.sort.toArray()[0];
-            this.cont_fina =this.reqFin.length;
-          })
-
+          this.getReqs();
 
         }
-
 
       });
     }

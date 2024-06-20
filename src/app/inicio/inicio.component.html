@@ -1,6 +1,6 @@
 <div class="p-4 sm:ml-60 dark:bg-gray-900 h-screen flex flex-col">
   <div class="h-14 flex-none"></div>
-  <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-clip">
+  <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-hidden">
     <div class="px-5 pb-4 w-full items-center text-center flex-none">
       <button class="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" (click)="exporter.exportTable('xlsx',{fileName:'Requerimientos'})">EXPORTAR EXCEL</button>
     
@@ -81,7 +81,7 @@
         <h3 style="text-align:left" class="w-full flex-none">
           PENDIENTES: {{cont_pend}} 
         </h3>
-        <div class="overflow-y-scroll flex-1 w-full px-2 min-h-0">
+        <div class="overflow-y-auto flex-1 w-full px-2 min-h-0">
           <div *ngFor="let r of reqPendientes" (click)="showReqDetails(r)" class="w-full cursor-pointer relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             <span class="w-full relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               <div class="w-full text-center">
@@ -167,7 +167,7 @@
         <h3 style="text-align:left;" class="w-full flex-none" *ngIf="user_role=='ASISTENTE'||user_role=='ADMINISTRADOR'">
           ASIGNADO : {{cont_asig}}
         </h3>
-        <div class="overflow-y-scroll flex-1 w-full px-2 min-h-0">
+        <div class="overflow-y-auto flex-1 w-full px-2 min-h-0">
           <div *ngFor="let r of reqProceso" (click)="showReqDetails(r)" class="w-full cursor-pointer relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             <span class="w-full relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               <div class="w-full text-center">
@@ -250,7 +250,7 @@
         <h3 style="text-align:left" class="w-full flex-none">
           FINALIZADO: {{cont_fina}} 
         </h3>
-        <div class="overflow-y-scroll flex-1 w-full px-1 min-h-0">
+        <div class="overflow-y-auto flex-1 w-full px-1 min-h-0">
           <div *ngFor="let r of reqFin" (click)="showReqDetails(r)" class="w-full cursor-pointer relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             <span class="w-full relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
               <div class="w-full text-center">
@@ -663,7 +663,7 @@
         </div>
         <!-- Modal footer -->
         <div class="flex items-center p-4 md:p-5 border-t border-gray-500 rounded-b dark:border-gray-600">
-          <div *ngIf="reqSelected.estado=='PENDIENTE'" class="flex">
+          <div *ngIf="reqSelected.estado=='PENDIENTE'&&user_role=='SUPER ADMINISTRADOR'" class="flex">
             <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
               <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
@@ -678,8 +678,8 @@
           </div>
           <button *ngIf="reqSelected.estado=='PENDIENTE'&&user_role=='SUPER ADMINISTRADOR'" [disabled]="!(reqSelected.validation=='APROBADO'||reqSelected.validation=='NO CORRESPONDE')" (click)="btnAsignar()" data-modal-hide="static-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 disabled:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">ASIGNAR</button>
           <button data-modal-hide="static-modal" type="button" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">CANCELAR</button>
-          <button *ngIf="user_role=='SUPERVISOR'&&reqSelected.validation=='PENDIENTE'" data-modal-hide="static-modal" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">APROBAR</button>
-          <button *ngIf="user_role=='SUPERVISOR'&&reqSelected.validation=='PENDIENTE'" data-modal-hide="static-modal" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">RECHAZAR</button>
+          <button *ngIf="user_role=='SUPERVISOR'&&reqSelected.validation=='PENDIENTE'" (click)="attendReqValidation(reqSelected.validation_id,'APROBADO')" data-modal-hide="static-modal" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">APROBAR</button>
+          <button *ngIf="user_role=='SUPERVISOR'&&reqSelected.validation=='PENDIENTE'" (click)="attendReqValidation(reqSelected.validation_id,'RECHAZADO')" data-modal-hide="static-modal" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">RECHAZAR</button>
         </div>
       </div>
     </div>

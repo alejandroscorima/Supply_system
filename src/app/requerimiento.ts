@@ -16,6 +16,7 @@ export class Requerimiento {
     public validation?: string,
     public total_budget?: string,
     public campus_id?: number,
+    public validation_id?: number,
     public id?: number,
   ) { }
 }

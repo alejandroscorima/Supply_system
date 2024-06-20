@@ -62,6 +62,7 @@ SELECT * FROM
     a.id_asignado, 
     a.total_budget,
     rd.id as rd_id,
+    COALESCE(b.id,0) AS validation_id,
     COALESCE(b.state,
     CASE
         WHEN COUNT(b.id) = 0 THEN 'NO CORRESPONDE'
