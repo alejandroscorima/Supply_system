@@ -63,14 +63,13 @@ SELECT * FROM
     a.total_budget,
     rd.id as rd_id,
     COALESCE(b.id,0) AS validation_id,
-    COALESCE(b.state,
     CASE
         WHEN COUNT(b.id) = 0 THEN 'NO CORRESPONDE'
         WHEN COUNT(b.id) = 1 THEN MAX(b.state)
         WHEN COUNT(b.id) > 1 AND SUM(b.state = 'PENDIENTE') > 0 THEN 'PENDIENTE'
         WHEN COUNT(b.id) > 1 AND SUM(b.state = 'PENDIENTE') = 0 AND COUNT(DISTINCT b.state) = 1 THEN MAX(b.state)
         ELSE 'CONFLICTO'
-    END) AS validation,
+    END AS validation,
     CASE
         WHEN SUM(CASE WHEN rd.estado = 'ENTREGADO' THEN 1 ELSE 0 END) > 0 THEN 'FINALIZADO'
         WHEN SUM(CASE WHEN rd.estado IN ('ASIGNADO', 'COMPRADO') THEN 1 ELSE 0 END) > 0 THEN 'PROCESO'
