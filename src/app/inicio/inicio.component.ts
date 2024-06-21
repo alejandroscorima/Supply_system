@@ -186,41 +186,41 @@ export class InicioComponent implements OnInit, AfterViewInit {
     
     var dialogRef;
 
-    if(this.user_role=='SUPER USUARIO'||this.user_role=='SUPER ADMINISTRADOR'||this.user_role=='SUPERVISOR'){
-      dialogRef=this.dialog.open(DialogDetalleReqAdm,{
-        data:req
-      })
+    // if(this.user_role=='SUPER USUARIO'||this.user_role=='SUPER ADMINISTRADOR'||this.user_role=='SUPERVISOR'){
+    //   dialogRef=this.dialog.open(DialogDetalleReqAdm,{
+    //     data:req
+    //   })
 
-      dialogRef.afterClosed().subscribe(res => {
-        if(res){
-          location.reload();
-        }
-      })
-    }
+    //   dialogRef.afterClosed().subscribe(res => {
+    //     if(res){
+    //       location.reload();
+    //     }
+    //   })
+    // }
 
-    if(this.user_role=='ADMINISTRADOR'||this.user_role=='ASISTENTE'){
-      dialogRef=this.dialog.open(DialogDetalleReqAsist,{
-        data:{req:req,user_id:this.user.user_id}
-      })
+    // if(this.user_role=='ADMINISTRADOR'||this.user_role=='ASISTENTE'){
+    //   dialogRef=this.dialog.open(DialogDetalleReqAsist,{
+    //     data:{req:req,user_id:this.user.user_id}
+    //   })
 
-      dialogRef.afterClosed().subscribe(res => {
-        if(res){
-          location.reload();
-        }
-      })
-    }
+    //   dialogRef.afterClosed().subscribe(res => {
+    //     if(res){
+    //       location.reload();
+    //     }
+    //   })
+    // }
 
-    if(this.user_role=='USUARIO'||this.user_role=='USUARIO AVANZADO'){
-      dialogRef=this.dialog.open(DialogDetalleReqUsr,{
-        data:req
-      })
+    // if(this.user_role=='USUARIO'||this.user_role=='USUARIO AVANZADO'){
+    //   dialogRef=this.dialog.open(DialogDetalleReqUsr,{
+    //     data:req
+    //   })
 
-      dialogRef.afterClosed().subscribe(res => {
-        if(res){
-          location.reload();
-        }
-      })
-    }
+    //   dialogRef.afterClosed().subscribe(res => {
+    //     if(res){
+    //       location.reload();
+    //     }
+    //   })
+    // }
 
 
   }
@@ -248,9 +248,7 @@ export class InicioComponent implements OnInit, AfterViewInit {
           b.id_asignado=this.reqSelected.id_asignado;
           console.log(b);
           this.logisticaService.updateReqDet(b).subscribe(resq=>{
-            if(indi==this.reqSelectedDetails.length-1){
-              this.toastr.success('Asignado correctamente');
-            }
+              this.toastr.success('Item asignado correctamente');
           });
         }
       })

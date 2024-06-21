@@ -10,8 +10,8 @@ export class PushNotificationService {
   messaging: firebase.messaging.Messaging;
 
   constructor() {
-    firebase.initializeApp(environment.firebaseConfig);
-    this.messaging=firebase.messaging();
+    // firebase.initializeApp(environment.firebaseConfig);
+    // this.messaging=firebase.messaging();
   }
 
   requestPermission=()=>{

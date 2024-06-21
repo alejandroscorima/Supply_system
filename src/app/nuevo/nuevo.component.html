@@ -67,14 +67,16 @@
 
 
     
-
           <div class=" p-2 w-full col-span-1">
-            <mat-form-field appearance="fill" class="w-full">
-              <mat-label>Fecha:</mat-label>
-              <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange(ref.value)">
-              <mat-datepicker-toggle disabled="" matSuffix [for]="dp3"></mat-datepicker-toggle>
-              <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-            </mat-form-field>
+            <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Fecha: </label>
+            <input type="date" disabled id="default-input" class="w-full bg-gray-50 border border-gray-300
+            text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5
+            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+            dark:focus:border-blue-500"
+
+              [(ngModel)]="req.fecha" placeholder="Fecha"
+            >
           </div>
 
 
@@ -86,7 +88,7 @@
             <select id="TiposSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
             rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-          dark:focus:border-blue-500"  (change)="priorityChange($event)">
+          dark:focus:border-blue-500"  (change)="priorityChange($event)" placeholder="Prioridad">
               <option selected [hidden]="true">Prioridad</option>
               <option id="optionTipo"
                 *ngFor="let p of prioridades" [value]="p['nivel']">

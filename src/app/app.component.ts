@@ -48,12 +48,12 @@ export class AppComponent implements OnInit {
               private cookiesService:CookiesService,
               private cookies:CookiesService,
               private toastr: ToastrService,
-              private pushNotificationService: PushNotificationService,
+              //private pushNotificationService: PushNotificationService,
               private themeService: ThemeService)
   {
-    pushNotificationService.requestPermission().then(token=>{
-      console.log(token);
-    })
+    // pushNotificationService.requestPermission().then(token=>{
+    //   console.log(token);
+    // })
     this.isDarkMode = document.documentElement.classList.contains('dark');
   }
 
@@ -82,9 +82,9 @@ export class AppComponent implements OnInit {
  }
   ngOnInit() {
 
-    this.pushNotificationService.receiveMessage().subscribe(payload => {
-      console.log('Message received:', payload);
-    });
+    // this.pushNotificationService.receiveMessage().subscribe(payload => {
+    //   console.log('Message received:', payload);
+    // });
 
 
     initFlowbite();
@@ -196,6 +196,22 @@ export class AppComponent implements OnInit {
 
 
   }
+
+  getCurrentDate(): string {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Añadir 1 al mes porque getMonth() devuelve meses 0-indexados
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  }
+
+  getCurrentHour(): string {
+    const date = new Date();
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+    return `${hours}:${minutes}:${seconds}`;
+  } 
 }
 
 

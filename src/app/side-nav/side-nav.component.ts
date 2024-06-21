@@ -9,5 +9,16 @@ import { AppComponent } from '../app.component';
 
 export class SideNavComponent extends AppComponent {
 
+  toggleSidebar(){
+    const btnToggleSidebar = document.getElementById('btnToggleSidebar');
+
+    if (window.getComputedStyle(btnToggleSidebar).display==='none') {
+      //alert('El btn del sidebar esta oculto');
+    } else {
+      //alert('El btn del sidebar NO esta oculto');
+      btnToggleSidebar.click();
+    }
+  }
+
 
 }

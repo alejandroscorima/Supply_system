@@ -177,7 +177,7 @@ export class NuevoComponent implements OnInit {
 
   addItem(){
     this.item.req_codigo = this.req.codigo;
-    if(this.item.cantidad!=null&&this.item.descripcion!=null&&this.item.tipo!=null&&this.item.unit_budget!=''&&this.item.unit_budget){
+    if(this.item.cantidad!=null&&this.item.descripcion!=null&&this.item.descripcion.trim()!=''&&this.item.tipo!=null&&this.item.unit_budget!=''&&this.item.unit_budget){
       this.item.image=this.file;
       this.file=null;
       this.item.pdf=this.pdf;
@@ -189,9 +189,9 @@ export class NuevoComponent implements OnInit {
       this.listaReq.push(this.item);
       this.req.total_budget = this.listaReq.reduce((tot,it)=>tot+parseFloat(it.subtotal_budget),0).toFixed(2);
       this.item = new Item(null,null,null, 'COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
-      this.dataSourceReq = new MatTableDataSource(this.listaReq);
-      this.dataSourceReq.paginator = this.paginator.toArray()[0];
-      this.dataSourceReq.sort = this.sort.toArray()[0];
+      // this.dataSourceReq = new MatTableDataSource(this.listaReq);
+      // this.dataSourceReq.paginator = this.paginator.toArray()[0];
+      // this.dataSourceReq.sort = this.sort.toArray()[0];
     }
     else{
       this.toastr.warning('Completa correctamente el item!');
@@ -207,9 +207,6 @@ export class NuevoComponent implements OnInit {
     this.dataSourceReq.sort = this.sort.toArray()[0];
   }
 
-  dateChange(value){
-
-  }
 
   priorityChange(event:any){
     const selectedValue = event.target.value;
@@ -288,14 +285,8 @@ export class NuevoComponent implements OnInit {
   }
   
   async saveReq(): Promise<void> {
-    // Get Date
-    const hora = new Date();
-    const hour = String(hora.getHours()).padStart(2, '0');
-    const minutes = String(hora.getMinutes()).padStart(2, '0');
-    const seconds = String(hora.getSeconds()).padStart(2, '0');
-    const hora_string = `${hour}:${minutes}:${seconds}`;
   
-    this.h_inicio = hora_string;
+    this.h_inicio = this.getCurrentHour();
     this.f_inicio = this.req.fecha;
     console.log('fecha de inicio:', this.f_inicio);
     console.log('hora de inicio', this.h_inicio);
@@ -351,7 +342,7 @@ export class NuevoComponent implements OnInit {
             // Obtener y procesar reglas de validación
             const reqValidationRules = await this.logisticaService.getReqValidationRules(this.req.campus_id, this.req.total_budget).toPromise();
             if(Array.isArray(reqValidationRules)){
-              if(reqValidationRules.length>1){
+              if(reqValidationRules.length>0){
                 for (const rule of reqValidationRules) {
                   var valToPost:ReqValidation = new ReqValidation(rule.user_id,res['id'],this.getCurrentDate(),this.getCurrentHour(),'PENDIENTE');
                   console.log(valToPost);
@@ -440,20 +431,9 @@ export class NuevoComponent implements OnInit {
                 this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
                   if(camp){
                     this.user_campus=camp;
+
   
-                    this.fecha=new Date();
-                    this.anio=this.fecha.getFullYear();
-                    this.mes=this.fecha.getMonth()+1;
-                    this.dia=this.fecha.getDate();
-  
-                    if(this.mes<10){
-                      this.mes='0'+this.mes;
-                    }
-                    if(this.dia<10){
-                      this.dia='0'+this.dia;
-                    }
-  
-                    this.req.fecha=this.anio+'-'+this.mes+'-'+this.dia;
+                    this.req.fecha=this.getCurrentDate();
                     console.log(this.user_area.name);
                     console.log(this.user_campus.name);
                     this.req.area=String(this.user_area.name);
