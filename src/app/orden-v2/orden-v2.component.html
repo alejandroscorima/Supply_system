@@ -1,82 +1,80 @@
-<div class="p-4 sm:ml-64 dark:bg-gray-900 h-screen flex flex-col">
+<div class="p-4 sm:ml-60 dark:bg-gray-900 h-screen flex flex-col">
   <div class="h-14 flex-none"></div>
-  <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-clip">
+  <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-hidden">
 
-    <div class=" bg-amber-100 m-3 p-9" style="margin:20px; max-height:100%;" >
+    <div class="h-full w-full" >
 
 
-      <mat-tab-group class="w-full"  mat-stretch-tabs="false" mat-align-tabs="center" color="accent" [(selectedIndex)]="demo1TabIndex">
+      <mat-tab-group class="w-full h-full border border-gray-200 shadow-xl rounded-md"  mat-stretch-tabs="false" mat-align-tabs="center" color="accent" [(selectedIndex)]="demo1TabIndex">
         
-        <mat-tab label="NUEVA ORDEN" class=" w-full  " *ngIf="user_role!='SUPERVISOR'">
+        <mat-tab label="NUEVA ORDEN" class="w-full overflow-y-auto" *ngIf="user_role!='SUPERVISOR'">
         
-          <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+          <div class="w-full p-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl
           dark:bg-gray-800 dark:border-gray-700">
         
             <a>
-              <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+              <h5 class="mb-2 text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
                 EMPRESA</h5>
             </a>
     
     
-            <div class="grid mb-8  rounded-lg
-            md:mb-12 md:grid-cols-3 bg-white dark:bg-gray-800 ">
+            <div class="grid rounded-lg md:grid-cols-3 bg-white dark:bg-gray-800 ">
     
-          <div class=" m-4">
-              <label for="Tipos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Elige el Tipo</label>
-              <select id="TiposSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+            <div class=" m-2">
+                <label for="Tipos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Elige el Tipo</label>
+                <select id="TiposSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+                rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+              dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                  dark:focus:border-blue-500"   (change)="setActualType($event)" >
+                
+                  <option id="optionTipo"
+                *ngFor=" let t of types " (value)="t" onchange="setActualType(t)">
+                    <button type="button" (click)="setActualType(t)" >
+                      {{t}}
+                    </button>
+                    
+                    </option>
+                  
+                </select>
+            </div>
+      
+            <div class=" m-2">
+              <label for="destino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elige el destino</label>
+              <select id="destino" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+              rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700
+              dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                dark:focus:border-blue-500" (change)="setDestiny($event)">
+                <option  *ngFor=" let c of campus " [value]="c['name']"  (selectionChange)="asigChange()" >{{c['name']}}</option>
+              
+              </select>
+            </div>
+      
+            <div class=" m-2">
+              <label for="moneda" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Tipo de moneda:</label>
+              <select id="moneda" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
               rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                dark:focus:border-blue-500"   (change)="setActualType($event)" >
+                dark:focus:border-blue-500" (change)="setMoneda($event)" >
               
-                <option id="optionTipo"
-              *ngFor=" let t of types " (value)="t" onchange="setActualType(t)">
-                  <button type="button" (click)="setActualType(t)" >
-                    {{t}}
-                  </button>
-                  
-                  </option>
+                <option *ngFor=" let m of monedas "  [value]="m">{{m}}</option>
                 
               </select>
-          </div>
-            
-    
-    
-          <div class=" m-4">
-            <label for="destino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elige el destino</label>
-            <select id="destino" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
-            rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700
-            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-              dark:focus:border-blue-500" (change)="setDestiny($event)">
-              <option  *ngFor=" let c of campus " [value]="c['name']"  (selectionChange)="asigChange()" >{{c['name']}}</option>
-            
-            </select>
-          </div>
-    
-          <div class=" m-4">
-            <label for="moneda" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Tipo de moneda:</label>
-            <select id="moneda" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+            </div>
+
+            <div class=" m-2">
+            <label for="condicion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Condición de pago:</label>
+            <select id="condicionSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
             rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-              dark:focus:border-blue-500" (change)="setMoneda($event)" >
-            
-              <option *ngFor=" let m of monedas "  [value]="m">{{m}}</option>
+              dark:focus:border-blue-500" (change)="setCondicion($event)" >
+            <option selected  [hidden]="ord.tipo_pago!=null" [value]="null"></option>
+            <option *ngFor=" let p of pay_type "  [value]="p">{{p}}</option>
               
             </select>
-        </div>
-        <div class=" m-4">
-          <label for="condicion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Condición de pago:</label>
-          <select id="condicionSelect" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
-          rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
-        dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-            dark:focus:border-blue-500" (change)="setCondicion($event)" >
-          <option selected  [hidden]="ord.tipo_pago!=null" [value]="null"></option>
-          <option *ngFor=" let p of pay_type "  [value]="p">{{p}}</option>
-            
-          </select>
-      </div>
+            </div>
     
     <!-- 
                 <mat-form-field class="sala" id="sala" appearance="outline" >
@@ -106,14 +104,18 @@
                   </mat-select>
                 </mat-form-field>
     -->
-                <mat-form-field appearance="outline">
-                  <mat-label>Fecha:</mat-label>
-                  <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="fecha" #ref (dateChange)="dateChange()">
-                  <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                  <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                </mat-form-field>
-      
-          
+
+            <div class="m-2">
+              <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Fecha: </label>
+              <input type="date" id="default-input" class="w-full bg-gray-50 border border-gray-300
+              text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5
+              dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+              dark:focus:border-blue-500"
+  
+                [(ngModel)]="ord.fecha" placeholder="Fecha"
+              >
+            </div>
     
     
             </div>
@@ -175,45 +177,40 @@
     
     -->
     
-    <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+    <div class="w-full p-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl
     dark:bg-gray-800 dark:border-gray-700 my-4 ">
     
       <a>
-          <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <h5 class="mb-2 text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
           PROVEEDOR</h5>
       </a>
     
     
-      <div class=" grid   rounded-lg
-      md:mb-12 md:grid-cols-2 bg-white dark:bg-gray-800  ">
+      <div class=" grid   rounded-lg md:grid-cols-2 bg-white dark:bg-gray-800  ">
     
-      <div class="mx-auto  min-w-7 ">
-      <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese RUC</label>
-      <input type="text" appIntegerPositive id="input-ruc" class="bg-gray-50 border border-gray-300
-        text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-full p-2.5
-        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-          dark:focus:border-blue-500"
+        <div class="m-2 ">
+          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese RUC</label>
+          <input type="text" appIntegerPositive id="input-ruc" class="bg-gray-50 border border-gray-300
+            text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-full p-2.5
+            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+              dark:focus:border-blue-500"
+        
+            (keyup)="changeRuc()" [(ngModel)]="ord.ruc" placeholder="R.U.C."
+            >
+        </div>
     
-        (keyup)="changeRuc()" [(ngModel)]="ord.ruc" placeholder="R.U.C."
-        >
-      </div>
-    
-      <div class="mx-auto w-full min-w-4">
-        <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Razón Social</label>
-        <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
-          text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-            dark:focus:border-blue-500"
-    
-          [(ngModel)]="ord.razon_social" placeholder="Razón Social."
-          >
-      </div>
-    
+        <div class="m-2">
+          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Razón Social</label>
+          <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+            text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+              dark:focus:border-blue-500"
       
-    </div>
-    
-    
-        <div class="mb-6">
+            [(ngModel)]="ord.razon_social" placeholder="Razón Social."
+            >
+        </div>
+
+        <div class="m-2 col-span-full">
           <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Dirección</label>
           <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
           text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
@@ -225,7 +222,7 @@
         </div>
     
     
-        <div class="mb-6">
+        <div class="m-2 col-span-full">
           <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese Cuenta Bancaria</label>
           <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
           text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
@@ -236,10 +233,8 @@
     
         </div>
     
-    
-    
-    
-    
+      
+      </div>
     
     </div>
     
@@ -274,95 +269,94 @@
         -->
     
     
-          <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
-          dark:bg-gray-800 dark:border-gray-700">
-            <a>
-                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                  NUEVO ITEM</h5>
-            </a>
-            <div class=" mb-8  rounded-lg
-            md:mb-12  grid md:grid-cols-9 gap-2 bg-white dark:bg-gray-800 " >
-          
-            
-              <div class="max-w-xs mb-6 mx-auto col-span-2 flex flex-col ">
-                <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad:</label>
-                <div class=" flex ">
-                    <button type="button" id="decrement-button" class="bg-gray-100 dark:bg-gray-700
-                    dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11
-                      focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
-                      (click)="decreaseQuantityButton()"
-                      >
-                        <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                        </svg>
-                    </button>
-                    <input type="text"  appFloatPositive id="quantity-input" aria-describedby="helper-text-explanation" 
-                    class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500
-                    focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0" required
-                    [(ngModel)]="orden_item.cantidad" placeholder="Cantidad"
-                    >
-                    <button type="button" id="increment-button"
-                    class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border
-                    border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
-                    (click)="increaseQuantityButton()">
-                        <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                        </svg>
-                    </button>
-                </div>
-              
-            </div>
-            
+    <div class="w-full p-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl
+    dark:bg-gray-800 dark:border-gray-700">
+      <a>
+          <h5 class="mb-2 text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+            NUEVO ITEM</h5>
+      </a>
+      <div class="rounded-lg  grid md:grid-cols-9 bg-white dark:bg-gray-800">
     
-          
-              <div class="mb-6 w-full mx-auto  col-span-5 flex flex-col">
-                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese la descripción del producto</label>
-                <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
-                text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-7/12 p-2.5
-                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                dark:focus:border-blue-500"
-          
-                [(ngModel)]="orden_item.descripcion" placeholder="Descripcion"
+      
+        <div class="m-2 col-span-2 flex flex-col">
+          <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad:</label>
+          <div class=" flex ">
+              <button type="button" id="decrement-button" class="bg-gray-100 dark:bg-gray-700
+              dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11
+                focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                (click)="decreaseQuantityButton()"
                 >
-              </div>
-          
-              <div class="mb-6 mx-auto  w-full col-span-2 flex flex-col">
-                <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Precio</label>
-                <div class="flex">
-                  <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                  <h1>{{prefijoMoney}}</h1>
-                  </span>
-                  <input type="text" appFloatPositive id="website-admin" class="rounded-none rounded-e-lg
-                  bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 
-                  focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700
-                  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                    dark:focus:border-blue-500" placeholder="Precio"
-                    [(ngModel)]="orden_item.unit_price" placeholder="Precio"
-                    >
-                </div>
-    
-              </div>  
-    
-              </div>
-              <div class=" w-full text-right">
-              
-                <button type="button" class= " object-right
-                text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl 
-                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg 
-                text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 hover:bg-blue-800  inline-flex 
-                items-center  dark:bg-blue-600 dark:hover:bg-blue-700 "
-                (click)="addItem()">
-                  <svg class="w-4 h-4 text-gray-800 dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                  <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
                   </svg>
-                    Añadir Item 
-                  </button>
-              </div>
-            
-        
-    
+              </button>
+              <input type="text"  appFloatPositive id="quantity-input" aria-describedby="helper-text-explanation" 
+              class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500
+              focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0" required
+              [(ngModel)]="orden_item.cantidad" placeholder="Cantidad"
+              >
+              <button type="button" id="increment-button"
+              class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border
+              border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+              (click)="increaseQuantityButton()">
+                  <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                  </svg>
+              </button>
           </div>
+        
+        </div>
+      
+
+    
+        <div class="m-2  col-span-5 flex flex-col">
+          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese la descripción del producto</label>
+          <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
+          text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-7/12 p-2.5
+          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+          dark:focus:border-blue-500"
+    
+          [(ngModel)]="orden_item.descripcion" placeholder="Descripcion"
+          >
+        </div>
+    
+        <div class="m-2 col-span-2 flex flex-col">
+          <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Precio</label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+            <h1>{{prefijoMoney}}</h1>
+            </span>
+            <input type="text" appFloatPositive id="website-admin" class="rounded-none rounded-e-lg
+            bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 
+            focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700
+            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+              dark:focus:border-blue-500" placeholder="Precio"
+              [(ngModel)]="orden_item.unit_price" placeholder="Precio"
+              >
+          </div>
+
+        </div>  
+
+      </div>
+      <div class="w-full text-right pt-2">
+      
+        <button type="button" class= " object-right
+        text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl 
+        focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg 
+        text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 hover:bg-blue-800  inline-flex 
+        items-center  dark:bg-blue-600 dark:hover:bg-blue-700 "
+        (click)="addItem()">
+          <svg class="w-4 h-4 text-gray-800 dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+          </svg>
+            Añadir Item 
+          </button>
+      </div>
+      
+  
+
+    </div>
     
     
     <!-- 
@@ -400,8 +394,8 @@
     
     
     
-      <div class="w-full p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow
-      *:dark:bg-gray-800 dark:border-gray-700 mt-4">
+      <div class="w-full p-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl
+      *:dark:bg-gray-800 dark:border-gray-700 my-4">
     
     
       <div style="width:100%;display:display-inline;text-align: center;">
@@ -421,8 +415,8 @@
       </a> 
     
       
-      <div class="mat-elevation-z8" style="width:100%;">
-        <table mat-table style="width:100%;" [dataSource]="dataSourceOrd" matSort>
+      <div class="mat-elevation-z8 w-full overflow-x-auto">
+        <table mat-table [dataSource]="dataSourceOrd" matSort>
     
           <ng-container matColumnDef="cantidad">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> CANTIDAD </th>
@@ -842,16 +836,16 @@
     -->
     
     
-      <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow
+      <div class="w-full p-4 mb-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl
       dark:bg-gray-800 dark:border-gray-700">
         <a>
-            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            <h5 class="mb-2 text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
               Observaciones</h5>
         </a>
-        <div class=" mb-4  rounded-lg md:mb-4  gap-2 bg-white dark:bg-gray-800 " >
+        <div class="rounded-lg  bg-white dark:bg-gray-800" >
       
       
-          <div class="mb-2 w-full mx-auto  flex flex-col">
+          <div class="m-2 flex flex-col">
             <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingrese la observacion</label>
             <!-- <input type="text" id="default-input" class="bg-gray-50 border border-gray-300
             text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  w-7/12 p-2.5
@@ -871,11 +865,11 @@
             
             
           </div>
-          <div class=" w-full text-right">
+          <div class=" w-full text-right pt-2">
               
             <button type="button" class="object-right
           font-medium rounded-lg 
-            text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 gap-2 text-white bg-gradient-to-r 
+            text-sm px-5 py-2.5 text-center me-2 mb-2 bg-blue-700 gap-2 text-white bg-gradient-to-r 
             from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 
             focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg
             shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 b-2" (click)="generarOrden()">

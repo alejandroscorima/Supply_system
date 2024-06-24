@@ -309,7 +309,28 @@ export class OrdenV2Component implements OnInit {
         // Default logic
         break;
     }
+
+    
 }
+
+  getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const day = now.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+
+  getCurrentHour() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
   setCondicion(event: any) {
 
     
@@ -632,18 +653,7 @@ export class OrdenV2Component implements OnInit {
   
   dateChange(){
 
-    var anio = this.fecha.getFullYear();
-    var mes = this.fecha.getMonth()+1;
-    var dia = this.fecha.getDate();
-
-    if(mes<10){
-      mes='0'+mes;
-    }
-    if(dia<10){
-      dia='0'+dia;
-    }
-
-    this.ord.fecha=anio+'-'+mes+'-'+dia;
+    //this.ord.fecha=anio+'-'+mes+'-'+dia;
 
   }
 
@@ -855,9 +865,9 @@ updateAsociatedFilesFolderId(orden_id){
 
 ////
   initConfig(){
-    this.fecha= new Date();
+    this.fecha= this.getCurrentDate();
 
-    this.fechaRegister= new Date();
+    this.fechaRegister= this.getCurrentDate();
 
     const tabCount=2;
     this.demo1TabIndex = 0;
@@ -940,7 +950,7 @@ updateAsociatedFilesFolderId(orden_id){
                     this.ord.rebajado='';
                     this.posTituloSala = 74;
   
-                    var anio = this.fecha.getFullYear();
+/*                     var anio = this.fecha.getFullYear();
                     var mes = this.fecha.getMonth()+1;
                     var dia = this.fecha.getDate();
   
@@ -951,7 +961,7 @@ updateAsociatedFilesFolderId(orden_id){
                       dia='0'+dia;
                     }
   
-                    this.ord.fecha=anio+'-'+mes+'-'+dia;
+                    this.ord.fecha=anio+'-'+mes+'-'+dia; */
                     console.log(this.ord.empresa);
 
                     if(this.cookiesService.checkToken('reqItems')){
@@ -1539,18 +1549,18 @@ updateAsociatedFilesFolderId(orden_id){
 
                   this.generatePDF(true);
 
-                  var anio = this.fecha.getFullYear();
-                  var mes = this.fecha.getMonth()+1;
-                  var dia = this.fecha.getDate();
+                  // var anio = this.fecha.getFullYear();
+                  // var mes = this.fecha.getMonth()+1;
+                  // var dia = this.fecha.getDate();
 
-                  if(mes<10){
-                    mes='0'+mes;
-                  }
-                  if(dia<10){
-                    dia='0'+dia;
-                  }
+                  // if(mes<10){
+                  //   mes='0'+mes;
+                  // }
+                  // if(dia<10){
+                  //   dia='0'+dia;
+                  // }
 
-                  this.ord.fecha=anio+'-'+mes+'-'+dia;
+                  // this.ord.fecha=anio+'-'+mes+'-'+dia;
 
                   this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA','');
                   this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
@@ -2509,7 +2519,7 @@ updateAsociatedFilesFolderId(orden_id){
           this.ord.moneda=this.ordView.moneda;
           this.asigMoneyChange();
           var fechaArrAux=this.ordView.fecha.split('-');
-          this.fecha=new Date(parseInt(fechaArrAux[0]),parseInt(fechaArrAux[1])-1,parseInt(fechaArrAux[2])) ;
+          //this.fecha=new Date(parseInt(fechaArrAux[0]),parseInt(fechaArrAux[1])-1,parseInt(fechaArrAux[2])) ;
           this.ord.tipo_pago=this.ordView.tipo_pago;
           this.ord.ruc=this.ordView.ruc
           this.ord.razon_social=this.ordView.razon_social;

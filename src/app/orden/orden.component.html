@@ -1,6 +1,6 @@
-<div class="p-4 sm:ml-64 dark:bg-gray-900 h-screen flex flex-col">
+<div class="p-4 sm:ml-60 dark:bg-gray-900 h-screen flex flex-col">
   <div class="h-14 flex-none"></div>
-  <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-clip">
+  <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-hidden">
 
 
     <div class="h-full w-full" >
@@ -8,7 +8,7 @@
 
       <mat-tab-group class="w-full h-full border border-gray-200 shadow-xl rounded-md"  mat-stretch-tabs="false" mat-align-tabs="center" color="accent" [(selectedIndex)]="demo1TabIndex">
         
-        <mat-tab label="NUEVA ORDEN" class=" w-full h-full overflow-y-auto" *ngIf="user_role!='SUPERVISOR'">
+        <mat-tab label="NUEVA ORDEN" class="w-full h-full overflow-y-auto" *ngIf="user_role!='SUPERVISOR'">
         
           <div class="w-full p-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700">
         
@@ -302,21 +302,21 @@
 
               </div>  
 
-              </div>
-              <div class=" w-full text-right pt-2">
-              
-                <button type="button" class= " object-right
-                text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl 
-                focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg 
-                text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 hover:bg-blue-800  inline-flex 
-                items-center  dark:bg-blue-600 dark:hover:bg-blue-700 "
-                (click)="addItem()">
-                  <svg class="w-4 h-4 text-gray-800 dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                  </svg>
-                    Añadir Item 
-                </button>
-              </div>
+            </div>
+            <div class=" w-full text-right pt-2">
+            
+              <button type="button" class= " object-right
+              text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl 
+              focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg 
+              text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 hover:bg-blue-800  inline-flex 
+              items-center  dark:bg-blue-600 dark:hover:bg-blue-700 "
+              (click)="addItem()">
+                <svg class="w-4 h-4 text-gray-800 dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                </svg>
+                  Añadir Item 
+              </button>
+            </div>
             
         
 
@@ -629,7 +629,7 @@
               <button type="button" class= " object-right
               text-white bg-gradient-to-br from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-bl 
               focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-pink-800 font-medium rounded-lg 
-              text-sm px-5 py-2.5 text-center me-2 mb-2bg-blue-700 hover:bg-blue-800  inline-flex 
+              text-sm px-5 py-2.5 text-center me-2 mb-2 bg-blue-700 hover:bg-blue-800  inline-flex 
               items-center  dark:bg-blue-600 dark:hover:bg-blue-700 shadow-lg shadow-green-500/50"
               (click)="generarOrden()">
                 <svg class="w-4 h-4 text-white dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
