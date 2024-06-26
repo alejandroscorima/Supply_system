@@ -237,7 +237,9 @@ export class OrdenV2Component implements OnInit {
   prefijoMoneyView='';
 
   receipt: FondoItem;
-  fechaRegister
+  fechaRegister;
+
+  dateTemp;
 
   txtFileName;
   txtFileUrl;
@@ -962,6 +964,7 @@ updateAsociatedFilesFolderId(orden_id){
                     }
   
                     this.ord.fecha=anio+'-'+mes+'-'+dia; */
+                    this.ord.fecha=this.getCurrentDate();
                     console.log(this.ord.empresa);
 
                     if(this.cookiesService.checkToken('reqItems')){
@@ -1519,6 +1522,8 @@ updateAsociatedFilesFolderId(orden_id){
         // })
         // await this.getOrdValRules()
 
+          this.dateTemp=this.ord.fecha;
+
           this.logisticaService.addOrd(this.ord).subscribe(resAddOrd=>{
             console.log()
             if(this.ordValRules.length>0){
@@ -1561,6 +1566,8 @@ updateAsociatedFilesFolderId(orden_id){
                   // }
 
                   // this.ord.fecha=anio+'-'+mes+'-'+dia;
+
+                  this.ord.fecha=this.dateTemp;
 
                   this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA','');
                   this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);

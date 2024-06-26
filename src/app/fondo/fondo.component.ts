@@ -1037,7 +1037,7 @@ export class DialogEditItemFondo implements OnInit {
   mes;
   dia;
 
-  date;
+  dateNonUse;
 
   destino_dir='';
 
@@ -1107,8 +1107,8 @@ export class DialogEditItemFondo implements OnInit {
 
   ngOnInit(): void {
     var dateArr=this.data.fecha.split('-');
-    this.date= new Date(parseInt(dateArr[0]),parseInt(dateArr[1])-1,parseInt(dateArr[2]));
-    console.log(this.date);
+    //this.date= new Date(parseInt(dateArr[0]),parseInt(dateArr[1])-1,parseInt(dateArr[2]));
+    //console.log(this.date);
     this.logisticaService.getAllCategories().subscribe(res=>{
       if(res){
         this.categories=res;
@@ -1127,16 +1127,16 @@ export class DialogEditItemFondo implements OnInit {
   }
 
   dateChange(value){
-    var year= this.date.getFullYear();
-    var month = this.date.getMonth()+1;
-    if(month<10){
-      month='0'+month;
-    }
-    var day = this.date.getDate();
-    if(day<10){
-      day='0'+day;
-    }
-    this.data.fecha=year+'-'+month+'-'+day;
+    // var year= this.date.getFullYear();
+    // var month = this.date.getMonth()+1;
+    // if(month<10){
+    //   month='0'+month;
+    // }
+    // var day = this.date.getDate();
+    // if(day<10){
+    //   day='0'+day;
+    // }
+    // this.data.fecha=year+'-'+month+'-'+day;
   }
 
 
