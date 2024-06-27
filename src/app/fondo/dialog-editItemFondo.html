@@ -50,12 +50,24 @@
         </mat-form-field>
       </div>
       <div class=" p-2 w-full col-span-1">
-        <mat-form-field style="width:28%;">
+        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Tipo documento:
+        </label>
+        <select id="category" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+        rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
+      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+      dark:focus:border-blue-500" [(ngModel)]="data.tipo_doc"  (change)="ChangeCategory()" >
+          <option id="optionTipo" *ngFor="let d of docs" [ngValue]="d" >
+            {{d}}  
+          </option>
+        </select>
+
+        <!-- <mat-form-field style="width:28%;">
           <mat-label>Tipo documento:</mat-label>
           <mat-select [(value)]="data.tipo_doc">
               <mat-option *ngFor="let d of docs" [value]="d">{{d}}</mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
       </div>
       <div class=" p-2 w-full col-span-1">
         <mat-form-field style="width:28%;" class="doc_id">
