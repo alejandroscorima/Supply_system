@@ -50,6 +50,12 @@ export class FondoComponent implements OnInit {
   fondoItems: FondoItem[]=[];
   fondoLiquidaciones: FondoLiquidacion[]=[];
 
+  fondoItemsFiltered: FondoItem[]=[];
+  fondoLiquidacionesFiltered: FondoLiquidacion[]=[];
+
+  fondoItemsDisplayed: FondoItem[]=[];
+  fondoLiquidacionesDisplayed: FondoLiquidacion[]=[];
+
   user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
   colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
@@ -95,6 +101,14 @@ export class FondoComponent implements OnInit {
   txtFileUrl;
   txtFileName;
 
+  startDate: string;
+  endDate: string;
+  rangeValid: boolean;
+
+  liquidacionesPageSize = 10;
+  liquidacionesCurrentPage = 1;
+  liquidacionesTotalPages = 1;
+  liquidacionesFilterValue = '';
 
 
 
@@ -108,7 +122,11 @@ export class FondoComponent implements OnInit {
     private sanitizer: DomSanitizer,
     ) { }
 
-
+    onDateChange() {
+      if (this.startDate && this.endDate) {
+        this.rangeValid = new Date(this.startDate) <= new Date(this.endDate);
+      }
+    }
 
     editItem(it:FondoItem){
 
@@ -187,24 +205,71 @@ export class FondoComponent implements OnInit {
       })
     }
   
-  
+    changePage(page: number) {
+      this.liquidacionesCurrentPage = page;
+      this.updateTable();
+    }
+
+    updateTable() {
+      const start = (this.liquidacionesCurrentPage - 1) * this.liquidacionesPageSize;
+      const end = start + this.liquidacionesPageSize;
+
+      if(this.liquidacionesFilterValue!=''){
+        this.liquidacionesFilterValue = this.liquidacionesFilterValue.trim().toLowerCase();
+        // Filtrar el array de datos
+        this.fondoLiquidacionesFiltered = this.fondoLiquidaciones.filter(item => {
+          if(item.estado){
+            return (
+              item.fecha.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.campus.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.numero.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.importe.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.personal.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.estado.toLowerCase().includes(this.liquidacionesFilterValue) 
+            );
+          }
+          else{
+            return (
+              item.fecha.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.campus.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.numero.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.importe.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.personal.toLowerCase().includes(this.liquidacionesFilterValue)
+            );
+          }
+        })
+
+      }
+      else{
+        this.fondoLiquidacionesFiltered=this.fondoLiquidaciones;
+      }
+
+      this.liquidacionesTotalPages = Math.ceil(this.fondoLiquidacionesFiltered.length / this.liquidacionesPageSize);
+
+      this.fondoLiquidacionesDisplayed=this.fondoLiquidacionesFiltered.slice(start,end);
+    }
   
     applyFilterD(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourceFondoItem.filter = filterValue.trim().toLowerCase();
+      // this.dataSourceFondoItem.filter = filterValue.trim().toLowerCase();
   
-      if (this.dataSourceFondoItem.paginator) {
-        this.dataSourceFondoItem.paginator.firstPage();
-      }
+      // if (this.dataSourceFondoItem.paginator) {
+      //   this.dataSourceFondoItem.paginator.firstPage();
+      // }
     }
   
-    applyFilterL(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourceFondoLiq.filter = filterValue.trim().toLowerCase();
+    applyFilterL() {
+      this.liquidacionesCurrentPage = 1;
+
+
+      this.updateTable();
+
+
+      // this.dataSourceFondoLiq.filter = filterValue.trim().toLowerCase();
   
-      if (this.dataSourceFondoLiq.paginator) {
-        this.dataSourceFondoLiq.paginator.firstPage();
-      }
+      // if (this.dataSourceFondoLiq.paginator) {
+      //   this.dataSourceFondoLiq.paginator.firstPage();
+      // }
     }
   
     dateChange(value){
@@ -240,6 +305,7 @@ export class FondoComponent implements OnInit {
           //this.user_campus=res4;
           this.logisticaService.getFondoLiquidacionesByCampus(this.sala,).subscribe((res:FondoLiquidacion[])=>{
             this.fondoLiquidaciones=res;
+            this.fondoLiquidacionesDisplayed=this.fondoLiquidaciones;
             this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
             this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
             this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
@@ -352,6 +418,7 @@ export class FondoComponent implements OnInit {
                             this.campus=resi;
                             this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
                               this.fondoLiquidaciones=liqs;
+                              this.fondoLiquidacionesDisplayed=this.fondoLiquidaciones;
                               this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
                               this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
                               this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
@@ -377,6 +444,7 @@ export class FondoComponent implements OnInit {
 
                         this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
                           this.fondoLiquidaciones=liqs;
+                          this.fondoLiquidacionesDisplayed=this.fondoLiquidaciones;
                           this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
                           this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
                           this.dataSourceFondoLiq.sort = this.sort.toArray()[1];
@@ -702,6 +770,8 @@ export class FondoComponent implements OnInit {
                           this.campus=resi;
                           this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
                             this.fondoLiquidaciones=liqs;
+                            this.fondoLiquidacionesFiltered=this.fondoLiquidaciones;
+                            this.updateTable();
                             this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
                             this.dataSourceFondoLiq.paginator = this.paginator.toArray()[0];
                             this.dataSourceFondoLiq.sort = this.sort.toArray()[0];
@@ -727,6 +797,7 @@ export class FondoComponent implements OnInit {
   
                         this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
                           this.fondoLiquidaciones=liqs;
+                          this.fondoLiquidacionesDisplayed=this.fondoLiquidaciones;
                           this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
                           this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
                           this.dataSourceFondoLiq.sort = this.sort.toArray()[1];

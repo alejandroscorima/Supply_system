@@ -2,7 +2,6 @@
   <div class="h-14 flex-none"></div>
   <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-hidden">
 
-
     <div class="h-full grid grid-cols-1 md:grid-cols-2 overflow-y-auto bg-gray-200 dark:bg-gray-800 border-gray-300 dark:border-gray-700">
 
       <div class=" p-2  w-full col-span-1">
@@ -71,7 +70,7 @@
         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
         dark:focus:border-blue-500"
 
-        (keyup)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1
+        (keypressed)="applyFilterD($event)" placeholder="Escribe algo para buscar" #input1
         >
       </div>
 
@@ -154,7 +153,7 @@
                 <td class="px-2 py-1">
                   {{fi.categoria}}
                 </td>
-                <td class="px-2 py-1">
+                <td class="px-2 py-1 whitespace-nowrap">
                   <button mat-icon-button color="primary" (click)="editItem(fi)">
                     <mat-icon >edit</mat-icon>
                   </button>
@@ -168,7 +167,6 @@
         </div>
 
         <div class="mat-elevation-z8 flex" >
-
           <table class="w-full " mat-table [dataSource]="dataSourceFondoItem" matSort multiTemplateDataRows>
 
             <ng-container matColumnDef="fecha">
@@ -267,18 +265,15 @@
               <td class="mat-cell" colspan="10">No se encontró "{{input1.value}}"</td>
             </tr>
           </table>
-
           <mat-paginator [pageSizeOptions]="[20, 40, 70, 100]" aria-label="Página"></mat-paginator>
+        </div>
       </div>
+
+      <div class="p-2 w-full col-span-full">
+        <h3 style="text-align:left;" >
+          REGISTROS
+        </h3>
       </div>
-
-
-
-
-
-
-
-      <h3>REGISTROS</h3>
 
 
     <!--       <mat-form-field style="width:25%;" appearance="outline">
@@ -288,97 +283,202 @@
         <mat-datepicker #dp3 disabled="false"></mat-datepicker>
       </mat-form-field> -->
 
-      <div class=" p-2 w-full col-span-full md:col-span-2">
+      <div class=" p-2 w-full col-span-full md:col-span-1">
         <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Búsqueda </label>
+          Búsqueda 
+        </label>
         <input type="text" id="default-input" class="w-full bg-gray-50 border border-gray-300
         text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5
         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
         dark:focus:border-blue-500"
-
-        (keyup)="applyFilterL($event)" placeholder="Escribe algo para buscar" #input2
+        [(ngModel)]="liquidacionesFilterValue"
+        (keyup)="applyFilterL()" placeholder="Escribe algo para buscar" #input2
         >
       </div>
 
-      <mat-form-field appearance="outline" style="display:display-inline">
+      <div class=" p-2 w-full col-span-full md:col-span-1">
+        <div hidden class="flex flex-col">
+          <label class="mb-2 font-medium text-sm text-gray-700">Seleccione un rango de fechas:</label>
+          <div class="flex space-x-2 items-center">
+            <input
+              type="date"
+              [(ngModel)]="startDate"
+              class="p-2.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (change)="onDateChange()"
+            />
+            <span class="text-gray-500">a</span>
+            <input
+              type="date"
+              [(ngModel)]="endDate"
+              class="p-2.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (change)="onDateChange()"
+            />
+          </div>
+        </div>
+      </div>
+      
+
+      <!-- <mat-form-field appearance="outline" style="display:display-inline">
         <mat-label>Búsqueda</mat-label>
         <input matInput (keyup)="applyFilterL($event)" placeholder="Escribe algo para buscar" #input2>
-      </mat-form-field>
+      </mat-form-field> -->
 
-      <div class="mat-elevation-z8" style="width:100%;">
-        <table mat-table style="width:100%;" [dataSource]="dataSourceFondoLiq" matSort multiTemplateDataRows>
-
-          <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
-            <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="campus">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> SALA </th>
-            <td mat-cell *matCellDef="let a"> {{a.campus}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="numero">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> NUMERO </th>
-            <td mat-cell *matCellDef="let a"> {{a.numero}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="importe">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> IMPORTE </th>
-            <td mat-cell *matCellDef="let a"> S/.{{' '+a.importe}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="personal">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> RENDIDO POR </th>
-            <td mat-cell *matCellDef="let a"> {{a.personal}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
-            <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="pdf">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> PDF </th>
-            <td mat-cell *matCellDef="let a">
-              <button mat-icon-button (click)="reCreatePDF(a)" color="accent">
-                <mat-icon>description</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="txt">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> TXT </th>
-            <td mat-cell *matCellDef="let a">
-              <button *ngIf="a.estado!='ANULADO'" mat-icon-button (click)="createTxtFile(a)" color="accent">
-                <mat-icon>save_alt</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ANULAR </th>
-            <td mat-cell *matCellDef="let a; let i=index">
-              <button *ngIf="a.estado!='ANULADO'" mat-icon-button color="primary" (click)="anular(a)"> <mat-icon> cancel </mat-icon> </button>&nbsp;
-            </td>
-          </ng-container>
-
-
-          <tr mat-header-row *matHeaderRowDef="['fecha','campus','numero','importe','personal','estado','pdf','txt','edit'];"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['fecha','campus','numero','importe','personal','estado','pdf','txt','edit'];"></tr>
-
-
-
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="6">No se encontró "{{input2.value}}"</td>
-          </tr>
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
-    </div>
-
-
+      <div class=" p-2 w-full col-span-full ">
+        <div class="relative mat-elevation-z8 overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-2 py-1">
+                  FECHA
+                </th>
+                <th scope="col" class="px-2 py-1">
+                  SALA
+                </th>
+                <th scope="col" class="px-2 py-1">
+                  NUMERO
+                </th>
+                <th scope="col" class="px-2 py-1">
+                  IMPORTE
+                </th>
+                <th scope="col" class="px-2 py-1">
+                  RENDIDO POR
+                </th>
+                <th scope="col" class="px-2 py-1">
+                  ESTADO
+                </th>
+                <th scope="col" class="px-2 py-1">
+                  PDF
+                </th>
+                <th scope="col" class="px-2 py-1">
+                  TXT
+                </th>
+                <th scope="col" class="px-2 py-1">
+                  ANULAR
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let fl of fondoLiquidacionesDisplayed" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td class="px-2 py-1 whitespace-nowrap">
+                  {{fl.fecha}}
+                </td>
+                <td class="px-2 py-1">
+                  {{fl.campus}}
+                </td>
+                <th scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {{fl.numero}}
+                </th>
+                <td class="px-2 py-1 whitespace-nowrap">
+                  S/.{{' '+fl.importe}}
+                </td>
+                <td scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {{fl.personal}}
+                </td>
+                <td class="px-2 py-1">
+                  {{fl.estado}}
+                </td>
+                <td class="px-2 py-1">
+                  <button (click)="reCreatePDF(fl)">
+                    <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                      <path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z" clip-rule="evenodd"/>
+                    </svg>
+                  </button>
+                </td>
+                <td class="px-2 py-1">
+                  <button *ngIf="fl.estado!='ANULADO'" (click)="createTxtFile(fl)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                    </svg>                    
+                  </button>
+                </td>
+                <td class="px-2 py-1">
+                  <button *ngIf="fl.estado!='ANULADO'" (click)="anular(fl)">
+                    <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>                    
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="mt-4 flex justify-between items-center">
+            <button (click)="changePage(liquidacionesCurrentPage - 1)" [disabled]="liquidacionesCurrentPage === 1" class="p-2 bg-gray-300 rounded">Anterior</button>
+            <span>Página {{ liquidacionesCurrentPage }} de {{ liquidacionesTotalPages }}</span>
+            <button (click)="changePage(liquidacionesCurrentPage + 1)" [disabled]="liquidacionesCurrentPage === liquidacionesTotalPages" class="p-2 bg-gray-300 rounded">Siguiente</button>
+          </div>
+        </div>
+        <div class="mat-elevation-z8" style="width:100%;">
+          <table mat-table style="width:100%;" [dataSource]="dataSourceFondoLiq" matSort multiTemplateDataRows>
+  
+            <ng-container matColumnDef="fecha">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
+              <td mat-cell *matCellDef="let a"> {{a.fecha}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="campus">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> SALA </th>
+              <td mat-cell *matCellDef="let a"> {{a.campus}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="numero">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> NUMERO </th>
+              <td mat-cell *matCellDef="let a"> {{a.numero}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="importe">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> IMPORTE </th>
+              <td mat-cell *matCellDef="let a"> S/.{{' '+a.importe}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="personal">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> RENDIDO POR </th>
+              <td mat-cell *matCellDef="let a"> {{a.personal}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="estado">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+              <td mat-cell *matCellDef="let a"> {{a.estado}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="pdf">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> PDF </th>
+              <td mat-cell *matCellDef="let a">
+                <button mat-icon-button (click)="reCreatePDF(a)" color="accent">
+                  <mat-icon>description</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="txt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> TXT </th>
+              <td mat-cell *matCellDef="let a">
+                <button *ngIf="a.estado!='ANULADO'" mat-icon-button (click)="createTxtFile(a)" color="accent">
+                  <mat-icon>save_alt</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+  
+  
+            <ng-container matColumnDef="edit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ANULAR </th>
+              <td mat-cell *matCellDef="let a; let i=index">
+                <button *ngIf="a.estado!='ANULADO'" mat-icon-button color="primary" (click)="anular(a)"> <mat-icon> cancel </mat-icon> </button>&nbsp;
+              </td>
+            </ng-container>
+  
+  
+            <tr mat-header-row *matHeaderRowDef="['fecha','campus','numero','importe','personal','estado','pdf','txt','edit'];"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['fecha','campus','numero','importe','personal','estado','pdf','txt','edit'];"></tr>
+  
+  
+  
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="6">No se encontró "{{input2.value}}"</td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
+        </div>
+      </div>
 
 
     </div>
