@@ -797,7 +797,8 @@ export class FondoComponent implements OnInit {
   
                         this.logisticaService.getFondoLiquidacionesByCampus(this.sala).subscribe((liqs:FondoLiquidacion[])=>{
                           this.fondoLiquidaciones=liqs;
-                          this.fondoLiquidacionesDisplayed=this.fondoLiquidaciones;
+                          this.fondoLiquidacionesFiltered=this.fondoLiquidaciones;
+                          this.updateTable();
                           this.dataSourceFondoLiq = new MatTableDataSource(this.fondoLiquidaciones);
                           this.dataSourceFondoLiq.paginator = this.paginator.toArray()[1];
                           this.dataSourceFondoLiq.sort = this.sort.toArray()[1];

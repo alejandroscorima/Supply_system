@@ -49,6 +49,13 @@ export class EntregaComponent implements OnInit {
 
   entregaItems: EntregaItem[]=[];
   entregaLiquidaciones: EntregaLiquidacion[]=[];
+
+  entregaItemsFiltered: EntregaItem[]=[];
+  entregaLiquidacionesFiltered: EntregaLiquidacion[]=[];
+
+  entregaItemsDisplayed: EntregaItem[]=[];
+  entregaLiquidacionesDisplayed: EntregaLiquidacion[]=[];
+
   user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
   colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
   user_area: Area = new Area('',null);
@@ -95,6 +102,10 @@ export class EntregaComponent implements OnInit {
   txtFileUrl;
   txtFileName;
 
+  liquidacionesPageSize = 10;
+  liquidacionesCurrentPage = 1;
+  liquidacionesTotalPages = 1;
+  liquidacionesFilterValue = '';
 
 
 
@@ -186,8 +197,48 @@ export class EntregaComponent implements OnInit {
         }
       })
     }
-  
-  
+
+    changePage(page: number) {
+      this.liquidacionesCurrentPage = page;
+      this.updateTable();
+    }
+
+    updateTable() {
+      const start = (this.liquidacionesCurrentPage - 1) * this.liquidacionesPageSize;
+      const end = start + this.liquidacionesPageSize;
+
+      if(this.liquidacionesFilterValue!=''){
+        this.liquidacionesFilterValue = this.liquidacionesFilterValue.trim().toLowerCase();
+        // Filtrar el array de datos
+        this.entregaLiquidacionesFiltered = this.entregaLiquidaciones.filter(item => {
+          if(item.estado){
+            return (
+              item.fecha.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.campus.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.numero.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.importe.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.personal.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.estado.toLowerCase().includes(this.liquidacionesFilterValue) 
+            );
+          }
+          else{
+            return (
+              item.fecha.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.campus.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.numero.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.importe.toLowerCase().includes(this.liquidacionesFilterValue) ||
+              item.personal.toLowerCase().includes(this.liquidacionesFilterValue)
+            );
+          }
+        })
+      }
+      else{
+        this.entregaLiquidacionesFiltered=this.entregaLiquidaciones;
+      }
+
+      this.liquidacionesTotalPages = Math.ceil(this.entregaLiquidacionesFiltered.length / this.liquidacionesPageSize);
+      this.entregaLiquidacionesDisplayed=this.entregaLiquidacionesFiltered.slice(start,end);
+    }
   
     applyFilterD(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
@@ -198,13 +249,9 @@ export class EntregaComponent implements OnInit {
       }
     }
   
-    applyFilterL(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourceEntregaLiq.filter = filterValue.trim().toLowerCase();
-  
-      if (this.dataSourceEntregaLiq.paginator) {
-        this.dataSourceEntregaLiq.paginator.firstPage();
-      }
+    applyFilterL() {
+      this.liquidacionesCurrentPage = 1;
+      this.updateTable();
     }
   
     dateChange(value){
@@ -704,6 +751,8 @@ export class EntregaComponent implements OnInit {
                           this.campus=resi;
                           this.logisticaService.getEntregaLiquidacionesByCampus(this.sala).subscribe((liqs:EntregaLiquidacion[])=>{
                             this.entregaLiquidaciones=liqs;
+                            this.entregaLiquidacionesFiltered=this.entregaLiquidaciones;
+                            this.updateTable();
                             this.dataSourceEntregaLiq = new MatTableDataSource(this.entregaLiquidaciones);
                             this.dataSourceEntregaLiq.paginator = this.paginator.toArray()[0];
                             this.dataSourceEntregaLiq.sort = this.sort.toArray()[0];
@@ -729,6 +778,8 @@ export class EntregaComponent implements OnInit {
   
                         this.logisticaService.getEntregaLiquidacionesByCampus(this.sala).subscribe((liqs:EntregaLiquidacion[])=>{
                           this.entregaLiquidaciones=liqs;
+                          this.entregaLiquidacionesFiltered=this.entregaLiquidaciones;
+                          this.updateTable();
                           this.dataSourceEntregaLiq = new MatTableDataSource(this.entregaLiquidaciones);
                           this.dataSourceEntregaLiq.paginator = this.paginator.toArray()[1];
                           this.dataSourceEntregaLiq.sort = this.sort.toArray()[1];

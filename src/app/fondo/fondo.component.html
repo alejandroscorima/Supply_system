@@ -4,20 +4,18 @@
 
     <div class="h-full grid grid-cols-1 md:grid-cols-2 overflow-y-auto bg-gray-200 dark:bg-gray-800 border-gray-300 dark:border-gray-700">
 
-      <div class=" p-2  w-full col-span-1">
+      <div class=" p-2  w-full col-span-1" *ngIf="user_role=='SUPERVISOR'||user_role=='ADMINISTRADOR'||user_role=='ASISTENTE'||user_role=='SUPER ADMINISTRADOR'">
         <label for="Campus" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           Sala:
         </label>
         <select id="Campus" class=" w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
         rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700
       dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-      dark:focus:border-blue-500" [(ngModel)]="sala"  (change)="salaChange()" >
-        
+      dark:focus:border-blue-500" [(ngModel)]="sala"  (change)="salaChange()" >  
           <option id="optionTipo"
             *ngFor="let c of campus" [ngValue]="c['name']" >
             {{c['name']}}
           </option>
-        
         </select>
       </div>
 
@@ -166,7 +164,7 @@
           </table>
         </div>
 
-        <div class="mat-elevation-z8 flex" >
+<!--         <div class="mat-elevation-z8 flex" >
           <table class="w-full " mat-table [dataSource]="dataSourceFondoItem" matSort multiTemplateDataRows>
 
             <ng-container matColumnDef="fecha">
@@ -226,11 +224,10 @@
                 <button mat-icon-button color="warn" (click)="delItem(a)">
                   <mat-icon >delete</mat-icon>
                 </button>
-                <!-- <button mat-raised-button style="background-color: rgb(9, 66, 126); color:white" (click)="edit(a.doc_number)"> <mat-icon>edit</mat-icon> </button>&nbsp; -->
               </td>
             </ng-container>
 
-  <!--              <ng-container matColumnDef="void1">
+            <ng-container matColumnDef="void1">
               <td mat-footer-cell *matFooterCellDef colspan="5">
 
               </td>
@@ -252,12 +249,11 @@
               <td mat-footer-cell *matFooterCellDef colspan="3">
 
               </td>
-            </ng-container> -->
+            </ng-container>
 
 
             <tr mat-header-row *matHeaderRowDef="['fecha','tipo_doc','serie','numero','ruc','raz_social','monto','cateogria','select','edit'];"></tr>
             <tr mat-row *matRowDef="let row; columns: ['fecha','tipo_doc','serie','numero','ruc','raz_social','monto','cateogria','select','edit'];"></tr>
-            <!-- <tr mat-footer-row *matFooterRowDef="['void1','total','total_amount','void2'];" ></tr> -->
 
 
 
@@ -266,7 +262,7 @@
             </tr>
           </table>
           <mat-paginator [pageSizeOptions]="[20, 40, 70, 100]" aria-label="Página"></mat-paginator>
-        </div>
+        </div> -->
       </div>
 
       <div class="p-2 w-full col-span-full">
@@ -297,7 +293,7 @@
       </div>
 
       <div class=" p-2 w-full col-span-full md:col-span-1">
-        <div hidden class="flex flex-col">
+<!--         <div hidden class="flex flex-col">
           <label class="mb-2 font-medium text-sm text-gray-700">Seleccione un rango de fechas:</label>
           <div class="flex space-x-2 items-center">
             <input
@@ -314,7 +310,7 @@
               (change)="onDateChange()"
             />
           </div>
-        </div>
+        </div> -->
       </div>
       
 
@@ -407,7 +403,7 @@
             <button (click)="changePage(liquidacionesCurrentPage + 1)" [disabled]="liquidacionesCurrentPage === liquidacionesTotalPages" class="p-2 bg-gray-300 rounded">Siguiente</button>
           </div>
         </div>
-        <div class="mat-elevation-z8" style="width:100%;">
+<!--         <div class="mat-elevation-z8" style="width:100%;">
           <table mat-table style="width:100%;" [dataSource]="dataSourceFondoLiq" matSort multiTemplateDataRows>
   
             <ng-container matColumnDef="fecha">
@@ -477,7 +473,7 @@
             </tr>
           </table>
           <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
-        </div>
+        </div> -->
       </div>
 
 

@@ -51,6 +51,8 @@ export class MobilityComponent implements OnInit {
   fondoItems: FondoItem[]=[];
   fondoLiquidaciones: FondoLiquidacion[]=[];
   mobilities: Mobility[];
+  mobilitiesFiltered: Mobility[];
+  mobilitiesDisplayed: Mobility[];
   mobility: Mobility = new Mobility('','','','',0,'','','','','','','');
 
 
@@ -93,7 +95,10 @@ export class MobilityComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator= new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort= new QueryList<MatSort>();
 
-
+  mobilitiesPageSize = 10;
+  mobilitiesCurrentPage = 1;
+  mobilitiesTotalPages = 1;
+  mobilitiesFilterValue = '';
 
 
   constructor(private clientesService: ClientesService, private dialogo: MatDialog,
@@ -184,16 +189,60 @@ export class MobilityComponent implements OnInit {
         }
       })
     }
-  
-  
-  
-    applyFilterD(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourceFondoItem.filter = filterValue.trim().toLowerCase();
-  
-      if (this.dataSourceFondoItem.paginator) {
-        this.dataSourceFondoItem.paginator.firstPage();
+
+    changePage(page: number) {
+      this.mobilitiesCurrentPage = page;
+      this.updateTable();
+    }
+
+    updateTable() {
+      const start = (this.mobilitiesCurrentPage - 1) * this.mobilitiesPageSize;
+      const end = start + this.mobilitiesPageSize;
+
+      if(this.mobilitiesFilterValue!=''){
+        this.mobilitiesFilterValue = this.mobilitiesFilterValue.trim().toLowerCase();
+        // Filtrar el array de datos
+        this.mobilitiesFiltered = this.mobilities.filter(item => {
+          if(item.estado){
+            return (
+              item.fecha.toLowerCase().includes(this.mobilitiesFilterValue) ||
+              item.campus.toLowerCase().includes(this.mobilitiesFilterValue) ||
+              item.numero.toLowerCase().includes(this.mobilitiesFilterValue) ||
+              item.monto.toLowerCase().includes(this.mobilitiesFilterValue) ||
+              item.personal.toLowerCase().includes(this.mobilitiesFilterValue) ||
+              item.estado.toLowerCase().includes(this.mobilitiesFilterValue) 
+            );
+          }
+          else{
+            return (
+              item.fecha.toLowerCase().includes(this.mobilitiesFilterValue) ||
+              item.campus.toLowerCase().includes(this.mobilitiesFilterValue) ||
+              item.numero.toLowerCase().includes(this.mobilitiesFilterValue) ||
+              item.monto.toLowerCase().includes(this.mobilitiesFilterValue) ||
+              item.personal.toLowerCase().includes(this.mobilitiesFilterValue)
+            );
+          }
+        })
+
       }
+      else{
+        this.mobilitiesFiltered=this.mobilities;
+      }
+
+      this.mobilitiesTotalPages = Math.ceil(this.mobilitiesFiltered.length / this.mobilitiesPageSize);
+
+      this.mobilitiesDisplayed=this.mobilitiesFiltered.slice(start,end);
+    }
+  
+  
+  
+    applyFilterD() {
+
+      this.mobilitiesCurrentPage = 1;
+
+
+      this.updateTable();
+
     }
   
     applyFilterL(event: Event) {
@@ -534,6 +583,8 @@ export class MobilityComponent implements OnInit {
                           this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
                             console.log(rspM);
                             this.mobilities=rspM;
+                            this.mobilitiesFiltered=this.mobilities;
+                            this.updateTable();
                             this.dataSourceMobility = new MatTableDataSource(this.mobilities);
                             this.dataSourceMobility.paginator = this.paginator.toArray()[0];
                             this.dataSourceMobility.sort = this.sort.toArray()[0];
@@ -546,6 +597,8 @@ export class MobilityComponent implements OnInit {
                       this.logisticaService.getMobility(this.sala).subscribe((rspM:Mobility[])=>{
                         console.log(rspM);
                         this.mobilities=rspM;
+                        this.mobilitiesFiltered=this.mobilities;
+                        this.updateTable();
                         this.dataSourceMobility = new MatTableDataSource(this.mobilities);
                         this.dataSourceMobility.paginator = this.paginator.toArray()[0];
                         this.dataSourceMobility.sort = this.sort.toArray()[0];
