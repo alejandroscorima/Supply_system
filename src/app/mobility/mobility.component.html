@@ -172,7 +172,7 @@
           </div>
         </div>
 
-        <div class="mat-elevation-z8" style="width:100%;">
+<!--         <div class="mat-elevation-z8" style="width:100%;">
             <table mat-table style="width:100%;" [dataSource]="dataSourceMobility" matSort multiTemplateDataRows>
 
               <ng-container matColumnDef="numero">
@@ -214,12 +214,6 @@
                   <button mat-icon-button color="primary" (click)="reCreatePDF(a)">
                     <mat-icon> description</mat-icon>
                   </button>
-    <!--                   <button mat-icon-button color="primary" (click)="editItem(a)">
-                    <mat-icon> edit</mat-icon>
-                  </button> -->
-    <!--                   <button mat-icon-button color="warn" (click)="delItem(a)">
-                    <mat-icon> delete</mat-icon>
-                  </button> -->
                 </td>
               </ng-container>
 
@@ -232,33 +226,8 @@
                 </td>
               </ng-container>
 
-    <!--              <ng-container matColumnDef="void1">
-                <td mat-footer-cell *matFooterCellDef colspan="5">
-
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="total" >
-                <td mat-footer-cell *matFooterCellDef colspan="1">
-                  TOTAL:
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="total_amount">
-                <td mat-footer-cell *matFooterCellDef colspan="1">
-                  S/.{{total_amount}}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="void2">
-                <td mat-footer-cell *matFooterCellDef colspan="3">
-
-                </td>
-              </ng-container> -->
-
               <tr mat-header-row *matHeaderRowDef="['numero','fecha','sala','monto','pdf'];"></tr>
               <tr mat-row *matRowDef="let row; columns: ['numero','fecha','sala','monto','pdf'];"></tr>
-              <!-- <tr mat-footer-row *matFooterRowDef="['void1','total','total_amount','void2'];" ></tr> -->
 
 
 
@@ -268,7 +237,7 @@
             </table>
 
             <mat-paginator [pageSizeOptions]="[20, 40, 70, 100]" aria-label="Página"></mat-paginator>
-        </div>
+        </div> -->
       </div>
   
   

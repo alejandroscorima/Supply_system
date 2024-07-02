@@ -135,6 +135,15 @@ export class InicioComponent implements OnInit, AfterViewInit {
     }
   }
 
+  viewImage(image_url){
+    var dialogRef;
+    dialogRef=this.dialog.open(DialogViewImage,{
+      data:image_url
+    })
+
+    dialogRef.afterClosed().subscribe()
+  }
+
   attendReqValidation(validation_id:number, status:String){
     this.logisticaService.updateReqValidation(validation_id, status).subscribe(resUpdateValidation=>{
       if(resUpdateValidation){
