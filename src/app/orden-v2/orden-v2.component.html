@@ -892,6 +892,173 @@
                 ENVIAR A FOLDER</button>
               </div>
               <div class="m-2 col-span-full">
+                <div class="relative mat-elevation-z8 overflow-x-auto shadow-md sm:rounded-lg">
+                  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                      <tr>
+                        <th scope="col" class="px-2 py-1">
+                          ESTADO
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          CHECK
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          FECHA
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          NUMERO
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          RAZON SOCIAL
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          DESTINO
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          PROVEEDOR
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          TOTAL
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          MONTO INICIAL
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          PDF
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          ANULAR
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          COMPROBANTE
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          NUMERO
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          TXT
+                          <button mat-icon-button color="primary" (click)="createTxtFile()"> <mat-icon> save_alt </mat-icon> </button>
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          DOCS
+                        </th>
+                        <th scope="col" class="px-2 py-1">
+                          VALIDADO
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let op of listaOrdersPendantView" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-2 py-1 whitespace-nowrap">
+                          <mat-icon *ngIf="op.status=='PENDIENTE'" style="color: darkgrey;">schedule</mat-icon>
+                          <mat-icon *ngIf="op.status=='APROBADO'" style="color: green;">radio_button_checked</mat-icon>
+                          <mat-icon *ngIf="op.status=='NO APLICA'" style="color: green;">radio_button_checked</mat-icon>
+                          <mat-icon *ngIf="op.status=='RECHAZADO'" style="color: darkred;">radio_button_checked</mat-icon>
+                          <mat-icon *ngIf="op.status=='CONFLICTO'" style="color: orange;">warning</mat-icon>
+                        </td>
+                        <td class="px-2 py-1 whitespace-nowrap">
+                          <div class="flex items-center">
+                            <div (click)="toggleCheckbox(op)">
+                              <input type="checkbox" [checked]="op.isChecked" /> 
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-2 py-1 whitespace-nowrap">
+                          {{op.fecha}}
+                        </td>
+                        <td scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {{op.numero}}
+                        </td>
+                        <td class="px-2 py-1 whitespace-nowrap">
+                          {{op.empresa}}
+                        </td>
+                        <td class="px-2 py-1 whitespace-nowrap">
+                          {{' '+op.destino}}
+                        </td>
+                        <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          {{op.ruc}}
+                        </td>
+                        <td class="px-2 py-1">
+                          S/.{{' '+op.total}}
+                        </td>
+                        <td class="px-2 py-1">
+                          S/.{{op.rebajado}}
+<!--                           <button (click)="reCreatePDF(fl)">
+                            <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                              <path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z" clip-rule="evenodd"/>
+                            </svg>
+                          </button> -->
+                        </td>
+                        <td class="px-2 py-1">
+                          <button mat-button color="accent" (click)="reCreatePDFView(op)">
+                            <mat-icon>description</mat-icon>
+                          </button>
+<!--                           <button *ngIf="fl.estado!='ANULADO'" (click)="createTxtFile(fl)">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>                    
+                          </button> -->
+                        </td>
+                        <td class="px-2 py-1">
+                          <button *ngIf="op.estado!='ANULADO'" mat-icon-button color="primary" (click)="anularView(op)"> <mat-icon> cancel </mat-icon> </button>
+<!--                           <button *ngIf="fl.estado!='ANULADO'" (click)="anular(fl)">
+                            <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>                    
+                          </button> -->
+                        </td>
+                        <td class="px-2 py-1">
+                          <button *ngIf="op.receipt=='NO'" mat-icon-button (click)="addReceiptView(op)">  <mat-icon> receipt_long </mat-icon></button>
+                          <button *ngIf="op.receipt=='SI'" mat-icon-button (click)="editReceiptView(op)">  <mat-icon> edit </mat-icon></button>
+                        </td>
+                        <td class="px-2 py-1">
+                          {{op.comprobante}}
+                        </td>
+                        <td class="px-2 py-1">
+                          <mat-checkbox class="example-margin" (change)="listTxtChange($event,op)"
+                          [checked]="selectionTxt.isSelected(op)" [disabled]="op.txt=='SI'"></mat-checkbox>&nbsp;
+                        </td>
+                        <td class="px-2 py-1">
+                          <div  class="drop-zone"
+                          cdkDropList
+                          (cdkDropListDropped)="onDrop($event)">
+                            <button mat-button (click)="showDocs(op)">
+                              <mat-icon>folder</mat-icon>
+                            </button>
+                          </div>
+                        </td>
+                        <td class="px-2 py-1">
+                          <div *ngIf="((op.total>2000) && user_role!='SUPERVISOR')">
+                            {{op.status}}
+                          </div>
+                          <div *ngIf="((op.status=='NO APLICA') && user_role!='SUPERVISOR')">
+                          NO APLICA
+                          </div>
+                          <!-- <div *ngIf="(a.val_state!='PENDIENTE')">
+                            {{a.val_state}}
+                          </div> -->
+                          <div  *ngIf=" (op.val_state=='PENDIENTE')&&(user_role=='SUPERVISOR')&&(setValidatorUser(op))&&(op.val_state!='ANULADO')">
+                            <button mat-icon-button (click)="validateButton(op,'VALIDAR')">
+                              <mat-icon class="text-lime-500">checked</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="validateButton(op,'RECHAZAR')">
+                              <mat-icon class="text-red-500">cancel</mat-icon>
+                            </button>
+                          </div>
+                          <div *ngIf=" (op.total>2000)">
+                            <button (click)="viewStatusButton(op)"> <mat-icon class="text-red-500"><span class="text-sm">search</span></mat-icon> Detalle</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+<!--                   <div class="mt-4 flex justify-between items-center">
+                    <button (click)="changePage(liquidacionesCurrentPage - 1)" [disabled]="liquidacionesCurrentPage === 1" class="p-2 bg-gray-300 rounded">Anterior</button>
+                    <span>Página {{ liquidacionesCurrentPage }} de {{ liquidacionesTotalPages }}</span>
+                    <button (click)="changePage(liquidacionesCurrentPage + 1)" [disabled]="liquidacionesCurrentPage === liquidacionesTotalPages" class="p-2 bg-gray-300 rounded">Siguiente</button>
+                  </div> -->
+                </div>
+
                 <div class="mat-elevation-z8" style="width:100%;">
                   <table mat-table style="width:100%;" [dataSource]="dataSourceOrdersPendant" matSort multiTemplateDataRows matTableExporter #exporter="matTableExporter" [hiddenColumns]="[16,17,18,20,21]">
         

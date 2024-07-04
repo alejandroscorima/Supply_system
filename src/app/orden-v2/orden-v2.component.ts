@@ -223,7 +223,6 @@ export class OrdenV2Component implements OnInit {
   listaOrdersView: Orden[] = [];
   listaOrdChangeStep: Orden[] = [];
 
-
   listaOrdView: OrdenItem[]= [];
 
   dataSourceOrdersView: MatTableDataSource<Orden>;
