@@ -225,6 +225,14 @@ export class OrdenV2Component implements OnInit {
 
   listaOrdView: OrdenItem[]= [];
 
+  listaOrdersPendantViewFiltered:Orden[] = [];
+  listaOrdersPendantViewDisplayed:Orden[] = [];
+
+  ordersPendantViewPageSize = 10;
+  ordersPendantViewCurrentPage = 1;
+  ordersPendantViewTotalPages = 1;
+  ordersPendantViewFilterValue = '';
+
   dataSourceOrdersView: MatTableDataSource<Orden>;
   dataSourceOrdersPendant: MatTableDataSource<Orden>;
   dataSourceOrdersViewAproved: MatTableDataSource<Orden>;
@@ -314,6 +322,8 @@ export class OrdenV2Component implements OnInit {
     
 }
 
+
+
   getCurrentDate() {
     const now = new Date();
     const year = now.getFullYear();
@@ -330,6 +340,52 @@ export class OrdenV2Component implements OnInit {
     const seconds = now.getSeconds().toString().padStart(2, '0');
     
     return `${hours}:${minutes}:${seconds}`;
+  }
+
+  ordersPendantViewChangePage(page: number) {
+    this.ordersPendantViewCurrentPage = page;
+    this.ordersPendantViewUpdateTable();
+  }
+
+  ordersPendantViewUpdateTable() {
+    const start = (this.ordersPendantViewCurrentPage - 1) * this.ordersPendantViewPageSize;
+    const end = start + this.ordersPendantViewPageSize;
+
+    if(this.ordersPendantViewFilterValue!=''){
+      this.ordersPendantViewFilterValue = this.ordersPendantViewFilterValue.trim().toLowerCase();
+      // Filtrar el array de datos
+      this.listaOrdersPendantViewFiltered = this.listaOrdersPendantView.filter(item => {
+        if(true){
+          return (
+            item.status.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.fecha.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.numero.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.empresa.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.destino.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.ruc.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.total.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.rebajado.toLowerCase().includes(this.ordersPendantViewFilterValue) 
+          );
+        }
+        else{
+/*           return (
+            item.fecha.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.campus.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.numero.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.importe.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
+            item.personal.toLowerCase().includes(this.ordersPendantViewFilterValue)
+          ); */
+        }
+      })
+
+    }
+    else{
+      this.listaOrdersPendantViewFiltered=this.listaOrdersPendantView;
+    }
+
+    this.ordersPendantViewTotalPages = Math.ceil(this.listaOrdersPendantViewFiltered.length / this.ordersPendantViewPageSize);
+
+    this.listaOrdersPendantViewDisplayed=this.listaOrdersPendantViewFiltered.slice(start,end);
   }
 
   setCondicion(event: any) {
@@ -1042,6 +1098,8 @@ updateAsociatedFilesFolderId(orden_id){
                           console.log(resOrdPend);
                           console.log(this.listaOrdersPendantView);
                           this.listaOrdersPendantView=resOrdPend;
+                          this.listaOrdersPendantViewFiltered=this.listaOrdersPendantView;
+                          this.ordersPendantViewUpdateTable();
                           console.log(this.listaOrdersPendantView);
                           this.dataSourceOrdersPendant = new MatTableDataSource(this.listaOrdersPendantView);
                           this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
@@ -2042,18 +2100,6 @@ updateAsociatedFilesFolderId(orden_id){
   showDocs(a:Orden){
     var dialogRef;
 
-    var anioRegister=this.fechaRegister.getFullYear();
-    var mesRegister=this.fechaRegister.getMonth();
-    var diaRegister=this.fechaRegister.getDate();
-
-    if(mesRegister<10){
-      mesRegister='0'+mesRegister;
-    }
-    if(diaRegister<10){
-      diaRegister='0'+diaRegister;
-    }
-
-    var fechaRegisterStr = anioRegister+'-'+mesRegister+'-'+diaRegister;
 
     dialogRef=this.dialog.open(DialogShowDocs,{
       data:a,
@@ -2068,18 +2114,7 @@ updateAsociatedFilesFolderId(orden_id){
   addReceiptView(a: Orden){
     var dialogRef;
 
-    var anioRegister=this.fechaRegister.getFullYear();
-    var mesRegister=this.fechaRegister.getMonth();
-    var diaRegister=this.fechaRegister.getDate();
-
-    if(mesRegister<10){
-      mesRegister='0'+mesRegister;
-    }
-    if(diaRegister<10){
-      diaRegister='0'+diaRegister;
-    }
-
-    var fechaRegisterStr = anioRegister+'-'+mesRegister+'-'+diaRegister;
+    var fechaRegisterStr = this.getCurrentDate();
   
     //this.receipt=new FondoItem(this.sala,this.fechaStr,'','','','','','','','PENDIENTE',0,this.user.user_id);
     this.receipt=new FondoItem('ORDEN',fechaRegisterStr,'','','',a.ruc,a.razon_social,a.total,'ORDEN','REGISTRADO',0,this.user.user_id,a.id);
@@ -2106,18 +2141,7 @@ updateAsociatedFilesFolderId(orden_id){
   editReceiptView(a: Orden){
     var dialogRef;
 
-    var anioRegister=this.fechaRegister.getFullYear();
-    var mesRegister=this.fechaRegister.getMonth();
-    var diaRegister=this.fechaRegister.getDate();
-
-    if(mesRegister<10){
-      mesRegister='0'+mesRegister;
-    }
-    if(diaRegister<10){
-      diaRegister='0'+diaRegister;
-    }
-
-    var fechaRegisterStr = anioRegister+'-'+mesRegister+'-'+diaRegister;
+    var fechaRegisterStr = this.getCurrentDate();
   
     //this.receipt=new FondoItem(this.sala,this.fechaStr,'','','','','','','','PENDIENTE',0,this.user.user_id);
     this.receipt=new FondoItem('ORDEN',fechaRegisterStr,'','','','','','','ORDEN','REGISTRADO',0,this.user.user_id,a.id);

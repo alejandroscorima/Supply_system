@@ -948,7 +948,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let op of listaOrdersPendantView" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                      <tr *ngFor="let op of listaOrdersPendantViewDisplayed" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td class="px-2 py-1 whitespace-nowrap">
                           <mat-icon *ngIf="op.status=='PENDIENTE'" style="color: darkgrey;">schedule</mat-icon>
                           <mat-icon *ngIf="op.status=='APROBADO'" style="color: green;">radio_button_checked</mat-icon>
@@ -978,7 +978,7 @@
                         <td class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                           {{op.ruc}}
                         </td>
-                        <td class="px-2 py-1">
+                        <td class="px-2 py-1 whitespace-nowrap">
                           S/.{{' '+op.total}}
                         </td>
                         <td class="px-2 py-1">
@@ -1027,7 +1027,7 @@
                             </button>
                           </div>
                         </td>
-                        <td class="px-2 py-1">
+                        <td class="px-2 py-1 whitespace-nowrap">
                           <div *ngIf="((op.total>2000) && user_role!='SUPERVISOR')">
                             {{op.status}}
                           </div>
@@ -1052,11 +1052,12 @@
                       </tr>
                     </tbody>
                   </table>
-<!--                   <div class="mt-4 flex justify-between items-center">
-                    <button (click)="changePage(liquidacionesCurrentPage - 1)" [disabled]="liquidacionesCurrentPage === 1" class="p-2 bg-gray-300 rounded">Anterior</button>
-                    <span>Página {{ liquidacionesCurrentPage }} de {{ liquidacionesTotalPages }}</span>
-                    <button (click)="changePage(liquidacionesCurrentPage + 1)" [disabled]="liquidacionesCurrentPage === liquidacionesTotalPages" class="p-2 bg-gray-300 rounded">Siguiente</button>
-                  </div> -->
+
+                </div>
+                <div class="flex justify-between items-center">
+                  <button (click)="ordersPendantViewChangePage(ordersPendantViewCurrentPage - 1)" [disabled]="ordersPendantViewCurrentPage === 1" class="p-2 bg-gray-300 rounded">Anterior</button>
+                  <span>Página {{ ordersPendantViewCurrentPage }} de {{ ordersPendantViewTotalPages }}</span>
+                  <button (click)="ordersPendantViewChangePage(ordersPendantViewCurrentPage + 1)" [disabled]="ordersPendantViewCurrentPage === ordersPendantViewTotalPages" class="p-2 bg-gray-300 rounded">Siguiente</button>
                 </div>
 
                 <div class="mat-elevation-z8" style="width:100%;">
