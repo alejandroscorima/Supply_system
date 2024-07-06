@@ -886,9 +886,9 @@
           <div class="w-full p-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700">
             <div class=" grid rounded-lg md:grid-cols-2 bg-white dark:bg-gray-800 w-full">
               <div class="m-2 col-span-full">
-                <button type="button" class=" my-3 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4
-                focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-                me-2 mb-2" (click)="exportFilesToFolder()">
+                <button type="button" class=" text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4
+                focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center" 
+                (click)="exportFilesToFolder()">
                 ENVIAR A FOLDER</button>
               </div>
               <div class="m-2 col-span-full">
@@ -1060,7 +1060,7 @@
                   <button (click)="ordersPendantViewChangePage(ordersPendantViewCurrentPage + 1)" [disabled]="ordersPendantViewCurrentPage === ordersPendantViewTotalPages" class="p-2 bg-gray-300 rounded">Siguiente</button>
                 </div>
 
-                <div class="mat-elevation-z8" style="width:100%;">
+<!--                 <div class="mat-elevation-z8" style="width:100%;">
                   <table mat-table style="width:100%;" [dataSource]="dataSourceOrdersPendant" matSort multiTemplateDataRows matTableExporter #exporter="matTableExporter" [hiddenColumns]="[16,17,18,20,21]">
         
                     <ng-container matColumnDef="indicator">
@@ -1224,33 +1224,6 @@
                         </div>
                       </td>
                     </ng-container>
-                    <!-- <ng-container matColumnDef="validar">
-                      <th mat-header-cell *matHeaderCellDef class=" items-center">
-                        <p *ngIf="(user_role!='SUPERVISOR')" class="w-full h-full justify-center">VALIDADO</p>
-                        <p *ngIf="(user_role=='SUPERVISOR')"class="w-full h-full justify-center">VALIDAR</p>
-                      </th>
-                      <td mat-cell *matCellDef="let a; let i=index">
-                        <div *ngIf="(a.status!='PENDIENTE')&&(user_role!='SUPERVISOR')">
-                          {{a.status}}
-                        </div>
-                        <div *ngIf="(a.val_state!='PENDIENTE')">
-                          {{a.val_state}}
-                        </div>
-                        <div  *ngIf="(a.val_state=='PENDIENTE')&&(user_role=='SUPERVISOR')&&(setValidatorUser(a))&&(a.val_state!='ANULADO')">
-                          <button mat-button (click)="validateButton(a,'VALIDAR')">
-                            <mat-icon class="text-lime-500">checked</mat-icon>
-                          </button>
-                          <button mat-button (click)="validateButton(a,'RECHAZADO')">
-                            <mat-icon class="text-red-500">cancel</mat-icon>
-                          </button>
-                        </div>
-                        <div>
-                          <button (click)="viewStatusButton(a)"> <mat-icon class="text-red-500">search</mat-icon> sts</button>
-                        </div>
-        
-                      </td>
-                    </ng-container> -->
-                        
     
                     <ng-container matColumnDef="validar">
                       <th mat-header-cell *matHeaderCellDef class=" items-center">
@@ -1260,16 +1233,13 @@
                       <td mat-cell *matCellDef="let a; let i=index">
         
         
-                        <!--- --->
+
                         <div *ngIf="((a.total>2000) && user_role!='SUPERVISOR')">
                           {{a.status}}
                         </div>
                         <div *ngIf="((a.status=='NO APLICA') && user_role!='SUPERVISOR')">
-                        NO APLICA
+                          NO APLICA
                         </div>
-                        <!-- <div *ngIf="(a.val_state!='PENDIENTE')">
-                          {{a.val_state}}
-                        </div> -->
                         <div  *ngIf=" (a.val_state=='PENDIENTE')&&(user_role=='SUPERVISOR')&&(setValidatorUser(a))&&(a.val_state!='ANULADO')">
                           <button mat-icon-button (click)="validateButton(a,'VALIDAR')">
                             <mat-icon class="text-lime-500">checked</mat-icon>
@@ -1295,12 +1265,12 @@
                     </tr>
                   </table>
                   <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
-                </div>
+                </div> -->
               </div>
               <div class="m-2 col-span-full">
-                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                <hr class="h-px my-2 mx-2 bg-gray-400 border-0 dark:bg-gray-700">
               </div>
-              <div class="m-2 col-span-full">
+              <div class="m-2 col-span-1">
                 <mat-form-field style="width:40%;" appearance="outline" *ngIf="user_role=='SUPER ADMINISTRADOR' || user_role=='SUPERVISOR'">
                   <mat-label>Destino:</mat-label>
                   <mat-select [(ngModel)]="campusToView" [compareWith]="compareObjectsView" (selectionChange)="changeDestinoView()">
@@ -1308,13 +1278,15 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="m-2 col-span-full">
+              <div class="m-2 col-span-1">
+              </div>
+              <div class="m-2 col-span-1">
                 <mat-form-field appearance="outline" style="display:display-inline">
                   <mat-label>Búsqueda</mat-label>
                   <input matInput (keyup)="applyFilterDView($event)" placeholder="Escribe algo para buscar" #input1>
                 </mat-form-field>
               </div>
-              <div class="m-2 col-span-full">
+              <div class="m-2 col-span-1">
                 <button mat-raised-button *ngIf="user_role=='SUPER ADMINISTRADOR'" (click)="exporter.exportTable('xlsx',{fileName:'Ordenes compra/servicio'})"> EXPORTAR A EXCEL</button>
               </div>
               <div class="m-2 col-span-full">
