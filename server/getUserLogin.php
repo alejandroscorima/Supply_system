@@ -13,8 +13,9 @@ $password=$_GET['password'];
 
 $sentencia = $bd->prepare("SELECT user_id, colab_id, type_doc, doc_number, 
 first_name, paternal_surname, maternal_surname, gender, birth_date, civil_status,
- profession, cel_number, address, district, province, region, username, supply_role,
-  latitud, longitud, photo_url 
+profession, cel_number, address, district, province, region, username, supply_role,
+supply_role,entrance_role	,lotteryact_role,
+patrimony_role,dem_role,dem_role_id,hr_role	,latitud, longitud, photo_url 
   FROM oscorp_data.user2 
   WHERE (doc_number='".$doc_number."' OR  username='".$username."') AND password='".$password."';");
 
