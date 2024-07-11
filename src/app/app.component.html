@@ -1,12 +1,13 @@
 <!-- <app-login *ngIf="!logged"></app-login> -->
 
 <!-- <app-nav-bar *ngIf="logged"></app-nav-bar> -->
-<app-side-nav *ngIf="logged"></app-side-nav>
+<app-side-nav *ngIf="logged" [isOpen]="isOpen" (toggle)="toggleSidenav()"></app-side-nav>
 
+<div class="dark:bg-gray-900 h-screen flex flex-col"
+  [ngClass]="{'sm:ml-60': isOpen, 'sm:ml-0': !isOpen}">
+  <router-outlet>  </router-outlet>
+</div>
 
-
-
-<router-outlet>  </router-outlet>
 
 
 

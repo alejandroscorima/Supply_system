@@ -287,6 +287,8 @@ export class EntregaComponent implements OnInit {
           //this.user_campus=res4;
           this.logisticaService.getEntregaLiquidacionesByCampus(this.sala).subscribe((res:EntregaLiquidacion[])=>{
             this.entregaLiquidaciones=res;
+            this.entregaLiquidacionesFiltered=this.entregaLiquidaciones;
+            this.updateTable();
             this.dataSourceEntregaLiq = new MatTableDataSource(this.entregaLiquidaciones);
             this.dataSourceEntregaLiq.paginator = this.paginator.toArray()[1];
             this.dataSourceEntregaLiq.sort = this.sort.toArray()[1];

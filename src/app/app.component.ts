@@ -1,5 +1,5 @@
 
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
@@ -40,6 +40,9 @@ export class AppComponent implements OnInit {
   today: Date;
   expirationDate: Date;
 
+
+  isOpen = false;
+
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
 
 
@@ -49,7 +52,8 @@ export class AppComponent implements OnInit {
               private cookies:CookiesService,
               private toastr: ToastrService,
               //private pushNotificationService: PushNotificationService,
-              private themeService: ThemeService)
+              private themeService: ThemeService,
+              public el: ElementRef, public renderer: Renderer2)
   {
     // pushNotificationService.requestPermission().then(token=>{
     //   console.log(token);
@@ -60,6 +64,10 @@ export class AppComponent implements OnInit {
   toggleTheme() {
     this.themeService.toggleTheme();
     this.isDarkMode = !this.isDarkMode;
+  }
+
+  toggleSidenav() {
+    this.isOpen = !this.isOpen;
   }
 
   logout(){

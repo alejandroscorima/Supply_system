@@ -1,4 +1,4 @@
-<div class="p-4 sm:ml-60 dark:bg-gray-900 h-screen flex flex-col">
+<div class="p-4 dark:bg-gray-900 h-screen flex flex-col">
   <div class="h-14 flex-none"></div>
   <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-hidden">
     <div class="px-5 pb-4 w-full items-center text-center flex-none">
@@ -78,7 +78,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 grid-rows-3 sm:grid-rows-1 h-auto w-full overflow-hidden flex-1">
   
       <div class="col-span-1 h-full overflow-hidden w-full flex flex-col">
-        <h3 style="text-align:left" class="w-full flex-none">
+        <h3 style="text-align:left" class="w-full flex-none text-gray-800 dark:text-white">
           PENDIENTES: {{cont_pend}} 
         </h3>
         <div class="overflow-y-auto flex-1 w-full px-2 min-h-0">
@@ -175,10 +175,10 @@
       </div>
   
       <div class="col-span-1 h-full overflow-hidden w-full flex flex-col">
-        <h3 style="text-align:left;" class="w-full flex-none" *ngIf="user_role!='ASISTENTE'&&user_role!='ADMINISTRADOR'">
+        <h3 style="text-align:left;" class="w-full flex-none text-gray-800 dark:text-white" *ngIf="user_role!='ASISTENTE'&&user_role!='ADMINISTRADOR'">
           PROCESO: {{cont_asig}}
         </h3>
-        <h3 style="text-align:left;" class="w-full flex-none" *ngIf="user_role=='ASISTENTE'||user_role=='ADMINISTRADOR'">
+        <h3 style="text-align:left;" class="w-full flex-none text-gray-800 dark:text-white" *ngIf="user_role=='ASISTENTE'||user_role=='ADMINISTRADOR'">
           ASIGNADO : {{cont_asig}}
         </h3>
         <div class="overflow-y-auto flex-1 w-full px-2 min-h-0">
@@ -272,7 +272,7 @@
       </div>
   
       <div class="col-span-1 h-full overflow-hidden w-full flex flex-col">
-        <h3 style="text-align:left" class="w-full flex-none">
+        <h3 style="text-align:left" class="w-full flex-none text-gray-800 dark:text-white">
           FINALIZADO: {{cont_fina}} 
         </h3>
         <div class="overflow-y-auto flex-1 w-full px-1 min-h-0">

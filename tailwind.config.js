@@ -13,6 +13,9 @@ module.exports = {
       borderImage: {
         'border-gradient': `linear-gradient(to bottom right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5)) 1`,
       },
+      fontFamily: {
+        'montserrat': ['Montserrat', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      },
     },
   },
   plugins: [
