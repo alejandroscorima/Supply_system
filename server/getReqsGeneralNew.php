@@ -20,14 +20,17 @@ if ($user_role == 'SUPER ADMINISTRADOR') {
 
 if ($user_role == 'ADMINISTRADOR') {
     // Lógica específica para ADMINISTRADOR
+    $extraString .= "AND rd.id_asignado = " . $user_id;
 }
 
 if ($user_role == 'ASISTENTE') {
     // Lógica específica para ASISTENTE
+    $extraString .= "AND rd.id_asignado = " . $user_id;
 }
 
 if ($user_role == 'USUARIO AVANZADO') {
     // Lógica específica para USUARIO AVANZADO
+    $extraString .= "AND a.user_id = " . $user_id;
 }
 
 if ($user_role == 'USUARIO') {

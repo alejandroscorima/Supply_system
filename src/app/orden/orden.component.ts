@@ -95,7 +95,7 @@ export class OrdenComponent implements OnInit {
   docname;
 
 
-  fecha;
+  //fecha;
   anio;
   mes;
   dia;
@@ -607,18 +607,18 @@ export class OrdenComponent implements OnInit {
   
   dateChange(){
 
-    var anio = this.fecha.getFullYear();
-    var mes = this.fecha.getMonth()+1;
-    var dia = this.fecha.getDate();
+    // var anio = this.fecha.getFullYear();
+    // var mes = this.fecha.getMonth()+1;
+    // var dia = this.fecha.getDate();
 
-    if(mes<10){
-      mes='0'+mes;
-    }
-    if(dia<10){
-      dia='0'+dia;
-    }
+    // if(mes<10){
+    //   mes='0'+mes;
+    // }
+    // if(dia<10){
+    //   dia='0'+dia;
+    // }
 
-    this.ord.fecha=anio+'-'+mes+'-'+dia;
+    // this.ord.fecha=anio+'-'+mes+'-'+dia;
 
   }
 
@@ -747,7 +747,7 @@ export class OrdenComponent implements OnInit {
 
 ////
   initConfig(){
-    this.fecha= new Date();
+    //this.fecha= new Date();
 
     this.fechaRegister= new Date();
 
@@ -822,18 +822,18 @@ export class OrdenComponent implements OnInit {
                     this.ord.rebajado='';
                     this.posTituloSala = 74;
   
-                    var anio = this.fecha.getFullYear();
-                    var mes = this.fecha.getMonth()+1;
-                    var dia = this.fecha.getDate();
+                    // var anio = this.fecha.getFullYear();
+                    // var mes = this.fecha.getMonth()+1;
+                    // var dia = this.fecha.getDate();
   
-                    if(mes<10){
-                      mes='0'+mes;
-                    }
-                    if(dia<10){
-                      dia='0'+dia;
-                    }
+                    // if(mes<10){
+                    //   mes='0'+mes;
+                    // }
+                    // if(dia<10){
+                    //   dia='0'+dia;
+                    // }
   
-                    this.ord.fecha=anio+'-'+mes+'-'+dia;
+                    this.ord.fecha=this.getCurrentDate();
                     console.log(this.ord.empresa);
 
                     if(this.cookiesService.checkToken('reqItems')){
@@ -1386,18 +1386,18 @@ export class OrdenComponent implements OnInit {
                   })
                   this.generatePDF();
 
-                  var anio = this.fecha.getFullYear();
-                  var mes = this.fecha.getMonth()+1;
-                  var dia = this.fecha.getDate();
+                  // var anio = this.fecha.getFullYear();
+                  // var mes = this.fecha.getMonth()+1;
+                  // var dia = this.fecha.getDate();
 
-                  if(mes<10){
-                    mes='0'+mes;
-                  }
-                  if(dia<10){
-                    dia='0'+dia;
-                  }
+                  // if(mes<10){
+                  //   mes='0'+mes;
+                  // }
+                  // if(dia<10){
+                  //   dia='0'+dia;
+                  // }
 
-                  this.ord.fecha=anio+'-'+mes+'-'+dia;
+                  //this.ord.fecha=anio+'-'+mes+'-'+dia;
 
                   this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA','');
                   this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
@@ -1416,15 +1416,7 @@ export class OrdenComponent implements OnInit {
                   this.posTituloSala = 74;
                   console.log(this.ord)
 
-
                   //GUARDAR
-
-
-
-
-
-
-
 
                   this.toastr.success('!Exito al generar orden');
                   this.initConfig();
@@ -2191,7 +2183,8 @@ export class OrdenComponent implements OnInit {
           this.ord.moneda=this.ordView.moneda;
           this.asigMoneyChange();
           var fechaArrAux=this.ordView.fecha.split('-');
-          this.fecha=new Date(parseInt(fechaArrAux[0]),parseInt(fechaArrAux[1])-1,parseInt(fechaArrAux[2])) ;
+          this.ord.fecha=this.ordView.fecha;
+          //this.fecha=new Date(parseInt(fechaArrAux[0]),parseInt(fechaArrAux[1])-1,parseInt(fechaArrAux[2])) ;
           this.ord.tipo_pago=this.ordView.tipo_pago;
           this.ord.ruc=this.ordView.ruc
           this.ord.razon_social=this.ordView.razon_social;
@@ -2252,6 +2245,24 @@ export class OrdenComponent implements OnInit {
       } 
     }
     )
+  }
+
+  getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const day = now.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+  
+  getCurrentHour() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
   }
 
 }
