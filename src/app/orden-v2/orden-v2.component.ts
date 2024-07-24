@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ElementRef, HostListener, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, HostListener, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ClientesService } from "../clientes.service"
 import { User } from "../user"
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
@@ -70,7 +70,7 @@ import { PushNotificationService } from '../push-notification.service';
 
   ],
 })
-export class OrdenV2Component implements OnInit {
+export class OrdenV2Component implements OnInit, AfterViewInit {
 
   appFirebase;
   analyticsFirebase;
@@ -841,82 +841,82 @@ export class OrdenV2Component implements OnInit {
 }
 
 
-saveFiles( docToSave,ord_id){
-  console.log(docToSave);
-  if(docToSave){
-    this.fileUploadService.uploadDoc(docToSave).subscribe(res=>{
-      if(res){
-        this.toastr.info('CARGADO CORRECTAMENTE')
-        this.docToPost.url=res['filePath'];
+  saveFiles( docToSave,ord_id){
+    console.log(docToSave);
+    if(docToSave){
+      this.fileUploadService.uploadDoc(docToSave).subscribe(res=>{
+        if(res){
+          this.toastr.info('CARGADO CORRECTAMENTE')
+          this.docToPost.url=res['filePath'];
 
-        const currentDate = new Date();
-        const day = currentDate.getDate().toString().padStart(2, '0');
-        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-        const year = currentDate.getFullYear().toString();
-        const hours = currentDate.getHours().toString().padStart(2, '0');
-        const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+          const currentDate = new Date();
+          const day = currentDate.getDate().toString().padStart(2, '0');
+          const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+          const year = currentDate.getFullYear().toString();
+          const hours = currentDate.getHours().toString().padStart(2, '0');
+          const minutes = currentDate.getMinutes().toString().padStart(2, '0');
 
-        this.docToPost.date=`${day}-${month}-${year} ${hours}:${minutes}`;
-        this.docToPost.name=docToSave.name;
-        this.fileToPost=new Filep(
-          this.docToPost.name,
-          this.docToPost.url,
-          'Descripción predeterminada', 
-          'pdf', 
-          this.docToPost.date,
-          '00:00', 
-          ord_id, 
-          this.folderPostedId, 
-        );
-        this.postFilesToFoler(this.fileToPost,ord_id);
-      }
-      else{
-        this.toastr.warning('Error al cargar archivo');
-      }
-    })
+          this.docToPost.date=`${day}-${month}-${year} ${hours}:${minutes}`;
+          this.docToPost.name=docToSave.name;
+          this.fileToPost=new Filep(
+            this.docToPost.name,
+            this.docToPost.url,
+            'Descripción predeterminada', 
+            'pdf', 
+            this.docToPost.date,
+            '00:00', 
+            ord_id, 
+            this.folderPostedId, 
+          );
+          this.postFilesToFoler(this.fileToPost,ord_id);
+        }
+        else{
+          this.toastr.warning('Error al cargar archivo');
+        }
+      })
+    }
+    else{
+      this.toastr.warning('No hay documento valido');
+    }
   }
-  else{
-    this.toastr.warning('No hay documento valido');
+
+  postFilesToFoler(fileToPost:Filep,ord_id:number){
+    if(this.folderPostedId!=null||this.folderPostedId!=0){
+      fileToPost.folder_id = this.folderPostedId;
+      console.log(fileToPost)
+      this.logisticaService.addFile(fileToPost).subscribe((res:any)=>{
+        console.log(res)
+        /* this.logisticaService.addDoc(fileToPost.).subscribe((resDoc:any)=>{
+          console.log(resDoc)
+        }) */
+      })
+      this.updateAsociatedFilesFolderId(ord_id);
+
+    }else{
+      this.toastr.error('Ocurrió un error al agregar un file a Un FOLDER')
+    }
   }
-}
 
-postFilesToFoler(fileToPost:Filep,ord_id:number){
-  if(this.folderPostedId!=null||this.folderPostedId!=0){
-    fileToPost.folder_id = this.folderPostedId;
-    console.log(fileToPost)
-    this.logisticaService.addFile(fileToPost).subscribe((res:any)=>{
-      console.log(res)
-      /* this.logisticaService.addDoc(fileToPost.).subscribe((resDoc:any)=>{
-        console.log(resDoc)
-      }) */
-    })
-    this.updateAsociatedFilesFolderId(ord_id);
+  updateAsociatedFilesFolderId(orden_id){
+    var asociatedFiles: Filep[];
+    this.logisticaService.getFilesByOrdenId(orden_id).subscribe((res:Filep[])=>{
+      asociatedFiles = res
+      console.log(asociatedFiles);
+      console.log(res);
 
-  }else{
-    this.toastr.error('Ocurrió un error al agregar un file a Un FOLDER')
-  }
-}
-
-updateAsociatedFilesFolderId(orden_id){
-  var asociatedFiles: Filep[];
-  this.logisticaService.getFilesByOrdenId(orden_id).subscribe((res:Filep[])=>{
-    asociatedFiles = res
-    console.log(asociatedFiles);
-    console.log(res);
-
-    asociatedFiles.forEach(element => {
-      console.log(element)
-      element.folder_id=(this.folderPostedId);
-      console.log('folderId',this.folderPostedId)
-      console.log(element)
-      this.logisticaService.updateFile(element).subscribe((updateRes:any)=>{
-        console.log(updateRes)
+      asociatedFiles.forEach(element => {
+        console.log(element)
+        element.folder_id=(this.folderPostedId);
+        console.log('folderId',this.folderPostedId)
+        console.log(element)
+        this.logisticaService.updateFile(element).subscribe((updateRes:any)=>{
+          console.log(updateRes)
+        });
       });
-    });
-  
-  })
-  
-}
+    
+    })
+    
+  }
 
 
 
@@ -938,7 +938,7 @@ updateAsociatedFilesFolderId(orden_id){
         this.columnsToShowTb2=['indicator','fecha','area','tipo','numero','empresa','destino','ruc','razon_social','tipo_pago','moneda','subtotal','igv','total','rebajado','retencion','percepcion','pdf','edit','receipt','comprobante','txt','docs','validar'];
       
       }
-      if(this.user_role=='SUPERVISOR'){
+      else if(this.user_role=='SUPERVISOR'){
         this.columnsToShowTb2=['indicator','fecha','empresa','destino','observacion','moneda','total','pdf','receipt','comprobante','docs','validar'];
         this.columnsToShow=[];
       }
@@ -1127,8 +1127,11 @@ updateAsociatedFilesFolderId(orden_id){
 
 
   ngOnInit() {
-    initFlowbite();
     this.initConfig();
+  }
+
+  ngAfterViewInit() {
+    initFlowbite();
   }
 
 
