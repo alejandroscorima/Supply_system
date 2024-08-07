@@ -219,23 +219,23 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
   itemView: Item = new Item('',null,'','COMPRA','PENDIENTE','',null,0,'','','','','','','','','','','',null);
 
 
-  listaOrdersPendantView:Orden[] = [];
+  ordersPendingFolder:Orden[] = [];
   listaOrdersView: Orden[] = [];
   listaOrdChangeStep: Orden[] = [];
 
   listaOrdView: OrdenItem[]= [];
 
-  listaOrdersPendantViewFiltered:Orden[] = [];
-  listaOrdersPendantViewDisplayed:Orden[] = [];
+  ordersPendingFolderFiltered:Orden[] = [];
+  ordersPendingFolderDisplayed:Orden[] = [];
 
-  ordersPendantViewPageSize = 10;
-  ordersPendantViewCurrentPage = 1;
-  ordersPendantViewTotalPages = 1;
-  ordersPendantViewFilterValue = '';
+  ordersPendingFolderPageSize = 10;
+  ordersPendingFolderCurrentPage = 1;
+  ordersPendingFolderTotalPages = 1;
+  ordersPendingFolderFilterValue = '';
 
   dataSourceOrdersView: MatTableDataSource<Orden>;
   dataSourceOrdersPendant: MatTableDataSource<Orden>;
-  dataSourceOrdersViewAproved: MatTableDataSource<Orden>;
+  //dataSourceOrdersViewAproved: MatTableDataSource<Orden>;
 
   docView = new jsPDF();
 
@@ -343,28 +343,28 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
   }
 
   ordersPendantViewChangePage(page: number) {
-    this.ordersPendantViewCurrentPage = page;
+    this.ordersPendingFolderCurrentPage = page;
     this.ordersPendantViewUpdateTable();
   }
 
   ordersPendantViewUpdateTable() {
-    const start = (this.ordersPendantViewCurrentPage - 1) * this.ordersPendantViewPageSize;
-    const end = start + this.ordersPendantViewPageSize;
+    const start = (this.ordersPendingFolderCurrentPage - 1) * this.ordersPendingFolderPageSize;
+    const end = start + this.ordersPendingFolderPageSize;
 
-    if(this.ordersPendantViewFilterValue!=''){
-      this.ordersPendantViewFilterValue = this.ordersPendantViewFilterValue.trim().toLowerCase();
+    if(this.ordersPendingFolderFilterValue!=''){
+      this.ordersPendingFolderFilterValue = this.ordersPendingFolderFilterValue.trim().toLowerCase();
       // Filtrar el array de datos
-      this.listaOrdersPendantViewFiltered = this.listaOrdersPendantView.filter(item => {
+      this.ordersPendingFolderFiltered = this.ordersPendingFolder.filter(item => {
         if(true){
           return (
-            item.status.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
-            item.fecha.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
-            item.numero.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
-            item.empresa.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
-            item.destino.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
-            item.ruc.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
-            item.total.toLowerCase().includes(this.ordersPendantViewFilterValue) ||
-            item.rebajado.toLowerCase().includes(this.ordersPendantViewFilterValue) 
+            item.status.toLowerCase().includes(this.ordersPendingFolderFilterValue) ||
+            item.fecha.toLowerCase().includes(this.ordersPendingFolderFilterValue) ||
+            item.numero.toLowerCase().includes(this.ordersPendingFolderFilterValue) ||
+            item.empresa.toLowerCase().includes(this.ordersPendingFolderFilterValue) ||
+            item.destino.toLowerCase().includes(this.ordersPendingFolderFilterValue) ||
+            item.ruc.toLowerCase().includes(this.ordersPendingFolderFilterValue) ||
+            item.total.toLowerCase().includes(this.ordersPendingFolderFilterValue) ||
+            item.rebajado.toLowerCase().includes(this.ordersPendingFolderFilterValue) 
           );
         }
         else{
@@ -380,12 +380,12 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
 
     }
     else{
-      this.listaOrdersPendantViewFiltered=this.listaOrdersPendantView;
+      this.ordersPendingFolderFiltered=this.ordersPendingFolder;
     }
 
-    this.ordersPendantViewTotalPages = Math.ceil(this.listaOrdersPendantViewFiltered.length / this.ordersPendantViewPageSize);
+    this.ordersPendingFolderTotalPages = Math.ceil(this.ordersPendingFolderFiltered.length / this.ordersPendingFolderPageSize);
 
-    this.listaOrdersPendantViewDisplayed=this.listaOrdersPendantViewFiltered.slice(start,end);
+    this.ordersPendingFolderDisplayed=this.ordersPendingFolderFiltered.slice(start,end);
   }
 
   setCondicion(event: any) {
@@ -1096,12 +1096,12 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
                       if(this.user_role=='SUPER ADMINISTRADOR'){
                         this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, 'TODOS','PENDIENTE',1).subscribe((resOrdPend:Orden[])=>{
                           console.log(resOrdPend);
-                          console.log(this.listaOrdersPendantView);
-                          this.listaOrdersPendantView=resOrdPend;
-                          this.listaOrdersPendantViewFiltered=this.listaOrdersPendantView;
+                          console.log(this.ordersPendingFolder);
+                          this.ordersPendingFolder=resOrdPend;
+                          this.ordersPendingFolderFiltered=this.ordersPendingFolder;
                           this.ordersPendantViewUpdateTable();
-                          console.log(this.listaOrdersPendantView);
-                          this.dataSourceOrdersPendant = new MatTableDataSource(this.listaOrdersPendantView);
+                          console.log(this.ordersPendingFolder);
+                          this.dataSourceOrdersPendant = new MatTableDataSource(this.ordersPendingFolder);
                           this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
                           this.dataSourceOrdersPendant.sort = this.sort.toArray()[0];
                         })
@@ -1512,11 +1512,10 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
   
   async generarOrden(){
     await this.saveProvider();
-    await this.getOrdValRules()
+    await this.getOrdValRules();
     this.ord.area=this.user_area.name;
     if(this.ord.rebajado==''){
       this.ord.rebajado=(0.0).toFixed(5);
-
     }
     else{
       this.ord.rebajado=parseFloat(this.ord.rebajado).toFixed(5);
@@ -1530,148 +1529,192 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
     this.ord.direccion=this.ord.direccion.toUpperCase();
     this.ord.step_id=1;
 
-    this.logisticaService.getLastOrdOficinaCode(this.ord.numero,this.ord.destino,this.ord.empresa).subscribe(resi=>{
-      if(resi){
-        console.log(resi);
+    var resi = await this.logisticaService.getLastOrdOficinaCode(this.ord.numero,this.ord.destino,this.ord.empresa).toPromise();
+    if(resi){
+      console.log(resi);
 
-        var codeArray=String(resi['numero']).split('-');
-        var numeracion = parseInt(codeArray[1])+1;
-        var numeracionStr = '';
-        if(numeracion<10){
-          numeracionStr='000'+numeracion;
-        }
-        else if(numeracion<100){
-          numeracionStr='00'+numeracion;
-        }
-        else if(numeracion<1000){
-          numeracionStr='0'+numeracion;
-        }
-        else{
-          numeracionStr=String(numeracion);
-        }
-        this.ord.numero=codeArray[0]+'-'+numeracionStr;
+      var codeArray=String(resi['numero']).split('-');
+      var numeracion = parseInt(codeArray[1])+1;
+      var numeracionStr = '';
+      if(numeracion<10){
+        numeracionStr='000'+numeracion;
+      }
+      else if(numeracion<100){
+        numeracionStr='00'+numeracion;
+      }
+      else if(numeracion<1000){
+        numeracionStr='0'+numeracion;
       }
       else{
-        this.ord.numero+='-0001';
+        numeracionStr=String(numeracion);
       }
+      this.ord.numero=codeArray[0]+'-'+numeracionStr;
+    }
+    else{
+      this.ord.numero+='-0001';
+    }
 
+    if(this.ord.moneda!=''&&this.ord.empresa!=''&&this.ord.ruc!=''&&this.ord.razon_social!=''&&
+    this.ord.direccion!=''&&this.ord.destino!=''&&this.ord.rebajado!=''&&this.ord.fecha!=''&&this.ord.observacion&&this.ord.observacion!=''
+    &&(this.listaOrd.length>0)
+    ){
 
+      this.moneyText=this.numToText9Cifras(parseInt(this.ord.total))+' CON '+String(Math.ceil((parseFloat(this.ord.total)*100.0)%100))+'/100 ' + this.ord.moneda;
 
-      if(this.ord.moneda!=''&&this.ord.empresa!=''&&this.ord.ruc!=''&&this.ord.razon_social!=''&&
-      this.ord.direccion!=''&&this.ord.destino!=''&&this.ord.rebajado!=''&&this.ord.fecha!=''&&this.ord.observacion!=''
-      &&(this.listaOrd.length>0)
-      ){
-
-
-        this.moneyText=this.numToText9Cifras(parseInt(this.ord.total))+' CON '+String(Math.ceil((parseFloat(this.ord.total)*100.0)%100))+'/100 ' + this.ord.moneda;
-
-
-
-      
-      
-     // console.log("length",this.ordValRules.length)
+      // console.log("length",this.ordValRules.length)
       console.log("cositoosdfijsoifs",this.ordValRules)
       if(this.ordValRules==null||!(this.ordValRules.length>0)){
         this.ord.status='NO APLICA'
       }
-        // console.log("si debería entrar");
-        // this.logisticaService.getSalaByName(this.ord.destino).subscribe((resCampByName:Campus)=>{
-        //   console.log('resCampByName',resCampByName)
-        //   var temCampus=resCampByName;
-        //   //console.log(parseInt(p.ord_codigo),temCampus.campus_id)
-        // })
-        // await this.getOrdValRules()
+      // console.log("si debería entrar");
+      // this.logisticaService.getSalaByName(this.ord.destino).subscribe((resCampByName:Campus)=>{
+      //   console.log('resCampByName',resCampByName)
+      //   var temCampus=resCampByName;
+      //   //console.log(parseInt(p.ord_codigo),temCampus.campus_id)
+      // })
+      // await this.getOrdValRules()
 
-          this.dateTemp=this.ord.fecha;
+      this.dateTemp=this.ord.fecha;
 
-          this.logisticaService.addOrd(this.ord).subscribe(resAddOrd=>{
-            console.log()
-            if(this.ordValRules.length>0){
-              this.asignarOrden(resAddOrd['session_id'],this.campusToValidate.campus_id, parseFloat(this.ord.total))
+      const resAddOrd = await this.logisticaService.addOrd(this.ord).toPromise();
+
+      // if(this.ordValRules.length>0){
+      //   this.asignarOrden(resAddOrd['session_id'],this.campusToValidate.campus_id, parseFloat(this.ord.total))
+      // }
+
+      if(resAddOrd['session_id']){
+
+        for(const p of this.listaOrd){
+          p.ord_codigo=resAddOrd['session_id'];
+          p.estado='REGISTRADO';
+          var resAddOrdDet = await this.logisticaService.addOrdDet(p).toPromise();
+        }
+
+        if(Array.isArray(this.ordValRules)){
+          if(this.ordValRules.length>0){
+            for (const rule of this.ordValRules) {
+              var valToPost:OrdersValidation = new OrdersValidation(this.user_id,resAddOrd['session_id'],this.getCurrentDate(),this.getCurrentHour(),'PENDIENTE');
+              console.log(valToPost);
+              await this.logisticaService.addOrderValidation(valToPost).toPromise();
             }
-
-
-          console.log('resAddOrd',resAddOrd);
-          if(resAddOrd['session_id']){
-
-            this.listaOrd.forEach((p:OrdenItem,ind)=>{
-              p.ord_codigo=resAddOrd['session_id'];
-              p.estado='REGISTRADO'
-              this.logisticaService.addOrdDet(p).subscribe(resAddOrdDet=>{
-
-              
-
-                if(ind==this.listaOrd.length-1){
-
-                  //this.saveProvider();
-                  console.log("si debería entrar");
-                  this.logisticaService.getSalaByName(this.ord.destino).subscribe((resCampByName:Campus)=>{
-                    console.log('resCampByName',resCampByName)
-                    var temCampus=resCampByName;
-                    console.log(parseInt(p.ord_codigo),temCampus.campus_id)
-                    //this.asignarOrden(parseInt(p.ord_codigo),temCampus.campus_id, parseInt(this.ord.total))
-                  })
-
-                  this.generatePDF(true);
-
-                  // var anio = this.fecha.getFullYear();
-                  // var mes = this.fecha.getMonth()+1;
-                  // var dia = this.fecha.getDate();
-
-                  // if(mes<10){
-                  //   mes='0'+mes;
-                  // }
-                  // if(dia<10){
-                  //   dia='0'+dia;
-                  // }
-
-                  // this.ord.fecha=anio+'-'+mes+'-'+dia;
-
-                  this.ord.fecha=this.dateTemp;
-
-                  this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA','');
-                  this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
-                
-                  this.listaOrd=[];
-                  this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
-                  this.igvActivated=true;   
-                  this.prefijoMoney='';
-                  this.ord.moneda='SOLES';
-                  this.prefijoMoney='S/.';
-                  this.ord.subtotal=parseInt('0').toFixed(5);
-                  this.ord.igv=parseInt('0').toFixed(5);
-                  this.ord.retencion=parseInt('0').toFixed(5);
-                  this.ord.percepcion=parseInt('0').toFixed(5);
-                  this.ord.total=parseInt('0').toFixed(2);
-                  this.ord.rebajado='';
-                  this.posTituloSala = 74;
-                  console.log(this.ord)
-
-
-                  //GUARDAR
-
-
-
-
-
-
-
-
-                  this.toastr.success('!Exito al generar orden');
-                  this.initConfig();
-                }
-              });
-            })
           }
           else{
-                 this.toastr.warning('Quizá algo salio mal');
+            var valToPost:OrdersValidation = new OrdersValidation(0,resAddOrd['session_id'],this.getCurrentDate(),this.getCurrentHour(),'APROBADO');
+            console.log(valToPost);
+            await this.logisticaService.addOrderValidation(valToPost).toPromise();
           }
-        })
+        }
+
+
+
+
+
+        console.log("si debería entrar");
+        this.logisticaService.getSalaByName(this.ord.destino).subscribe((resCampByName:Campus)=>{
+          console.log('resCampByName',resCampByName)
+          var temCampus=resCampByName;
+        });
+
+        this.generatePDF(true);
+
+        this.ord.fecha=this.dateTemp;
+
+        this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA','');
+        this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
+      
+        this.listaOrd=[];
+        this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
+        this.igvActivated=true;   
+        this.prefijoMoney='';
+        this.ord.moneda='SOLES';
+        this.prefijoMoney='S/.';
+        this.ord.subtotal=parseInt('0').toFixed(5);
+        this.ord.igv=parseInt('0').toFixed(5);
+        this.ord.retencion=parseInt('0').toFixed(5);
+        this.ord.percepcion=parseInt('0').toFixed(5);
+        this.ord.total=parseInt('0').toFixed(2);
+        this.ord.rebajado='';
+        this.posTituloSala = 74;
+        console.log(this.ord);
+
+        this.toastr.success('!Exito al generar orden');
+        this.initConfig();
+
+/*           this.listaOrd.forEach((p:OrdenItem,ind)=>{
+          p.ord_codigo=resAddOrd['session_id'];
+          p.estado='REGISTRADO'
+          this.logisticaService.addOrdDet(p).subscribe(resAddOrdDet=>{        
+
+            if(ind==this.listaOrd.length-1){
+
+              //this.saveProvider();
+              console.log("si debería entrar");
+              this.logisticaService.getSalaByName(this.ord.destino).subscribe((resCampByName:Campus)=>{
+                console.log('resCampByName',resCampByName)
+                var temCampus=resCampByName;
+                console.log(parseInt(p.ord_codigo),temCampus.campus_id)
+                //this.asignarOrden(parseInt(p.ord_codigo),temCampus.campus_id, parseInt(this.ord.total))
+              })
+
+              this.generatePDF(true);
+
+              // var anio = this.fecha.getFullYear();
+              // var mes = this.fecha.getMonth()+1;
+              // var dia = this.fecha.getDate();
+
+              // if(mes<10){
+              //   mes='0'+mes;
+              // }
+              // if(dia<10){
+              //   dia='0'+dia;
+              // }
+
+              // this.ord.fecha=anio+'-'+mes+'-'+dia;
+
+              this.ord.fecha=this.dateTemp;
+
+              this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'','NO','NO','OFICINA','');
+              this.orden_item=new OrdenItem('',null,'','','','','',false,'','','',true);
+            
+              this.listaOrd=[];
+              this.dataSourceOrd = new MatTableDataSource(this.listaOrd);
+              this.igvActivated=true;   
+              this.prefijoMoney='';
+              this.ord.moneda='SOLES';
+              this.prefijoMoney='S/.';
+              this.ord.subtotal=parseInt('0').toFixed(5);
+              this.ord.igv=parseInt('0').toFixed(5);
+              this.ord.retencion=parseInt('0').toFixed(5);
+              this.ord.percepcion=parseInt('0').toFixed(5);
+              this.ord.total=parseInt('0').toFixed(2);
+              this.ord.rebajado='';
+              this.posTituloSala = 74;
+              console.log(this.ord)
+
+
+              //GUARDAR
+
+
+
+
+
+
+
+
+              this.toastr.success('!Exito al generar orden');
+              this.initConfig();
+            }
+          });
+        }) */
       }
       else{
-        this.toastr.warning('Rellena todos los campos');
+              this.toastr.warning('Quizá algo salio mal');
       }
-    })
+      
+    }
+    else{
+      this.toastr.warning('Rellena todos los campos');
+    }
 
 
   }
@@ -1720,7 +1763,6 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
   
   asignarOrden( orden_id:number,campus_id: number,total: number){
     console.log('Asignar Orden TOTAL',total)
-  
 
     // var getOrdValRules: OrdersValidationRules [];
     // this.logisticaService.getOrderValidationRules(campus_id).subscribe((res:any)=>{
@@ -2431,7 +2473,7 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
   } */
   async exportFilesToFolder() {
     try {
-      for (const element of this.listaOrdersPendantView) {
+      for (const element of this.ordersPendingFolder) {
         var folderToPush = new Folder('test','desctest',true,0,1230);
         if (element.isChecked) {
           this.listaOrdChangeStep.push(element);
@@ -2485,10 +2527,10 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
     try {
       const resOrdPend: any = await this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, 'TODOS','PENDIENTE',1).toPromise();
       console.log(resOrdPend);
-      console.log(this.listaOrdersPendantView);
-      this.listaOrdersPendantView = resOrdPend;
+      console.log(this.ordersPendingFolder);
+      this.ordersPendingFolder = resOrdPend;
       console.log(this.dataSourceOrdersPendant);
-      this.dataSourceOrdersPendant = new MatTableDataSource(this.listaOrdersPendantView);
+      this.dataSourceOrdersPendant = new MatTableDataSource(this.ordersPendingFolder);
       this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
       this.dataSourceOrdersPendant.sort = this.sort.toArray()[0];
     } catch (error) {
