@@ -1528,6 +1528,8 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
     this.ord.razon_social=this.ord.razon_social.toUpperCase();
     this.ord.direccion=this.ord.direccion.toUpperCase();
     this.ord.step_id=1;
+    this.ord.fecha_gen=this.getCurrentDate();
+    this.ord.hora_gen=this.getCurrentHour();
 
     var resi = await this.logisticaService.getLastOrdOficinaCode(this.ord.numero,this.ord.destino,this.ord.empresa).toPromise();
     if(resi){

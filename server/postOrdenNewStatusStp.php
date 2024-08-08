@@ -19,13 +19,13 @@ try {
     mysqli_query($link, "INSERT INTO ordenes (req_id, numero, ruc, razon_social, direccion,
     subtotal, igv, total, rebajado, fecha, destino, tipo, estado, empresa, moneda, area,
     destino_dir, tipo_pago, num_cuenta, retencion, retencion_percent, percepcion, receipt, txt, section,
-    user_id, observacion, status) 
+    user_id, fecha_gen, hora_gen, observacion, status) 
     VALUES (".$jsonOrd->req_id.",'".$jsonOrd->numero."','".$jsonOrd->ruc."','".$razSoc."','".$jsonOrd->direccion."','"
     .$jsonOrd->subtotal."','".$jsonOrd->igv."','".$jsonOrd->total."','".$jsonOrd->rebajado."','".$jsonOrd->fecha."','"
     .$jsonOrd->destino."','".$jsonOrd->tipo."','".$jsonOrd->estado."','".$jsonOrd->empresa."','".$jsonOrd->moneda."','"
     .$jsonOrd->area."','".$jsonOrd->destino_dir."','".$jsonOrd->tipo_pago."','".$jsonOrd->num_cuenta."','".$jsonOrd->retencion."','"
     .$jsonOrd->retencion_percent."','".$jsonOrd->percepcion."','".$jsonOrd->receipt."','".$jsonOrd->txt."','".$jsonOrd->section."','"
-    .$jsonOrd->user_id."','".$jsonOrd->observacion."', '".$status."')");
+    .$jsonOrd->user_id."','".$jsonOrd->fecha_gen."','".$jsonOrd->hora_gen."','".$jsonOrd->observacion."', '".$status."')");
 
     $id = mysqli_insert_id($link);
     echo json_encode([
