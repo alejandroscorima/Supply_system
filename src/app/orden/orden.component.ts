@@ -2541,6 +2541,11 @@ export class DialogShowDocs implements OnInit {
   docsList: Doc[]=[];
   newDoc: Doc = new Doc('','','',0);
   fileToPost: Filep;
+
+
+  isDragOver = false;
+  archivos: any[] = []; // Aquí manejarás tus archivos subidos
+
   constructor(
     public dialogRef: MatDialogRef<DialogShowDocs>,
     @Inject(MAT_DIALOG_DATA) public data:Orden,
@@ -2550,6 +2555,57 @@ export class DialogShowDocs implements OnInit {
     private toastr: ToastrService,
     public dialog2: MatDialog,
   ) {}
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = false;
+
+    if (event.dataTransfer?.files) {
+      const files = event.dataTransfer.files;
+      for (let i = 0; i < files.length; i++) {
+        this.archivos.push({
+          nombre: files[i].name,
+          tamaño: files[i].size,
+          archivo: files[i]
+        });
+      }
+      console.log(this.archivos);
+      // Aquí puedes añadir la lógica para subir los archivos al servidor
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.handleFiles(input.files);
+    }
+  }
+
+  handleFiles(files: FileList) {
+    const formData = new FormData();
+
+    for (let i = 0; i < files.length; i++) {
+      this.archivos.push({
+        nombre: files[i].name,
+        tamaño: files[i].size,
+        archivo: files[i]
+      });
+      formData.append('files', files[i], files[i].name);
+    }
+    console.log(this.archivos);
+
+
+  }
 
 
   ngOnInit(): void {

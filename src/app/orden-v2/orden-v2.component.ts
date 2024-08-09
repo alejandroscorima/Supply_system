@@ -1060,17 +1060,17 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
                   })
   
                   //vieworders
-                  this.fechaView=new Date();
-                  this.anioView=this.fechaView.getFullYear();
-                  this.mesView=this.fechaView.getMonth()+1;
-                  this.diaView=this.fechaView.getDate();
+                  //this.fechaView=new Date();
+                  //this.anioView=this.fechaView.getFullYear();
+                  //this.mesView=this.fechaView.getMonth()+1;
+                  //this.diaView=this.fechaView.getDate();
   
-                  if(this.mesView<10){
-                    this.mesView='0'+this.mesView;
-                  }
-                  if(this.diaView<10){
-                    this.diaView='0'+this.diaView;
-                  }
+                  //if(this.mesView<10){
+                  //  this.mesView='0'+this.mesView;
+                  //}
+                  //if(this.diaView<10){
+                  //  this.diaView='0'+this.diaView;
+                  //}
   
                   this.logisticaService.getAllAreas().subscribe((as:Area[])=>{
                     if(as){
@@ -1595,7 +1595,7 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
         if(Array.isArray(this.ordValRules)){
           if(this.ordValRules.length>0){
             for (const rule of this.ordValRules) {
-              var valToPost:OrdersValidation = new OrdersValidation(this.user_id,resAddOrd['session_id'],this.getCurrentDate(),this.getCurrentHour(),'PENDIENTE');
+              var valToPost:OrdersValidation = new OrdersValidation(rule.user_id,resAddOrd['session_id'],this.getCurrentDate(),this.getCurrentHour(),'PENDIENTE');
               console.log(valToPost);
               await this.logisticaService.addOrderValidation(valToPost).toPromise();
             }

@@ -1,5 +1,7 @@
 <div class="docs">
-  <a mat-dialog-title style="margin: 0px; text-align: center;">DOCUMENTOS </a>
+  <div mat-dialog-title style="margin: 0px; text-align: center; " class="text-xs">
+    <a class="text-xs" >DOCUMENTOS </a>
+  </div>
 
   <div mat-dialog-content class="tableContainer">
 
@@ -36,6 +38,24 @@
         <tr mat-header-row *matHeaderRowDef="['name','date','view','edit']"></tr>
         <tr mat-row *matRowDef="let row; columns: ['name','date','view','edit'];"></tr>
       </table>
+    </div>
+
+
+    <div class="drag-drop-zone text-xs"
+         [ngClass]="{'drag-over': isDragOver}"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)"
+         (click)="fileInput.click()">
+      <p>Suelta los archivos aquí o <button type="button" (click)="fileInput.click(); $event.stopPropagation();">haz clic para subir</button></p>
+      <input type="file" #fileInput multiple (change)="onFileSelected($event)" hidden>
+    </div>
+
+    <div *ngFor="let f of archivos" class="mt-4">
+      <div class="flex items-center space-x-2">
+        <input type="text" [(ngModel)]="f.nombre" class="flex-1 border border-gray-300 px-2 py-1 rounded-md text-xs" placeholder="Nombre del archivo" />
+        <button class="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 text-xs" >Guardar</button>
+      </div>
     </div>
 
 
