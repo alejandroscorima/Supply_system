@@ -2,3 +2,10 @@
     margin-left: 5px;
     margin-right: 5px;
 }
+
+
+
+/* Modo oscuro */
+.dark .custom-checkbox .mat-checkbox-frame {
+    border-color: #d1d5db; /* Color del borde en modo oscuro */
+  }

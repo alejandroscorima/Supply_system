@@ -1066,21 +1066,17 @@
                           {{op.comprobante}}
                         </td>
                         <td class="px-2 py-1">
-                          <mat-checkbox class="example-margin" (change)="listTxtChange($event,op)"
+                          <mat-checkbox class="custom-checkbox"  (change)="listTxtChange($event,op)"
                           [checked]="selectionTxt.isSelected(op)" [disabled]="op.txt=='SI'"></mat-checkbox>&nbsp;
                         </td>
                         <td class="px-2 py-1">
-                          <div  class="drop-zone"
-                          cdkDropList
-                          (cdkDropListDropped)="onDrop($event)">
-                            <button (click)="showDocs(op)">
-                              <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 8H4m0-2v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"/>
-                              </svg>
-                              
-                              <!-- <mat-icon>folder</mat-icon> -->
-                            </button>
-                          </div>
+                          <button (click)="showDocs(op)">
+                            <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 8H4m0-2v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"/>
+                            </svg>
+                            
+                            <!-- <mat-icon>folder</mat-icon> -->
+                          </button>
                         </td>
                         <td class="px-2 py-1 whitespace-nowrap">
                           <div *ngIf="((op.total>2000) && user_role!='SUPERVISOR')">

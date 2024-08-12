@@ -103,7 +103,7 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
   docname;
 
 
-  fecha;
+  //fecha;
   anio;
   mes;
   dia;
@@ -922,7 +922,7 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
 
 ////
   initConfig(){
-    this.fecha= this.getCurrentDate();
+    //this.fecha= this.getCurrentDate();
 
     this.fechaRegister= this.getCurrentDate();
 
@@ -945,11 +945,9 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
       else{
         this.columnsToShow=['indicator','check','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
         this.columnsToShowTb2=['indicator','fecha','numero','empresa','destino','ruc','total','rebajado','pdf','edit','receipt','comprobante','txt','docs','validar'];
-
       }
       this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
         this.user=u;
-
 
         this.usersService.getCollaboratorByUserId(this.user.user_id).subscribe((c:Collaborator)=>{
           this.colab=c;
@@ -966,18 +964,10 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
                     this.allCampus=cs;
                     console.log(this.allCampus);
                     this.logisticaService.getSignatureByUserId(this.user.user_id).subscribe((sig:Signature)=>{
-
                       this.signature=sig;
                       console.log('signature',this.signature)
-
                      // this.sello= this.signature.signature_url;
-
                     })
-
-                
-
-
-
 
                     this.campus=cs;
                     this.ord=new Orden(0,'','','','','','','','','','','COMPRA',[],'PENDIENTE','','SOLES','','','','','','','','','',0,'18','NO','NO','OFICINA','');
@@ -1007,18 +997,6 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
                     this.ord.rebajado='';
                     this.posTituloSala = 74;
   
-/*                     var anio = this.fecha.getFullYear();
-                    var mes = this.fecha.getMonth()+1;
-                    var dia = this.fecha.getDate();
-  
-                    if(mes<10){
-                      mes='0'+mes;
-                    }
-                    if(dia<10){
-                      dia='0'+dia;
-                    }
-  
-                    this.ord.fecha=anio+'-'+mes+'-'+dia; */
                     this.ord.fecha=this.getCurrentDate();
                     console.log(this.ord.empresa);
 
