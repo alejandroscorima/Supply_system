@@ -36,6 +36,7 @@ export class Orden {
     public descuento?: string,
     public observacion?: string,
 
+
     ///Paperless
     public step ?: string,
     public step_id ?: number,
@@ -56,6 +57,8 @@ export class Orden {
     
     public id?: number,
     public total_inicial?: string,
+
+    public user_name?: string,
   ) { 
     isChecked=false;
   }

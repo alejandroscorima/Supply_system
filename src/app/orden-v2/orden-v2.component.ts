@@ -1071,7 +1071,8 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
                       //   this.dataSourceOrdersView.paginator = this.paginator.toArray()[1];
                       //   this.dataSourceOrdersView.sort = this.sort.toArray()[1];
                       // })
-                      if(this.user_role=='SUPER ADMINISTRADOR'){
+                      //if(this.user_role=='SUPER ADMINISTRADOR'){
+                        if(true){
                         this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, 'TODOS','PENDIENTE',1).subscribe((resOrdPend:Orden[])=>{
                           console.log(resOrdPend);
                           console.log(this.ordersPendingFolder);
@@ -1130,8 +1131,8 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
       this.listaOrdersView=resOrds;
       console.log(this.listaOrdersView);
       this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
-      this.dataSourceOrdersView.paginator = this.paginator.toArray()[1];
-      this.dataSourceOrdersView.sort = this.sort.toArray()[1];
+      this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];
+      this.dataSourceOrdersView.sort = this.sort.toArray()[0];
     })
   }
 

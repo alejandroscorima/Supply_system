@@ -5,39 +5,40 @@
 
   <div mat-dialog-content class="tableContainer">
 
-
-
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <table class="w-full text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="text-xs px-2 py-2">
               Nombre
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="text-xs px-2 py-2">
               Fecha
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="text-xs px-2 py-2">
               Ver
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="text-xs px-2 py-2">
               Acción
             </th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-            <th scope="row" class="px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                Apple MacBook Pro 17"
-            </th>
-            <td class="px-2 py-1">
-                Silver
+        <tbody class="text-xs">
+          <tr *ngFor="let d of docsList" class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <td scope="row" class="px-2 py-1 text-xs text-gray-900 whitespace-nowrap dark:text-white">
+              {{d.name}}
             </td>
-            <td class="px-2 py-1">
-                Laptop
+            <td class="text-xs px-2 py-1">
+              {{d.date}}
             </td>
-            <td class="px-2 py-1">
-                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+            <td class="text-xs px-2 py-1">
+              <a [href]="d.url" target="_blank">
+                <mat-icon>description</mat-icon>
+              </a>
+            </td>
+            <td class="text-xs px-2 py-1">
+              <button disabled (click)="edit(d)"><mat-icon>edit</mat-icon></button>
+              <button disabled (click)="delete(d)"><mat-icon>delete</mat-icon></button>
             </td>
           </tr>
         </tbody>
@@ -46,7 +47,7 @@
 
 
 
-    <div style="padding-top: 10px; padding-bottom: 10px;">
+<!--     <div style="padding-top: 10px; padding-bottom: 10px;">
       <table mat-table [dataSource]="dataSourceDocs" class="mat-elevation-z8" style="width: 100%;">
 
         <ng-container matColumnDef="name">
@@ -79,7 +80,7 @@
         <tr mat-header-row *matHeaderRowDef="['name','date','view','edit']"></tr>
         <tr mat-row *matRowDef="let row; columns: ['name','date','view','edit'];"></tr>
       </table>
-    </div>
+    </div> -->
 
 
     <div class="drag-drop-zone text-xs"

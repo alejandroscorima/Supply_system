@@ -640,9 +640,9 @@
         
         
         
-              <tr class="mat-row" *matNoDataRow>
+<!--               <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
-              </tr>
+              </tr> -->
             </table>
         
             <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator> -->
@@ -919,8 +919,11 @@
           </div>
         </div>
         <div class="hidden rounded-lg bg-gray-50 dark:bg-gray-900" id="view-orders" role="tabpanel" aria-labelledby="view-orders-tab">
-          <div class="w-full p-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700">
+          <div class="w-full p-4 mb-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700">
             <div class=" grid rounded-lg md:grid-cols-2 bg-gray-200 dark:bg-gray-800 w-full">
+              <div class="m-2 col-span-full text-gray-700 dark:text-gray-300">
+                ORDENES PENDIENTES DE PROCESAR
+              </div>
               <div class="m-2 col-span-full">
                 <button type="button" class=" text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4
                 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center" 
@@ -981,6 +984,9 @@
                         <th scope="col" class="px-2 py-1">
                           VALIDACION
                         </th>
+                        <th scope="col" class="px-2 py-1">
+                          GENERADO POR
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1015,10 +1021,14 @@
                           {{op.ruc}}
                         </td>
                         <td class="px-2 py-1 whitespace-nowrap">
-                          S/.{{' '+op.total}}
+                          <span *ngIf="op.moneda=='SOLES'">S/.</span>
+                          <span *ngIf="op.moneda=='DOLARES AMERICANOS'">$</span>
+                          {{' '+op.total}}
                         </td>
-                        <td class="px-2 py-1">
-                          S/.{{op.rebajado}}
+                        <td class="px-2 py-1 whitespace-nowrap">
+                          <span *ngIf="op.moneda=='SOLES'">S/.</span>
+                          <span *ngIf="op.moneda=='DOLARES AMERICANOS'">$</span>
+                          {{op.rebajado}}
 <!--                           <button (click)="reCreatePDF(fl)">
                             <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                               <path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z" clip-rule="evenodd"/>
@@ -1071,19 +1081,17 @@
                         </td>
                         <td class="px-2 py-1">
                           <button (click)="showDocs(op)">
-                            <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 8H4m0-2v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"/>
+                            
+                            <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z" />
                             </svg>
                             
                             <!-- <mat-icon>folder</mat-icon> -->
                           </button>
                         </td>
                         <td class="px-2 py-1 whitespace-nowrap">
-                          <div *ngIf="((op.total>2000) && user_role!='SUPERVISOR')">
-                            {{op.status}}
-                          </div>
-                          <div *ngIf="((op.status=='NO APLICA') && user_role!='SUPERVISOR')">
-                          NO APLICA
+                          <div *ngIf="true">
+                            {{op.val_state}}
                           </div>
                           <!-- <div *ngIf="(a.val_state!='PENDIENTE')">
                             {{a.val_state}}
@@ -1096,9 +1104,12 @@
                               <mat-icon class="text-red-500">cancel</mat-icon>
                             </button>
                           </div>
-                          <div *ngIf=" (op.total>2000)">
+                          <div *ngIf="op.val_state!='NO CORRESPONDE'">
                             <button (click)="viewStatusButton(op)"> <mat-icon class="text-red-500"><span class="text-sm">search</span></mat-icon> Detalle</button>
                           </div>
+                        </td>
+                        <td class="px-2 py-1 whitespace-nowrap">
+                          {{op.user_name}}
                         </td>
                       </tr>
                     </tbody>
@@ -1318,10 +1329,15 @@
                   <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
                 </div> -->
               </div>
-              <div class="m-2 col-span-full">
-                <hr class="h-px my-2 mx-2 bg-gray-400 border-0 dark:bg-gray-700">
+            </div>
+          </div>
+
+          <div class="w-full p-4 bg-gray-200 border border-gray-300 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700">
+            <div class=" grid rounded-lg md:grid-cols-2 bg-gray-200 dark:bg-gray-800 w-full">
+              <div class="m-2 col-span-full text-gray-700 dark:text-gray-300">
+                ORDENES PROCESADAS
               </div>
-              <div class="m-2 col-span-1" *ngIf="user_role=='SUPER ADMINISTRADOR' || user_role=='SUPERVISOR'">
+              <div class="m-2 col-span-1">
                 <label for="destino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elige el destino</label>
                 <select id="destino" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm 
                 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700
@@ -1332,16 +1348,16 @@
                 </select>
               </div>
               <div class="m-2 col-span-1">
-                <button mat-raised-button *ngIf="user_role=='SUPER ADMINISTRADOR'" (click)="exporter.exportTable('xlsx',{fileName:'Ordenes compra/servicio'})"> EXPORTAR A EXCEL</button>
+                <button mat-raised-button  (click)="exporter.exportTable('xlsx',{fileName:'Ordenes compra/servicio'})"> EXPORTAR A EXCEL</button>
               </div>
-              <div class="m-2 col-span-1 hidden">
+<!--               <div class="m-2 col-span-1 hidden">
                 <mat-form-field style="width:40%;" appearance="outline" *ngIf="user_role=='SUPER ADMINISTRADOR' || user_role=='SUPERVISOR'">
                   <mat-label>Destino:</mat-label>
                   <mat-select [(ngModel)]="campusToView" [compareWith]="compareObjectsView" (selectionChange)="changeDestinoView()">
                       <mat-option *ngFor="let cv of campusView" [value]="cv">{{cv.name}}</mat-option>
                   </mat-select>
                 </mat-form-field>
-              </div>
+              </div> -->
               <div class="m-2 col-span-1">
                 <label for="large-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Búsqueda</label>
                 <input type="text" class="bg-gray-50 border border-gray-300
@@ -1352,12 +1368,12 @@
                   (keyup)="applyFilterDView($event)" [(ngModel)]="ord.ruc" placeholder="Escribe algo para buscar"
                   >
               </div>
-              <div class="m-2 col-span-1">
+<!--               <div class="m-2 col-span-1">
                 <mat-form-field appearance="outline" style="display:display-inline">
                   <mat-label>Búsqueda</mat-label>
                   <input matInput (keyup)="applyFilterDView($event)" placeholder="Escribe algo para buscar" #input1>
                 </mat-form-field>
-              </div>
+              </div> -->
               <div class="m-2 col-span-full">
                 <div class="relative mat-elevation-z8 overflow-x-auto shadow-md sm:rounded-lg">
                   <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -1651,9 +1667,9 @@
       
       
       
-                    <tr class="mat-row" *matNoDataRow>
+<!--                     <tr class="mat-row" *matNoDataRow>
                       <td class="mat-cell" colspan="6">No se encontró "{{input1.value}}"</td>
-                    </tr>
+                    </tr> -->
                   </table>
       
                   <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Página"></mat-paginator>
@@ -1736,7 +1752,7 @@
       <!-- Modal  viewModal  -->
       <div id="viewModal-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
           <div class="relative p-4 w-full max-w-md max-h-full">
-              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <div class="relative bg-white rounded-lg shadow dark:bg-gray-600">
                   <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="viewModal-modal">
                       <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -1744,7 +1760,7 @@
                       <span class="sr-only">Close modal</span>
                   </button>
                   
-                  <div class="p-4 md:p-5 text-center" *ngFor=" let val of validationsOrd" >
+                  <div class="p-4 md:p-5 text-center text-gray-900 dark:text-white" *ngFor=" let val of validationsOrd" >
                     <p>{{val.first_name}} {{val.paternal_surname}}: {{val['state']}}</p>
                   </div>
               </div>

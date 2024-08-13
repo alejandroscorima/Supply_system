@@ -2364,16 +2364,16 @@ export class DialogAddReceipt implements OnInit {
 
   save(){
 
-    var year= this.data['date'].getFullYear();
-    var month = this.data['date'].getMonth()+1;
-    if(month<10){
-      month='0'+month;
-    }
-    var day = this.data['date'].getDate();
-    if(day<10){
-      day='0'+day;
-    }
-    this.data['item'].fecha=year+'-'+month+'-'+day;
+    // var year= this.data['date'].getFullYear();
+    // var month = this.data['date'].getMonth()+1;
+    // if(month<10){
+    //   month='0'+month;
+    // }
+    // var day = this.data['date'].getDate();
+    // if(day<10){
+    //   day='0'+day;
+    // }
+    // this.data['item'].fecha=year+'-'+month+'-'+day;
 
     this.data['item'].monto=parseFloat(this.data['item'].monto).toFixed(2);
     this.logisticaService.addFondoItem(this.data['item']).subscribe(res=>{
@@ -2462,16 +2462,16 @@ export class DialogEditReceipt implements OnInit {
 
   save(){
 
-    var year= this.data['date'].getFullYear();
-    var month = this.data['date'].getMonth()+1;
-    if(month<10){
-      month='0'+month;
-    }
-    var day = this.data['date'].getDate();
-    if(day<10){
-      day='0'+day;
-    }
-    this.data['item'].fecha=year+'-'+month+'-'+day;
+    // var year= this.data['date'].getFullYear();
+    // var month = this.data['date'].getMonth()+1;
+    // if(month<10){
+    //   month='0'+month;
+    // }
+    // var day = this.data['date'].getDate();
+    // if(day<10){
+    //   day='0'+day;
+    // }
+    // this.data['item'].fecha=year+'-'+month+'-'+day;
 
     this.data['item'].monto=parseFloat(this.data['item'].monto).toFixed(2);
     this.logisticaService.updateFondoItem(this.data['item']).subscribe(res=>{
