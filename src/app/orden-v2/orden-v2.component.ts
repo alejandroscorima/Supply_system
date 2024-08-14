@@ -427,24 +427,24 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
       this.  asigMoneyChange();
       
     }
-  setDestiny(event: any) {
+  // setDestiny(event: any) {
 
     
-      const selectedValue = event.target.value;
-      ;
-      switch (selectedValue) {
-        case selectedValue:
+  //     const selectedValue = event.target.value;
+  //     ;
+  //     switch (selectedValue) {
+  //       case selectedValue:
 
-        this.destiny=selectedValue;
-        this.ord.destino=selectedValue;
-          console.log(this.ord.destino);
-          break;
+  //       this.destiny=selectedValue;
+  //       this.ord.destino=selectedValue;
+  //         console.log(this.ord.destino);
+  //         break;
 
-        default:
-          break;
-      }
-      this.asigChange()
-    }
+  //       default:
+  //         break;
+  //     }
+  //     this.asigChange()
+  //   }
 
   increaseQuantityButton(){
     this.orden_item.cantidad++;
@@ -1490,8 +1490,14 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
 
   
   async generarOrden(){
+
+    this.asigChange();
+
     await this.saveProvider();
     await this.getOrdValRules();
+
+
+
     this.ord.area=this.user_area.name;
     if(this.ord.rebajado==''){
       this.ord.rebajado=(0.0).toFixed(5);
@@ -1510,29 +1516,17 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
     this.ord.fecha_gen=this.getCurrentDate();
     this.ord.hora_gen=this.getCurrentHour();
 
+
     var resi = await this.logisticaService.getLastOrdOficinaCode(this.ord.numero,this.ord.destino,this.ord.empresa).toPromise();
-    if(resi){
+
+    if (resi) {
       console.log(resi);
 
-      var codeArray=String(resi['numero']).split('-');
-      var numeracion = parseInt(codeArray[1])+1;
-      var numeracionStr = '';
-      if(numeracion<10){
-        numeracionStr='000'+numeracion;
-      }
-      else if(numeracion<100){
-        numeracionStr='00'+numeracion;
-      }
-      else if(numeracion<1000){
-        numeracionStr='0'+numeracion;
-      }
-      else{
-        numeracionStr=String(numeracion);
-      }
-      this.ord.numero=codeArray[0]+'-'+numeracionStr;
-    }
-    else{
-      this.ord.numero+='-0001';
+      const [prefix, numStr] = String(resi['numero']).split('-');
+      const numeracion = (parseInt(numStr) + 1).toString().padStart(4, '0');
+      this.ord.numero = `${prefix}-${numeracion}`;
+    } else {
+      this.ord.numero += '-0001';
     }
 
     if(this.ord.moneda!=''&&this.ord.empresa!=''&&this.ord.ruc!=''&&this.ord.razon_social!=''&&
