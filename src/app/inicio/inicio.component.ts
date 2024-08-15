@@ -267,6 +267,21 @@ export class InicioComponent implements OnInit, AfterViewInit {
     }
   }
 
+  btnRechazar(){
+    this.reqSelectedDetails.forEach((b,indi)=>{
+      if(b.checked){
+        b.estado='RECHAZADO';
+        b.f_atencion=this.getCurrentDate();
+        b.h_atencion=this.getCurrentHour();
+        b.id_asignado=0;
+        console.log(b);
+        this.logisticaService.updateReqDet(b).subscribe(resq=>{
+            this.toastr.success('Item rechazado correctamente');
+        });
+      }
+    })
+  }
+
   getReqs(){
     this.logisticaService.getReqsGeneral(this.user_role,this.user.user_id,'PENDIENTE',[]).subscribe((res:Requerimiento[])=>{
       this.reqPendientes=res;

@@ -59,6 +59,7 @@ export class Orden {
     public total_inicial?: string,
 
     public user_name?: string,
+    public step_status?: string,
   ) { 
     isChecked=false;
   }

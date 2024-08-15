@@ -220,7 +220,7 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
 
 
   ordersPendingFolder:Orden[] = [];
-  listaOrdersView: Orden[] = [];
+  ordersSentFolder: Orden[] = [];
   listaOrdChangeStep: Orden[] = [];
 
   listaOrdView: OrdenItem[]= [];
@@ -232,6 +232,14 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
   ordersPendingFolderCurrentPage = 1;
   ordersPendingFolderTotalPages = 1;
   ordersPendingFolderFilterValue = '';
+
+  ordersSentFolderFiltered:Orden[] = [];
+  ordersSentFolderDisplayed:Orden[] = [];
+
+  ordersSentFolderPageSize = 10;
+  ordersSentFolderCurrentPage = 1;
+  ordersSentFolderTotalPages = 1;
+  ordersSentFolderFilterValue = '';
 
   dataSourceOrdersView: MatTableDataSource<Orden>;
   dataSourceOrdersPendant: MatTableDataSource<Orden>;
@@ -342,12 +350,12 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
     return `${hours}:${minutes}:${seconds}`;
   }
 
-  ordersPendantViewChangePage(page: number) {
+  ordersPendingFolderViewChangePage(page: number) {
     this.ordersPendingFolderCurrentPage = page;
-    this.ordersPendantViewUpdateTable();
+    this.ordersPendingFolderViewUpdateTable();
   }
 
-  ordersPendantViewUpdateTable() {
+  ordersPendingFolderViewUpdateTable() {
     const start = (this.ordersPendingFolderCurrentPage - 1) * this.ordersPendingFolderPageSize;
     const end = start + this.ordersPendingFolderPageSize;
 
@@ -387,6 +395,52 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
 
     this.ordersPendingFolderDisplayed=this.ordersPendingFolderFiltered.slice(start,end);
   }
+
+
+  ordersSentFolderViewChangePage(page: number) {
+    this.ordersSentFolderCurrentPage = page;
+    this.ordersSentFolderViewUpdateTable();
+  }
+  
+  ordersSentFolderViewUpdateTable() {
+    const start = (this.ordersSentFolderCurrentPage - 1) * this.ordersSentFolderPageSize;
+    const end = start + this.ordersSentFolderPageSize;
+  
+    if (this.ordersSentFolderFilterValue != '') {
+      this.ordersSentFolderFilterValue = this.ordersSentFolderFilterValue.trim().toLowerCase();
+      // Filtrar el array de datos
+      this.ordersSentFolderFiltered = this.ordersSentFolder.filter(item => {
+        if (true) {
+          return (
+            item.step_status.toLowerCase().includes(this.ordersSentFolderFilterValue) ||
+            item.status.toLowerCase().includes(this.ordersSentFolderFilterValue) ||
+            item.fecha.toLowerCase().includes(this.ordersSentFolderFilterValue) ||
+            item.numero.toLowerCase().includes(this.ordersSentFolderFilterValue) ||
+            item.empresa.toLowerCase().includes(this.ordersSentFolderFilterValue) ||
+            item.destino.toLowerCase().includes(this.ordersSentFolderFilterValue) ||
+            item.ruc.toLowerCase().includes(this.ordersSentFolderFilterValue) ||
+            item.total.toLowerCase().includes(this.ordersSentFolderFilterValue) ||
+            item.rebajado.toLowerCase().includes(this.ordersSentFolderFilterValue)
+          );
+        } else {
+          /* return (
+            item.fecha.toLowerCase().includes(this.ordersSentViewFilterValue) ||
+            item.campus.toLowerCase().includes(this.ordersSentViewFilterValue) ||
+            item.numero.toLowerCase().includes(this.ordersSentViewFilterValue) ||
+            item.importe.toLowerCase().includes(this.ordersSentViewFilterValue) ||
+            item.personal.toLowerCase().includes(this.ordersSentViewFilterValue)
+          ); */
+        }
+      });
+    } else {
+      this.ordersSentFolderFiltered = this.ordersSentFolder;
+    }
+  
+    this.ordersSentFolderTotalPages = Math.ceil(this.ordersSentFolderFiltered.length / this.ordersSentFolderPageSize);
+  
+    this.ordersSentFolderDisplayed = this.ordersSentFolderFiltered.slice(start, end);
+  }
+  
 
   setCondicion(event: any) {
 
@@ -1078,7 +1132,7 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
                           console.log(this.ordersPendingFolder);
                           this.ordersPendingFolder=resOrdPend;
                           this.ordersPendingFolderFiltered=this.ordersPendingFolder;
-                          this.ordersPendantViewUpdateTable();
+                          this.ordersPendingFolderViewUpdateTable();
                           console.log(this.ordersPendingFolder);
                           this.dataSourceOrdersPendant = new MatTableDataSource(this.ordersPendingFolder);
                           this.dataSourceOrdersPendant.paginator = this.paginator.toArray()[0];
@@ -1127,10 +1181,12 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
   changeDestinoView(){
     this.logisticaService.getOrdersbyStepStatusAddFolderId(this.user_id, this.user_role, this.campusToView.name,'TODOS',2).subscribe((resOrds:Orden[])=>{
       console.log(resOrds);
-      console.log(this.listaOrdersView);
-      this.listaOrdersView=resOrds;
-      console.log(this.listaOrdersView);
-      this.dataSourceOrdersView = new MatTableDataSource(this.listaOrdersView);
+      console.log(this.ordersSentFolder);
+      this.ordersSentFolder=resOrds;
+      console.log(this.ordersSentFolder);
+      this.ordersSentFolderFiltered=this.ordersSentFolder;
+      this.ordersSentFolderViewUpdateTable();
+      this.dataSourceOrdersView = new MatTableDataSource(this.ordersSentFolder);
       this.dataSourceOrdersView.paginator = this.paginator.toArray()[0];
       this.dataSourceOrdersView.sort = this.sort.toArray()[0];
     })
@@ -2004,12 +2060,17 @@ export class OrdenV2Component implements OnInit, AfterViewInit {
   }
 
   applyFilterDView(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourceOrdersView.filter = filterValue.trim().toLowerCase();
+    this.ordersSentFolderCurrentPage = 1;
 
-    if (this.dataSourceOrdersView.paginator) {
-      this.dataSourceOrdersView.paginator.firstPage();
-    }
+
+    this.ordersSentFolderViewUpdateTable();
+
+    // const filterValue = (event.target as HTMLInputElement).value;
+    // this.dataSourceOrdersView.filter = filterValue.trim().toLowerCase();
+
+    // if (this.dataSourceOrdersView.paginator) {
+    //   this.dataSourceOrdersView.paginator.firstPage();
+    // }
   }
 
 

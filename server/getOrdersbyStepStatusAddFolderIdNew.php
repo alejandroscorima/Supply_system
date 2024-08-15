@@ -25,6 +25,7 @@ try {
     $step_id = $_GET['step_id']; // Nueva variable para el ID del paso
     $assistant_set=" ";
     $destino_set=" ";
+    $step_set=" ";
     
     // Determina el valor de $status_set según el estado
     if ($status === 'PENDIENTE') {
@@ -44,9 +45,19 @@ try {
 
     //Según el rol
     if($user_role==='SUPER ADMINISTRADOR'){
-       
-    } else if($user_role==='ADMINISTRADOR'){
+        $step_set= " AND a.step_id=".$step_id;
+    } 
+    else if($user_role==='ADMINISTRADOR'){
         $assistant_set= " AND a.assistant_id=".$user_id;
+        $step_set= " AND a.step_id=".$step_id;
+    }
+    else if($user_role==='USUARIO'){
+        $assistant_set= " AND a.assistant_id=".$user_id;
+        $step_set= " AND a.step_id=".$step_id;
+    }
+    else if($user_role==='USUARIO AVANZADO'){
+        $assistant_set= " AND a.assistant_id=".$user_id;
+        $step_set= " AND a.step_id=".$step_id;
     }
 
     // Consulta SQL modificada con la variable $step_id
@@ -65,7 +76,7 @@ try {
         LEFT JOIN oscorp_supply.fondoitems b ON a.id = b.orden_id 
         LEFT JOIN oscorp_supply.orders_validations c ON a.id = c.order_id 
         LEFT JOIN oscorp_data.user2 d ON a.assistant_id = d.user_id
-        WHERE a.step_id = ".$step_id." ".$status_set." ".$assistant_set." ".$destino_set." 
+        WHERE TRUE ".$step_set." ".$status_set." ".$assistant_set." ".$destino_set." 
         GROUP BY a.id
         ORDER BY a.id DESC;");
     

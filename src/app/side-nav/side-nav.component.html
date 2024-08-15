@@ -169,17 +169,17 @@ bg-white dark:bg-gray-800 dark:border-blue-500 overflow-y-auto" aria-label="Side
 
                 <a (click)="onNavItemClick()" class="flex items-center p-1 text-black rounded-lg
                 dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/orden"
-                *ngIf="(user_role!='SUPERVISOR')"  >                         
+                *ngIf="false"  >                         
                   <p class="pl-8 text-gray-900 dark:text-white"
                 >Orden</p>
                 </a>
-                <a (click)="onNavItemClick()" *ngIf="(user_role!='SUPERVISOR')" class="flex items-center p-1 text-black rounded-lg
+                <a (click)="onNavItemClick()" *ngIf="false" class="flex items-center p-1 text-black rounded-lg
                 dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/warehouse" >                        
                   <p class="pl-8 text-gray-900 dark:text-white">Almacen</p>
                 </a>
                 <a (click)="onNavItemClick()" *ngIf="(user_role!='SUPERVISOR')" class="flex items-center p-1 text-black rounded-lg
                 dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/ordenv2">                         
-                  <p class="pl-8 text-gray-900 dark:text-white">Orden V2</p>
+                  <p class="pl-8 text-gray-900 dark:text-white">Orden (Nuevo)</p>
                 </a>
               </div>
             </div>                 
@@ -203,7 +203,7 @@ bg-white dark:bg-gray-800 dark:border-blue-500 overflow-y-auto" aria-label="Side
 
 
 
-      <li  [hidden]="!(user_role=='SUPER USUARIO'||
+      <li *ngIf="false" [hidden]="!(user_role=='SUPER USUARIO'||
       user_role=='SUPER ADMINISTRADOR'||
       user_role=='ADMINISTRADOR'||user_role=='ASISTENTE')">
       <a (click)="onNavItemClick()" class="flex items-center p-2 text-gray-900 rounded-lg
