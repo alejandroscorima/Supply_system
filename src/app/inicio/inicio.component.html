@@ -646,7 +646,7 @@
             </span>
             <select [disabled]="!(reqSelected.validation=='APROBADO'||reqSelected.validation=='NO CORRESPONDE')" [(ngModel)]="reqSelected.id_asignado" (change)="asigChange()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-e-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
               <option *ngIf="!(reqSelected.validation=='APROBADO'||reqSelected.validation=='NO CORRESPONDE')"></option>
-              <option *ngFor="let p of personal" [value]="p.user_id">
+              <option *ngFor="let p of personal" [ngValue]="p.user_id">
                 {{p.first_name+' '+p.paternal_surname+' '+p.maternal_surname}}
               </option>
             </select>
