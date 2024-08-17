@@ -258,6 +258,7 @@ export class InicioComponent implements OnInit, AfterViewInit {
           console.log(b);
           this.logisticaService.updateReqDet(b).subscribe(resq=>{
               this.toastr.success('Item asignado correctamente');
+              b.checked=false;
           });
         }
       })
