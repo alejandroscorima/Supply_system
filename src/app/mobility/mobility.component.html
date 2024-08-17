@@ -167,7 +167,7 @@
           </table>
           <div class="mt-4 flex justify-between items-center">
             <button (click)="changePage(mobilitiesCurrentPage - 1)" [disabled]="mobilitiesCurrentPage === 1" class="p-2 bg-gray-300 rounded">Anterior</button>
-            <span>Página {{ mobilitiesCurrentPage }} de {{ mobilitiesTotalPages }}</span>
+            <span class="text-gray-600 dark:text-gray-400">Página {{ mobilitiesCurrentPage }} de {{ mobilitiesTotalPages }}</span>
             <button (click)="changePage(mobilitiesCurrentPage + 1)" [disabled]="mobilitiesCurrentPage === mobilitiesTotalPages" class="p-2 bg-gray-300 rounded">Siguiente</button>
           </div>
         </div>

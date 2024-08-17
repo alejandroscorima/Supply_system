@@ -9,11 +9,11 @@ export class FileUploadService {
 
   // API url
   //baseApiUrl = "http://52.5.47.64:8089/api/images/upload"
-  //baseApiUrl = "http://52.5.47.64:3000/upload"
-  baseApiUrl = "https://dev.oscorp.com.pe:3000/upload"
+  baseApiUrl = "http://52.5.47.64:3000/upload"
+  //baseApiUrl = "https://dev.oscorp.com.pe:3000/upload"
 
-  //baseApiDocsUrl = "http://52.5.47.64:3001/upload"
-  baseApiDocsUrl = "https://dev.oscorp.com.pe:3001/upload"
+  baseApiDocsUrl = "http://52.5.47.64:3001/upload"
+  //baseApiDocsUrl = "https://dev.oscorp.com.pe:3001/upload"
 
   constructor(private http:HttpClient) { }
 

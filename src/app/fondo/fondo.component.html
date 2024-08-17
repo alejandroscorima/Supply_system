@@ -399,7 +399,7 @@
           </table>
           <div class="mt-4 flex justify-between items-center">
             <button (click)="changePage(liquidacionesCurrentPage - 1)" [disabled]="liquidacionesCurrentPage === 1" class="p-2 bg-gray-300 rounded">Anterior</button>
-            <span>Página {{ liquidacionesCurrentPage }} de {{ liquidacionesTotalPages }}</span>
+            <span class="text-gray-600 dark:text-gray-400">Página {{ liquidacionesCurrentPage }} de {{ liquidacionesTotalPages }}</span>
             <button (click)="changePage(liquidacionesCurrentPage + 1)" [disabled]="liquidacionesCurrentPage === liquidacionesTotalPages" class="p-2 bg-gray-300 rounded">Siguiente</button>
           </div>
         </div>
