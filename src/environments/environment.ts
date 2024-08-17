@@ -7,8 +7,8 @@ export const environment = {
   //baseUrl: "http://localhost:8888/Logistica/server",
   //baseUrl: "http://localhost:8888/InventarioPatrimonio/server",
   //baseUrl: "http://localhost:8888/Logistica/server",
-  baseUrl: "http://52.5.47.64/Logistica",
-  //baseUrl: "https://dev.oscorp.com.pe/Logistica",
+  //baseUrl: "http://52.5.47.64/Logistica",
+  baseUrl: "https://dev.oscorp.com.pe/Logistica",
   firebaseConfig : {
     apiKey: "AIzaSyADHEkrK_lk0sXAmLykuOXh1RuLm7B83Kw",
     authDomain: "supply-system-28cf8.firebaseapp.com",
