@@ -19,9 +19,11 @@ import { ActivitiesComponent } from './activities/activities.component';
 import { EntregaComponent } from './entrega/entrega.component';
 import { OrdenV2Component } from './orden-v2/orden-v2.component';
 import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
+import { RequisitionsComponent } from './requisitions/requisitions.component';
 
 const routes: Routes = [
-  { path: "", component: InicioComponent },
+  { path: "", component: RequisitionsComponent },
+  { path: "requisitions", component: RequisitionsComponent },
   { path: "login", component: LoginComponent  },
   { path: "new", component: NuevoComponent  },
   { path: "orden", component: OrdenComponent  },

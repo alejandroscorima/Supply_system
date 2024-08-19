@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
-import { DialogCreateOrden, InicioComponent } from './inicio/inicio.component';
+import { InicioComponent } from './inicio/inicio.component';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -29,9 +29,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 //import { DialogRevisar } from './lista-activos/lista-activos.component';
-import { DialogDetalleReqAdm } from './inicio/inicio.component';
-import { DialogDetalleReqAsist } from './inicio/inicio.component';
-import { DialogDetalleReqUsr } from './inicio/inicio.component';
+import { DialogDetalleReqAdm, DialogCreateOrden, RequisitionsComponent } from './requisitions/requisitions.component';
+import { DialogDetalleReqAsist } from './requisitions/requisitions.component';
+import { DialogDetalleReqUsr } from './requisitions/requisitions.component';
 import { MatCardModule } from '@angular/material/card';
 
 import { ToastrModule } from 'ngx-toastr';
@@ -146,7 +146,8 @@ import { environment } from 'src/environments/environment';
         DialogNewItemEntrega,
         DialogConfirmEntrega,
         OrdenV2Component,
-        OrdenSupervisor
+        OrdenSupervisor,
+        RequisitionsComponent
     ],
     imports: [
         BrowserModule,
