@@ -48,10 +48,10 @@ Chart.register(...registerables);
 })
 export class AnalyticsComponent implements OnInit, AfterViewInit {
 
-  user: User = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
-  colab: Collaborator = new Collaborator(0,0,'',0,'','','','','','','','','');
-  user_area: Area = new Area('',null);
-  user_campus: Campus = new Campus('','','','','','');
+  userOnSession: User|any = new User(0,'','','','','','','','','','','','','','','','','',0,'','','');
+  colabOnSession: Collaborator|any = new Collaborator(0,0,'',0,'','','','','','','','','');
+  userArea: Area|any = new Area('',null);
+  userCampus: Campus|any = new Campus('','','','','','');
 
   user_id: number = 0;
   user_role: string = '';
@@ -59,16 +59,22 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   centenas=['','CIEN','DOSCIENTOS','TRESCIENTOS','CUATROCIENTOS','QUINIENTOS','SEISCIENTOS','SETECIENTOS','OCHOCIENTOS','NOVECIENTOS'];
   decenas=['','DIEZ','VEINTE','TREINTA','CUARENTA','CINCUENTA','SESENTA','SETENTA','OCHENTA','NOVENTA'];
   unidades=['','UNO','DOS','TRES','CUATRO','CINCO','SEIS','SIETE','OCHO','NUEVE'];
-  aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE']
+  aux_dec=['','ONCE','DOCE','TRECE','CATORCE','QUINCE'];
 
+  allCampus: Campus[]|any=[];
+  allAreas: Area[]|any=[];
+
+  requisitionsCampusFilter: Campus[]=[];
+  requisitionsAreasFilter: Area[]=[];
+  requisitionsDateStartFilter: string;
+  requisitionsDateEndFilter: string;
+  requisitionsStatusFilter: string[]=[];
 
   constructor(
     private logisticaService: LogisticaService,
     private cookiesService: CookiesService,
     private usersService: UsersService,
     public dialog: MatDialog,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
     private router: Router,
     private toastr: ToastrService,
   ) { }
@@ -77,35 +83,25 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     initFlowbite();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if(this.cookiesService.checkToken('user_id')){
       this.user_id = parseInt(this.cookiesService.getToken('user_id'));
       this.user_role = this.cookiesService.getToken('user_role');
+      this.getUserInfo(this.user_id);
 
-      this.usersService.getUserByIdNew(this.user_id).subscribe((u:User)=>{
-        this.user=u;
-
-        this.usersService.getCollaboratorByUserId(this.user.user_id).subscribe((c:Collaborator)=>{
-          this.colab=c;
-          this.logisticaService.getAreaById(this.colab.area_id).subscribe((ar:Area)=>{
-            if(ar){
-              this.user_area=ar;
-              this.logisticaService.getCampusById(this.colab.campus_id).subscribe((camp:Campus)=>{
-                if(camp){
-                  this.user_campus=camp;
-
-  
-                }
-              })
-  
-            }
-          })
-        })
-      });
+      this.allCampus = await this.logisticaService.getAllCampus().toPromise();
+      this.allAreas = await this.logisticaService.getAllAreas().toPromise();
     }
     else{
       this.router.navigateByUrl('/login');
     }
+  }
+
+  async getUserInfo(user_id: number){
+    this.userOnSession = await this.usersService.getUserByIdNew(this.user_id).toPromise();
+    this.colabOnSession = await this.usersService.getCollaboratorByUserId(this.userOnSession.user_id).toPromise();
+    this.userArea = await this.logisticaService.getAreaById(this.colabOnSession.area_id).toPromise();
+    this.userCampus = await this.logisticaService.getCampusById(this.colabOnSession.campus_id).toPromise();
   }
 
   numToText3Cifras(n:number){

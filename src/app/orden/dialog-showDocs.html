@@ -96,7 +96,7 @@
     <div *ngFor="let f of archivos" class="mt-4">
       <div class="flex items-center space-x-2">
         <input type="text" [(ngModel)]="f.nombre" class="flex-1 border border-gray-300 px-2 py-1 rounded-md text-xs" placeholder="Nombre del archivo" />
-        <button class="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 text-xs" >Guardar</button>
+        <button class="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 text-xs" (click)="saveDoc(f)">Guardar</button>
       </div>
     </div>
 

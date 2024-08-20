@@ -2554,6 +2554,7 @@ export class DialogShowDocs implements OnInit {
     private logisticaService: LogisticaService,
     private toastr: ToastrService,
     public dialog2: MatDialog,
+    private fileUploadService: FileUploadService,
   ) {}
 
   onDragOver(event: DragEvent) {
@@ -2600,11 +2601,9 @@ export class DialogShowDocs implements OnInit {
         tamaño: files[i].size,
         archivo: files[i]
       });
-      formData.append('files', files[i], files[i].name);
+      //formData.append('files', files[i], files[i].name);
     }
     console.log(this.archivos);
-
-
   }
 
 
@@ -2657,7 +2656,8 @@ export class DialogShowDocs implements OnInit {
           'pdf', 
           this.newDoc.date,
           '00:00', 
-          this.newDoc.orden_id, 
+          this.newDoc.orden_id,
+          0
         );
         this.logisticaService.addFile(this.fileToPost).subscribe(confirm=>{
           if(confirm){
@@ -2681,6 +2681,73 @@ export class DialogShowDocs implements OnInit {
     })
   }
 
+  async saveDoc(archivo:{nombre: string, tamaño: any, archivo: File|null}){
+    this.newDoc= new Doc('','','',0);
+    if(archivo.archivo){
+      var resUploadDoc = await this.fileUploadService.uploadDoc(archivo.archivo).toPromise();
+      if(resUploadDoc){
+        this.toastr.info('CARGADO CORRECTAMENTE: '+resUploadDoc['filePath']);
+        this.newDoc.url=resUploadDoc['filePath'];
+
+        this.newDoc.name=archivo.nombre;
+
+        this.newDoc.date=`${this.getCurrentDate()} ${this.getCurrentHour()}`;
+        this.newDoc.hour=`${this.getCurrentHour()}`;
+
+        this.newDoc.orden_id=this.data.id;
+        var resAddDoc = await this.logisticaService.addDoc(this.newDoc).toPromise();
+        if(resAddDoc){
+          this.toastr.success('DOCUMENTO AGREGADO')
+          this.logisticaService.getDocsByOrdenId(this.data.id).subscribe((docsL:Doc[])=>{
+            if(docsL){
+              this.docsList=docsL;
+              this.dataSourceDocs = new MatTableDataSource(this.docsList);
+              this.dataSourceDocs.paginator = this.paginator.toArray()[0];
+              this.dataSourceDocs.sort = this.sort.toArray()[0];
+            }
+      
+          })
+        }
+
+        this.fileToPost=new Filep(
+          this.newDoc.name,
+          this.newDoc.url,
+          'Descripción predeterminada', 
+          'pdf', 
+          this.newDoc.date,
+          this.newDoc.hour, 
+          this.newDoc.orden_id,
+          0
+        );
+        console.log(this.fileToPost);
+        var resAddFile = await this.logisticaService.addFile(this.fileToPost).toPromise();
+        if(resAddFile){
+          this.toastr.success('DOCUMENTO AGREGADO')
+          this.logisticaService.getDocsByOrdenId(this.data.id).subscribe((docsL:Doc[])=>{
+            if(docsL){
+              this.docsList=docsL;
+              this.toastr.success('Documento guardado exitosamente!');
+              var indexToDel=this.archivos.findIndex(m=>m.archivo==archivo.archivo&&m.nombre==archivo.nombre);
+              if(indexToDel!==-1){
+                this.archivos.splice(indexToDel,1);
+              }
+              this.dataSourceDocs = new MatTableDataSource(this.docsList);
+              this.dataSourceDocs.paginator = this.paginator.toArray()[0];
+              this.dataSourceDocs.sort = this.sort.toArray()[0];
+            }
+      
+          })
+        }
+      }
+      else{
+        this.toastr.warning('Error al cargar archivo');
+      }
+    }
+    else{
+      this.toastr.warning('No hay documento valido');
+    }
+  }
+
   edit(el:Doc){
     var dialogRef3;
 
@@ -2700,6 +2767,24 @@ export class DialogShowDocs implements OnInit {
 
   cancel(){
     this.dialogRef.close(false);
+  }
+
+  getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const day = now.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+
+  getCurrentHour() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
   }
 
 
