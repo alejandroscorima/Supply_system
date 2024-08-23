@@ -16,14 +16,20 @@ $extraString = "";
 $validationExtraString = "";
 
 $dateFilter = " AND a.fecha BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
+
+$statusFilter ="";
+if($status!="TODOS"){
+    $statusFilter=" AND a.status ='".$status."'";
+}
+
 $areaFilter ="";
 if($area!="TODOS"){
-    $areaFilter="AND a.area ='".$area."'";
+    $areaFilter=" AND a.area ='".$area."'";
 }
 
 $sedeFilter ="";
 if($sede!="TODOS"){
-    $sedeFilter="AND a.sede ='".$sede."'";
+    $sedeFilter=" AND a.sede ='".$sede."'";
 }
 
 
@@ -65,7 +71,7 @@ LEFT JOIN
 WHERE 
     TRUE
 
-    ".$extraString.$areaFilter. $sedeFilter.$dateFilter."
+    ".$extraString.$areaFilter.$statusFilter.$sedeFilter.$dateFilter."
 
 
 GROUP BY rd.id
