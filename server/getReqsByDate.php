@@ -3,8 +3,8 @@ header("Access-Control-Allow-Origin: *");
 
 $bd = include_once "bdLogistica.php";
 
-$user_role = $_GET['user_role'];
-$user_id = $_GET['user_id'];
+
+
 $status = $_GET['status'];
 $sede = $_GET['sede'];
 
@@ -15,47 +15,18 @@ $area = $_GET['area']; // Área
 $extraString = "";
 $validationExtraString = "";
 
-$dateFilter = " a.fecha BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
+$dateFilter = " AND a.fecha BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 $areaFilter ="";
-if($area=="TODOS"){
+if($area!="TODOS"){
     $areaFilter="AND a.area ='".$area."'";
 }
 
 $sedeFilter ="";
-if($sede=="TODOS"){
+if($sede!="TODOS"){
     $sedeFilter="AND a.sede ='".$sede."'";
 }
 
-if ($user_role == 'SUPER USUARIO') {
-    // Lógica específica para SUPER USUARIO
-}
 
-if ($user_role == 'SUPER ADMINISTRADOR') {
-    // Lógica específica para SUPER ADMINISTRADOR
-}
-
-if ($user_role == 'ADMINISTRADOR') {
-    // Lógica específica para ADMINISTRADOR
-    $extraString .= "AND rd.id_asignado = " . $user_id;
-}
-
-if ($user_role == 'ASISTENTE') {
-    // Lógica específica para ASISTENTE
-    $extraString .= "AND rd.id_asignado = " . $user_id;
-}
-
-if ($user_role == 'USUARIO AVANZADO') {
-    // Lógica específica para USUARIO AVANZADO
-    $extraString .= "AND a.user_id = " . $user_id;
-}
-
-if ($user_role == 'USUARIO') {
-    $extraString .= "AND a.user_id = " . $user_id;
-}
-
-if ($user_role == 'SUPERVISOR') {
-
-}
 
 $sentencia = $bd->prepare("
 SELECT * FROM
@@ -93,7 +64,7 @@ LEFT JOIN
     req_detalles rd ON a.codigo = rd.req_codigo
 WHERE 
     TRUE
-    
+
     ".$extraString.$areaFilter. $sedeFilter.$dateFilter."
 
 
