@@ -26,7 +26,7 @@ if ($estado != "TODOS") {
 
 // Filtrar por rango de fechas si se proporcionan ambas fechas
 if (!empty($start_date) && !empty($end_date)) {
-    $dateFilter = " AND fecha BETWEEN '".$start_date."' AND '".$end_date."'";
+    $dateFilter = " AND fecha_gen BETWEEN '".$start_date."' AND '".$end_date."'";
 }
 
 // Construir la consulta SQL completa
