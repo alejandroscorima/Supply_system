@@ -58,7 +58,7 @@ import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { DialogAddReceiptWarehouse, DialogEditReceiptWarehouse, WarehouseComponent } from './warehouse/warehouse.component';
 import { MatTabsModule} from '@angular/material/tabs';
-import { MobilityComponent, DialogNewItemMobility, DialogConfirmMobility, DialogEditItemMobility} from './mobility/mobility.component';
+import { DialogNewItemMobility, DialogConfirmMobility, DialogEditItemMobility, MobilityComponent} from './mobility/mobility.component';
 
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { MatProgressBarModule} from '@angular/material/progress-bar';
@@ -83,6 +83,12 @@ import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
 
 import { PushNotificationService } from './push-notification.service';
 import { environment } from 'src/environments/environment';
+import { RequirementsComponent } from "./analytics/requirements/requirements.component";
+import { OrdersComponent } from "./analytics/orders/orders.component";
+import { ImprestComponent } from "./analytics/imprest/imprest.component";
+import { DeliveryComponent } from "./analytics/delivery/delivery.component"
+import { AnalyticMobilityComponent } from './analytics/analytic-mobility/analytic-mobility.component';
+
 
 @NgModule({
     declarations: [
@@ -114,7 +120,7 @@ import { environment } from 'src/environments/environment';
         DialogEditCampus,
         AreasComponent,
         DialogNewArea,
-        DialogEditArea,
+        DialogEditArea, 
         ProvidersComponent,
         DialogNewProvider,
         DialogEditProvider,
@@ -122,7 +128,6 @@ import { environment } from 'src/environments/environment';
         DialogEditProduct,
         DialogConfirmFondo,
         DialogEditItemFondo,
-        MobilityComponent,
         DialogNewItemMobility,
         DialogEditItemMobility,
         DialogConfirmMobility,
@@ -146,51 +151,59 @@ import { environment } from 'src/environments/environment';
         DialogNewItemEntrega,
         DialogConfirmEntrega,
         OrdenV2Component,
-        OrdenSupervisor,
-        RequisitionsComponent
+        MobilityComponent,
+        RequisitionsComponent,
+        OrdenSupervisor
     ],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatListModule,
-        MatIconModule,
-        MatButtonModule,
-        MatExpansionModule,
-        MatFormFieldModule,
-        MatInputModule,
-        HttpClientModule,
-        MatTableModule,
-        MatDialogModule,
-        MatSnackBarModule,
-        MatCheckboxModule,
-        MatRadioModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatCardModule,
-        MatTableExporterModule,
-        MatGridListModule,
-        GoogleChartsModule,
-        MatStepperModule,
-        MatSlideToggleModule,
-        MatTabsModule,
-        MatProgressBarModule,
-        DragDropModule,
-        ToastrModule.forRoot(),
-        ServiceWorkerModule.register('ngsw-worker.js', {
-          enabled: !isDevMode(),
-          // Register the ServiceWorker as soon as the application is stable
-          // or after 30 seconds (whichever comes first).
-          registrationStrategy: 'registerWhenStable:30000'
-        }),
-    ],
+    BrowserModule,
+    AppRoutingModule,
+
+    FormsModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    HttpClientModule,
+    MatTableModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCardModule,
+    MatTableExporterModule,
+    MatGridListModule,
+    GoogleChartsModule,
+    MatStepperModule,
+    MatSlideToggleModule,
+    MatTabsModule,
+    MatProgressBarModule,
+    DragDropModule,
+    ToastrModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        // Register the ServiceWorker as soon as the application is stable
+        // or after 30 seconds (whichever comes first).
+        registrationStrategy: 'registerWhenStable:30000'
+    }),
+    OrdersComponent,
+    ImprestComponent,
+    DeliveryComponent,
+    AnalyticMobilityComponent,
+    RequirementsComponent,
+    
+],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
       { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, CookieService,PushNotificationService],
     bootstrap: [AppComponent]

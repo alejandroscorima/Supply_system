@@ -2,14 +2,7 @@ import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, HostLis
 import { ClientesService } from "../clientes.service"
 import { User } from "../user"
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ThemePalette } from '@angular/material/core';
-import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Item } from '../item';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -32,7 +25,7 @@ import { Collaborator } from '../collaborator';
 import { initFlowbite } from 'flowbite';
 Chart.register(...registerables);
 
-
+ 
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.component.html',

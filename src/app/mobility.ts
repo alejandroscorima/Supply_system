@@ -13,6 +13,9 @@ export class Mobility {
     public fecha_entrega: string,
     public numero: string,
     public personal: string,
+
+    public first_name?: string,
+    public paternal_surname?: string,
     public id?: number,
   ) { }
 }

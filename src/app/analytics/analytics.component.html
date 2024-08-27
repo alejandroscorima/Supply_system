@@ -2,7 +2,7 @@
   <div class="h-14 flex-none"></div>
   <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-hidden">
 
-    <div class="h-full w-full" >
+    <div class="h-full w-full overflow-scroll" >
 
       <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
         <ul class="flex flex-nowrap -mb-px text-sm font-medium text-center justify-start overflow-x-auto" id="default-tab" data-tabs-toggle="#reports-tab-content" role="tablist">
@@ -10,7 +10,7 @@
             <button class="inline-block p-4 border-b-2 rounded-t-lg" id="requisitions-tab" data-tabs-target="#requisitions" type="button" role="tab" aria-controls="requisitions" aria-selected="false">REQUERIMIENTOS</button>
           </li>
           <li class="me-2 flex-shrink-0" role="presentation">
-            <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="orders-tab" data-tabs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="false">ORDENES</button>
+            <button class="inline-block p-4 border-b-2 rounded-t-lg dark:text-white hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="orders-tab" data-tabs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="false">ORDENES</button>
           </li>
           <li class="me-2 flex-shrink-0" role="presentation">
             <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="petty-cash-tab" data-tabs-target="#petty-cash" type="button" role="tab" aria-controls="petty-cash" aria-selected="false">FONDO FIJO</button>
@@ -25,23 +25,23 @@
       </div> 
       <div id="reports-tab-content" class="pb-4">
         <div class="hidden rounded-lg bg-gray-50 dark:bg-gray-900" id="requisitions" role="tabpanel" aria-labelledby="requisitions-tab">
-          REQUERIMIENTOS
+        <app-requirements></app-requirements>
         </div>
         <div class="hidden rounded-lg bg-gray-50 dark:bg-gray-900" id="orders" role="tabpanel" aria-labelledby="orders-tab">
-          ORDENES
+          <app-orders></app-orders>
         </div>
         <div class="hidden rounded-lg bg-gray-50 dark:bg-gray-900" id="petty-cash" role="tabpanel" aria-labelledby="petty-cash-tab">
-          FONDO FIJO
+          <app-imprest></app-imprest>
         </div>
         <div class="hidden rounded-lg bg-gray-50 dark:bg-gray-900" id="entrega" role="tabpanel" aria-labelledby="entrega-tab">
-          ENTREGA
+          <app-delivery></app-delivery>
         </div>
         <div class="hidden rounded-lg bg-gray-50 dark:bg-gray-900" id="movilidad" role="tabpanel" aria-labelledby="movilidad-tab">
-          MOVILIDAD
+          <app-analytic-mobility></app-analytic-mobility>
         </div>
       </div>
     </div>
-    <div class="grid sm:grid-cols-3 grid-cols-1 pb-4 w-full items-center flex-none justify-center">
+    <!-- <div class="grid sm:grid-cols-3 grid-cols-1 pb-4 w-full items-center flex-none justify-center">
       
       <div class="max-w-xs mx-2 col-span-1">
         <label for="Campus" class="block -mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-white">Sede</label>
@@ -55,10 +55,8 @@
         <label for="Area" class="block -mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-white">Area</label>
         <select id="Area" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <option >TODOS</option>
-          <option value="US">United States</option>
-          <option value="CA">Canada</option>
-          <option value="FR">France</option>
-          <option value="DE">Germany</option>
+          <option *ngFor="let area of allAreas" [ngValue]="area">{{area.name}}</option>
+          
         </select>
       </div>
 
@@ -88,7 +86,7 @@
 
       </div>
 
-    </div>
+    </div> -->
   
     <div class="grid grid-cols-1 sm:grid-cols-3 grid-rows-3 sm:grid-rows-1 h-auto w-full overflow-hidden flex-1">
 

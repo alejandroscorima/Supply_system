@@ -1,0 +1,91 @@
+<div class="p-4 dark:bg-gray-900 h-screen flex flex-col">
+    <div class="h-14 flex-none text-black dark:text-white text-5xl">
+        <h2>ENTREGA</h2>
+    </div>
+    <div class="grid sm:grid-cols-4 grid-cols-1 pb-4 w-full items-center flex-none justify-center">
+        <div class="max-w-xs mx-2 col-span-1">
+            <label for="Campus" class="block -mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-white">Campus</label>
+            <select id="Campus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    [(ngModel)]="campusFilter">
+                    <option >TODOS</option>
+                <option *ngFor="let campus of allCampus" [ngValue]="campus.name">{{ campus.name }}</option>
+            </select>
+        </div>
+        <div class="max-w-xs mx-2 col-span-1">
+            <label for="Categoria" class="block -mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-white">Categoría</label>
+            <select id="Categoria" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    [(ngModel)]="categoryFilter">
+                    <option >TODOS</option>
+                <option *ngFor="let categoria of allCategories" [ngValue]="categoria">{{ categoria }}</option>
+            </select>
+        </div>
+        <div class="max-w-xs mx-2 col-span-1">
+            <label for="Estado" class="block -mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-white">Estado</label>
+            <select id="Estado" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    [(ngModel)]="stateFilter">
+                    <option >TODOS</option>
+                <option *ngFor="let estado of allStates" [ngValue]="estado">{{ estado }}</option>
+            </select>
+        </div>
+        <div class="max-w-xs col-span-1 flex">
+            <div class="w-1/2 px-2">
+                <label for="DateInit" class="block -mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-white">Desde</label>
+                <input type="date" id="DateInit" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                    [(ngModel)]="stDate" />
+            </div>
+            <div class="w-1/2 px-2">
+                <label for="DateEnd" class="block -mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-white">Hasta</label>
+                <input type="date" id="DateEnd" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                    [(ngModel)]="edDate" />
+            </div>
+        </div>
+
+        <div class="max-w-xs mx-2 col-span-1">
+            <button class="bg-blue-600 rounded-lg p-2 m-2 " (click)="getFondoItems()">FILTRAR</button>
+        </div>
+    </div>
+
+    <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-hidden">
+        <table class="min-w-full table-auto border-collapse border border-gray-200 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-800">
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">ID</th>
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Campus</th>
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Fecha</th>
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Tipo Doc</th>
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Serie</th>
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Número</th>
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">RUC</th>
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Razón Social</th>
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Monto</th>
+                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of paginatedFondoItems">
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.id }}</td>
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.campus }}</td>
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.fecha }}</td>
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.tipo_doc }}</td>
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.serie }}</td>
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.numero }}</td>
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.ruc }}</td>
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.raz_social }}</td>
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.monto }}</td>
+                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.estado }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flex justify-between items-center mt-4">
+            <button (click)="changePage(page - 1)" [disabled]="page === 1" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 disabled:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600">Anterior</button>
+            <span class="text-gray-700 dark:text-gray-300">Página {{ page }}</span>
+            <button (click)="changePage(page + 1)" [disabled]="page >= (totalItems / pageSize)" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 disabled:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600">Siguiente</button>
+        </div>
+
+        <div class="mt-6">
+            <button (click)="exportToExcel()" class="px-4 py-2 bg-blue-500 text-white rounded mr-2">Exportar a Excel</button>
+            <button (click)="exportToPDF()" class="px-4 py-2 bg-blue-500 text-white rounded">Exportar a PDF</button>
+        </div>
+    </div>
+</div>

@@ -28,10 +28,12 @@
     "@types/jspdf": "^2.0.0",
     "angular-google-charts": "^2.2.2",
     "chart.js": "^4.1.2",
+    "file-saver": "^2.0.5",
     "firebase": "^7.23.0",
     "flowbite": "^2.2.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.8.2",
     "mat-table-exporter": "^15.0.0",
     "material-icons": "^1.11.1",
     "ngx-cookie-service": "^14.0.1",
@@ -40,6 +42,7 @@
     "prisma": "^3.12.0",
     "rxjs": "~6.6.7",
     "tslib": "^2.0.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.14.6"
   },
   "devDependencies": {
