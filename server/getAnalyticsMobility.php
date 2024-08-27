@@ -31,8 +31,9 @@ if (!empty($start_date) && !empty($end_date)) {
 
 // Construir la consulta SQL completa
 $sentencia = $bd->prepare("
-    SELECT id, fecha, campus, monto, estado, user_id, hora_gen, fecha_gen, numero
-    FROM mobility
+    SELECT m.id, m.fecha, m.campus, m.monto, m.estado, m.user_id, m.hora_gen, m.fecha_gen, m.numero
+    FROM mobility m Inner JOIN oscorp_data.user2 u
+    ON m.user_id = u.user_id
     WHERE TRUE
     ".$sedeFilter.$estadoFilter.$dateFilter."
     ORDER BY fecha DESC
