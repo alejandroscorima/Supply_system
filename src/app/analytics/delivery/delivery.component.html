@@ -31,12 +31,12 @@
             <div class="w-1/2 px-2">
                 <label for="DateInit" class="block -mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-white">Desde</label>
                 <input type="date" id="DateInit" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                    [(ngModel)]="stDate" />
+                    [(ngModel)]="startDate" />
             </div>
             <div class="w-1/2 px-2">
                 <label for="DateEnd" class="block -mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-white">Hasta</label>
                 <input type="date" id="DateEnd" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                    [(ngModel)]="edDate" />
+                    [(ngModel)]="endDate" />
             </div>
         </div>
 
@@ -46,46 +46,58 @@
     </div>
 
     <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full flex-1 flex flex-col overflow-y-auto">
-        <table class="min-w-full table-auto border-collapse border border-gray-200 dark:border-gray-700">
-            <thead>
-                <tr class="bg-gray-100 dark:bg-gray-800">
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">ID</th>
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Campus</th>
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Fecha</th>
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Tipo Doc</th>
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Serie</th>
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Número</th>
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">RUC</th>
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Razón Social</th>
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Monto</th>
-                    <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of paginatedFondoItems">
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.id }}</td>
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.campus }}</td>
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.fecha }}</td>
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.tipo_doc }}</td>
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.serie }}</td>
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.numero }}</td>
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.ruc }}</td>
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.raz_social }}</td>
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.monto }}</td>
-                    <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.estado }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="min-w-full text-xs table-auto border-collapse border border-gray-200 dark:border-gray-700">
+                <thead>
+                    <tr class="bg-gray-100 dark:bg-gray-800">
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">ID</th>
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Campus</th>
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Fecha</th>
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Tipo Doc</th>
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Serie</th>
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Número</th>
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">RUC</th>
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Razón Social</th>
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Monto</th>
+                        <th class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of paginatedFondoItems">
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.id }}</td>
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.campus }}</td>
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.fecha }}</td>
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.tipo_doc }}</td>
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.serie }}</td>
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.numero }}</td>
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.ruc }}</td>
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.raz_social }}</td>
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.monto }}</td>
+                        <td class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">{{ item.estado }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="flex justify-between items-center mt-4">
             <button (click)="changePage(page - 1)" [disabled]="page === 1" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 disabled:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600">Anterior</button>
-            <span class="text-gray-700 dark:text-gray-300">Página {{ page }}</span>
+            <span class="text-gray-700 dark:text-gray-300">Página {{ page }} de {{totalPages}} ({{totalItems}} Items)</span>
             <button (click)="changePage(page + 1)" [disabled]="page >= (totalItems / pageSize)" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 disabled:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600">Siguiente</button>
         </div>
 
-        <div class="mt-6">
-            <button (click)="exportToExcel()" class="px-4 py-2 bg-blue-500 text-white rounded mr-2">Exportar a Excel</button>
-            <button (click)="exportToPDF()" class="px-4 py-2 bg-blue-500 text-white rounded">Exportar a PDF</button>
+        <div class="mt-6 flex flex-row">
+            <button (click)="exportToExcel()" class="px-4 py-2 flex flex-row bg-blue-500 text-white rounded mr-2 hover:bg-blue-600">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
+                </svg>                 
+                Exportar a Excel
+            </button>
+            <button (click)="exportToPDF()" class="px-4 py-2 flex flex-row bg-red-500 text-white rounded hover:bg-red-600">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 17v-5h1.5a1.5 1.5 0 1 1 0 3H5m12 2v-5h2m-2 3h2M5 10V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1v6M5 19v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1M10 3v4a1 1 0 0 1-1 1H5m6 4v5h1.375A1.627 1.627 0 0 0 14 15.375v-1.75A1.627 1.627 0 0 0 12.375 12H11Z"/>
+                </svg>                  
+                Exportar a PDF
+            </button>
         </div>
     </div>
 </div>

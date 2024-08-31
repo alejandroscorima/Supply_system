@@ -26,6 +26,7 @@ export class OrdersComponent {
 
   orders: Orden[] = []; // Changed requerimientos to orders
   page: number = 1;
+  totalPages: number = 0;
   pageSize: number = 5;
   totalItems: number = 0;
 
@@ -53,12 +54,14 @@ export class OrdersComponent {
   ) {}
 
   async ngOnInit() {
+    this.startDate=this.getCurrentDate();
+    this.endDate=this.getCurrentDate();
     this.allCampus = await this.logisticaService.getAllCampus().toPromise();  // Changed getAllCampus to getAllCampuses
     this.allAreas = await this.logisticaService.getAllAreas().toPromise();
   }
 
   // Date formatting
-  formatDate(date: any): string {
+  oldFormatDate(date: any): string {
     const validDate = new Date(date);
   
     if (isNaN(validDate.getTime())) {
@@ -71,11 +74,31 @@ export class OrdersComponent {
   
     return `${year}-${month}-${day}`;
   }
+
+  //Obtener la fecha actual
+  getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const day = now.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+  
+  //Obtener la hora actual
+  getCurrentHour() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
+  }
   
   // Fetching orders data
   getOrders() {  // Changed getRequerimientos to fetchOrders
-    this.startDate = this.formatDate(this.stDate);  // Updated startDateFilter
-    this.endDate = this.formatDate(this.edDate);  // Updated endDateFilter
+    //this.startDate = this.formatDate(this.stDate);  // Updated startDateFilter
+    //this.endDate = this.formatDate(this.edDate);  // Updated endDateFilter
 
   
     console.log('sedeFilter:', this.sedeFilter);  // Changed sedeFilter to campusFilter
@@ -89,6 +112,7 @@ export class OrdersComponent {
       this.orders = orders;
       console.log(orders);
       this.totalItems = this.orders.length;
+      this.totalPages = Math.ceil(this.totalItems/this.pageSize);
     });
   }
 
@@ -117,7 +141,7 @@ export class OrdersComponent {
       order.subtotal, 
       order.igv, 
       order.total, 
-      this.formatDate(order.fecha), // Usar la función de formato de fecha si es necesario
+      order.fecha, // Usar la función de formato de fecha si es necesario
       order.estado
     ]);
 

@@ -19,7 +19,7 @@ $dateFilter = " AND a.fecha BETWEEN '" . $start_date . "' AND '" . $end_date . "
 
 $statusFilter ="";
 if($status!="TODOS"){
-    $statusFilter=" AND a.status ='".$status."'";
+    $statusFilter=" AND t.estado ='".$status."'";
 }
 
 $areaFilter ="";
@@ -29,7 +29,7 @@ if($area!="TODOS"){
 
 $sedeFilter ="";
 if($sede!="TODOS"){
-    $sedeFilter=" AND a.sede ='".$sede."'";
+    $sedeFilter=" AND a.sala ='".$sede."'";
 }
 
 
@@ -71,12 +71,12 @@ LEFT JOIN
 WHERE 
     TRUE
 
-    ".$extraString.$areaFilter.$statusFilter.$sedeFilter.$dateFilter."
+    ".$extraString.$areaFilter.$sedeFilter.$dateFilter."
 
 
 GROUP BY rd.id
 ORDER BY 
-    a.id DESC) t
+    a.id DESC) t WHERE TRUE ".$statusFilter."
 GROUP BY t.id, t.estado
 ");
 

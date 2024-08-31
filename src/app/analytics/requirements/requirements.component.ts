@@ -25,6 +25,7 @@ export class RequirementsComponent {
 
   requerimientos: Requerimiento[] = []; // Datos de ejemplo o reales
   page: number = 1;
+  totalPages: number = 0;
   pageSize: number = 5;
   totalItems: number = 0;
 
@@ -56,12 +57,15 @@ export class RequirementsComponent {
 
   async ngOnInit() {
     //this.requerimientos = this.getRequerimientos(); // Simula una carga de datos
+
+    this.startDate=this.getCurrentDate();
+    this.endDate=this.getCurrentDate();
   
     this.allCampus = await this.logisticaService.getAllCampus().toPromise();
     this.allAreas = await this.logisticaService.getAllAreas().toPromise();
   }
   //fechas
-  formatDate(date: any): string {
+  oldFormatDate(date: any): string {
     // Verificar si es un valor válido y convertir a Date si es necesario
     const validDate = new Date(date);
   
@@ -76,12 +80,32 @@ export class RequirementsComponent {
   
     return `${year}-${month}-${day}`;
   }
+
+  //Obtener la fecha actual
+  getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const day = now.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+  
+  //Obtener la hora actual
+  getCurrentHour() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
+  }
   
 
   // Simulando datos de requerimientos
   getRequirements(){
-    this.startDate=this.formatDate(this.stDate);
-    this.endDate=this.formatDate(this.edDate);
+    //this.startDate=this.formatDate(this.stDate);
+    //this.endDate=this.formatDate(this.edDate);
     // Loguear las variables al inicio del componente
     console.log('statusFilter:', this.statusFilter);
     console.log('sedeFilter:', this.sedeFilter);
@@ -96,6 +120,7 @@ export class RequirementsComponent {
       this.requerimientos= reqs;
       console.log(reqs)
       this.totalItems = this.requerimientos.length;
+      this.totalPages = Math.ceil(this.totalItems/this.pageSize);
     })
     //this.paginatedRequerimientos
   }
@@ -119,7 +144,7 @@ export class RequirementsComponent {
     const columns = ["Código", "Fecha", "Área", "Encargado", "Sala", "Prioridad", "Estado"];
     const rows = this.requerimientos.map(r => [
       r.codigo, 
-      this.formatDate(r.fecha), 
+      r.fecha, 
       r.area, 
       r.encargado, 
       r.sala, 

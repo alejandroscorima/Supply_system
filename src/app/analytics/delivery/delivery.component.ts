@@ -25,6 +25,7 @@ export class DeliveryComponent implements OnInit {
   totalItems: number = 0;
   pageSize: number = 10;
   page: number = 1;
+  totalPages: number = 0;
 
   campusFilter: string = 'TODOS';
   categoryFilter: string = 'TODOS';
@@ -53,6 +54,8 @@ export class DeliveryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.startDate=this.getCurrentDate();
+    this.endDate=this.getCurrentDate();
     //this.getFondoItems();
     this.getCampuses();
   
@@ -60,14 +63,15 @@ export class DeliveryComponent implements OnInit {
   }
 
   getFondoItems() {
-    this.startDate = this.formatDate(this.stDate);  // Updated startDateFilter
-    this.endDate = this.formatDate(this.edDate);  // Updated endDateFilter
+    //this.startDate = this.formatDate(this.stDate);  // Updated startDateFilter
+    //this.endDate = this.formatDate(this.edDate);  // Updated endDateFilter
 
 
     this.analyticsService.getAnalyticsEntregaItems(this.campusFilter,this.categoryFilter,this.stateFilter,this.startDate,this.endDate).subscribe((data: EntregaItem[]) => {
       this.entregaItems = data
       console.log(data)
       this.totalItems = this.entregaItems.length;
+      this.totalPages = Math.ceil(this.totalItems/this.pageSize);
       this.paginatedFondoItems = this.paginateEntregaItems();
     });
   }
@@ -99,7 +103,7 @@ export class DeliveryComponent implements OnInit {
     doc.save('fondoitems.pdf');
   }
 
-  formatDate(date: any): string {
+  oldFormatDate(date: any): string {
     const validDate = new Date(date);
 
     if (isNaN(validDate.getTime())) {
@@ -112,6 +116,27 @@ export class DeliveryComponent implements OnInit {
 
     return `${year}-${month}-${day}`;
   }
+
+  //Obtener la fecha actual
+  getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const day = now.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+  
+  //Obtener la hora actual
+  getCurrentHour() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
   getCampuses() {
     this.logisticaService.getAllCampus().subscribe((data: any) => {
       this.allCampus = data;

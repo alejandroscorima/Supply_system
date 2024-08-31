@@ -23,6 +23,7 @@ import * as XLSX from 'xlsx';
 export class AnalyticMobilityComponent {
   mobilityData: Mobility[] = [];
   page: number = 1;
+  totalPages: number = 0;
   pageSize: number = 5;
   totalItems: number = 0;
 
@@ -49,19 +50,22 @@ export class AnalyticMobilityComponent {
   ) {}
 
   ngOnInit() {
+    this.startDate=this.getCurrentDate();
+    this.endDate=this.getCurrentDate();
     //this.getMobility();
     this.getCampus();
   }
 
   getMobility() {
-    this.startDate = this.formatDate(this.stDate);  // Updated startDateFilter
-    this.endDate = this.formatDate(this.edDate);  // Updated endDateFilter
+    //this.startDate = this.formatDate(this.stDate);  // Updated startDateFilter
+    //this.endDate = this.formatDate(this.edDate);  // Updated endDateFilter
 
 
     this.analyticsService.getnalyticsMobility(this.campusFilter,this.stateFilter,this.startDate,this.endDate).subscribe((data: Mobility[]) => {
       this.mobilityData = data
       console.log(data)
       this.totalItems = this.mobilityData.length;
+      this.totalPages = Math.ceil(this.totalItems/this.pageSize);
       this.paginatedMobility = this.paginateMobility();
     });
   }
@@ -98,7 +102,7 @@ export class AnalyticMobilityComponent {
     doc.save('mobility.pdf');
   }
 
-  formatDate(date: any): string {
+  oldFormatDate(date: any): string {
     const validDate = new Date(date);
 
     if (isNaN(validDate.getTime())) {
@@ -110,6 +114,26 @@ export class AnalyticMobilityComponent {
     const day = ('0' + validDate.getDate()).slice(-2);
 
     return `${year}-${month}-${day}`;
+  }
+
+  //Obtener la fecha actual
+  getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const day = now.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+  
+  //Obtener la hora actual
+  getCurrentHour() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
   }
 
   getCampus() {

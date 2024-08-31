@@ -24,6 +24,7 @@ export class ImprestComponent implements OnInit {
   totalItems: number = 0;
   pageSize: number = 7;
   page: number = 1;
+  totalPages: number = 0;
 
   campusFilter: string = 'TODOS';
   categoryFilter: string = 'TODOS';
@@ -49,6 +50,8 @@ export class ImprestComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.startDate=this.getCurrentDate();
+    this.endDate=this.getCurrentDate();
     //this.getFondoItems();
     this.getCampuses();
   
@@ -56,8 +59,8 @@ export class ImprestComponent implements OnInit {
   }
 
   getFondoItems() {
-    this.startDate = this.formatDate(this.stDate);  // Updated startDateFilter
-    this.endDate = this.formatDate(this.edDate);  // Updated endDateFilter
+    //this.startDate = this.formatDate(this.stDate);  // Updated startDateFilter
+    //this.endDate = this.formatDate(this.edDate);  // Updated endDateFilter
 
 
 
@@ -65,6 +68,7 @@ export class ImprestComponent implements OnInit {
       this.fondoItems = data
       console.log(data)
       this.totalItems = this.fondoItems.length;
+      this.totalPages = Math.ceil(this.totalItems/this.pageSize);
       this.paginatedFondoItems = this.paginateFondoItems();
     });
   }
@@ -149,7 +153,7 @@ export class ImprestComponent implements OnInit {
 
     doc.save('fondoitems.pdf');
 }
-  formatDate(date: any): string {
+  oldFormatDate(date: any): string {
     const validDate = new Date(date);
 
     if (isNaN(validDate.getTime())) {
@@ -161,6 +165,26 @@ export class ImprestComponent implements OnInit {
     const day = ('0' + validDate.getDate()).slice(-2);
 
     return `${year}-${month}-${day}`;
+  }
+
+  //Obtener la fecha actual
+  getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan desde 0
+    const day = now.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+  
+  //Obtener la hora actual
+  getCurrentHour() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
   }
 
   getCampuses() {
