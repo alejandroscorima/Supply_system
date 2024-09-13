@@ -20,6 +20,9 @@ import { EntregaComponent } from './entrega/entrega.component';
 import { OrdenV2Component } from './orden-v2/orden-v2.component';
 import { OrdenSupervisor } from './orden-Supervisor/orden-Supervisor.component';
 import { RequisitionsComponent } from './requisitions/requisitions.component';
+import { VehicleLogComponent } from './vehicle-log/vehicle-log.component';
+import { VehicleDocumentationComponent } from './vehicle-documentation/vehicle-documentation.component';
+import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 
 const routes: Routes = [
   { path: "", component: RequisitionsComponent },
@@ -41,7 +44,9 @@ const routes: Routes = [
   { path: "entrega", component: EntregaComponent},
   { path: "ordenv2", component: OrdenV2Component},
   { path: "orden-supervisor", component: OrdenSupervisor},
-  
+  { path: "vehicle-log", component: VehicleLogComponent},
+  { path: "vehicle-documentation", component: VehicleDocumentationComponent},
+  { path: "vehicle-list", component: VehicleListComponent},
 
 
   //{ path: "", redirectTo: "/clientes", pathMatch: "full" },// Cuando es la raíz
