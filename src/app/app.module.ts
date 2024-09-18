@@ -88,9 +88,6 @@ import { OrdersComponent } from "./analytics/orders/orders.component";
 import { ImprestComponent } from "./analytics/imprest/imprest.component";
 import { DeliveryComponent } from "./analytics/delivery/delivery.component"
 import { AnalyticMobilityComponent } from './analytics/analytic-mobility/analytic-mobility.component';
-import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
-import { VehicleLogComponent } from './vehicle-log/vehicle-log.component';
-import { VehicleDocumentationComponent } from './vehicle-documentation/vehicle-documentation.component';
 
 
 @NgModule({
@@ -156,10 +153,7 @@ import { VehicleDocumentationComponent } from './vehicle-documentation/vehicle-d
         OrdenV2Component,
         MobilityComponent,
         RequisitionsComponent,
-        OrdenSupervisor,
-        VehicleListComponent,
-        VehicleLogComponent,
-        VehicleDocumentationComponent
+        OrdenSupervisor
     ],
     imports: [
     BrowserModule,

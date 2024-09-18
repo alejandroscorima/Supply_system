@@ -144,6 +144,17 @@ bg-white dark:bg-gray-800 dark:border-blue-500 overflow-y-auto" aria-label="Side
       (user_role=='USUARIO AVANZADO'&&colab.area_id==13))" >
         <div  id="orden-accordion" data-accordion="closed">
         
+<!--                     <h2 id="test-heading-1" class="w-0 h-0">
+                <button type="button" 
+                data-accordion-target="#test-body-1" 
+                aria-expanded="true"
+                aria-controls="test-collapse-body-1">
+                
+                </button>
+
+                <div id="test-body-1"
+                class="hidden" aria-labelledby="accordion-3-heading-1"></div> 
+                </h2> -->
 
 
             <h2 id="accordion-collapse-heading-1">
@@ -204,64 +215,6 @@ bg-white dark:bg-gray-800 dark:border-blue-500 overflow-y-auto" aria-label="Side
             text-gray-900 dark:text-white"> Ingresar requerimiento</p>
         </a>
       </li>
-
-
-      <li [hidden]="!(user_role=='SUPER USUARIO'||
-        user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||
-        colab.area=='ASISTENTE'||user_role=='SUPERVISOR'||
-        (user_role=='USUARIO AVANZADO'&&colab.area_id==12)||
-        (user_role=='USUARIO AVANZADO'&&colab.area_id==13))">
-        
-        <div id="vehicle-accordion" data-accordion="closed">
-          <h2 id="vehicle-accordion-heading-1">
-            <button type="button" 
-              class="flex items-center p-2 text-gray-900 rounded-lg content-center 
-              dark:text-white hover:bg-purple-500 w-full font-medium  
-              dark:focus:ring-gray-800 dark:hover:bg-gray-800"
-              data-accordion-target="#vehicle-accordion-body-1" aria-expanded="false" 
-              aria-controls="vehicle-accordion-body-1">
-              
-              <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" 
-                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                <path d="M17 11h-2.722L8 17.278a5.512 5.512 0 0 1-.9.722H17a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1ZM6 0H1a1 1 0 0 0-1 1v13.5a3.5 3.5 0 1 0 7 0V1a1 1 0 0 0-1-1ZM3.5 15.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2ZM16.132 4.9 12.6 1.368a1 1 0 0 0-1.414 0L9 3.55v9.9l7.132-7.132a1 1 0 0 0 0-1.418Z"/>
-              </svg> 
-              
-              <p class="px-2 text-gray-900 dark:text-white">Vehículo</p> 
-              
-              <svg data-accordion-icon class="w-4 h-3 rotate-180" aria-hidden="true" 
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-                  stroke-width="2" d="M9 5 5 1 1 5"/>
-              </svg>
-            </button>
-          </h2>
-
-          <div id="vehicle-accordion-body-1" class="hidden" aria-labelledby="vehicle-accordion-heading-1">
-            <div class="p-1 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-
-              <!-- Lista -->
-              <a (click)="onNavItemClick()" class="flex items-center p-1 text-black rounded-lg
-              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/vehicle-list">
-                <p class="pl-8 text-gray-900 dark:text-white">Lista</p>
-              </a>
-
-              <!-- Actividad -->
-              <a (click)="onNavItemClick()" class="flex items-center p-1 text-black rounded-lg
-              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/vehicle-log">
-                <p class="pl-8 text-gray-900 dark:text-white">Actividad</p>
-              </a>
-
-              <!-- Documentos -->
-              <a (click)="onNavItemClick()" class="flex items-center p-1 text-black rounded-lg
-              dark:text-white hover:bg-purple-500 dark:hover:bg-gray-700 group" routerLink="/vehicle-documentation">
-                <p class="pl-8 text-gray-900 dark:text-white">Documentos</p>
-              </a>
-
-            </div>
-          </div>
-        </div>
-      </li>
-
 
 
 
