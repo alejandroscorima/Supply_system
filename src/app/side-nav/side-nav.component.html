@@ -234,7 +234,7 @@ bg-white dark:bg-gray-800 dark:border-blue-500 overflow-y-auto" aria-label="Side
       </li>
 
       <li [hidden]="!(user_role=='SUPER USUARIO'||user_role=='SUPER ADMINISTRADOR'||user_role=='ADMINISTRADOR'||
-      user_role=='ASISTENTE'||
+      user_role=='ASISTENTE'|| user_role=='SUPERVISOR'||
       (user_role=='USUARIO AVANZADO'&&colab.area_id==13)||
       (user_role=='USUARIO AVANZADO'&&colab.area_id==12))">
         <div id="accordion-2" data-accordion="closed">

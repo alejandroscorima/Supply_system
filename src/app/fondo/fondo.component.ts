@@ -764,7 +764,7 @@ export class FondoComponent implements OnInit {
                     this.fondoLiquidacion.numero=this.user_campus.supply_ord_suffix;
   
   
-                    if(this.user.supply_role=='SUPER ADMINISTRADOR'||this.user_role=='ADMINISTRADOR'||this.user_role=='SUPER USUARIO'||this.user_area.name=='ABASTECIMIENTO'){
+                    if(this.user.supply_role=='SUPER ADMINISTRADOR'||this.user_role=='ADMINISTRADOR'||this.user_role=='SUPER USUARIO'||this.user_area.name=='ABASTECIMIENTO'||this.user_role=='SUPERVISOR'){
                       this.logisticaService.getAllCampus().subscribe((resi:Campus[])=>{
                         if(resi){
                           this.campus=resi;
