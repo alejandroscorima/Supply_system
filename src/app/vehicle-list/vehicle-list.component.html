@@ -4,111 +4,132 @@
     </div>
     <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 w-full  flex-col overflow-y-auto">
         <!----BTN AGREGAR VEHÍCULO-->
-        <button (click)="toggleForm()" class="mt-12 mb-9 relative inline-flex items-center justify-center mb-1 me-1 text-lg font-medium text-gray-900 rounded-md group bg-gradient-to-br from-purple-600 to-blue-500 hover:text-white dark:text-white ring-2 ring-blue-300 dark:ring-blue-800 focus:ring-2 focus:outline-none">
+        <button (click)="toggleVehicle()" class="mt-12 mb-9 relative inline-flex items-center justify-center mb-1 me-1 text-lg font-medium text-gray-900 rounded-md group bg-gradient-to-br from-purple-600 to-blue-500 hover:text-white dark:text-white ring-2 ring-blue-300 dark:ring-blue-800 focus:ring-2 focus:outline-none">
             <span class="relative px-6 py-3 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                 + Agregar Vehículo
             </span>
         </button>            
         <!------------------->
         <div *ngIf="showForm" class="border border-gray-300 rounded-lg p-6">
-            <label class="block text-3xl mt-8 mb-7 ml-4 font-light text-gray-900 dark:text-white">NUEVO VEHÍCULO</label>
+          <label class="block text-3xl mt-8 mb-7 ml-4 font-light text-gray-900 dark:text-white">NUEVO VEHÍCULO</label>
         
-            <div class=" mb-5 justify-center grid sm:grid-cols-3 grid-cols-1">
-                <div class="w-full col-span-1 p-2">
-                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Placa</label>
-                    <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                </div> 
-                <div class="w-full col-span-1 p-2">
-                    <label for="small" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo</label>
-                    <select id="small" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>Choose a country</option>
-                        <option value="US">United States</option>
-                        <option value="CA">Canada</option>
-                        <option value="FR">France</option>
-                        <option value="DE">Germany</option>
-                    </select>   
-                </div>          
-                <div class="w-1/5">
-                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Año</label>
-                    <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
-                </div> 
-            </div>
+          <div class="mb-5 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            <div class="w-full p-2">
+              <label for="plate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Placa</label>
+              <input [(ngModel)]="newVehicle.plate" type="text" id="plate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            </div> 
         
-            <div class="flex space-x-4 mb-5 justify-center">
-                <div class="w-1/5">
-                    <label for="default1" class="block text-sm font-medium text-gray-900 dark:text-white">Marca</label>
-                    <select id="default1" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>Choose a country</option>
-                        <option value="US">United States</option>
-                        <option value="CA">Canada</option>
-                        <option value="FR">France</option>
-                        <option value="DE">Germany</option>
-                    </select>
-                </div>
-                <div class="w-1/5">
-                    <label for="default2" class="block text-sm font-medium text-gray-900 dark:text-white">Modelo</label>
-                    <select id="default2" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>Choose a country</option>
-                        <option value="US">United States</option>
-                        <option value="CA">Canada</option>
-                        <option value="FR">France</option>
-                        <option value="DE">Germany</option>
-                    </select>
-                </div>
-                <div class="w-1/5">
-                    <label for="large" class="block text-sm font-medium text-gray-900 dark:text-white">Empresa</label>
-                    <select id="large" class="block w-full px-4 py-2 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>Choose a country</option>
-                        <option value="US">United States</option>
-                        <option value="CA">Canada</option>
-                        <option value="FR">France</option>
-                        <option value="DE">Germany</option>
-                    </select>
-                </div>
+            <div class="w-full p-2">
+              <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo</label>
+              <input [(ngModel)]="newVehicle.type" type="text" id="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            </div>      
+        
+            <div class="w-full p-2">
+              <label for="year" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Año</label>
+              <input [(ngModel)]="newVehicle.year" type="text" id="year" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            </div> 
+        
+            <div class="w-full p-2">
+              <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marca</label>
+              <input [(ngModel)]="newVehicle.brand" type="text" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            </div> 
+        
+            <div class="w-full p-2">
+              <label for="model" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Modelo</label>
+              <input [(ngModel)]="newVehicle.model" type="text" id="model" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            </div> 
+        
+            <div class="w-full p-2">
+              <label for="company_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Elige una Empresa</label>
+              <select [(ngModel)]="newVehicle.business
+              " id="company_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected [value]="''">Seleccionar</option>
+                <option *ngFor="let bus of allBusiness" [value]="bus.company_name">{{bus.company_name}}</option>
+              </select>
             </div>
-            <div class="flex justify-end space-x-2">
-                <button type="button" class="flex items-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                    <svg class="w-6 h-6 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 0 1 1-1h11.586a1 1 0 0 1 .707.293l2.414 2.414a1 1 0 0 1 .293.707V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/>
-                        <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M8 4h8v4H8V4Zm7 10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                    </svg>
-                    Guardar
-                </button>
-                
-                <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Cancelar</button>
-            </div>
-            
+          </div>
+        
+          <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 mt-3">
+            <button (click)="saveVehicle()" type="button" class="flex items-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
+              <svg class="w-6 h-6 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 0 1 1-1h11.586a1 1 0 0 1 .707.293l2.414 2.414a1 1 0 0 1 .293.707V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/>
+                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M8 4h8v4H8V4Zm7 10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+              </svg>
+              Guardar
+            </button>
+        
+            <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Cancelar</button>
+          </div>
         </div>
+        
+          
  <!----------------------------------------->       
      <div>
-            <label  class="block text-3xl mt-8 mb-7 ml-4 font-light text-gray-900 dark:text-white">VEHÍCULOS</label>
+          <label  class="block text-3xl mt-8 mb-7 ml-4 font-light text-gray-900 dark:text-white">VEHÍCULOS</label>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-            <th scope="col" class="px-6 py-3">
-            PLACA
-            </th>
-            <th scope="col" class="px-6 py-3">
-            TIPO
-            </th>
-            <th scope="col" class="px-6 py-3">
-            MARCA
-            </th>
-            <th scope="col" class="px-6 py-3">
-            AÑO
-            </th>
-            <th scope="col" class="px-6 py-3">
-            EMPRESA
-            </th>
-            </tr>
+              <tr>
+                <th scope="col" class="px-6 py-3">PLACA</th>
+                <th scope="col" class="px-6 py-3">TIPO</th>
+                <th scope="col" class="px-6 py-3">MARCA</th>
+                <th scope="col" class="px-6 py-3">AÑO</th>
+                <th scope="col" class="px-6 py-3">EMPRESA</th>
+                <th scope="col" class="px-6 py-3">STATUS</th>
+                <th scope="col" class="px-6 py-3"></th> <!-- Añadido encabezado para la columna ACTIVO -->
+              </tr>
             </thead>
             <tbody>
-           
-           </tbody>
-           </table>
+              <tr *ngFor="let ve of displayedVehicles" class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <td class="px-8 py-4">{{ ve.plate }}</td>
+                <td class="px-8 py-4">{{ ve.type }}</td>
+                <td class="px-8 py-4">{{ ve.brand }}</td>
+                <td class="px-8 py-4">{{ ve.year }}</td>
+                <td class="px-8 py-4">{{ ve.business }}</td>
+                <td class="px-8 py-4">{{ ve.status }}</td>
+                <td class="px-8 py-4">
+                  <label class="switch">
+                    <input type="checkbox" [checked]="ve.status === 'ACTIVO'"> <!-- Disabled si no es editable -->
+                    <span class="slider"></span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+         
         </div>  
      </div>
+     <!----------------------------------->
+        <!------ Paginación ---->
+        <div class="flex flex-col items-center mt-4">
+          <!-- Texto de ayuda -->
+          <span class="text-sm text-gray-700 dark:text-gray-400">
+              Mostrando Página
+              <span class="font-semibold text-gray-900 dark:text-white">{{ currentPage }}</span>
+              de
+              <span class="font-semibold text-gray-900 dark:text-white">{{ totalPages }}</span>
+              de
+              <span class="font-semibold text-gray-900 dark:text-white">{{ vehicles.length }}</span>
+              Solicitudes
+          </span>
+
+          <!-- Botones -->
+          <div class="flex justify-center mt-2 xs:mt-0">
+              <button (click)="previousPage(displayedVehicles, vehicles)" [disabled]="currentPage === 1" 
+                      class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 
+                            rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 
+                            dark:hover:bg-gray-700 dark:hover:text-white">
+                  Prev
+              </button>
+              <button (click)="nextPage(displayedVehicles, vehicles)" [disabled]="currentPage === totalPages" 
+                      class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 
+                            border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 
+                            dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"> Next 
+              </button>
+        </div>
+        </div>
+<!---------------------------->
     </div>
 </div>
 

@@ -23,6 +23,8 @@ import { OrdersValidation } from './order_validation';
 import { Folder } from './folder';
 import { Filep } from './file';
 import { ReqValidation } from './req_validation';
+import { Vehicle } from './vehicle';
+import { VeActivity } from './vehicle_activity';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +39,15 @@ export class LogisticaService {
   addReq(req: Requerimiento) {
     return this.http.post(`${this.baseUrl}/postRequirementNew.php`, req);
   }
+  postVehicle(vehicle: Vehicle) {
+    return this.http.post(`${this.baseUrl}/postVehicle.php`, vehicle);
+  }
+
+  
+  postLog(newActivity: VeActivity) {
+    return this.http.post(`${this.baseUrl}/postLog.php`, newActivity);
+  }
+
 
   addActivity(ac: Activity) {
     return this.http.post(`${this.baseUrl}/postActivity.php`, ac);
@@ -139,6 +150,12 @@ export class LogisticaService {
     return this.http.put(`${this.baseUrl}/updateFile.php`, file);
   }
 
+  
+  getAllBusiness(){
+    return this.http.get(`${this.baseUrl}/getAllBusiness.php`)
+  }
+  
+
 
 //get functions:
 
@@ -148,6 +165,9 @@ export class LogisticaService {
 
   getDaily(){
     return this.http.get(`${this.baseUrl}/getDaily.php`);
+  }
+  getAllVehicles(){
+    return this.http.get(`${this.baseUrl}/getAllVehicles.php`);
   }
 
   getMobility(campus: String){

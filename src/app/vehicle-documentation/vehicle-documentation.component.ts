@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class VehicleDocumentationComponent {
 
+
+    
+  showDocument: boolean = false; 
+  toggleDocument() {
+    this.showDocument = !this.showDocument;  // Cambia el estado de la variable
+  }
 }

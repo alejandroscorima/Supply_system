@@ -1,0 +1,88 @@
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 47px;
+    height: 20px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 5;
+    height: 5;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #5c2dd1;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  .miau-modal{
+    .backdrop {
+      background-color: rgba(0, 0, 0, 0); /* Sin opacidad */
+  }
+  }
+  .modal {
+    display: none; /* Oculto por defecto */
+  }
+  .modal.show {
+    display: block; /* O 'flex', o el valor que necesites para mostrarlo */
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  /* Estilo para el checkbox deshabilitado */
+  .custom-checkbox:disabled {
+    background-color: #484848; /* Gris plomo */
+    border-color: #8b8b8b;     /* Color del borde */
+    cursor: not-allowed;  
+   
+    opacity: 0.5;                                /* Cursor para indicar que está deshabilitado */
+  }
+  
+  /* Opcional: Estilo para el checkbox habilitado */
+  .custom-checkbox {
+    background-color: #ffffff; /* Color de fondo */
+    border-color: #000000;     /* Color del borde */
+  }
+  
